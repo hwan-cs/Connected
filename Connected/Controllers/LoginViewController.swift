@@ -7,23 +7,21 @@
 
 import UIKit
 import TweeTextField
+import SwiftUI
 
 class LoginViewController: UIViewController
 {
     
-    @IBOutlet var loginTextField: TweeBorderedTextField!
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.hideKeyboard()
-        loginTextField.layer.cornerRadius = 14
-        loginTextField.layer.borderWidth = 1
-        loginTextField.borderStyle = .none
-        loginTextField.layer.borderColor = UIColor(red: 0.87, green: 0.89, blue: 0.91, alpha: 1.00).cgColor
-        loginTextField.clipsToBounds = false
-        loginTextField.addLeftPadding(value: 12.0)
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool)
+    {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginSheetViewController") as! LoginSheetViewController
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false, completion: nil)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool

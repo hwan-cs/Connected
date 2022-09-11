@@ -26,6 +26,8 @@
 		1AACE8E528CE0AAA00B96A7C /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AACE8D928CE0AAA00B96A7C /* OpenSans-ExtraBoldItalic.ttf */; };
 		1AACE8E928CE300A00B96A7C /* UITextField_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE8E828CE300A00B96A7C /* UITextField_Extensions.swift */; };
 		1AACE8EB28CE312700B96A7C /* UIViewController_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE8EA28CE312700B96A7C /* UIViewController_Extensions.swift */; };
+		1AACE8F028CE39F400B96A7C /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 1AACE8EF28CE39F400B96A7C /* PartialSheet */; };
+		1AACE8F228CE3CF400B96A7C /* LoginSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE8F128CE3CF400B96A7C /* LoginSheetViewController.swift */; };
 		AD6B26617F4BE5548B4C4AF1 /* Pods_Connected.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48F2E930CD9E1781D878261 /* Pods_Connected.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,7 @@
 		1AACE8D928CE0AAA00B96A7C /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		1AACE8E828CE300A00B96A7C /* UITextField_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField_Extensions.swift; sourceTree = "<group>"; };
 		1AACE8EA28CE312700B96A7C /* UIViewController_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController_Extensions.swift; sourceTree = "<group>"; };
+		1AACE8F128CE3CF400B96A7C /* LoginSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSheetViewController.swift; sourceTree = "<group>"; };
 		8AA12650B1F3ED57E08103C7 /* Pods-Connected.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.release.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.release.xcconfig"; sourceTree = "<group>"; };
 		E48F2E930CD9E1781D878261 /* Pods_Connected.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connected.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -61,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AACE8F028CE39F400B96A7C /* PartialSheet in Frameworks */,
 				AD6B26617F4BE5548B4C4AF1 /* Pods_Connected.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				1AACE88A28CB409F00B96A7C /* LoginViewController.swift */,
+				1AACE8F128CE3CF400B96A7C /* LoginSheetViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -172,6 +177,9 @@
 			dependencies = (
 			);
 			name = Connected;
+			packageProductDependencies = (
+				1AACE8EF28CE39F400B96A7C /* PartialSheet */,
+			);
 			productName = Connected;
 			productReference = 1AACE88328CB409F00B96A7C /* Connected.app */;
 			productType = "com.apple.product-type.application";
@@ -200,6 +208,9 @@
 				Base,
 			);
 			mainGroup = 1AACE87A28CB409F00B96A7C;
+			packageReferences = (
+				1AACE8EE28CE39F400B96A7C /* XCRemoteSwiftPackageReference "PartialSheet" */,
+			);
 			productRefGroup = 1AACE88428CB409F00B96A7C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -284,6 +295,7 @@
 				1AACE8EB28CE312700B96A7C /* UIViewController_Extensions.swift in Sources */,
 				1AACE8E928CE300A00B96A7C /* UITextField_Extensions.swift in Sources */,
 				1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */,
+				1AACE8F228CE3CF400B96A7C /* LoginSheetViewController.swift in Sources */,
 				1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -504,6 +516,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1AACE8EE28CE39F400B96A7C /* XCRemoteSwiftPackageReference "PartialSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AndreaMiotto/PartialSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1AACE8EF28CE39F400B96A7C /* PartialSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1AACE8EE28CE39F400B96A7C /* XCRemoteSwiftPackageReference "PartialSheet" */;
+			productName = PartialSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1AACE87B28CB409F00B96A7C /* Project object */;
 }

@@ -43,68 +43,59 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zhc-mk-fbS">
-                                <rect key="frame" x="0.0" y="486" width="414" height="410"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lxr-0f-KBy" customClass="TweeBorderedTextField" customModule="TweeTextField">
-                                        <rect key="frame" x="30" y="30" width="354" height="52"/>
-                                        <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="52" id="CmD-4v-XtY"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="52" id="VXk-j8-Cbz"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" textContentType="username"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
-                                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="tweePlaceholder" value="아이디"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                                                <real key="value" value="1"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="lxr-0f-KBy" firstAttribute="top" secondItem="zhc-mk-fbS" secondAttribute="top" constant="30" id="2EM-KH-aYs"/>
-                                    <constraint firstAttribute="trailing" secondItem="lxr-0f-KBy" secondAttribute="trailing" constant="30" id="Ato-ga-E6G"/>
-                                    <constraint firstItem="lxr-0f-KBy" firstAttribute="leading" secondItem="zhc-mk-fbS" secondAttribute="leading" constant="30" id="fQA-Va-OxF"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="16"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.90588235294117647" green="0.92156862745098034" blue="0.93725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="QPI-su-U89" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="5mz-9k-fCE"/>
-                            <constraint firstItem="zhc-mk-fbS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="F3P-2l-dEQ"/>
-                            <constraint firstItem="zhc-mk-fbS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FX2-Mu-Vn7"/>
                             <constraint firstItem="QPI-su-U89" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.4" id="GHA-Nh-qyi"/>
-                            <constraint firstAttribute="bottom" secondItem="zhc-mk-fbS" secondAttribute="bottom" id="PMB-yE-gvG"/>
-                            <constraint firstItem="zhc-mk-fbS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="PXc-vv-dtZ"/>
                             <constraint firstItem="QPI-su-U89" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="UWk-W5-F1U"/>
-                            <constraint firstItem="zhc-mk-fbS" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="fSh-f6-IDd"/>
                             <constraint firstItem="QPI-su-U89" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gSr-GF-BrN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QPI-su-U89" secondAttribute="trailing" id="nFz-xp-OUR"/>
                             <constraint firstItem="dca-8O-woX" firstAttribute="top" secondItem="QPI-su-U89" secondAttribute="bottom" constant="8" id="sdk-W4-GIe"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dca-8O-woX" secondAttribute="trailing" constant="20" id="vGO-PV-hZU"/>
-                            <constraint firstItem="zhc-mk-fbS" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.457589" id="xwQ-nW-hHL"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="loginTextField" destination="lxr-0f-KBy" id="6ik-LX-98u"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="109.82142857142857"/>
+        </scene>
+        <!--Login Sheet View Controller-->
+        <scene sceneID="0js-Ol-SiX">
+            <objects>
+                <viewController storyboardIdentifier="LoginSheetViewController" id="4U0-Z6-3QZ" customClass="LoginSheetViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jCD-oH-AQP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lxr-0f-KBy" customClass="TweeBorderedTextField" customModule="TweeTextField">
+                                <rect key="frame" x="30" y="74" width="354" height="52"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" textContentType="username"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="tweePlaceholder" value="아이디"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="sE1-Yy-4zr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="usernameTextField" destination="lxr-0f-KBy" id="vTy-DO-ius"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VuG-8c-gHV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1071" y="110"/>
         </scene>
     </scenes>
     <resources>
