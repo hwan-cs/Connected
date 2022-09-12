@@ -16,16 +16,23 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     let maximumContainerHeight: CGFloat = UIScreen.main.bounds.height - 100
     // keep updated with new height
     var currentContainerHeight: CGFloat = UIScreen.main.bounds.height * 0.457589
+    
     let scrollView = UIScrollView()
     
-    var onDismissBlock : ((Bool) -> Void)?
+    @IBOutlet var dragBar: UIView!
     
+    var onDismissBlock : ((Bool) -> Void)?
     
     @IBOutlet var usernameTextField: TweeBorderedTextField!
     
     @IBOutlet var passwordTextField: TweeBorderedTextField!
     
+    @IBOutlet var eyeImageView: UIImageView!
+    
     @IBOutlet var loginBtn: UIButton!
+
+    @IBOutlet var signupBtn: UIButton!
+    
     // 1
     lazy var containerView: UIView =
     {
@@ -33,15 +40,6 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
-        return view
-    }()
-    
-    // 2
-    let maxDimmedAlpha: CGFloat = 0.6
-    lazy var dimmedView: UIView =
-    {
-        let view = UIView()
-        view.backgroundColor = .black
         return view
     }()
     
@@ -53,6 +51,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     {
         super.viewDidLoad()
         self.hideKeyboard()
+        eyeImageView.tag = 0
         setupView()
         setupConstraints()
         setupPanGesture()
@@ -106,6 +105,10 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         panGesture.delaysTouchesBegan = false
         panGesture.delaysTouchesEnded = false
         view.addGestureRecognizer(panGesture)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapEyeImageView(tapGestureRecognizer:)))
+        eyeImageView.isUserInteractionEnabled = true
+        eyeImageView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     @objc func handlePanGesture(gesture: UIPanGestureRecognizer)
@@ -150,6 +153,23 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         }
     }
     
+    @objc func didTapEyeImageView(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+        if tappedImage.tag == 0
+        {
+            passwordTextField.isSecureTextEntry = false
+            tappedImage.image = UIImage(systemName: "eye.slash")
+            tappedImage.tag = 1
+        }
+        else
+        {
+            passwordTextField.isSecureTextEntry = true
+            tappedImage.image = UIImage(systemName: "eye")
+            tappedImage.tag = 0
+        }
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField)
     {
         animateContainerHeight(maximumContainerHeight)
@@ -174,16 +194,3 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         return false
     }
 }
-extension CALayer
-{
-    func innerBorder(borderOffset: CGFloat = 24.0, borderColor: UIColor = UIColor.blue, borderWidth: CGFloat = 2)
-    {
-        let innerBorder = CALayer()
-        innerBorder.frame = CGRect(x: borderOffset, y: borderOffset, width: frame.size.width - 2 * borderOffset, height: frame.size.height - 2 * borderOffset)
-        innerBorder.borderColor = borderColor.cgColor
-        innerBorder.borderWidth = borderWidth
-        innerBorder.name = "innerBorder"
-        insertSublayer(innerBorder, at: 0)
-    }
-}
-
