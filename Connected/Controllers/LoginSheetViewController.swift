@@ -23,6 +23,9 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     @IBOutlet var usernameTextField: TweeBorderedTextField!
     
+    @IBOutlet var passwordTextField: TweeBorderedTextField!
+    
+    @IBOutlet var loginBtn: UIButton!
     // 1
     lazy var containerView: UIView =
     {
@@ -53,55 +56,11 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         setupView()
         setupConstraints()
         setupPanGesture()
-        usernameTextField.layer.cornerRadius = 14
-        usernameTextField.layer.borderWidth = 1
-        usernameTextField.borderStyle = .none
-        usernameTextField.layer.borderColor = UIColor(red: 0.87, green: 0.89, blue: 0.91, alpha: 1.00).cgColor
-        usernameTextField.clipsToBounds = false
     }
     
     func setupView()
     {
         view.backgroundColor = .clear
-    }
-    
-    func setupConstraints()
-    {
-        // 4. Add subviews
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.showsVerticalScrollIndicator = false
-        view.addSubview(containerView)
-        scrollView.addSubview(usernameTextField)
-        containerView.addSubview(scrollView)
-        usernameTextField.translatesAutoresizingMaskIntoConstraints = false
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let caLayer = CALayer()
-        caLayer.frame = CGRect(x: -15, y: 0, width: UIScreen.main.bounds.width-30, height: 65)
-        caLayer.cornerRadius = 25
-        caLayer.borderColor = UIColor.lightGray.cgColor
-        caLayer.borderWidth = 1
-        // 5. Set static constraints
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            // set container static constraint (trailing & leading)
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            usernameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            usernameTextField.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 40),
-            usernameTextField.heightAnchor.constraint(equalToConstant: 52.0),
-        ])
-        // 6. Set container to default height
-        containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: defaultHeight)
-        // 7. Set bottom constant to 0
-        containerViewBottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
-        // Activate constraints
-        containerViewHeightConstraint?.isActive = true
-        containerViewBottomConstraint?.isActive = true
     }
     
     func animatePresentContainer()

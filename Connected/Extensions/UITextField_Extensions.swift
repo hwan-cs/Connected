@@ -28,6 +28,15 @@ extension UITextField
 
 extension TweeBorderedTextField
 {
+    func setUI()
+    {
+        self.layer.cornerRadius = 14
+        self.layer.borderWidth = 1
+        self.borderStyle = .none
+        self.layer.borderColor = UIColor(red: 0.87, green: 0.89, blue: 0.91, alpha: 1.00).cgColor
+        self.clipsToBounds = false
+    }
+    
     override open func textRect(forBounds bounds: CGRect) -> CGRect
     {
         let bounds = super.textRect(forBounds: bounds)
