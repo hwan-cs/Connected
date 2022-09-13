@@ -11,19 +11,24 @@ import SwiftUI
 
 class LoginViewController: UIViewController
 {
+    var presentTransition: UIViewControllerAnimatedTransitioning?
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         self.navigationController?.navigationBar.topItem?.backButtonTitle = "뒤로가기"
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
+        presentTransition = CustomTransition()
     }
     
     override func viewDidAppear(_ animated: Bool)
     {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginSheetViewController") as! LoginSheetViewController
         vc.modalPresentationStyle = .overCurrentContext
-        self.present(vc, animated: true)
+        vc.transitioningDelegate = self
+        self.present(vc, animated: true, completion: { [weak self] in
+            self?.presentTransition = nil
+        })
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
@@ -33,3 +38,10 @@ class LoginViewController: UIViewController
     }
 }
 
+extension LoginViewController:UIViewControllerTransitioningDelegate
+{
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning?
+    {
+        return presentTransition
+    }
+}

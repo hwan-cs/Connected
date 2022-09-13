@@ -31,6 +31,7 @@
 		1AB6A01828CF057300A0D127 /* LoginSheetVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A01728CF057300A0D127 /* LoginSheetVC_Extensions.swift */; };
 		1AB6A01A28D09A8900A0D127 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A01928D09A8900A0D127 /* SignupViewController.swift */; };
 		1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */; };
+		1AB6A02128D0DEB000A0D127 /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */; };
 		AD6B26617F4BE5548B4C4AF1 /* Pods_Connected.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48F2E930CD9E1781D878261 /* Pods_Connected.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,7 @@
 		1AB6A01728CF057300A0D127 /* LoginSheetVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSheetVC_Extensions.swift; sourceTree = "<group>"; };
 		1AB6A01928D09A8900A0D127 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication_Extensions.swift; sourceTree = "<group>"; };
+		1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
 		8AA12650B1F3ED57E08103C7 /* Pods-Connected.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.release.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.release.xcconfig"; sourceTree = "<group>"; };
 		E48F2E930CD9E1781D878261 /* Pods_Connected.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connected.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -99,6 +101,7 @@
 		1AACE88528CB409F00B96A7C /* Connected */ = {
 			isa = PBXGroup;
 			children = (
+				1AB6A01F28D0DEA600A0D127 /* Custom */,
 				1AACE8E628CE2FE600B96A7C /* Extensions */,
 				1AACE8E728CE2FEA00B96A7C /* Controllers */,
 				1AACE88628CB409F00B96A7C /* AppDelegate.swift */,
@@ -149,6 +152,14 @@
 				1AB6A01928D09A8900A0D127 /* SignupViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1AB6A01F28D0DEA600A0D127 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 		BC0C9FC183DFEA9F9F54E05A /* Pods */ = {
@@ -305,6 +316,7 @@
 				1AB6A01A28D09A8900A0D127 /* SignupViewController.swift in Sources */,
 				1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */,
 				1AACE8E928CE300A00B96A7C /* UITextField_Extensions.swift in Sources */,
+				1AB6A02128D0DEB000A0D127 /* CustomTransition.swift in Sources */,
 				1AB6A01828CF057300A0D127 /* LoginSheetVC_Extensions.swift in Sources */,
 				1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */,
 				1AACE8F228CE3CF400B96A7C /* LoginSheetViewController.swift in Sources */,
