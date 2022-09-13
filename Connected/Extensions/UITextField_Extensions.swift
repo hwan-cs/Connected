@@ -40,7 +40,7 @@ extension TweeBorderedTextField
     override open func textRect(forBounds bounds: CGRect) -> CGRect
     {
         let bounds = super.textRect(forBounds: bounds)
-        return bounds.inset(by: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0))
+        return bounds.inset(by: UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 50))
     }
 
     override open func placeholderRect(forBounds bounds: CGRect) -> CGRect
@@ -52,7 +52,7 @@ extension TweeBorderedTextField
     override open func editingRect(forBounds bounds: CGRect) -> CGRect
     {
         let bounds = super.editingRect(forBounds: bounds)
-        return bounds.inset(by: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0))
+        return bounds.inset(by: UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 50))
     }
     
     override open func clearButtonRect(forBounds bounds: CGRect) -> CGRect

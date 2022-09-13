@@ -16,6 +16,8 @@ extension LoginSheetViewController
         // 4. Add subviews
         usernameTextField.setUI()
         passwordTextField.setUI()
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
         signupBtn.layer.borderColor = UIColor(red: 0.87, green: 0.89, blue: 0.91, alpha: 1.00).cgColor
         signupBtn.layer.borderWidth = 1
         signupBtn.clipsToBounds = false

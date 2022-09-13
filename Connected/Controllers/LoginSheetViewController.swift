@@ -33,6 +33,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
 
     @IBOutlet var signupBtn: UIButton!
     
+    
     // 1
     lazy var containerView: UIView =
     {
@@ -75,7 +76,6 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
 
     override func viewDidAppear(_ animated: Bool)
     {
-        super.viewDidAppear(animated)
         animatePresentContainer()
     }
     
@@ -167,6 +167,15 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             passwordTextField.isSecureTextEntry = true
             tappedImage.image = UIImage(systemName: "eye")
             tappedImage.tag = 0
+        }
+    }
+    
+    @IBAction func didTapSignUp(_ sender: UIButton)
+    {
+        self.dismiss(animated: true)
+        {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SignupViewController") as! SignupViewController
+            UIApplication.topViewController()?.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
