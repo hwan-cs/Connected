@@ -186,13 +186,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Light_small" translatesAutoresizingMaskIntoConstraints="NO" id="6p3-ib-BUY">
-                                <rect key="frame" x="175" y="74" width="64" height="64"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="8bK-dT-Y4w"/>
-                                    <constraint firstAttribute="width" constant="64" id="ufS-B9-pM8"/>
-                                </constraints>
-                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uhp-3M-RDf">
+                                <rect key="frame" x="0.0" y="168" width="414" height="728"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="16"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JLq-wR-y6L">
                                 <rect key="frame" x="0.0" y="168" width="414" height="728"/>
                                 <subviews>
@@ -311,9 +313,9 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2fG-zx-WfL">
-                                                <rect key="frame" x="320" y="346" width="60" height="32"/>
+                                                <rect key="frame" x="330" y="346" width="50" height="32"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="60" id="UKe-tw-7aP"/>
+                                                    <constraint firstAttribute="width" constant="50" id="UKe-tw-7aP"/>
                                                     <constraint firstAttribute="height" constant="32" id="yCF-VO-9vA"/>
                                                 </constraints>
                                                 <color key="tintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
@@ -415,7 +417,7 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="G5s-ef-pg7" firstAttribute="bottom" secondItem="xzg-v9-zM2" secondAttribute="bottom" id="4TV-Fd-DHd"/>
+                                    <constraint firstItem="G5s-ef-pg7" firstAttribute="bottom" secondItem="xzg-v9-zM2" secondAttribute="bottom" constant="150" id="4TV-Fd-DHd"/>
                                     <constraint firstItem="xzg-v9-zM2" firstAttribute="height" secondItem="tzI-Iu-ab5" secondAttribute="height" id="Brb-JW-5pA"/>
                                     <constraint firstItem="G5s-ef-pg7" firstAttribute="trailing" secondItem="xzg-v9-zM2" secondAttribute="trailing" id="H57-gW-LXM"/>
                                     <constraint firstItem="xzg-v9-zM2" firstAttribute="width" secondItem="tzI-Iu-ab5" secondAttribute="width" id="HKM-Bt-CLr"/>
@@ -424,17 +426,33 @@
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="G5s-ef-pg7"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="tzI-Iu-ab5"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="16"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </scrollView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Light_small" translatesAutoresizingMaskIntoConstraints="NO" id="6p3-ib-BUY">
+                                <rect key="frame" x="175" y="74" width="64" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="8bK-dT-Y4w"/>
+                                    <constraint firstAttribute="width" constant="64" id="ufS-B9-pM8"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jHu-Dq-OkV"/>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="uhp-3M-RDf" firstAttribute="height" secondItem="JLq-wR-y6L" secondAttribute="height" id="3Rv-WT-EJ3"/>
                             <constraint firstAttribute="bottom" secondItem="JLq-wR-y6L" secondAttribute="bottom" id="8EU-O7-460"/>
                             <constraint firstItem="6p3-ib-BUY" firstAttribute="centerX" secondItem="1dc-Vv-x0z" secondAttribute="centerX" id="ADz-oc-cjC"/>
+                            <constraint firstItem="uhp-3M-RDf" firstAttribute="leading" secondItem="1dc-Vv-x0z" secondAttribute="leading" id="LjO-IO-5P4"/>
                             <constraint firstItem="JLq-wR-y6L" firstAttribute="top" secondItem="6p3-ib-BUY" secondAttribute="bottom" constant="30" id="UIB-gP-ibH"/>
                             <constraint firstAttribute="trailing" secondItem="JLq-wR-y6L" secondAttribute="trailing" id="X63-Xs-iKG"/>
                             <constraint firstItem="JLq-wR-y6L" firstAttribute="leading" secondItem="1dc-Vv-x0z" secondAttribute="leading" id="ixY-55-Cbr"/>
+                            <constraint firstAttribute="bottom" secondItem="uhp-3M-RDf" secondAttribute="bottom" id="oSx-4W-ayH"/>
                             <constraint firstItem="6p3-ib-BUY" firstAttribute="top" secondItem="jHu-Dq-OkV" secondAttribute="top" constant="30" id="s20-HU-m9h"/>
+                            <constraint firstItem="jHu-Dq-OkV" firstAttribute="trailing" secondItem="uhp-3M-RDf" secondAttribute="trailing" id="u43-aa-El7"/>
                         </constraints>
                     </view>
                     <connections>
@@ -442,6 +460,7 @@
                         <outlet property="idTextField" destination="mjv-6W-pme" id="vya-uK-1zK"/>
                         <outlet property="passwordReenterTextField" destination="rSJ-yS-EgS" id="gpb-rx-eWP"/>
                         <outlet property="passwordTextField" destination="rCL-W8-o69" id="oWn-Zz-J7n"/>
+                        <outlet property="scrollView" destination="JLq-wR-y6L" id="htR-Kj-sAO"/>
                         <outlet property="verifyTextField" destination="n9D-gW-vfV" id="ECM-1M-3v2"/>
                     </connections>
                 </viewController>

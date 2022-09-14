@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import TweeTextField
 
-class SignupViewController: UIViewController
+class SignupViewController: UIViewController, UIScrollViewDelegate
 {
     @IBOutlet var idTextField: TweeBorderedTextField!
     
@@ -20,6 +20,8 @@ class SignupViewController: UIViewController
     @IBOutlet var emailTextField: TweeBorderedTextField!
     
     @IBOutlet var verifyTextField: TweeBorderedTextField!
+    
+    @IBOutlet var scrollView: UIScrollView!
     
     override func viewDidLoad()
     {
@@ -32,5 +34,8 @@ class SignupViewController: UIViewController
         verifyTextField.setUI()
     }
     
-    
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
+    {
+        scrollView.bounces = scrollView.contentOffset.y > 100
+    }
 }
