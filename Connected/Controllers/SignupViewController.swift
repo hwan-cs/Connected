@@ -24,8 +24,10 @@ class SignupViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.hideKeyboard()
         idTextField.setUI()
         passwordTextField.setUI()
+        passwordReenterTextField.setUI()
         emailTextField.setUI()
         verifyTextField.setUI()
     }
