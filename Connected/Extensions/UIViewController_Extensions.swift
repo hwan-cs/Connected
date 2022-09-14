@@ -17,9 +17,28 @@ extension UIViewController
             action: #selector(UIViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
+    
     @objc func dismissKeyboard()
     {
         view.endEditing(true)
+    }
+    
+    
+    @objc func didTapEyeImageView(tapGestureRecognizer: UITapGestureRecognizer, textField: UITextField)
+    {
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+        if tappedImage.tag == 0
+        {
+            textField.isSecureTextEntry = false
+            tappedImage.image = UIImage(systemName: "eye.slash")
+            tappedImage.tag = 1
+        }
+        else
+        {
+            textField.isSecureTextEntry = true
+            tappedImage.image = UIImage(systemName: "eye")
+            tappedImage.tag = 0
+        }
     }
 }
 
