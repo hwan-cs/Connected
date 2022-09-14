@@ -7,11 +7,28 @@
 
 import Foundation
 import UIKit
+import TweeTextField
 
 class SignupViewController: UIViewController
 {
+    @IBOutlet var idTextField: TweeBorderedTextField!
+    
+    @IBOutlet var passwordTextField: TweeBorderedTextField!
+    
+    @IBOutlet var passwordReenterTextField: TweeBorderedTextField!
+    
+    @IBOutlet var emailTextField: TweeBorderedTextField!
+    
+    @IBOutlet var verifyTextField: TweeBorderedTextField!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        idTextField.setUI()
+        passwordTextField.setUI()
+        emailTextField.setUI()
+        verifyTextField.setUI()
     }
+    
+    
 }

@@ -422,6 +422,13 @@
                             <constraint firstItem="6p3-ib-BUY" firstAttribute="top" secondItem="jHu-Dq-OkV" secondAttribute="top" constant="30" id="s20-HU-m9h"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="BJx-Y1-id2" id="YRf-9K-LkR"/>
+                        <outlet property="idTextField" destination="mjv-6W-pme" id="vya-uK-1zK"/>
+                        <outlet property="passwordReenterTextField" destination="rSJ-yS-EgS" id="gpb-rx-eWP"/>
+                        <outlet property="passwordTextField" destination="rCL-W8-o69" id="oWn-Zz-J7n"/>
+                        <outlet property="verifyTextField" destination="n9D-gW-vfV" id="ECM-1M-3v2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tRY-Fb-h8v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
