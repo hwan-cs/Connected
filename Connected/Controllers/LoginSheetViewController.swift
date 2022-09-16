@@ -23,9 +23,9 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     var onDismissBlock : ((Bool) -> Void)?
     
-    @IBOutlet var usernameTextField: TweeBorderedTextField!
+    @IBOutlet var usernameTextField: TweeAttributedTextField!
     
-    @IBOutlet var passwordTextField: TweeBorderedTextField!
+    @IBOutlet var passwordTextField: TweeAttributedTextField!
     
     @IBOutlet var eyeImageView: UIImageView!
     

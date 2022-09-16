@@ -26,7 +26,7 @@ extension UITextField
     }
 }
 
-extension TweeBorderedTextField
+extension TweeAttributedTextField
 {
     func setUI()
     {
@@ -35,6 +35,8 @@ extension TweeBorderedTextField
         self.borderStyle = .none
         self.layer.borderColor = UIColor(red: 0.87, green: 0.89, blue: 0.91, alpha: 1.00).cgColor
         self.clipsToBounds = false
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.infoLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
     override open func textRect(forBounds bounds: CGRect) -> CGRect
