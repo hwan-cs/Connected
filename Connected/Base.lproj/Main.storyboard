@@ -284,6 +284,9 @@
                                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="baseForegroundColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="didTapDuplicateID:" destination="ilO-tr-kFO" eventType="touchUpInside" id="XCU-TW-P7x"/>
+                                                </connections>
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BJx-Y1-id2" customClass="TweeBorderedTextField" customModule="TweeTextField">
                                                 <rect key="frame" x="30" y="336" width="354" height="52"/>
@@ -457,12 +460,12 @@
                     <connections>
                         <outlet property="emailTextField" destination="BJx-Y1-id2" id="YRf-9K-LkR"/>
                         <outlet property="idTextField" destination="mjv-6W-pme" id="vya-uK-1zK"/>
-                        <outlet property="passwordReenterTextField" destination="b8k-2H-TgQ" id="4Lq-d3-VAZ"/>
-                        <outlet property="passwordTextField" destination="rCL-W8-o69" id="nTo-77-uGO"/>
                         <outlet property="scrollView" destination="JLq-wR-y6L" id="htR-Kj-sAO"/>
                         <outlet property="verifyTextField" destination="n9D-gW-vfV" id="ECM-1M-3v2"/>
                         <outletCollection property="eyeImageVIew" destination="bAn-29-WQf" collectionClass="NSMutableArray" id="X3u-sl-5eK"/>
                         <outletCollection property="eyeImageVIew" destination="xED-UQ-DXk" collectionClass="NSMutableArray" id="k9S-wX-ePc"/>
+                        <outletCollection property="passwordTextField" destination="rCL-W8-o69" collectionClass="NSMutableArray" id="eYO-Ye-NvQ"/>
+                        <outletCollection property="passwordTextField" destination="b8k-2H-TgQ" collectionClass="NSMutableArray" id="60b-du-CWz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tRY-Fb-h8v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
