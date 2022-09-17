@@ -228,6 +228,9 @@
                                                         <real key="value" value="1"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="idTextFieldDidChange:" destination="ilO-tr-kFO" eventType="editingChanged" id="i4c-Ol-aDw"/>
+                                                </connections>
                                             </textField>
                                             <textField opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rCL-W8-o69" customClass="TweeAttributedTextField" customModule="TweeTextField">
                                                 <rect key="frame" x="30" y="172" width="354" height="52"/>
@@ -246,6 +249,9 @@
                                                         <real key="value" value="1"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="passwordTextFieldEditingChanged:" destination="ilO-tr-kFO" eventType="editingDidEnd" id="0Fd-Rg-t9U"/>
+                                                </connections>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b8k-2H-TgQ" customClass="TweeAttributedTextField" customModule="TweeTextField">
                                                 <rect key="frame" x="30" y="254" width="354" height="52"/>
@@ -264,6 +270,9 @@
                                                         <real key="value" value="1"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="passwordConfirmTextFieldDidEndEditing:" destination="ilO-tr-kFO" eventType="editingDidEnd" id="pA4-j8-2oJ"/>
+                                                </connections>
                                             </textField>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="bAn-29-WQf">
                                                 <rect key="frame" x="346" y="184.5" width="30" height="26.5"/>
@@ -279,11 +288,10 @@
                                                     <constraint firstAttribute="width" constant="80" id="Mup-m1-qfw"/>
                                                     <constraint firstAttribute="height" constant="32" id="cMc-Kk-yBK"/>
                                                 </constraints>
-                                                <color key="tintColor" red="0.023529411764705882" green="0.7803921568627451" blue="0.50588235294117645" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" systemColor="systemGrayColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="중복 확인">
                                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                    <color key="baseForegroundColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </buttonConfiguration>
                                                 <connections>
                                                     <action selector="didTapDuplicateID:" destination="ilO-tr-kFO" eventType="touchUpInside" id="XCU-TW-P7x"/>
@@ -459,6 +467,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="checkDuplicateButton" destination="uYP-vw-MX1" id="Y06-xK-Rzh"/>
                         <outlet property="emailTextField" destination="BJx-Y1-id2" id="YRf-9K-LkR"/>
                         <outlet property="idTextField" destination="mjv-6W-pme" id="vya-uK-1zK"/>
                         <outlet property="scrollView" destination="JLq-wR-y6L" id="htR-Kj-sAO"/>
@@ -499,6 +508,9 @@
         <image name="eye" catalog="system" width="128" height="79"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

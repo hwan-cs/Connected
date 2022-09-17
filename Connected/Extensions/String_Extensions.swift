@@ -19,4 +19,10 @@ extension String
         let usernameRegex = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$"
         return NSPredicate(format: "SELF MATCHES %@", usernameRegex).evaluate(with: self)
     }
+    
+    var isValidPassword: Bool
+    {
+        let passwordRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+        return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self)
+    }
 }
