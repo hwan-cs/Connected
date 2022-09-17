@@ -37,6 +37,7 @@ extension TweeAttributedTextField
         self.clipsToBounds = false
         self.translatesAutoresizingMaskIntoConstraints = false
         self.infoLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.infoLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
     }
     
     override open func textRect(forBounds bounds: CGRect) -> CGRect
@@ -63,3 +64,4 @@ extension TweeAttributedTextField
         return originalRect.offsetBy(dx: -50, dy: 0)
     }
 }
+

@@ -23,7 +23,6 @@ extension UIViewController
         view.endEditing(true)
     }
     
-    
     @objc func didTapEyeImageView(tapGestureRecognizer: UITapGestureRecognizer, textField: UITextField)
     {
         let tappedImage = tapGestureRecognizer.view as! UIImageView

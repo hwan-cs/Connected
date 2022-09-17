@@ -13,7 +13,7 @@ import FirebaseFirestore
 import Combine
 import AMPopTip
 
-class SignupViewController: UIViewController, UIScrollViewDelegate
+class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegate
 {
     @IBOutlet var idTextField: TweeAttributedTextField!
     
@@ -35,18 +35,36 @@ class SignupViewController: UIViewController, UIScrollViewDelegate
     
     let infoButton = UIButton()
     
+    let pwInfoButton = UIButton()
+    
+    let infoPopTip = PopTip()
+    
+    @IBOutlet var sendVerificationEmailButton: UIButton!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         self.hideKeyboard()
         idTextField.setUI()
+        idTextField.delegate = self
+        infoButton.tintColor = .systemGray
+        infoButton.setImage(UIImage(systemName: "info.circle.fill"), for: .normal)
+        infoButton.tag = 0
+        
+        pwInfoButton.tintColor = .systemGray
+        pwInfoButton.setImage(UIImage(systemName: "info.circle.fill"), for: .normal)
+        pwInfoButton.tag = 1
+        
         for ptf in passwordTextField
         {
             ptf.setUI()
             ptf.autocorrectionType = .no
+            ptf.delegate = self
         }
         emailTextField.setUI()
+        emailTextField.delegate = self
         verifyTextField.setUI()
+        verifyTextField.delegate = self
         eyeImageVIew[0].tag = 10
         eyeImageVIew[1].tag = 20
         for eye in eyeImageVIew
@@ -163,14 +181,11 @@ class SignupViewController: UIViewController, UIScrollViewDelegate
                     NSTextTab(textAlignment: .right, location: CGFloat(idTextField.infoLabel.frame.width-30), options: [:]),
                 ]
                 let attrString = NSMutableAttributedString(
-                    string: "형식에 맞지 않습니다!\t형식이 뭔가요? ",
+                    string: "형식에 맞지 않습니다\t형식이 뭔가요? ",
                     attributes: [NSAttributedString.Key.paragraphStyle: paragraph]
                 )
-                attrString.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)], range: NSRange(location: 0, length: attrString.length-1))
-                attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.gray], range: NSRange(location: 13, length: 9))
+                attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.gray], range: NSRange(location: 12, length: 8))
                 idTextField.showInfo(attrString)
-                infoButton.tintColor = .systemGray
-                infoButton.setImage(UIImage(systemName: "info.circle.fill"), for: .normal)
                 if !self.scrollView.subviews.contains(infoButton)
                 {
                     self.scrollView.addSubview(self.infoButton)
@@ -186,13 +201,23 @@ class SignupViewController: UIViewController, UIScrollViewDelegate
     
     @objc func infoButtonAction(sender: UIButton!)
     {
-        let infoPopTip = PopTip()
         infoPopTip.bubbleColor = UIColor.gray
         infoPopTip.shouldDismissOnTap = true
-        infoPopTip.show(text: "영어와 숫자를 포함한 5~20 길이의 글자. (.), (_), (-)가 맨 처음에 있으면 안되며 해당 특수문자는 연속으로 나타나지 않습니다 (예: __conn, conn.., 등", direction: .auto, maxWidth: 200, in: self.scrollView, from: sender.frame)
+        if infoPopTip.isVisible
+        {
+            infoPopTip.hide()
+        }
+        if sender.tag == 0
+        {
+            infoPopTip.show(text: "영어와 숫자를 포함한 5~20 길이의 글자. (.), (_), (-)가 맨 처음에 있으면 안되며 해당 특수문자는 연속으로 나타나지 않습니다 (예: __conn, conn.., 등)", direction: .auto, maxWidth: 200, in: self.scrollView, from: sender.frame)
+        }
+        else if sender.tag == 1
+        {
+            infoPopTip.show(text: "비밀번호는 대문자, 소문자, 숫자와 특수문자를 포함한 8글자 이상이어야 합니다 (예: Conn13!)", direction: .auto, maxWidth: 200, in: self.scrollView, from: sender.frame)
+        }
     }
     
-    @IBAction func passwordTextFieldEditingChanged(_ sender: TweeAttributedTextField)
+    @IBAction func passwordTFEditingChanged(_ sender: TweeAttributedTextField)
     {
         if let userInput = sender.text
         {
@@ -200,11 +225,30 @@ class SignupViewController: UIViewController, UIScrollViewDelegate
             {
                 passwordTextField[0].infoTextColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
                 passwordTextField[0].showInfo("사용 가능한 비밀번호 입니다")
+                self.pwInfoButton.removeFromSuperview()
             }
             else
             {
                 passwordTextField[0].infoTextColor = .red
-                passwordTextField[0].showInfo("비밀번호는 대문자, 소문자, 숫자와 특수문자를 포함한 8글자 이상이어야 합니다")
+                let paragraph = NSMutableParagraphStyle()
+                paragraph.tabStops = [
+                    NSTextTab(textAlignment: .right, location: CGFloat(passwordTextField[0].infoLabel.frame.width-30), options: [:]),
+                ]
+                let attrString = NSMutableAttributedString(
+                    string: "비밀번호가 형식에 맞지 않습니다\t형식이 뭔가요? ",
+                    attributes: [NSAttributedString.Key.paragraphStyle: paragraph]
+                )
+                attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.gray], range: NSRange(location: 17, length: 9))
+                passwordTextField[0].showInfo(attrString)
+                if !self.scrollView.subviews.contains(pwInfoButton)
+                {
+                    self.scrollView.addSubview(self.pwInfoButton)
+                }
+                pwInfoButton.leadingAnchor.constraint(equalTo: passwordTextField[0].infoLabel.leadingAnchor, constant: passwordTextField[0].infoLabel.intrinsicContentSize.width+4).isActive = true
+                pwInfoButton.topAnchor.constraint(equalTo: passwordTextField[0].infoLabel.topAnchor).isActive = true
+                pwInfoButton.heightAnchor.constraint(equalTo: passwordTextField[0].infoLabel.heightAnchor).isActive = true
+                pwInfoButton.translatesAutoresizingMaskIntoConstraints = false
+                pwInfoButton.addTarget(self, action: #selector(infoButtonAction), for: .touchUpInside)
             }
         }
     }
@@ -222,7 +266,19 @@ class SignupViewController: UIViewController, UIScrollViewDelegate
             {
                 passwordTextField[1].infoTextColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
                 passwordTextField[1].infoLabel.largeContentImage = UIImage(systemName: "checkmark")
+                passwordTextField[1].showInfo("✅")
             }
         }
+    }
+    
+    @IBAction func emailTFEditingChanged(_ sender: TweeAttributedTextField)
+    {
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        self.view.endEditing(true)
+        return false
     }
 }
