@@ -8,6 +8,7 @@
 
 import UIKit
 import TweeTextField
+import SwiftMessages
 
 
 class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate
@@ -56,6 +57,21 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         setupView()
         setupConstraints()
         setupPanGesture()
+        
+        let foobar = MessageView.viewFromNib(layout: .cardView)
+        foobar.configureTheme(.success)
+        foobar.configureContent(title: "회원가입 성공!", body: "인증 이메일이 보내졌습니다. 링크를 눌러 주세요", iconImage: UIImage(systemName: "checkmark.circle.fill")!)
+        foobar.button?.setTitle("확인", for: .normal)
+        foobar.buttonTapHandler =
+        { _ in
+            SwiftMessages.hide()
+        }
+        var fig = SwiftMessages.defaultConfig
+        fig.duration = .forever
+        fig.shouldAutorotate = true
+        fig.interactiveHide = true
+        foobar.layoutMarginAdditions = UIEdgeInsets(top: 50, left: 20, bottom: 0, right: 20)
+        SwiftMessages.show(config: fig, view: foobar)
     }
     
     func setupView()

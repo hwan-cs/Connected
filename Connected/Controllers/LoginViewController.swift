@@ -8,6 +8,7 @@
 import UIKit
 import TweeTextField
 import SwiftUI
+import SwiftMessages
 
 class LoginViewController: UIViewController
 {
@@ -17,7 +18,7 @@ class LoginViewController: UIViewController
     {
         super.viewDidLoad()
         self.navigationController?.navigationBar.topItem?.backButtonTitle = "뒤로가기"
-        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
+        self.navigationController?.navigationBar.tintColor = K.mainColor
         presentTransition = CustomTransition()
     }
     

@@ -11,7 +11,8 @@ extension String
 {
     var isValidEmail:Bool
     {
-        return true
+        let emailRegex = "[A-Z0-9a-z.-_]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,3}"
+        return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self)
     }
     
     var isValidUsername: Bool
@@ -24,5 +25,11 @@ extension String
     {
         let passwordRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
         return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self)
+    }
+    
+    var isValidName: Bool
+    {
+        let nameRegex = "^[\\p{L}'-][\\p{L}' -]{1,25}$"
+        return NSPredicate(format: "SELF MATCHES %@", nameRegex).evaluate(with: self)
     }
 }

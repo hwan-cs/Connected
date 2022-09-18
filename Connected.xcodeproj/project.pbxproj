@@ -34,6 +34,8 @@
 		1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */; };
 		1AB6A02128D0DEB000A0D127 /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */; };
 		1AB6A02428D2E08A00A0D127 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AB6A02328D2E08A00A0D127 /* GoogleService-Info.plist */; };
+		1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */; };
+		1ADDB27128D7244E00329EA4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB27028D7244E00329EA4 /* Constants.swift */; };
 		AD6B26617F4BE5548B4C4AF1 /* Pods_Connected.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48F2E930CD9E1781D878261 /* Pods_Connected.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +70,8 @@
 		1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
 		1AB6A02228D22D5800A0D127 /* Connected.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Connected.entitlements; sourceTree = "<group>"; };
 		1AB6A02328D2E08A00A0D127 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupVC_Extensions.swift; sourceTree = "<group>"; };
+		1ADDB27028D7244E00329EA4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8AA12650B1F3ED57E08103C7 /* Pods-Connected.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.release.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.release.xcconfig"; sourceTree = "<group>"; };
 		E48F2E930CD9E1781D878261 /* Pods_Connected.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connected.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -108,6 +112,7 @@
 			children = (
 				1AB6A02328D2E08A00A0D127 /* GoogleService-Info.plist */,
 				1AB6A02228D22D5800A0D127 /* Connected.entitlements */,
+				1ADDB26F28D7244400329EA4 /* Utility */,
 				1AB6A01F28D0DEA600A0D127 /* Custom */,
 				1AACE8E628CE2FE600B96A7C /* Extensions */,
 				1AACE8E728CE2FEA00B96A7C /* Controllers */,
@@ -148,6 +153,7 @@
 				1AB6A01728CF057300A0D127 /* LoginSheetVC_Extensions.swift */,
 				1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */,
 				1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */,
+				1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -168,6 +174,14 @@
 				1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */,
 			);
 			path = Custom;
+			sourceTree = "<group>";
+		};
+		1ADDB26F28D7244400329EA4 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				1ADDB27028D7244E00329EA4 /* Constants.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		BC0C9FC183DFEA9F9F54E05A /* Pods */ = {
@@ -322,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A2D1A7B28D4D2300075AB3B /* String_Extensions.swift in Sources */,
+				1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */,
 				1AACE8EB28CE312700B96A7C /* UIViewController_Extensions.swift in Sources */,
 				1AB6A01A28D09A8900A0D127 /* SignupViewController.swift in Sources */,
 				1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */,
@@ -331,6 +346,7 @@
 				1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */,
 				1AACE8F228CE3CF400B96A7C /* LoginSheetViewController.swift in Sources */,
 				1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */,
+				1ADDB27128D7244E00329EA4 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

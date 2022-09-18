@@ -12,6 +12,7 @@ import PromiseKit
 import FirebaseFirestore
 import FirebaseAuth
 import Combine
+import SwiftMessages
 import AMPopTip
 
 class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegate
@@ -20,8 +21,6 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
     
     @IBOutlet var emailTextField: TweeAttributedTextField!
     
-    @IBOutlet var verifyTextField: TweeAttributedTextField!
-    
     @IBOutlet var scrollView: UIScrollView!
 
     @IBOutlet var passwordTextField: [TweeAttributedTextField]!
@@ -29,6 +28,8 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
     @IBOutlet var eyeImageVIew: [UIImageView]!
     
     @IBOutlet var checkDuplicateButton: UIButton!
+    
+    @IBOutlet var nameTextField: TweeAttributedTextField!
     
     var db = Firestore.firestore()
     
@@ -40,7 +41,9 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
     
     let infoPopTip = PopTip()
     
-    @IBOutlet var sendVerificationEmailButton: UIButton!
+    var isDuplicateID = true
+    
+    @IBOutlet var signUpButton: UIButton!
     
     override func viewDidLoad()
     {
@@ -51,7 +54,8 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         infoButton.tintColor = .systemGray
         infoButton.setImage(UIImage(systemName: "info.circle.fill"), for: .normal)
         infoButton.tag = 0
-        
+        nameTextField.setUI()
+        nameTextField.delegate = self
         pwInfoButton.tintColor = .systemGray
         pwInfoButton.setImage(UIImage(systemName: "info.circle.fill"), for: .normal)
         pwInfoButton.tag = 1
@@ -64,8 +68,8 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         }
         emailTextField.setUI()
         emailTextField.delegate = self
-        verifyTextField.setUI()
-        verifyTextField.delegate = self
+        //delegate self with nametextfield
+//        verifyTextField.delegate = self
         eyeImageVIew[0].tag = 10
         eyeImageVIew[1].tag = 20
         for eye in eyeImageVIew
@@ -102,8 +106,8 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
     {
         Task.init
         {
-            let flag = await self.findDuplicateID()
-            if flag
+            self.isDuplicateID = await self.findDuplicateID()
+            if self.isDuplicateID
             {
                 activityView.stopAnimating()
                 idTextField.infoTextColor = .red
@@ -113,8 +117,8 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
             else
             {
                 activityView.stopAnimating()
-                idTextField.infoTextColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
-                idTextField.layer.borderColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00).cgColor
+                idTextField.infoTextColor = K.mainColor
+                idTextField.layer.borderColor = K.mainColor.cgColor
                 idTextField.showInfo("사용 가능한 아이디 입니다!", animated: true)
             }
         }
@@ -164,10 +168,10 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         {
             if userInput.isValidUsername
             {
-                checkDuplicateButton.titleLabel?.textColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
-                checkDuplicateButton.tintColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
+                checkDuplicateButton.titleLabel?.textColor = K.mainColor
+                checkDuplicateButton.tintColor = K.mainColor
                 checkDuplicateButton.isUserInteractionEnabled = true
-                idTextField.infoTextColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
+                idTextField.infoTextColor = K.mainColor
                 idTextField.showInfo("형식에 맞는 아이디 입니다")
                 self.infoButton.removeFromSuperview()
             }
@@ -224,13 +228,18 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         {
             if userInput.isValidPassword
             {
-                passwordTextField[0].infoTextColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
-                passwordTextField[0].showInfo("사용 가능한 비밀번호 입니다")
+                if userInput == passwordTextField[1].text
+                {
+                    passwordTextField[1].hideInfo()
+                    passwordTextField[1].showInfo("✅")
+                }
+                sender.infoTextColor = K.mainColor
+                sender.showInfo("사용 가능한 비밀번호 입니다")
                 self.pwInfoButton.removeFromSuperview()
             }
             else
             {
-                passwordTextField[0].infoTextColor = .red
+                sender.infoTextColor = .red
                 let paragraph = NSMutableParagraphStyle()
                 paragraph.tabStops = [
                     NSTextTab(textAlignment: .right, location: CGFloat(passwordTextField[0].infoLabel.frame.width-30), options: [:]),
@@ -240,7 +249,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                     attributes: [NSAttributedString.Key.paragraphStyle: paragraph]
                 )
                 attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.gray], range: NSRange(location: 17, length: 9))
-                passwordTextField[0].showInfo(attrString)
+                sender.showInfo(attrString)
                 if !self.scrollView.subviews.contains(pwInfoButton)
                 {
                     self.scrollView.addSubview(self.pwInfoButton)
@@ -260,14 +269,12 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         {
             if userInput != passwordInput
             {
-                passwordTextField[1].infoTextColor = .red
-                passwordTextField[1].showInfo("비밀번호가 일치하지 않습니다")
+                sender.infoTextColor = .red
+                sender.showInfo("비밀번호가 일치하지 않습니다")
             }
             else
             {
-                passwordTextField[1].infoTextColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
-                passwordTextField[1].infoLabel.largeContentImage = UIImage(systemName: "checkmark")
-                passwordTextField[1].showInfo("✅")
+                sender.showInfo("✅")
             }
         }
     }
@@ -278,18 +285,66 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         {
             try await FirebaseAuth.Auth.auth().createUser(withEmail: "jushua2838@gmail.com", password: "Foobar!123")
             let currentUser = FirebaseAuth.Auth.auth().currentUser
-            try await currentUser?.sendEmailVerification()
+            currentUser?.sendEmailVerification(completion:
+                                                            { error in
+                if let error = error
+                {
+                    fatalError(error.localizedDescription)
+                }
+                self.navigationController?.popToRootViewController(animated: true)
+            })
         }
     }
     
     @IBAction func emailTFEditingChanged(_ sender: TweeAttributedTextField)
     {
-        
+        if let userInput = sender.text
+        {
+            if !userInput.isValidEmail
+            {
+                sender.infoLabel.textColor = .red
+                sender.showInfo("이메일 형식에 맞지 않습니다")
+            }
+            else
+            {
+                sender.hideInfo()
+            }
+        }
+    }
+    
+    @IBAction func nameTextFieldEditingChanged(_ sender: TweeAttributedTextField)
+    {
+        if let userInput = sender.text
+        {
+            if !userInput.isValidName
+            {
+                sender.infoLabel.textColor = .red
+                sender.showInfo("이름 형식에 맞지 않습니다")
+            }
+            else
+            {
+                sender.hideInfo()
+            }
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
         self.view.endEditing(true)
         return false
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField)
+    {
+        if self.checkIfRequirementsMet()
+        {
+            self.signUpButton.isUserInteractionEnabled = true
+            self.signUpButton.backgroundColor = K.mainColor
+        }
+        else
+        {
+            self.signUpButton.isUserInteractionEnabled = false
+            self.signUpButton.backgroundColor = .lightGray
+        }
     }
 }

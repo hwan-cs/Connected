@@ -1,0 +1,14 @@
+//
+//  Constants.swift
+//  Connected
+//
+//  Created by Jung Hwan Park on 2022/09/18.
+//
+
+import Foundation
+import UIKit
+
+struct K
+{
+    static let mainColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
+}
