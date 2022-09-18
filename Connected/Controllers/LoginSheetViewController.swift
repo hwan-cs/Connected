@@ -9,7 +9,7 @@
 import UIKit
 import TweeTextField
 import SwiftMessages
-
+import FirebaseAuth
 
 class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate
 {
@@ -34,6 +34,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
 
     @IBOutlet var signupBtn: UIButton!
     
+    var didSignupNewUser = false
     
     // 1
     lazy var containerView: UIView =
@@ -57,21 +58,6 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         setupView()
         setupConstraints()
         setupPanGesture()
-        
-        let foobar = MessageView.viewFromNib(layout: .cardView)
-        foobar.configureTheme(.success)
-        foobar.configureContent(title: "회원가입 성공!", body: "인증 이메일이 보내졌습니다. 링크를 눌러 주세요", iconImage: UIImage(systemName: "checkmark.circle.fill")!)
-        foobar.button?.setTitle("확인", for: .normal)
-        foobar.buttonTapHandler =
-        { _ in
-            SwiftMessages.hide()
-        }
-        var fig = SwiftMessages.defaultConfig
-        fig.duration = .forever
-        fig.shouldAutorotate = true
-        fig.interactiveHide = true
-        foobar.layoutMarginAdditions = UIEdgeInsets(top: 50, left: 20, bottom: 0, right: 20)
-        SwiftMessages.show(config: fig, view: foobar)
     }
     
     func setupView()
@@ -188,9 +174,9 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     @IBAction func didTapSignUp(_ sender: UIButton)
     {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SignupViewController") as! SignupViewController
         self.dismiss(animated: true)
         {
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SignupViewController") as! SignupViewController
             UIApplication.topViewController()?.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -218,4 +204,29 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.view.endEditing(true)
         return false
     }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        if K.didSignupNewUser
+        {
+            let foobar = MessageView.viewFromNib(layout: .cardView)
+            foobar.configureTheme(.success)
+            let iconText = ["🥳", "🤩", "🤗", "😸"].randomElement()!
+            foobar.configureContent(title: "회원가입 성공!", body: "\(K.newUserEmail)로 인증 이메일이 보내졌습니다. 이메일에 인증 링크를 눌러 주세요", iconText: iconText)
+            foobar.button?.setTitle("확인", for: .normal)
+            foobar.buttonTapHandler =
+            { _ in
+                SwiftMessages.hide()
+            }
+            var fig = SwiftMessages.defaultConfig
+            fig.duration = .forever
+            fig.shouldAutorotate = true
+            fig.interactiveHide = true
+            foobar.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+            SwiftMessages.show(config: fig, view: foobar)
+        }
+        K.didSignupNewUser.toggle()
+        K.newUserEmail = "null@null"
+    }
+    
 }

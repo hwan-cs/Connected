@@ -11,4 +11,6 @@ import UIKit
 struct K
 {
     static let mainColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
+    static var didSignupNewUser = false
+    static var newUserEmail = ""
 }

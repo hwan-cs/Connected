@@ -69,7 +69,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         emailTextField.setUI()
         emailTextField.delegate = self
         //delegate self with nametextfield
-//        verifyTextField.delegate = self
+        nameTextField.delegate = self
         eyeImageVIew[0].tag = 10
         eyeImageVIew[1].tag = 20
         for eye in eyeImageVIew
@@ -120,6 +120,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                 idTextField.infoTextColor = K.mainColor
                 idTextField.layer.borderColor = K.mainColor.cgColor
                 idTextField.showInfo("사용 가능한 아이디 입니다!", animated: true)
+//                remove poptip
             }
         }
     }
@@ -291,6 +292,8 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                 {
                     fatalError(error.localizedDescription)
                 }
+                K.didSignupNewUser = true
+                K.newUserEmail = FirebaseAuth.Auth.auth().currentUser?.email ?? "null@null"
                 self.navigationController?.popToRootViewController(animated: true)
             })
         }
