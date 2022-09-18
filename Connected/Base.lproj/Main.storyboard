@@ -318,50 +318,6 @@
                                                     <action selector="emailTFEditingChanged:" destination="ilO-tr-kFO" eventType="editingChanged" id="fte-rN-hDf"/>
                                                 </connections>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2fG-zx-WfL">
-                                                <rect key="frame" x="330" y="376" width="50" height="32"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="50" id="UKe-tw-7aP"/>
-                                                    <constraint firstAttribute="height" constant="32" id="yCF-VO-9vA"/>
-                                                </constraints>
-                                                <color key="tintColor" systemColor="systemGrayColor"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="인증">
-                                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                </buttonConfiguration>
-                                            </button>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n9D-gW-vfV" customClass="TweeAttributedTextField" customModule="TweeTextField">
-                                                <rect key="frame" x="30" y="458" width="354" height="52"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="52" id="Anj-Ri-wtn"/>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="52" id="FnP-ii-Di9"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" textContentType="username"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="tweePlaceholder" value="아이디"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                                                        <real key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jvL-HN-4UX">
-                                                <rect key="frame" x="320" y="468" width="60" height="32"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="60" id="c3t-6Q-9ns"/>
-                                                    <constraint firstAttribute="height" constant="32" id="uVz-1Z-6ou"/>
-                                                </constraints>
-                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="확인">
-                                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </buttonConfiguration>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZUm-F3-lWm">
                                                 <rect key="frame" x="30" y="607" width="354" height="52"/>
                                                 <color key="backgroundColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -379,6 +335,9 @@
                                                         <integer key="value" value="14"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="signUpButtonPressed:" destination="ilO-tr-kFO" eventType="touchUpInside" id="TW3-wP-mpy"/>
+                                                </connections>
                                             </button>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xED-UQ-DXk">
                                                 <rect key="frame" x="346" y="286.5" width="30" height="26.5"/>
@@ -391,15 +350,11 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstItem="n9D-gW-vfV" firstAttribute="leading" secondItem="xzg-v9-zM2" secondAttribute="leading" constant="30" id="4qo-ci-2qN"/>
                                             <constraint firstAttribute="trailing" secondItem="ZUm-F3-lWm" secondAttribute="trailing" constant="30" id="5Ei-7d-l2P"/>
                                             <constraint firstItem="rCL-W8-o69" firstAttribute="top" secondItem="mjv-6W-pme" secondAttribute="bottom" constant="40" id="97p-fK-lSo"/>
-                                            <constraint firstItem="2fG-zx-WfL" firstAttribute="centerY" secondItem="BJx-Y1-id2" secondAttribute="centerY" id="9Iw-i0-Ufg"/>
-                                            <constraint firstItem="n9D-gW-vfV" firstAttribute="top" secondItem="BJx-Y1-id2" secondAttribute="bottom" constant="40" id="C2V-aA-0q9"/>
                                             <constraint firstItem="1gQ-8X-GXS" firstAttribute="top" secondItem="xzg-v9-zM2" secondAttribute="top" constant="24" id="EVH-SG-mWC"/>
                                             <constraint firstAttribute="trailing" secondItem="BJx-Y1-id2" secondAttribute="trailing" constant="30" id="FPh-uB-zen"/>
                                             <constraint firstItem="mjv-6W-pme" firstAttribute="trailing" secondItem="uYP-vw-MX1" secondAttribute="trailing" constant="4" id="HE3-iC-fBj"/>
-                                            <constraint firstAttribute="trailing" secondItem="n9D-gW-vfV" secondAttribute="trailing" constant="30" id="Izi-m7-GFh"/>
                                             <constraint firstItem="BJx-Y1-id2" firstAttribute="top" secondItem="b8k-2H-TgQ" secondAttribute="bottom" constant="40" id="Jga-ev-qNA"/>
                                             <constraint firstItem="b8k-2H-TgQ" firstAttribute="top" secondItem="rCL-W8-o69" secondAttribute="bottom" constant="40" id="Kaq-Wi-4eH"/>
                                             <constraint firstItem="ZUm-F3-lWm" firstAttribute="leading" secondItem="xzg-v9-zM2" secondAttribute="leading" constant="30" id="UJV-uh-75u"/>
@@ -410,10 +365,7 @@
                                             <constraint firstAttribute="trailing" secondItem="rCL-W8-o69" secondAttribute="trailing" constant="30" id="dn9-SA-WIZ"/>
                                             <constraint firstItem="mjv-6W-pme" firstAttribute="trailing" secondItem="bAn-29-WQf" secondAttribute="trailing" constant="8" id="iEa-Yh-RU5"/>
                                             <constraint firstAttribute="trailing" secondItem="mjv-6W-pme" secondAttribute="trailing" constant="30" id="kmE-TA-BlV"/>
-                                            <constraint firstItem="n9D-gW-vfV" firstAttribute="trailing" secondItem="jvL-HN-4UX" secondAttribute="trailing" constant="4" id="lno-5Y-WEb"/>
                                             <constraint firstItem="bAn-29-WQf" firstAttribute="centerY" secondItem="rCL-W8-o69" secondAttribute="centerY" id="m0V-GM-YQ1"/>
-                                            <constraint firstItem="jvL-HN-4UX" firstAttribute="centerY" secondItem="n9D-gW-vfV" secondAttribute="centerY" id="n0f-ya-VZn"/>
-                                            <constraint firstItem="BJx-Y1-id2" firstAttribute="trailing" secondItem="2fG-zx-WfL" secondAttribute="trailing" constant="4" id="pFW-Zf-C5P"/>
                                             <constraint firstAttribute="bottom" secondItem="ZUm-F3-lWm" secondAttribute="bottom" constant="65" id="rLO-rZ-hAh"/>
                                             <constraint firstItem="b8k-2H-TgQ" firstAttribute="trailing" secondItem="xED-UQ-DXk" secondAttribute="trailing" constant="8" id="skb-yK-2wq"/>
                                             <constraint firstItem="uYP-vw-MX1" firstAttribute="centerY" secondItem="mjv-6W-pme" secondAttribute="centerY" id="tl6-5E-ifp"/>
@@ -473,8 +425,6 @@
                         <outlet property="emailTextField" destination="BJx-Y1-id2" id="YRf-9K-LkR"/>
                         <outlet property="idTextField" destination="mjv-6W-pme" id="vya-uK-1zK"/>
                         <outlet property="scrollView" destination="JLq-wR-y6L" id="htR-Kj-sAO"/>
-                        <outlet property="sendVerificationEmailButton" destination="2fG-zx-WfL" id="5fv-R2-Ryf"/>
-                        <outlet property="verifyTextField" destination="n9D-gW-vfV" id="ECM-1M-3v2"/>
                         <outletCollection property="eyeImageVIew" destination="bAn-29-WQf" collectionClass="NSMutableArray" id="X3u-sl-5eK"/>
                         <outletCollection property="eyeImageVIew" destination="xED-UQ-DXk" collectionClass="NSMutableArray" id="k9S-wX-ePc"/>
                         <outletCollection property="passwordTextField" destination="rCL-W8-o69" collectionClass="NSMutableArray" id="eYO-Ye-NvQ"/>

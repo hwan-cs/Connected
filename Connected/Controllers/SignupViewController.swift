@@ -10,6 +10,7 @@ import UIKit
 import TweeTextField
 import PromiseKit
 import FirebaseFirestore
+import FirebaseAuth
 import Combine
 import AMPopTip
 
@@ -268,6 +269,16 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                 passwordTextField[1].infoLabel.largeContentImage = UIImage(systemName: "checkmark")
                 passwordTextField[1].showInfo("✅")
             }
+        }
+    }
+    
+    @IBAction func signUpButtonPressed(_ sender: UIButton)
+    {
+        Task.init
+        {
+            try await FirebaseAuth.Auth.auth().createUser(withEmail: "jushua2838@gmail.com", password: "Foobar!123")
+            let currentUser = FirebaseAuth.Auth.auth().currentUser
+            try await currentUser?.sendEmailVerification()
         }
     }
     
