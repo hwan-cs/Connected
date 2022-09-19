@@ -81,7 +81,7 @@
                                     <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                         <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="tweePlaceholder" value="아이디"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="tweePlaceholder" value="이메일"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
                                         <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>

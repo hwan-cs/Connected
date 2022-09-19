@@ -284,21 +284,30 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
     
     @IBAction func signUpButtonPressed(_ sender: UIButton)
     {
-        Task.init
-        {
-            try await FirebaseAuth.Auth.auth().createUser(withEmail: "jushua2838@gmail.com", password: "Foobar!123")
-            let currentUser = FirebaseAuth.Auth.auth().currentUser
-            currentUser?.sendEmailVerification(completion:
-                                                            { error in
-                if let error = error
-                {
-                    fatalError(error.localizedDescription)
-                }
-                K.didSignupNewUser = true
-                K.newUserEmail = FirebaseAuth.Auth.auth().currentUser?.email ?? "null@null.null"
-                self.navigationController?.popToRootViewController(animated: true)
-            })
-        }
+        FirebaseAuth.Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField[0].text!, completion:
+        { authDataResult, error in
+            if let error = error
+            {
+                fatalError(error.localizedDescription)
+            }
+            else
+            {
+                let uid = authDataResult?.user.uid
+                let userData = ["username": self.idTextField.text!, "email": self.emailTextField.text!, "password": self.passwordTextField[0].text!, "name": self.nameTextField.text!, "verified": false, "uid": uid!]
+                self.db.collection("users").document(uid!).setData(userData)
+                let currentUser = FirebaseAuth.Auth.auth().currentUser
+                currentUser?.sendEmailVerification(completion:
+                { error in
+                    if let error = error
+                    {
+                        fatalError(error.localizedDescription)
+                    }
+                    K.didSignupNewUser = true
+                    K.newUserEmail = FirebaseAuth.Auth.auth().currentUser?.email ?? "null@null.null"
+                    self.navigationController?.popToRootViewController(animated: true)
+                })
+            }
+        })
     }
     
     @IBAction func emailTFEditingChanged(_ sender: TweeAttributedTextField)

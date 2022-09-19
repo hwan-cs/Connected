@@ -63,7 +63,7 @@ extension LoginSheetViewController
             passwordTextField.heightAnchor.constraint(equalToConstant: 52.0),
             loginBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             loginBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            loginBtn.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
+            loginBtn.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 40),
             loginBtn.heightAnchor.constraint(equalToConstant: 52.0),
             signupBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             signupBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
