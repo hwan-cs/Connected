@@ -9,6 +9,7 @@
 import UIKit
 import TweeTextField
 import SwiftMessages
+import AMPopTip
 import FirebaseAuth
 
 class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate
@@ -34,7 +35,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
 
     @IBOutlet var signupBtn: UIButton!
     
-    var didSignupNewUser = false
+    let questionPopTip = PopTip()
     
     // 1
     lazy var containerView: UIView =
@@ -213,6 +214,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             foobar.configureTheme(.success)
             let iconText = ["🥳", "🤩", "🤗", "😸"].randomElement()!
             foobar.configureContent(title: "회원가입 성공!", body: "\(K.newUserEmail)로 인증 이메일이 보내졌습니다. 이메일에 인증 링크를 눌러 주세요", iconText: iconText)
+            foobar.backgroundColor = K.mainColor
             foobar.button?.setTitle("확인", for: .normal)
             foobar.buttonTapHandler =
             { _ in
@@ -224,9 +226,117 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             fig.interactiveHide = true
             foobar.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
             SwiftMessages.show(config: fig, view: foobar)
+            K.didSignupNewUser.toggle()
         }
-        K.didSignupNewUser.toggle()
-        K.newUserEmail = "null@null"
     }
     
+    @IBAction func didTapLogin(_ sender: UIButton)
+    {
+        if !(usernameTextField.text?.isValidEmail ?? true) && !(passwordTextField.text?.isValidPassword ?? true)
+        {
+            return
+        }
+        guard let currentUser = Auth.auth().currentUser
+        else
+        {
+            fatalError("sign in with Auth.auth()")
+        }
+        currentUser.reload
+        { error in
+            if let error = error
+            {
+                fatalError(error.localizedDescription)
+            }
+            switch currentUser.isEmailVerified
+            {
+            case true:
+                print("User is verified")
+            case false:
+                let foobar = MessageView.viewFromNib(layout: .cardView)
+                foobar.configureTheme(.error)
+                let iconText = ["🧐","🤨","🤔","🙃","😩","😬","😲","😧"].randomElement()!
+                foobar.titleLabel?.numberOfLines = 0
+                foobar.bodyLabel?.numberOfLines = 0
+                foobar.configureContent(title: "이메일 인증이 완료되지 않았습니다!", body: "\(currentUser.email!)로 보내진 인증 링크를 열어주세요", iconText: iconText)
+                foobar.backgroundColor = K.mainColor
+                foobar.button?.setTitle("확인", for: .normal)
+                foobar.buttonTapHandler =
+                { _ in
+                    SwiftMessages.hide()
+                }
+                var fig = SwiftMessages.defaultConfig
+                fig.duration = .forever
+                fig.shouldAutorotate = true
+                fig.interactiveHide = true
+                foobar.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+                SwiftMessages.show(config: fig, view: foobar)
+                
+                let questionButton = UIButton()
+                questionButton.tintColor = .systemGray
+                questionButton.setImage(UIImage(systemName: "questionmark.circle.fill"), for: .normal)
+                self.passwordTextField.infoTextColor = .red
+                self.passwordTextField.showInfo("이메일을 받지 못했나요? ")
+                if !self.view.subviews.contains(questionButton)
+                {
+                    self.view.addSubview(questionButton)
+                }
+                questionButton.leadingAnchor.constraint(equalTo: self.passwordTextField.infoLabel.leadingAnchor, constant: self.passwordTextField.infoLabel.intrinsicContentSize.width+4).isActive = true
+                questionButton.topAnchor.constraint(equalTo: self.passwordTextField.infoLabel.topAnchor).isActive = true
+                questionButton.heightAnchor.constraint(equalTo: self.passwordTextField.infoLabel.heightAnchor).isActive = true
+                questionButton.translatesAutoresizingMaskIntoConstraints = false
+                questionButton.addTarget(self, action: #selector(self.questionButtonAction), for: .touchUpInside)
+                
+                let resendEmail = UIButton()
+                let attr: [NSAttributedString.Key: Any] = [
+                      .font: UIFont.systemFont(ofSize: 14),
+                      .backgroundColor: UIColor.white,
+                      .foregroundColor: UIColor.blue,
+                      .underlineStyle: NSUnderlineStyle.single.rawValue
+                  ]
+                
+                let attrString = NSMutableAttributedString(
+                    string: "이메일 재전송",
+                    attributes: attr
+                 )
+                resendEmail.setAttributedTitle(attrString, for: .normal)
+                resendEmail.addTarget(self, action: #selector(self.sendEmail), for: .touchUpInside)
+                if !self.view.subviews.contains(resendEmail)
+                {
+                    self.view.addSubview(resendEmail)
+                }
+                resendEmail.trailingAnchor.constraint(equalTo: self.passwordTextField.infoLabel.trailingAnchor).isActive = true
+                resendEmail.topAnchor.constraint(equalTo: self.passwordTextField.infoLabel.topAnchor).isActive = true
+                resendEmail.heightAnchor.constraint(equalTo: self.passwordTextField.infoLabel.heightAnchor).isActive = true
+                resendEmail.translatesAutoresizingMaskIntoConstraints = false
+            }
+        }
+    }
+    
+    @objc func questionButtonAction(sender: UIButton!)
+    {
+        questionPopTip.bubbleColor = UIColor.gray
+        questionPopTip.shouldDismissOnTap = true
+        if questionPopTip.isVisible
+        {
+            questionPopTip.hide()
+        }
+        questionPopTip.show(text: "스팸함을 확인 해보세요!", direction: .auto, maxWidth: 150, in: self.view, from: sender.frame)
+    }
+    
+    @objc func sendEmail()
+    {
+        guard let currentUser = Auth.auth().currentUser
+        else
+        {
+            fatalError("sign in with Auth.auth()")
+        }
+        currentUser.sendEmailVerification
+        { error in
+            guard let error = error
+            else {
+                return print("User verification mail sent")
+            }
+            fatalError(error.localizedDescription)
+        }
+    }
 }

@@ -78,6 +78,8 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapEyeImageView(tapGestureRecognizer:)))
             eye.addGestureRecognizer(tapGestureRecognizer)
         }
+        
+        signUpButton.isUserInteractionEnabled = false
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView)
@@ -293,7 +295,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                     fatalError(error.localizedDescription)
                 }
                 K.didSignupNewUser = true
-                K.newUserEmail = FirebaseAuth.Auth.auth().currentUser?.email ?? "null@null"
+                K.newUserEmail = FirebaseAuth.Auth.auth().currentUser?.email ?? "null@null.null"
                 self.navigationController?.popToRootViewController(animated: true)
             })
         }

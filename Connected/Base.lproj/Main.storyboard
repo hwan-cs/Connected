@@ -118,6 +118,9 @@
                                         <integer key="value" value="14"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="didTapLogin:" destination="4U0-Z6-3QZ" eventType="touchUpInside" id="nPC-zh-THE"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SIJ-bN-1wF">
                                 <rect key="frame" x="30" y="405" width="354" height="63"/>
