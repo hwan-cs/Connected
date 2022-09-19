@@ -25,8 +25,6 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     @IBOutlet var dragBar: UIView!
     
-    var onDismissBlock : ((Bool) -> Void)?
-    
     @IBOutlet var usernameTextField: TweeAttributedTextField!
     
     @IBOutlet var passwordTextField: TweeAttributedTextField!
@@ -41,13 +39,9 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     let questionPopTip = PopTip()
     
-    var seconds = 60
-    
     var db = Firestore.firestore()
     
     var timer = Timer()
-    
-    var timerIsRunning = false
     
     // 1
     lazy var containerView: UIView =
@@ -72,6 +66,10 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         setupConstraints()
         setupPanGesture()
         self.passwordTextField.infoTextColor = .red
+        if K.isTimerRunning
+        {
+            self.runResendEmailTimer()
+        }
     }
     
     func setupView()
@@ -191,6 +189,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SignupViewController") as! SignupViewController
         self.dismiss(animated: true)
         {
+            self.timer.invalidate()
             UIApplication.topViewController()?.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -273,10 +272,6 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                 {
                     fatalError("sign in with Auth.auth()")
                 }
-                if timerIsRunning
-                {
-                    return
-                }
                 currentUser.reload
                 { error in
                     if let error = error
@@ -321,6 +316,10 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                         questionButton.heightAnchor.constraint(equalTo: self.passwordTextField.infoLabel.heightAnchor).isActive = true
                         questionButton.translatesAutoresizingMaskIntoConstraints = false
                         questionButton.addTarget(self, action: #selector(self.questionButtonAction), for: .touchUpInside)
+                        if K.isTimerRunning
+                        {
+                            return
+                        }
                         self.makeResendEmailButton()
                     }
                 }
@@ -353,6 +352,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                 fatalError(error.localizedDescription)
             }
             self.resendEmail.isUserInteractionEnabled = false
+            K.isTimerRunning.toggle()
             self.runResendEmailTimer()
             return print("User verification mail sent")
         }
@@ -385,6 +385,15 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     @objc func updateTimer()
     {
+        if !self.view.subviews.contains(resendEmail)
+        {
+            self.view.addSubview(resendEmail)
+            resendEmail.trailingAnchor.constraint(equalTo: self.passwordTextField.infoLabel.trailingAnchor).isActive = true
+            resendEmail.topAnchor.constraint(equalTo: self.passwordTextField.infoLabel.topAnchor).isActive = true
+            resendEmail.heightAnchor.constraint(equalTo: self.passwordTextField.infoLabel.heightAnchor).isActive = true
+            resendEmail.translatesAutoresizingMaskIntoConstraints = false
+            resendEmail.isUserInteractionEnabled = false
+        }
         let attr: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: 14),
             .backgroundColor: UIColor.clear,
@@ -392,18 +401,23 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         ]
         
         let attrString = NSMutableAttributedString(
-            string: "\(self.seconds)초 후 재전송 할 수 있습니다",
+            string: "\(K.seconds)초 후 재전송 할 수 있습니다",
             attributes: attr
         )
         resendEmail.setAttributedTitle(attrString, for: .normal)
-        if seconds == 0
+        if K.seconds == 0
         {
             timer.invalidate()
-            seconds = 60
+            K.seconds = 60
             resendEmail.removeFromSuperview()
-            makeResendEmailButton()
+            if self.view.subviews.contains(where: { view in
+                return view.tag == 37
+            })
+            {
+                makeResendEmailButton()
+            }
         }
-        seconds -= 1
+        K.seconds -= 1
     }
     
     func makeResendEmailButton()
