@@ -238,6 +238,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             fig.interactiveHide = true
             foobar.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
             SwiftMessages.show(config: fig, view: foobar)
+            K.newUserEmail = "null@null.null"
             K.didSignupNewUser.toggle()
         }
     }
@@ -281,7 +282,25 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                     switch currentUser.isEmailVerified
                     {
                     case true:
-                        print("User is verified")
+                        Task.init
+                        {
+                            let snapshotDocuments = try await self.db.collection("users").whereField("username", isNotEqualTo: false).getDocuments().documents
+                            for doc in snapshotDocuments
+                            {
+                                let data = doc.data()
+                                if let username = data["email"] as? String, let password = data["password"] as? String
+                                {
+                                    if username == self.usernameTextField.text! && password == self.passwordTextField.text!
+                                    {
+                                        //go to next viewcontroller
+                                    }
+                                    else if username == self.usernameTextField.text!
+                                    {
+                                        //wrong password
+                                    }
+                                }
+                            }
+                        }
                     case false:
                         let foobar = MessageView.viewFromNib(layout: .cardView)
                         foobar.configureTheme(.error)

@@ -284,11 +284,14 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
     
     @IBAction func signUpButtonPressed(_ sender: UIButton)
     {
+        sender.isUserInteractionEnabled = false
+        sender.backgroundColor = .gray
         FirebaseAuth.Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField[0].text!, completion:
         { authDataResult, error in
             if let error = error
             {
-                fatalError(error.localizedDescription)
+                sender.isUserInteractionEnabled = true
+                sender.backgroundColor = K.mainColor
             }
             else
             {
@@ -300,6 +303,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                 { error in
                     if let error = error
                     {
+                        print("error with sendemailverification")
                         fatalError(error.localizedDescription)
                     }
                     K.didSignupNewUser = true
