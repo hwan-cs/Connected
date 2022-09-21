@@ -15,4 +15,8 @@ struct K
     static var newUserEmail = ""
     static var seconds = 60
     static var isTimerRunning = false
+    static let myChatCellNibName = "ChatTableViewCell"
+    static let yourChatCellNibName = "RecChatTableViewCell"
+    static let myChatCellID = "MyChatCell"
+    static let yourChatCellID = "YourChatCell"
 }

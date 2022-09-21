@@ -38,6 +38,10 @@
 		1ADA77B828DB099D006EC39B /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */; };
 		1ADA77B928DB099D006EC39B /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */; };
 		1ADA77BB28DB09B3006EC39B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */; };
+		1ADA77BE28DB55CC006EC39B /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1ADA77BD28DB55CC006EC39B /* DSWaveformImage */; };
+		1ADA77C128DB5722006EC39B /* RecChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */; };
+		1ADA77C228DB5722006EC39B /* RecChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */; };
+		1ADA77C428DB66E1006EC39B /* AppDelegate_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77C328DB66E1006EC39B /* AppDelegate_Extensions.swift */; };
 		1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */; };
 		1ADDB27128D7244E00329EA4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB27028D7244E00329EA4 /* Constants.swift */; };
 		AD6B26617F4BE5548B4C4AF1 /* Pods_Connected.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48F2E930CD9E1781D878261 /* Pods_Connected.framework */; };
@@ -78,6 +82,9 @@
 		1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
 		1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecChatTableViewCell.swift; sourceTree = "<group>"; };
+		1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecChatTableViewCell.xib; sourceTree = "<group>"; };
+		1ADA77C328DB66E1006EC39B /* AppDelegate_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate_Extensions.swift; sourceTree = "<group>"; };
 		1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupVC_Extensions.swift; sourceTree = "<group>"; };
 		1ADDB27028D7244E00329EA4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8AA12650B1F3ED57E08103C7 /* Pods-Connected.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.release.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.release.xcconfig"; sourceTree = "<group>"; };
@@ -90,6 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AACE8F028CE39F400B96A7C /* PartialSheet in Frameworks */,
+				1ADA77BE28DB55CC006EC39B /* DSWaveformImage in Frameworks */,
 				AD6B26617F4BE5548B4C4AF1 /* Pods_Connected.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,6 +171,7 @@
 				1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */,
 				1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */,
 				1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */,
+				1ADA77C328DB66E1006EC39B /* AppDelegate_Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -184,6 +193,8 @@
 				1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */,
 				1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */,
 				1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */,
+				1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */,
+				1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -241,6 +252,7 @@
 			name = Connected;
 			packageProductDependencies = (
 				1AACE8EF28CE39F400B96A7C /* PartialSheet */,
+				1ADA77BD28DB55CC006EC39B /* DSWaveformImage */,
 			);
 			productName = Connected;
 			productReference = 1AACE88328CB409F00B96A7C /* Connected.app */;
@@ -272,6 +284,7 @@
 			mainGroup = 1AACE87A28CB409F00B96A7C;
 			packageReferences = (
 				1AACE8EE28CE39F400B96A7C /* XCRemoteSwiftPackageReference "PartialSheet" */,
+				1ADA77BC28DB55CC006EC39B /* XCRemoteSwiftPackageReference "DSWaveformImage" */,
 			);
 			productRefGroup = 1AACE88428CB409F00B96A7C /* Products */;
 			projectDirPath = "";
@@ -301,6 +314,7 @@
 				1AACE8DB28CE0AAA00B96A7C /* OpenSans-Medium.ttf in Resources */,
 				1ADA77B928DB099D006EC39B /* ChatTableViewCell.xib in Resources */,
 				1AACE8DE28CE0AAA00B96A7C /* OpenSans-Regular.ttf in Resources */,
+				1ADA77C228DB5722006EC39B /* RecChatTableViewCell.xib in Resources */,
 				1AACE88E28CB409F00B96A7C /* Main.storyboard in Resources */,
 				1AACE8E128CE0AAA00B96A7C /* OpenSans-Light.ttf in Resources */,
 				1AACE8E028CE0AAA00B96A7C /* OpenSans-ExtraBold.ttf in Resources */,
@@ -358,7 +372,9 @@
 			files = (
 				1A2D1A7B28D4D2300075AB3B /* String_Extensions.swift in Sources */,
 				1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */,
+				1ADA77C128DB5722006EC39B /* RecChatTableViewCell.swift in Sources */,
 				1AACE8EB28CE312700B96A7C /* UIViewController_Extensions.swift in Sources */,
+				1ADA77C428DB66E1006EC39B /* AppDelegate_Extensions.swift in Sources */,
 				1AB6A01A28D09A8900A0D127 /* SignupViewController.swift in Sources */,
 				1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */,
 				1AACE8E928CE300A00B96A7C /* UITextField_Extensions.swift in Sources */,
@@ -602,6 +618,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		1ADA77BC28DB55CC006EC39B /* XCRemoteSwiftPackageReference "DSWaveformImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmrschmidt/DSWaveformImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -609,6 +633,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1AACE8EE28CE39F400B96A7C /* XCRemoteSwiftPackageReference "PartialSheet" */;
 			productName = PartialSheet;
+		};
+		1ADA77BD28DB55CC006EC39B /* DSWaveformImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1ADA77BC28DB55CC006EC39B /* XCRemoteSwiftPackageReference "DSWaveformImage" */;
+			productName = DSWaveformImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

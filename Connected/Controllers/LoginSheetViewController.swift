@@ -220,6 +220,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     override func viewWillAppear(_ animated: Bool)
     {
+        self.checkUserLogin()
         if K.didSignupNewUser
         {
             let foobar = MessageView.viewFromNib(layout: .cardView)
@@ -240,6 +241,36 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             SwiftMessages.show(config: fig, view: foobar)
             K.newUserEmail = "null@null.null"
             K.didSignupNewUser.toggle()
+        }
+    }
+    
+    func checkUserLogin()
+    {
+        // to check whether the user has already logged in or not
+        Auth.auth().addStateDidChangeListener
+        { (auth, user) in
+            if user == nil
+            {
+                print("nil")
+                self.passwordTextField.hideInfo(animated: false)
+                self.passwordTextField.showInfo("로그아웃 되었습니다! 다시 로그인 해주세요", animated: true)
+                do
+                {
+                    try Auth.auth().signOut()
+                }
+                catch
+                {
+                    print(error.localizedDescription)
+                }
+            }
+            else
+            {
+                print("is not nil")
+                Task.init
+                {
+                    try await Auth.auth().updateCurrentUser(user!)
+                }
+            }
         }
     }
     
@@ -274,10 +305,31 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                     sender.backgroundColor = K.mainColor
                     return
                 }
+                do
+                {
+                    try await Auth.auth().signIn(withEmail: self.usernameTextField.text!, password: self.passwordTextField.text!)
+                    print("success")
+                }
+                catch
+                {
+                    print("nope")
+                    sender.isUserInteractionEnabled = true
+                    sender.backgroundColor = K.mainColor
+                    let alert = UIAlertController(title: "", message: "비밀번호가 틀렸습니다!", preferredStyle: .alert)
+                    self.present(alert, animated: true, completion: nil)
+
+                    // change to desired number of seconds (in this case 5 seconds)
+                    let when = DispatchTime.now() + 1.5
+                    DispatchQueue.main.asyncAfter(deadline: when){
+                      // your code with delay
+                      alert.dismiss(animated: true, completion: nil)
+                    }
+                    return
+                }
                 guard let currentUser = Auth.auth().currentUser
                 else
                 {
-                    fatalError("sign in with Auth.auth()")
+                    fatalError()
                 }
                 currentUser.reload
                 { error in
@@ -294,22 +346,28 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                             for doc in snapshotDocuments
                             {
                                 let data = doc.data()
-                                if let username = data["email"] as? String, let password = data["password"] as? String
+                                if let email = doc["email"] as? String
                                 {
-                                    if username == self.usernameTextField.text! && password == self.passwordTextField.text!
+                                    if email == currentUser.email!
                                     {
-                                        //go to next viewcontroller
-                                    }
-                                    else if username == self.usernameTextField.text!
-                                    {
-                                        let alert = UIAlertController(title: "", message: "비밀번호가 틀렸습니다!", preferredStyle: .alert)
-                                        self.present(alert, animated: true, completion: nil)
-
-                                        // change to desired number of seconds (in this case 5 seconds)
-                                        let when = DispatchTime.now() + 1.5
-                                        DispatchQueue.main.asyncAfter(deadline: when){
-                                          // your code with delay
-                                          alert.dismiss(animated: true, completion: nil)
+                                        if let verified = data["verified"] as? Bool
+                                        {
+                                            if !verified
+                                            {
+                                                try await doc.reference.updateData(["verified":true])
+                                                print("updated to true")
+                                            }
+                                        }
+                                        self.dismiss(animated: true)
+                                        {
+                                            self.timer.invalidate()
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0)
+                                            {
+                                                let vc = self.storyboard?.instantiateViewController(withIdentifier: "CWCNavigationController") as! UINavigationController
+                                                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                                                windowScene?.windows.first?.rootViewController = vc
+                                                windowScene?.windows.first?.makeKeyAndVisible()
+                                            }
                                         }
                                     }
                                 }
@@ -354,6 +412,8 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                             return
                         }
                         self.makeResendEmailButton()
+                        sender.isUserInteractionEnabled = true
+                        sender.backgroundColor = K.mainColor
                     }
                 }
             }
@@ -373,6 +433,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     @objc func sendEmail()
     {
+        self.resendEmail.isUserInteractionEnabled = false
         guard let currentUser = Auth.auth().currentUser
         else
         {
@@ -384,7 +445,6 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             {
                 fatalError(error.localizedDescription)
             }
-            self.resendEmail.isUserInteractionEnabled = false
             K.isTimerRunning.toggle()
             self.runResendEmailTimer()
             return print("User verification mail sent")
