@@ -292,6 +292,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
             {
                 sender.isUserInteractionEnabled = true
                 sender.backgroundColor = K.mainColor
+                print(error.localizedDescription)
             }
             else
             {

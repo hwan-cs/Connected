@@ -245,8 +245,12 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     @IBAction func didTapLogin(_ sender: UIButton)
     {
+        sender.isUserInteractionEnabled = false
+        sender.backgroundColor = .gray
         if !(usernameTextField.text?.isValidEmail ?? true) && !(passwordTextField.text?.isValidPassword ?? true)
         {
+            sender.isUserInteractionEnabled = true
+            sender.backgroundColor = K.mainColor
             return
         }
         else
@@ -266,6 +270,8 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                     }
                     passwordTextField.hideInfo(animated: false)
                     passwordTextField.showInfo("존재하지 않는 사용자 입니다! 회원가입을 먼저 진행 해주세요", animated: true)
+                    sender.isUserInteractionEnabled = true
+                    sender.backgroundColor = K.mainColor
                     return
                 }
                 guard let currentUser = Auth.auth().currentUser
@@ -296,7 +302,15 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                                     }
                                     else if username == self.usernameTextField.text!
                                     {
-                                        //wrong password
+                                        let alert = UIAlertController(title: "", message: "비밀번호가 틀렸습니다!", preferredStyle: .alert)
+                                        self.present(alert, animated: true, completion: nil)
+
+                                        // change to desired number of seconds (in this case 5 seconds)
+                                        let when = DispatchTime.now() + 1.5
+                                        DispatchQueue.main.asyncAfter(deadline: when){
+                                          // your code with delay
+                                          alert.dismiss(animated: true, completion: nil)
+                                        }
                                     }
                                 }
                             }

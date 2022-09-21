@@ -34,6 +34,10 @@
 		1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */; };
 		1AB6A02128D0DEB000A0D127 /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */; };
 		1AB6A02428D2E08A00A0D127 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AB6A02328D2E08A00A0D127 /* GoogleService-Info.plist */; };
+		1ADA77B528DB0985006EC39B /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77B428DB0985006EC39B /* UserViewModel.swift */; };
+		1ADA77B828DB099D006EC39B /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */; };
+		1ADA77B928DB099D006EC39B /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */; };
+		1ADA77BB28DB09B3006EC39B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */; };
 		1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */; };
 		1ADDB27128D7244E00329EA4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB27028D7244E00329EA4 /* Constants.swift */; };
 		AD6B26617F4BE5548B4C4AF1 /* Pods_Connected.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48F2E930CD9E1781D878261 /* Pods_Connected.framework */; };
@@ -70,6 +74,10 @@
 		1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
 		1AB6A02228D22D5800A0D127 /* Connected.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Connected.entitlements; sourceTree = "<group>"; };
 		1AB6A02328D2E08A00A0D127 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1ADA77B428DB0985006EC39B /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
+		1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupVC_Extensions.swift; sourceTree = "<group>"; };
 		1ADDB27028D7244E00329EA4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8AA12650B1F3ED57E08103C7 /* Pods-Connected.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.release.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.release.xcconfig"; sourceTree = "<group>"; };
@@ -112,6 +120,7 @@
 			children = (
 				1AB6A02328D2E08A00A0D127 /* GoogleService-Info.plist */,
 				1AB6A02228D22D5800A0D127 /* Connected.entitlements */,
+				1ADA77B328DB0979006EC39B /* ViewModel */,
 				1ADDB26F28D7244400329EA4 /* Utility */,
 				1AB6A01F28D0DEA600A0D127 /* Custom */,
 				1AACE8E628CE2FE600B96A7C /* Extensions */,
@@ -164,6 +173,7 @@
 				1AACE88A28CB409F00B96A7C /* LoginViewController.swift */,
 				1AACE8F128CE3CF400B96A7C /* LoginSheetViewController.swift */,
 				1AB6A01928D09A8900A0D127 /* SignupViewController.swift */,
+				1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -172,8 +182,18 @@
 			isa = PBXGroup;
 			children = (
 				1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */,
+				1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */,
+				1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */,
 			);
 			path = Custom;
+			sourceTree = "<group>";
+		};
+		1ADA77B328DB0979006EC39B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1ADA77B428DB0985006EC39B /* UserViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		1ADDB26F28D7244400329EA4 /* Utility */ = {
@@ -279,6 +299,7 @@
 				1AACE89028CB40A300B96A7C /* Assets.xcassets in Resources */,
 				1AACE8DA28CE0AAA00B96A7C /* OpenSans-BoldItalic.ttf in Resources */,
 				1AACE8DB28CE0AAA00B96A7C /* OpenSans-Medium.ttf in Resources */,
+				1ADA77B928DB099D006EC39B /* ChatTableViewCell.xib in Resources */,
 				1AACE8DE28CE0AAA00B96A7C /* OpenSans-Regular.ttf in Resources */,
 				1AACE88E28CB409F00B96A7C /* Main.storyboard in Resources */,
 				1AACE8E128CE0AAA00B96A7C /* OpenSans-Light.ttf in Resources */,
@@ -344,8 +365,11 @@
 				1AB6A02128D0DEB000A0D127 /* CustomTransition.swift in Sources */,
 				1AB6A01828CF057300A0D127 /* LoginSheetVC_Extensions.swift in Sources */,
 				1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */,
+				1ADA77B528DB0985006EC39B /* UserViewModel.swift in Sources */,
 				1AACE8F228CE3CF400B96A7C /* LoginSheetViewController.swift in Sources */,
+				1ADA77B828DB099D006EC39B /* ChatTableViewCell.swift in Sources */,
 				1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */,
+				1ADA77BB28DB09B3006EC39B /* ChatViewController.swift in Sources */,
 				1ADDB27128D7244E00329EA4 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
