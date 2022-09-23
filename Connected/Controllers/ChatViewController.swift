@@ -21,7 +21,11 @@ class ChatViewController: UIViewController
     
     var disposableBag = Set<AnyCancellable>()
     
-    var audioURLArray: [String] = []
+    var audioURLArray: [URL] = []
+    
+    var audioWaveImageArray = [UIImage]()
+    
+    let waveformImageDrawer = WaveformImageDrawer()
     
     override func viewDidLoad()
     {
@@ -55,33 +59,26 @@ extension ChatViewController: UITableViewDelegate
 extension ChatViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-    {
-        var audio: URL?
-        let task = URLSession.shared.downloadTask(with: URL(string: self.audioURLArray[indexPath.row])!)
-        { downloadedURL, urlResponse, error in
-            guard let downloadedURL = downloadedURL else { return }
-
-            let cachesFolderURL = try? FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            let audioFileURL = cachesFolderURL!.appendingPathComponent("yourLocalAudioFile.m4a")
-            try? FileManager.default.copyItem(at: downloadedURL, to: audioFileURL)
-            audio = audioFileURL
-        }
-        task.resume()
-        
-        print(audio!)
+    {        
         if indexPath.row % 2 == 0
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
+            let url = self.audioURLArray[indexPath.row]
             DispatchQueue.main.async
             {
-                cell.waveFormImageView.waveformAudioURL = audio!
+                print("URL\(indexPath.row):", url)
+                cell.waveFormImageView.waveformAudioURL = url
+                cell.waveFormImageView.image = self.userViewModel.audioWaveImageArray[indexPath.row]
             }
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
+        let url = self.audioURLArray[indexPath.row]
         DispatchQueue.main.async
         {
-            cell.waveFormImageView.waveformAudioURL = audio!
+            print("URL\(indexPath.row):", url)
+            cell.waveFormImageView.waveformAudioURL = url
+            cell.waveFormImageView.image = self.userViewModel.audioWaveImageArray[indexPath.row]
         }
         return cell
     }

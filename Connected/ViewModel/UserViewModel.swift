@@ -17,8 +17,12 @@ class UserViewModel: ObservableObject
     let storage = Storage.storage()
     
     var userName: String?
-     
-    @Published var audioURLArray: [String] = []
+    
+    @Published var audioURLArray: [URL] = []
+    
+    var audioWaveImageArray: [UIImage] = []
+    
+    let waveformImageDrawer = WaveformImageDrawer()
     
     init()
     {
@@ -34,8 +38,26 @@ class UserViewModel: ObservableObject
                 }
                 else
                 {
-                    print(url!.absoluteString)
-                    self.audioURLArray.append(url!.absoluteString)
+                    let task = URLSession.shared.downloadTask(with: url!)
+                    { downloadedURL, urlResponse, error in
+                        guard let downloadedURL = downloadedURL else { return }
+                        Task.init
+                        {
+                            let cachesFolderURL = try? FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                            let audioFileURL = cachesFolderURL!.appendingPathComponent("localAudio.m4a")
+                            try? FileManager.default.copyItem(at: downloadedURL, to: audioFileURL)
+                            print("huhuhuhu",audioFileURL)
+                            let image = try! await self.waveformImageDrawer.waveformImage(fromAudioAt: audioFileURL, with: .init(
+                                size: UIScreen.main.bounds.size,
+                                backgroundColor: .clear,
+                                style: .gradient([.black, .gray]),
+                                  position: .middle))
+                            self.audioWaveImageArray.append(image)
+                            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                            self.audioURLArray.append(audioFileURL)
+                        }
+                    }
+                    task.resume()
                 }
             }
         }

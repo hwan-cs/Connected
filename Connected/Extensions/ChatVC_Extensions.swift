@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import DSWaveformImage
 
 //MARK: - ViewModel 관련
 extension ChatViewController
@@ -16,10 +17,13 @@ extension ChatViewController
     {
         print("ChatVC - setBindings()")
         self.userViewModel.$audioURLArray.sink
-        { (updatedArray:[String]) in
+        { (updatedArray:[URL]) in
             print("ChatVC - audioURL count: \(updatedArray.count)")
             self.audioURLArray = updatedArray
-            self.tableView.reloadData()
+            DispatchQueue.main.async
+            {
+                self.tableView.reloadData()
+            }
         }.store(in: &disposableBag)
     }
 }

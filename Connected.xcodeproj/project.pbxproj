@@ -37,6 +37,7 @@
 		1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */; };
 		1AB6A02128D0DEB000A0D127 /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */; };
 		1AB6A02428D2E08A00A0D127 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AB6A02328D2E08A00A0D127 /* GoogleService-Info.plist */; };
+		1ABF82D328DDDF1400433095 /* localAudio.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1ABF82D228DDDF1300433095 /* localAudio.m4a */; };
 		1ADA77B528DB0985006EC39B /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77B428DB0985006EC39B /* UserViewModel.swift */; };
 		1ADA77B828DB099D006EC39B /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */; };
 		1ADA77B928DB099D006EC39B /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */; };
@@ -84,6 +85,7 @@
 		1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
 		1AB6A02228D22D5800A0D127 /* Connected.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Connected.entitlements; sourceTree = "<group>"; };
 		1AB6A02328D2E08A00A0D127 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1ABF82D228DDDF1300433095 /* localAudio.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = localAudio.m4a; sourceTree = "<group>"; };
 		1ADA77B428DB0985006EC39B /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			children = (
 				1AB6A02328D2E08A00A0D127 /* GoogleService-Info.plist */,
 				1AB6A02228D22D5800A0D127 /* Connected.entitlements */,
+				1ABF82D228DDDF1300433095 /* localAudio.m4a */,
 				1ADA77B328DB0979006EC39B /* ViewModel */,
 				1ADDB26F28D7244400329EA4 /* Utility */,
 				1AB6A01F28D0DEA600A0D127 /* Custom */,
@@ -313,6 +316,7 @@
 				1AB6A02428D2E08A00A0D127 /* GoogleService-Info.plist in Resources */,
 				1AACE8DF28CE0AAA00B96A7C /* OpenSans-MediumItalic.ttf in Resources */,
 				1AACE8E428CE0AAA00B96A7C /* OpenSans-LightItalic.ttf in Resources */,
+				1ABF82D328DDDF1400433095 /* localAudio.m4a in Resources */,
 				1AACE8E228CE0AAA00B96A7C /* OpenSans-Bold.ttf in Resources */,
 				1AACE89328CB40A300B96A7C /* LaunchScreen.storyboard in Resources */,
 				1AACE8E328CE0AAA00B96A7C /* OpenSans-Italic.ttf in Resources */,

@@ -21,7 +21,7 @@ class ChatTableViewCell: UITableViewCell
         self.backgroundColor = .clear
         self.messageView.clipsToBounds = true
         self.messageView.layer.masksToBounds = false
-        self.waveFormImageView = WaveformImageView(frame: self.waveFormImageView.frame)
+        self.waveFormImageView.contentMode = .scaleAspectFit
         self.contentView.layer.shadowRadius = 4
         self.contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
         self.contentView.layer.shadowColor = UIColor.gray.cgColor
