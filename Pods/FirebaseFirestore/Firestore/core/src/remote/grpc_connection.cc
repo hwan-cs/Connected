@@ -25,13 +25,14 @@
 
 #include "Firestore/core/include/firebase/firestore/firestore_errors.h"
 #include "Firestore/core/include/firebase/firestore/firestore_version.h"
-#include "Firestore/core/src/auth/token.h"
+#include "Firestore/core/src/credentials/auth_token.h"
 #include "Firestore/core/src/model/database_id.h"
 #include "Firestore/core/src/remote/firebase_metadata_provider.h"
 #include "Firestore/core/src/remote/grpc_root_certificate_finder.h"
 #include "Firestore/core/src/util/filesystem.h"
 #include "Firestore/core/src/util/hard_assert.h"
 #include "Firestore/core/src/util/log.h"
+#include "Firestore/core/src/util/no_destructor.h"
 #include "Firestore/core/src/util/statusor.h"
 #include "Firestore/core/src/util/string_format.h"
 #include "Firestore/core/src/util/warnings.h"
@@ -48,8 +49,8 @@ namespace firestore {
 namespace remote {
 namespace {
 
-using auth::Token;
 using core::DatabaseInfo;
+using credentials::AuthToken;
 using model::DatabaseId;
 using util::Filesystem;
 using util::Path;
@@ -57,9 +58,11 @@ using util::Status;
 using util::StatusOr;
 using util::StringFormat;
 
+const char* const kAppCheckHeader = "x-firebase-appcheck";
 const char* const kAuthorizationHeader = "authorization";
 const char* const kXGoogApiClientHeader = "x-goog-api-client";
 const char* const kGoogleCloudResourcePrefix = "google-cloud-resource-prefix";
+const char* const kXGoogRequestParams = "x-goog-request-params";
 
 std::string MakeString(absl::string_view view) {
   return view.data() ? std::string{view.data(), view.size()} : std::string{};
@@ -155,7 +158,7 @@ class HostConfigMap {
 };
 
 HostConfigMap& Config() {
-  static auto* config_by_host = new HostConfigMap();
+  static util::NoDestructor<HostConfigMap> config_by_host;
   return *config_by_host;
 }
 
@@ -200,7 +203,7 @@ class ClientLanguageToken {
 };
 
 ClientLanguageToken& LanguageToken() {
-  static auto* token = new ClientLanguageToken();
+  static util::NoDestructor<ClientLanguageToken> token;
   return *token;
 }
 
@@ -252,14 +255,17 @@ void GrpcConnection::Shutdown() {
 }
 
 std::unique_ptr<grpc::ClientContext> GrpcConnection::CreateContext(
-    const Token& credential) const {
-  absl::string_view token = credential.user().is_authenticated()
-                                ? credential.token()
-                                : absl::string_view{};
-
+    const AuthToken& auth_token, const std::string& app_check_token) const {
   auto context = absl::make_unique<grpc::ClientContext>();
-  if (token.data()) {
-    context->AddMetadata(kAuthorizationHeader, absl::StrCat("Bearer ", token));
+
+  absl::string_view auth = auth_token.user().is_authenticated()
+                               ? auth_token.token()
+                               : absl::string_view{};
+  if (auth.data()) {
+    context->AddMetadata(kAuthorizationHeader, absl::StrCat("Bearer ", auth));
+  }
+  if (!app_check_token.empty()) {
+    context->AddMetadata(kAppCheckHeader, app_check_token);
   }
 
   AddCloudApiHeader(*context);
@@ -268,7 +274,13 @@ std::unique_ptr<grpc::ClientContext> GrpcConnection::CreateContext(
   // This header is used to improve routing and project isolation by the
   // backend.
   const DatabaseId& db_id = database_info_->database_id();
+  // TODO(b/199767712): We are keeping this until Emulators can be released with
+  // this cl/428820046. Currently blocked because Emulators are now built with
+  // Java 11 from Google3.
   context->AddMetadata(kGoogleCloudResourcePrefix,
+                       StringFormat("projects/%s/databases/%s",
+                                    db_id.project_id(), db_id.database_id()));
+  context->AddMetadata(kXGoogRequestParams,
                        StringFormat("projects/%s/databases/%s",
                                     db_id.project_id(), db_id.database_id()));
   return context;
@@ -323,11 +335,12 @@ std::shared_ptr<grpc::Channel> GrpcConnection::CreateChannel() const {
 
 std::unique_ptr<GrpcStream> GrpcConnection::CreateStream(
     absl::string_view rpc_name,
-    const Token& token,
+    const AuthToken& auth_token,
+    const std::string& app_check_token,
     GrpcStreamObserver* observer) {
   EnsureActiveStub();
 
-  auto context = CreateContext(token);
+  auto context = CreateContext(auth_token, app_check_token);
   auto call =
       grpc_stub_->PrepareCall(context.get(), MakeString(rpc_name), grpc_queue_);
   return absl::make_unique<GrpcStream>(std::move(context), std::move(call),
@@ -336,11 +349,12 @@ std::unique_ptr<GrpcStream> GrpcConnection::CreateStream(
 
 std::unique_ptr<GrpcUnaryCall> GrpcConnection::CreateUnaryCall(
     absl::string_view rpc_name,
-    const Token& token,
+    const AuthToken& auth_token,
+    const std::string& app_check_token,
     const grpc::ByteBuffer& message) {
   EnsureActiveStub();
 
-  auto context = CreateContext(token);
+  auto context = CreateContext(auth_token, app_check_token);
   auto call = grpc_stub_->PrepareUnaryCall(context.get(), MakeString(rpc_name),
                                            message, grpc_queue_);
   return absl::make_unique<GrpcUnaryCall>(std::move(context), std::move(call),
@@ -349,11 +363,12 @@ std::unique_ptr<GrpcUnaryCall> GrpcConnection::CreateUnaryCall(
 
 std::unique_ptr<GrpcStreamingReader> GrpcConnection::CreateStreamingReader(
     absl::string_view rpc_name,
-    const Token& token,
+    const AuthToken& auth_token,
+    const std::string& app_check_token,
     const grpc::ByteBuffer& message) {
   EnsureActiveStub();
 
-  auto context = CreateContext(token);
+  auto context = CreateContext(auth_token, app_check_token);
   auto call =
       grpc_stub_->PrepareCall(context.get(), MakeString(rpc_name), grpc_queue_);
   return absl::make_unique<GrpcStreamingReader>(

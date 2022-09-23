@@ -20,5 +20,6 @@ target 'Connected' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Analytics'
   pod 'Firebase/DynamicLinks'
-
+  pod 'FirebaseStorage'
+  pod 'TransitionButton'
 end

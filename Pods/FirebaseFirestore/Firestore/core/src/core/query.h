@@ -24,6 +24,7 @@
 #include <utility>
 #include <vector>
 
+#include "Firestore/core/src/core/field_filter.h"
 #include "Firestore/core/src/core/filter.h"
 #include "Firestore/core/src/core/order_by.h"
 #include "Firestore/core/src/core/target.h"
@@ -66,8 +67,8 @@ class Query {
         OrderByList explicit_order_bys,
         int32_t limit,
         LimitType limit_type,
-        std::shared_ptr<Bound> start_at,
-        std::shared_ptr<Bound> end_at)
+        absl::optional<Bound> start_at,
+        absl::optional<Bound> end_at)
       : path_(std::move(path)),
         collection_group_(std::move(collection_group)),
         filters_(std::move(filters)),
@@ -121,8 +122,8 @@ class Query {
    * Checks if any of the provided filter operators are included in the query
    * and returns the first one that is, or null if none are.
    */
-  absl::optional<Filter::Operator> FindOperator(
-      const std::vector<Filter::Operator>& ops) const;
+  absl::optional<core::FieldFilter::Operator> FindOpInsideFilters(
+      const std::vector<core::FieldFilter::Operator>& ops) const;
 
   /**
    * Returns the list of ordering constraints that were explicitly requested on
@@ -146,6 +147,10 @@ class Query {
   /** Returns the first field in an order-by constraint, or nullptr if none. */
   const model::FieldPath* FirstOrderByField() const;
 
+  bool has_limit() const {
+    return limit_ != Target::kNoLimit;
+  }
+
   bool has_limit_to_first() const {
     return limit_type_ == LimitType::First && limit_ != Target::kNoLimit;
   }
@@ -158,11 +163,11 @@ class Query {
 
   int32_t limit() const;
 
-  const std::shared_ptr<Bound>& start_at() const {
+  const absl::optional<Bound>& start_at() const {
     return start_at_;
   }
 
-  const std::shared_ptr<Bound>& end_at() const {
+  const absl::optional<Bound>& end_at() const {
     return end_at_;
   }
 
@@ -270,8 +275,8 @@ class Query {
   int32_t limit_ = Target::kNoLimit;
   LimitType limit_type_ = LimitType::None;
 
-  std::shared_ptr<Bound> start_at_;
-  std::shared_ptr<Bound> end_at_;
+  absl::optional<Bound> start_at_;
+  absl::optional<Bound> end_at_;
 
   // The corresponding Target of this Query instance.
   mutable std::shared_ptr<const Target> memoized_target;
