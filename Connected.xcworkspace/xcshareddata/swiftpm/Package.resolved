@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "dswaveformimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dmrschmidt/DSWaveformImage",
+      "state" : {
+        "revision" : "9eb57769aab17006d9035828dafb9159c3cf6ce9",
+        "version" : "10.1.2"
+      }
+    },
+    {
+      "identity" : "partialsheet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AndreaMiotto/PartialSheet",
+      "state" : {
+        "revision" : "318f18bfabd2b2ddf785babd2e53bd593c00a254",
+        "version" : "3.1.0"
+      }
+    }
+  ],
+  "version" : 2
+}
