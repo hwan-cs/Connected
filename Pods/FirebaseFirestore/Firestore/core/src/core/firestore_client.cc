@@ -27,13 +27,13 @@
 #include "Firestore/core/src/api/query_core.h"
 #include "Firestore/core/src/api/query_snapshot.h"
 #include "Firestore/core/src/api/settings.h"
-#include "Firestore/core/src/auth/credentials_provider.h"
 #include "Firestore/core/src/bundle/bundle_reader.h"
 #include "Firestore/core/src/core/database_info.h"
 #include "Firestore/core/src/core/event_manager.h"
 #include "Firestore/core/src/core/query_listener.h"
 #include "Firestore/core/src/core/sync_engine.h"
 #include "Firestore/core/src/core/view.h"
+#include "Firestore/core/src/credentials/credentials_provider.h"
 #include "Firestore/core/src/local/leveldb_opener.h"
 #include "Firestore/core/src/local/leveldb_persistence.h"
 #include "Firestore/core/src/local/local_documents_view.h"
@@ -43,7 +43,9 @@
 #include "Firestore/core/src/local/query_engine.h"
 #include "Firestore/core/src/local/query_result.h"
 #include "Firestore/core/src/model/database_id.h"
+#include "Firestore/core/src/model/document.h"
 #include "Firestore/core/src/model/document_set.h"
+#include "Firestore/core/src/model/field_index.h"
 #include "Firestore/core/src/model/mutation.h"
 #include "Firestore/core/src/remote/connectivity_monitor.h"
 #include "Firestore/core/src/remote/datastore.h"
@@ -71,8 +73,8 @@ using api::QuerySnapshot;
 using api::QuerySnapshotListener;
 using api::Settings;
 using api::SnapshotMetadata;
-using auth::CredentialsProvider;
-using auth::User;
+using credentials::AuthCredentialsProvider;
+using credentials::User;
 using firestore::Error;
 using local::LevelDbOpener;
 using local::LocalStore;
@@ -82,7 +84,8 @@ using local::QueryEngine;
 using local::QueryResult;
 using model::Document;
 using model::DocumentKeySet;
-using model::MaybeDocument;
+using model::DocumentMap;
+using model::FieldIndex;
 using model::Mutation;
 using model::OnlineState;
 using remote::ConnectivityMonitor;
@@ -100,18 +103,34 @@ using util::StatusOrCallback;
 using util::ThrowIllegalState;
 using util::TimerId;
 
+namespace {
+
 static const size_t kMaxConcurrentLimboResolutions = 100;
+
+static const auto kInitialGCDelay = std::chrono::minutes(1);
+static const auto kRegularGCDelay = std::chrono::minutes(5);
+
+/** How long we wait to try running index backfill after SDK initialization. */
+static const auto kInitialBackfillDelay = std::chrono::seconds(15);
+/** Minimum amount of time between backfill checks, after the first one. */
+static const auto kRegularBackfillDelay = std::chrono::minutes(1);
+
+}  // namespace
 
 std::shared_ptr<FirestoreClient> FirestoreClient::Create(
     const DatabaseInfo& database_info,
     const api::Settings& settings,
-    std::shared_ptr<CredentialsProvider> credentials_provider,
+    std::shared_ptr<credentials::AuthCredentialsProvider>
+        auth_credentials_provider,
+    std::shared_ptr<credentials::AppCheckCredentialsProvider>
+        app_check_credentials_provider,
     std::shared_ptr<Executor> user_executor,
     std::shared_ptr<AsyncQueue> worker_queue,
     std::unique_ptr<FirebaseMetadataProvider> firebase_metadata_provider) {
   // Have to use `new` because `make_shared` cannot access private constructor.
   std::shared_ptr<FirestoreClient> shared_client(new FirestoreClient(
-      database_info, std::move(credentials_provider), std::move(user_executor),
+      database_info, std::move(auth_credentials_provider),
+      std::move(app_check_credentials_provider), std::move(user_executor),
       std::move(worker_queue), std::move(firebase_metadata_provider)));
 
   std::weak_ptr<FirestoreClient> weak_client(shared_client);
@@ -139,7 +158,12 @@ std::shared_ptr<FirestoreClient> FirestoreClient::Create(
     }
   };
 
-  shared_client->credentials_provider_->SetCredentialChangeListener(
+  shared_client->app_check_credentials_provider_->SetCredentialChangeListener(
+      [](std::string) {
+        // Register an empty credentials change listener to activate token
+        // refresh.
+      });
+  shared_client->auth_credentials_provider_->SetCredentialChangeListener(
       credential_change_listener);
 
   HARD_ASSERT(
@@ -151,12 +175,17 @@ std::shared_ptr<FirestoreClient> FirestoreClient::Create(
 
 FirestoreClient::FirestoreClient(
     const DatabaseInfo& database_info,
-    std::shared_ptr<CredentialsProvider> credentials_provider,
+    std::shared_ptr<credentials::AuthCredentialsProvider>
+        auth_credentials_provider,
+    std::shared_ptr<credentials::AppCheckCredentialsProvider>
+        app_check_credentials_provider,
     std::shared_ptr<Executor> user_executor,
     std::shared_ptr<AsyncQueue> worker_queue,
     std::unique_ptr<FirebaseMetadataProvider> firebase_metadata_provider)
     : database_info_(database_info),
-      credentials_provider_(std::move(credentials_provider)),
+      app_check_credentials_provider_(
+          std::move(app_check_credentials_provider)),
+      auth_credentials_provider_(std::move(auth_credentials_provider)),
       worker_queue_(std::move(worker_queue)),
       user_executor_(std::move(user_executor)),
       firebase_metadata_provider_(std::move(firebase_metadata_provider)) {
@@ -198,8 +227,9 @@ void FirestoreClient::Initialize(const User& user, const Settings& settings) {
                                                query_engine_.get(), user);
   connectivity_monitor_ = ConnectivityMonitor::Create(worker_queue_);
   auto datastore = std::make_shared<Datastore>(
-      database_info_, worker_queue_, credentials_provider_,
-      connectivity_monitor_.get(), firebase_metadata_provider_.get());
+      database_info_, worker_queue_, auth_credentials_provider_,
+      app_check_credentials_provider_, connectivity_monitor_.get(),
+      firebase_metadata_provider_.get());
 
   remote_store_ = absl::make_unique<RemoteStore>(
       local_store_.get(), std::move(datastore), worker_queue_,
@@ -220,6 +250,8 @@ void FirestoreClient::Initialize(const User& user, const Settings& settings) {
   // refilling mutation queue, etc.) so must be started after LocalStore.
   local_store_->Start();
   remote_store_->Start();
+
+  ScheduleIndexBackfiller();
 }
 
 FirestoreClient::~FirestoreClient() {
@@ -271,11 +303,16 @@ void FirestoreClient::TerminateAsync(StatusCallback callback) {
 void FirestoreClient::TerminateInternal() {
   if (!remote_store_) return;
 
-  credentials_provider_->SetCredentialChangeListener(nullptr);
-  credentials_provider_.reset();
+  app_check_credentials_provider_->SetCredentialChangeListener(nullptr);
+  app_check_credentials_provider_.reset();
+
+  auth_credentials_provider_->SetCredentialChangeListener(nullptr);
+  auth_credentials_provider_.reset();
 
   // If we've scheduled LRU garbage collection, cancel it.
   lru_callback_.Cancel();
+
+  backfiller_callback_.Cancel();
 
   remote_store_->Shutdown();
   persistence_->Shutdown();
@@ -288,19 +325,27 @@ void FirestoreClient::TerminateInternal() {
   remote_store_.reset();
 }
 
-/**
- * Schedules a callback to try running LRU garbage collection. Reschedules
- * itself after the GC has run.
- */
 void FirestoreClient::ScheduleLruGarbageCollection() {
   std::chrono::milliseconds delay =
-      gc_has_run_ ? regular_gc_delay_ : initial_gc_delay_;
+      gc_has_run_ ? kRegularGCDelay : kInitialGCDelay;
 
   lru_callback_ = worker_queue_->EnqueueAfterDelay(
       delay, TimerId::GarbageCollectionDelay, [this] {
         local_store_->CollectGarbage(lru_delegate_->garbage_collector());
         gc_has_run_ = true;
         ScheduleLruGarbageCollection();
+      });
+}
+
+void FirestoreClient::ScheduleIndexBackfiller() {
+  std::chrono::milliseconds delay =
+      backfiller_has_run_ ? kRegularBackfillDelay : kInitialBackfillDelay;
+
+  backfiller_callback_ = worker_queue_->EnqueueAfterDelay(
+      delay, TimerId::IndexBackfillDelay, [this] {
+        local_store_->Backfill();
+        backfiller_has_run_ = true;
+        ScheduleIndexBackfiller();
       });
 }
 
@@ -388,17 +433,15 @@ void FirestoreClient::GetDocumentFromLocalCache(
   // TODO(c++14): move `callback` into lambda.
   auto shared_callback = absl::ShareUniquePtr(std::move(callback));
   worker_queue_->Enqueue([this, doc, shared_callback] {
-    absl::optional<MaybeDocument> maybe_document =
-        local_store_->ReadDocument(doc.key());
+    Document document = local_store_->ReadDocument(doc.key());
     StatusOr<DocumentSnapshot> maybe_snapshot;
 
-    if (maybe_document && maybe_document->is_document()) {
-      Document document(*maybe_document);
+    if (document->is_found_document()) {
       maybe_snapshot = DocumentSnapshot::FromDocument(
           doc.firestore(), document,
-          SnapshotMetadata{/*pending_writes=*/document.has_local_mutations(),
+          SnapshotMetadata{document->has_local_mutations(),
                            /*from_cache=*/true});
-    } else if (maybe_document && maybe_document->is_no_document()) {
+    } else if (document->is_no_document()) {
       maybe_snapshot = DocumentSnapshot::FromNoDocument(
           doc.firestore(), doc.key(),
           SnapshotMetadata{/*pending_writes=*/false,
@@ -430,7 +473,7 @@ void FirestoreClient::GetDocumentsFromLocalCache(
 
     View view(query.query(), query_result.remote_keys());
     ViewDocumentChanges view_doc_changes =
-        view.ComputeDocumentChanges(query_result.documents().underlying_map());
+        view.ComputeDocumentChanges(query_result.documents());
     ViewChange view_change = view.ApplyChanges(view_doc_changes);
     HARD_ASSERT(
         view_change.limbo_changes().empty(),
@@ -474,7 +517,7 @@ void FirestoreClient::WriteMutations(std::vector<Mutation>&& mutations,
   });
 }
 
-void FirestoreClient::Transaction(int retries,
+void FirestoreClient::Transaction(int max_attempts,
                                   TransactionUpdateCallback update_callback,
                                   TransactionResultCallback result_callback) {
   VerifyNotTerminated();
@@ -486,8 +529,8 @@ void FirestoreClient::Transaction(int retries,
     }
   };
 
-  worker_queue_->Enqueue([this, retries, update_callback, async_callback] {
-    sync_engine_->Transaction(retries, worker_queue_,
+  worker_queue_->Enqueue([this, max_attempts, update_callback, async_callback] {
+    sync_engine_->Transaction(max_attempts, worker_queue_,
                               std::move(update_callback),
                               std::move(async_callback));
   });
@@ -504,6 +547,14 @@ void FirestoreClient::RemoveSnapshotsInSyncListener(
     const std::shared_ptr<EventListener<Empty>>& user_listener) {
   worker_queue_->Enqueue([this, user_listener] {
     event_manager_->RemoveSnapshotsInSyncListener(user_listener);
+  });
+}
+
+void FirestoreClient::ConfigureFieldIndexes(
+    std::vector<FieldIndex> parsed_indexes) {
+  VerifyNotTerminated();
+  worker_queue_->Enqueue([this, parsed_indexes] {
+    local_store_->ConfigureFieldIndexes(std::move(parsed_indexes));
   });
 }
 

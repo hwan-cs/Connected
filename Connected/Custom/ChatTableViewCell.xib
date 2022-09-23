@@ -109,6 +109,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="messageView" destination="ap1-Ed-My4" id="aYQ-wP-gDw"/>
+                <outlet property="waveFormImageView" destination="d1v-jc-2ZH" id="UWb-we-UM7"/>
             </connections>
             <point key="canvasLocation" x="135.38461538461539" y="22.748815165876778"/>
         </tableViewCell>

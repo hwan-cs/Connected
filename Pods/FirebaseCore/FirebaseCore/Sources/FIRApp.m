@@ -22,6 +22,10 @@
 #import <AppKit/AppKit.h>
 #endif
 
+#if __has_include(<WatchKit/WatchKit.h>)
+#import <WatchKit/WatchKit.h>
+#endif
+
 #import "FirebaseCore/Sources/Public/FirebaseCore/FIRApp.h"
 
 #import "FirebaseCore/Sources/FIRAnalyticsConfiguration.h"
@@ -30,11 +34,12 @@
 #import "FirebaseCore/Sources/FIRConfigurationInternal.h"
 #import "FirebaseCore/Sources/FIRFirebaseUserAgent.h"
 
-#import "FirebaseCore/Sources/Private/FIRAppInternal.h"
-#import "FirebaseCore/Sources/Private/FIRCoreDiagnosticsConnector.h"
-#import "FirebaseCore/Sources/Private/FIRLibrary.h"
-#import "FirebaseCore/Sources/Private/FIRLogger.h"
-#import "FirebaseCore/Sources/Private/FIROptionsInternal.h"
+#import "FirebaseCore/Extension/FIRAppInternal.h"
+#import "FirebaseCore/Extension/FIRCoreDiagnosticsConnector.h"
+#import "FirebaseCore/Extension/FIRHeartbeatLogger.h"
+#import "FirebaseCore/Extension/FIRLibrary.h"
+#import "FirebaseCore/Extension/FIRLogger.h"
+#import "FirebaseCore/Extension/FIROptionsInternal.h"
 #import "FirebaseCore/Sources/Public/FirebaseCore/FIRVersion.h"
 
 #import <GoogleUtilities/GULAppEnvironmentUtil.h>
@@ -135,12 +140,6 @@ static FIRApp *sDefaultApp;
                        kPlistURL];
   }
   [FIRApp configureWithOptions:options];
-#if TARGET_OS_OSX || TARGET_OS_TV
-  FIRLogNotice(kFIRLoggerCore, @"I-COR000028",
-               @"tvOS and macOS SDK support is not part of the official Firebase product. "
-               @"Instead they are community supported. Details at "
-               @"https://github.com/firebase/firebase-ios-sdk/blob/master/README.md.");
-#endif
 }
 
 + (void)configureWithOptions:(FIROptions *)options {
@@ -198,6 +197,12 @@ static FIRApp *sDefaultApp;
 
     FIRLogDebug(kFIRLoggerCore, @"I-COR000002", @"Configuring app named %@", name);
   }
+
+  // Default instantiation, make sure we populate with Swift SDKs that can't register in time.
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    [self registerSwiftComponents];
+  });
 
   @synchronized(self) {
     FIRApp *app = [[FIRApp alloc] initInstanceWithName:name options:options];
@@ -338,6 +343,7 @@ static FIRApp *sDefaultApp;
     _options.editingLocked = YES;
     _isDefaultApp = [name isEqualToString:kFIRDefaultAppName];
     _container = [[FIRComponentContainer alloc] initWithApp:self];
+    _heartbeatLogger = [[FIRHeartbeatLogger alloc] initWithAppID:self.options.googleAppID];
   }
   return self;
 }
@@ -830,6 +836,38 @@ static FIRApp *sDefaultApp;
   return collectionEnabledPlistObject;
 }
 
+#pragma mark - Swift Components.
+
++ (void)registerSwiftComponents {
+  SEL componentsToRegisterSEL = @selector(componentsToRegister);
+  // Dictionary of class names that conform to `FIRLibrary` and their user agents. These should only
+  // be SDKs that are written in Swift but still visible to ObjC.
+  NSDictionary<NSString *, NSString *> *swiftComponents = @{
+    @"FIRFunctionsComponent" : @"fire-fun",
+    @"FIRStorageComponent" : @"fire-str",
+  };
+  for (NSString *className in swiftComponents.allKeys) {
+    Class klass = NSClassFromString(className);
+    if (klass && [klass respondsToSelector:componentsToRegisterSEL]) {
+      [FIRApp registerInternalLibrary:klass withName:swiftComponents[className]];
+    }
+  }
+
+  // Swift libraries that don't need component behaviour
+  NSDictionary<NSString *, NSString *> *swiftLibraries = @{
+    @"FIRCombineAuthLibrary" : @"comb-auth",
+    @"FIRCombineFirestoreLibrary" : @"comb-firestore",
+    @"FIRCombineFunctionsLibrary" : @"comb-functions",
+    @"FIRCombineStorageLibrary" : @"comb-storage",
+  };
+  for (NSString *className in swiftLibraries.allKeys) {
+    Class klass = NSClassFromString(className);
+    if (klass) {
+      [FIRApp registerLibrary:swiftLibraries[className] withVersion:FIRFirebaseVersion()];
+    }
+  }
+}
+
 #pragma mark - App Life Cycle
 
 - (void)subscribeForAppDidBecomeActiveNotifications {
@@ -837,14 +875,23 @@ static FIRApp *sDefaultApp;
   NSNotificationName notificationName = UIApplicationDidBecomeActiveNotification;
 #elif TARGET_OS_OSX
   NSNotificationName notificationName = NSApplicationDidBecomeActiveNotification;
+#elif TARGET_OS_WATCH
+  // TODO(ncooke3): Remove when minimum supported watchOS version is watchOS 7.0.
+  // On watchOS 7.0+, heartbeats are logged when the watch app becomes active.
+  // On watchOS 6.0, heartbeats are logged when the Firebase app is configuring.
+  // While it does not cover all use cases, logging when the Firebase app is
+  // configuring is done because watchOS lifecycle notifications are a
+  // watchOS 7.0+ feature.
+  NSNotificationName notificationName = kFIRAppReadyToConfigureSDKNotification;
+  if (@available(watchOS 7.0, *)) {
+    notificationName = WKApplicationDidBecomeActiveNotification;
+  }
 #endif
 
-#if !TARGET_OS_WATCH
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(appDidBecomeActive:)
                                                name:notificationName
                                              object:nil];
-#endif
 }
 
 - (void)appDidBecomeActive:(NSNotification *)notification {
@@ -853,6 +900,8 @@ static FIRApp *sDefaultApp;
 
 - (void)logCoreTelemetryIfEnabled {
   if ([self isDataCollectionDefaultEnabled]) {
+    [self.heartbeatLogger log];
+    // TODO(ncooke3): Remove below code when CoreDiagnostics is removed.
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
       [FIRCoreDiagnosticsConnector logCoreTelemetryWithOptions:[self options]];
     });
