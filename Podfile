@@ -18,7 +18,6 @@ target 'Connected' do
   pod 'TweeTextField'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
-  pod 'Firebase/Analytics'
   pod 'Firebase/DynamicLinks'
   pod 'FirebaseStorage'
   pod 'TransitionButton'

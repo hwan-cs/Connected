@@ -20,7 +20,6 @@
 #include <ostream>
 
 #include "Firestore/core/src/core/bound.h"
-#include "Firestore/core/src/core/field_filter.h"
 #include "Firestore/core/src/core/operator.h"
 #include "Firestore/core/src/model/document.h"
 #include "Firestore/core/src/model/document_key.h"
@@ -37,7 +36,7 @@ namespace firebase {
 namespace firestore {
 namespace core {
 
-using Operator = Filter::Operator;
+using Operator = FieldFilter::Operator;
 using Type = Filter::Type;
 
 using model::Document;
@@ -69,21 +68,21 @@ bool Query::MatchesAllDocuments() const {
 }
 
 const FieldPath* Query::InequalityFilterField() const {
-  for (const auto& filter : filters_) {
-    if (filter.IsInequality()) {
-      return &filter.field();
+  for (const Filter& filter : filters_) {
+    const FieldPath* found = filter.GetFirstInequalityField();
+    if (found) {
+      return found;
     }
   }
   return nullptr;
 }
 
-absl::optional<Operator> Query::FindOperator(
+absl::optional<Operator> Query::FindOpInsideFilters(
     const std::vector<Operator>& ops) const {
   for (const auto& filter : filters_) {
-    if (filter.IsAFieldFilter()) {
-      FieldFilter relation_filter(filter);
-      if (absl::c_linear_search(ops, relation_filter.op())) {
-        return relation_filter.op();
+    for (const auto& field_filter : filter.GetFlattenedFilters()) {
+      if (absl::c_linear_search(ops, field_filter.op())) {
+        return field_filter.op();
       }
     }
   }
@@ -163,16 +162,15 @@ int32_t Query::limit() const {
 Query Query::AddingFilter(Filter filter) const {
   HARD_ASSERT(!IsDocumentQuery(), "No filter is allowed for document query");
 
-  const FieldPath* new_inequality_field = nullptr;
-  if (filter.IsInequality()) {
-    new_inequality_field = &filter.field();
-  }
+  const FieldPath* new_inequality_field = filter.GetFirstInequalityField();
   const FieldPath* query_inequality_field = InequalityFilterField();
   HARD_ASSERT(!query_inequality_field || !new_inequality_field ||
                   *query_inequality_field == *new_inequality_field,
               "Query must only have one inequality field.");
 
-  // TODO(rsgowman): ensure first orderby must match inequality field
+  HARD_ASSERT(explicit_order_bys_.empty() || !new_inequality_field ||
+                  explicit_order_bys_[0].field() == *new_inequality_field,
+              "First orderBy must match inequality field");
 
   return Query(path_, collection_group_, filters_.push_back(std::move(filter)),
                explicit_order_bys_, limit_, limit_type_, start_at_, end_at_);
@@ -204,13 +202,12 @@ Query Query::WithLimitToLast(int32_t limit) const {
 
 Query Query::StartingAt(Bound bound) const {
   return Query(path_, collection_group_, filters_, explicit_order_bys_, limit_,
-               limit_type_, std::make_shared<Bound>(std::move(bound)), end_at_);
+               limit_type_, std::move(bound), end_at_);
 }
 
 Query Query::EndingAt(Bound bound) const {
   return Query(path_, collection_group_, filters_, explicit_order_bys_, limit_,
-               limit_type_, start_at_,
-               std::make_shared<Bound>(std::move(bound)));
+               limit_type_, start_at_, std::move(bound));
 }
 
 Query Query::AsCollectionQueryAtPath(ResourcePath path) const {
@@ -221,16 +218,16 @@ Query Query::AsCollectionQueryAtPath(ResourcePath path) const {
 // MARK: - Matching
 
 bool Query::Matches(const Document& doc) const {
-  return MatchesPathAndCollectionGroup(doc) && MatchesOrderBy(doc) &&
-         MatchesFilters(doc) && MatchesBounds(doc);
+  return doc->is_found_document() && MatchesPathAndCollectionGroup(doc) &&
+         MatchesOrderBy(doc) && MatchesFilters(doc) && MatchesBounds(doc);
 }
 
 bool Query::MatchesPathAndCollectionGroup(const Document& doc) const {
-  const ResourcePath& doc_path = doc.key().path();
+  const ResourcePath& doc_path = doc->key().path();
   if (collection_group_) {
     // NOTE: path_ is currently always empty since we don't expose Collection
     // Group queries rooted at a document path yet.
-    return doc.key().HasCollectionId(*collection_group_) &&
+    return doc->key().HasCollectionGroup(*collection_group_) &&
            path_.IsPrefixOf(doc_path);
   } else if (DocumentKey::IsDocumentKey(path_)) {
     // Exact match for document queries.
@@ -253,7 +250,7 @@ bool Query::MatchesOrderBy(const Document& doc) const {
     const FieldPath& field_path = order_by.field();
     // order by key always matches
     if (field_path != FieldPath::KeyFieldPath() &&
-        doc.field(field_path) == absl::nullopt) {
+        doc->field(field_path) == absl::nullopt) {
       return false;
     }
   }
@@ -265,7 +262,7 @@ bool Query::MatchesBounds(const Document& doc) const {
   if (start_at_ && !start_at_->SortsBeforeDocument(ordering, doc)) {
     return false;
   }
-  if (end_at_ && end_at_->SortsBeforeDocument(ordering, doc)) {
+  if (end_at_ && !end_at_->SortsAfterDocument(ordering, doc)) {
     return false;
   }
   return true;
@@ -281,8 +278,10 @@ model::DocumentComparator Query::Comparator() const {
       break;
     }
   }
-  HARD_ASSERT(has_key_ordering,
-              "QueryComparator needs to have a key ordering.");
+
+  if (!has_key_ordering) {
+    HARD_FAIL("QueryComparator needs to have a key ordering: %s", ToString());
+  }
 
   return DocumentComparator(
       [ordering](const Document& doc1, const Document& doc2) {
@@ -323,14 +322,14 @@ const Target& Query::ToTarget() const& {
       }
 
       // We need to swap the cursors to match the now-flipped query ordering.
-      auto new_start_at =
-          (end_at_ != nullptr)
-              ? std::make_shared<Bound>(end_at_->position(), !end_at_->before())
-              : nullptr;
-      auto new_end_at = (start_at_ != nullptr)
-                            ? std::make_shared<Bound>(start_at_->position(),
-                                                      !start_at_->before())
-                            : nullptr;
+      auto new_start_at = end_at_
+                              ? absl::optional<Bound>{Bound::FromValue(
+                                    end_at_->position(), end_at_->inclusive())}
+                              : absl::nullopt;
+      auto new_end_at =
+          start_at_ ? absl::optional<Bound>{Bound::FromValue(
+                          start_at_->position(), start_at_->inclusive())}
+                    : absl::nullopt;
 
       Target target(path(), collection_group(), filters(), new_order_bys,
                     limit_, new_start_at, new_end_at);
