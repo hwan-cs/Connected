@@ -19,6 +19,7 @@ class ChatViewController: UIViewController
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableHeaderView?.backgroundColor = .clear
         tableView.register(UINib(nibName: K.myChatCellNibName, bundle: nil), forCellReuseIdentifier: K.myChatCellID)
         tableView.register(UINib(nibName: K.yourChatCellNibName, bundle: nil), forCellReuseIdentifier: K.yourChatCellID)
         
@@ -56,4 +57,18 @@ extension ChatViewController: UITableViewDataSource
     {
         5
     }
+    
+//    // Set the spacing between sections
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
+//    {
+//        return 10
+//    }
+//
+//    // Make the background color show through
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+//    {
+//        let headerView = UIView()
+//        headerView.backgroundColor = UIColor.clear
+//        return headerView
+//    }
 }

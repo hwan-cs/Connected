@@ -6,3 +6,14 @@
 //
 
 import Foundation
+import Combine
+
+class UserViewModel: ObservableObject
+{
+    var userName: String?
+    
+    init()
+    {
+        print("User Viewmodel init")
+    }
+}
