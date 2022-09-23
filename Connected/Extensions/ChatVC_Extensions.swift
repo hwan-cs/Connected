@@ -16,7 +16,7 @@ extension ChatViewController
     {
         print("ChatVC - setBindings()")
         self.userViewModel.$audioURLArray.sink
-        { (updatedArray:[AVURLAsset]) in
+        { (updatedArray:[String]) in
             print("ChatVC - audioURL count: \(updatedArray.count)")
             self.audioURLArray = updatedArray
             self.tableView.reloadData()

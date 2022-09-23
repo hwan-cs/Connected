@@ -21,7 +21,7 @@ class ChatViewController: UIViewController
     
     var disposableBag = Set<AnyCancellable>()
     
-    var audioURLArray: [AVURLAsset] = []
+    var audioURLArray: [String] = []
     
     override func viewDidLoad()
     {
@@ -56,45 +56,32 @@ extension ChatViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
+        var audio: URL?
+        let task = URLSession.shared.downloadTask(with: URL(string: self.audioURLArray[indexPath.row])!)
+        { downloadedURL, urlResponse, error in
+            guard let downloadedURL = downloadedURL else { return }
+
+            let cachesFolderURL = try? FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            let audioFileURL = cachesFolderURL!.appendingPathComponent("yourLocalAudioFile.m4a")
+            try? FileManager.default.copyItem(at: downloadedURL, to: audioFileURL)
+            audio = audioFileURL
+        }
+        task.resume()
+        
+        print(audio!)
         if indexPath.row % 2 == 0
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
-            let waveFormAnalyzer = WaveformAnalyzer(audioAssetURL: AVURLAsset(url: self.audioURLArray[indexPath.row]))
-            WaveformImageDrawer().waveformImage(
-                fromAudioAt: waveFormAnalyzer?.samples(count: 100), with: .init(
-                    size: cell.waveFormImageView.bounds.size,
-                    style: .gradient([
-                                    UIColor(red: 255/255.0, green: 159/255.0, blue: 28/255.0, alpha: 1),
-                                    UIColor(red: 255/255.0, green: 191/255.0, blue: 105/255.0, alpha: 1),
-                                    UIColor.red]),
-                    dampening: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
-                    position: .top,
-                    verticalScalingFactor: 2))
-            { image in
-                DispatchQueue.main.async
-                {
-                    cell.waveFormImageView.image = image
-                }
+            DispatchQueue.main.async
+            {
+                cell.waveFormImageView.waveformAudioURL = audio!
             }
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
-        let waveFormAnalyzer = WaveformAnalyzer(audioAssetURL: AVAssetReader(asset: AVAsset(url: self.audioURLArray[indexPath.row])))
-        WaveformImageDrawer().waveformImage(
-            fromAudioAt: (waveFormAnalyzer?.samples(count: 100))!, with: .init(
-                size: cell.waveFormImageView.bounds.size,
-                style: .gradient([
-                                UIColor(red: 255/255.0, green: 159/255.0, blue: 28/255.0, alpha: 1),
-                                UIColor(red: 255/255.0, green: 191/255.0, blue: 105/255.0, alpha: 1),
-                                UIColor.red]),
-                dampening: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
-                position: .top,
-                verticalScalingFactor: 2))
-        { image in
-            DispatchQueue.main.async
-            {
-                cell.waveFormImageView.image = image
-            }
+        DispatchQueue.main.async
+        {
+            cell.waveFormImageView.waveformAudioURL = audio!
         }
         return cell
     }

@@ -18,7 +18,7 @@ class UserViewModel: ObservableObject
     
     var userName: String?
      
-    @Published var audioURLArray: [AVURLAsset] = []
+    @Published var audioURLArray: [String] = []
     
     init()
     {
@@ -35,7 +35,7 @@ class UserViewModel: ObservableObject
                 else
                 {
                     print(url!.absoluteString)
-                    self.audioURLArray.append(AVURLAsset(url: url!.absoluteURL))
+                    self.audioURLArray.append(url!.absoluteString)
                 }
             }
         }

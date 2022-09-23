@@ -31,7 +31,7 @@ extern NSString *const FIRPhoneMultiFactorID;
   self = [super initWithProto:proto];
   if (self) {
     _factorID = FIRPhoneMultiFactorID;
-    _phoneNumber = proto.phoneInfo;
+    _phoneNumber = proto.MFAValue;
   }
   return self;
 }

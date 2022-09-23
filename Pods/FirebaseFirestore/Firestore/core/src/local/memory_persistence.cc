@@ -16,10 +16,9 @@
 
 #include "Firestore/core/src/local/memory_persistence.h"
 
-#include "Firestore/core/src/credentials/user.h"
+#include "Firestore/core/src/auth/user.h"
 #include "Firestore/core/src/local/listen_sequence.h"
 #include "Firestore/core/src/local/lru_garbage_collector.h"
-#include "Firestore/core/src/local/memory_document_overlay_cache.h"
 #include "Firestore/core/src/local/memory_eager_reference_delegate.h"
 #include "Firestore/core/src/local/memory_index_manager.h"
 #include "Firestore/core/src/local/memory_lru_reference_delegate.h"
@@ -35,7 +34,7 @@ namespace firebase {
 namespace firestore {
 namespace local {
 
-using credentials::User;
+using auth::User;
 using model::ListenSequenceNumber;
 
 std::unique_ptr<MemoryPersistence>
@@ -57,10 +56,7 @@ std::unique_ptr<MemoryPersistence> MemoryPersistence::WithLruGarbageCollector(
 }
 
 MemoryPersistence::MemoryPersistence()
-    : target_cache_(this),
-      remote_document_cache_(this),
-      overlay_migration_manager_(),
-      started_(true) {
+    : target_cache_(this), remote_document_cache_(this), started_(true) {
 }
 
 MemoryPersistence::~MemoryPersistence() = default;
@@ -80,11 +76,11 @@ void MemoryPersistence::Shutdown() {
   started_ = false;
 }
 
-MemoryMutationQueue* MemoryPersistence::GetMutationQueue(const User& user,
-                                                         IndexManager*) {
+MemoryMutationQueue* MemoryPersistence::GetMutationQueueForUser(
+    const User& user) {
   auto iter = mutation_queues_.find(user);
   if (iter == mutation_queues_.end()) {
-    auto queue = absl::make_unique<MemoryMutationQueue>(this, user);
+    auto queue = absl::make_unique<MemoryMutationQueue>(this);
     MemoryMutationQueue* result = queue.get();
 
     mutation_queues_.emplace(user, std::move(queue));
@@ -102,40 +98,16 @@ MemoryBundleCache* MemoryPersistence::bundle_cache() {
   return &bundle_cache_;
 }
 
-MemoryDocumentOverlayCache* MemoryPersistence::GetDocumentOverlayCache(
-    const User& user) {
-  auto iter = document_overlay_caches_.find(user);
-  if (iter == document_overlay_caches_.end()) {
-    auto document_overlay_cache =
-        absl::make_unique<MemoryDocumentOverlayCache>();
-    MemoryDocumentOverlayCache* result = document_overlay_cache.get();
-
-    document_overlay_caches_.emplace(user, std::move(document_overlay_cache));
-    return result;
-  } else {
-    return iter->second.get();
-  }
-}
-
-OverlayMigrationManager* MemoryPersistence::GetOverlayMigrationManager(
-    const credentials::User&) {
-  return &overlay_migration_manager_;
-}
-
 MemoryRemoteDocumentCache* MemoryPersistence::remote_document_cache() {
   return &remote_document_cache_;
 }
 
-MemoryIndexManager* MemoryPersistence::GetIndexManager(
-    const credentials::User&) {
+MemoryIndexManager* MemoryPersistence::index_manager() {
   return &index_manager_;
 }
 
 ReferenceDelegate* MemoryPersistence::reference_delegate() {
   return reference_delegate_.get();
-}
-
-void MemoryPersistence::ReleaseOtherUserSpecificComponents(const std::string&) {
 }
 
 void MemoryPersistence::RunInternal(absl::string_view label,

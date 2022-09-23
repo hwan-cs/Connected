@@ -22,7 +22,6 @@
 #include "Firestore/core/src/core/firestore_client.h"
 #include "Firestore/core/src/core/query_listener.h"
 #include "Firestore/core/src/core/view_snapshot.h"
-#include "absl/synchronization/mutex.h"
 
 namespace firebase {
 namespace firestore {
@@ -39,8 +38,6 @@ QueryListenerRegistration::QueryListenerRegistration(
 }
 
 void QueryListenerRegistration::Remove() {
-  absl::MutexLock lock(&mutex_);
-
   auto async_listener = async_listener_.lock();
   if (async_listener) {
     async_listener->Mute();

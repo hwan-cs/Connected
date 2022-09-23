@@ -26,7 +26,6 @@
 #include "Firestore/core/src/bundle/bundle_serializer.h"
 #include "Firestore/core/src/core/core_fwd.h"
 #include "Firestore/core/src/core/database_info.h"
-#include "Firestore/core/src/credentials/credentials_fwd.h"
 #include "Firestore/core/src/model/database_id.h"
 #include "Firestore/core/src/util/async_queue.h"
 #include "Firestore/core/src/util/byte_stream.h"
@@ -39,6 +38,11 @@
 namespace firebase {
 namespace firestore {
 
+namespace auth {
+class CredentialsProvider;
+class User;
+}  // namespace auth
+
 namespace local {
 class LocalStore;
 class LruDelegate;
@@ -48,7 +52,6 @@ class QueryEngine;
 
 namespace model {
 class Mutation;
-class FieldIndex;
 }  // namespace model
 
 namespace remote {
@@ -77,10 +80,7 @@ class FirestoreClient : public std::enable_shared_from_this<FirestoreClient> {
   static std::shared_ptr<FirestoreClient> Create(
       const DatabaseInfo& database_info,
       const api::Settings& settings,
-      std::shared_ptr<credentials::AuthCredentialsProvider>
-          auth_credentials_provider,
-      std::shared_ptr<credentials::AppCheckCredentialsProvider>
-          app_check_credentials_provider,
+      std::shared_ptr<auth::CredentialsProvider> credentials_provider,
       std::shared_ptr<util::Executor> user_executor,
       std::shared_ptr<util::AsyncQueue> worker_queue,
       std::unique_ptr<remote::FirebaseMetadataProvider>
@@ -144,10 +144,9 @@ class FirestoreClient : public std::enable_shared_from_this<FirestoreClient> {
                       util::StatusCallback callback);
 
   /**
-   * Tries to execute the transaction in update_callback up to max_attempts
-   * times.
+   * Tries to execute the transaction in update_callback up to retries times.
    */
-  void Transaction(int max_attempts,
+  void Transaction(int retries,
                    TransactionUpdateCallback update_callback,
                    TransactionResultCallback result_callback);
 
@@ -177,8 +176,6 @@ class FirestoreClient : public std::enable_shared_from_this<FirestoreClient> {
     return user_executor_;
   }
 
-  void ConfigureFieldIndexes(std::vector<model::FieldIndex> parsed_indexes);
-
   void LoadBundle(std::unique_ptr<util::ByteStream> bundle_data,
                   std::shared_ptr<api::LoadBundleTask> result_task);
 
@@ -191,39 +188,24 @@ class FirestoreClient : public std::enable_shared_from_this<FirestoreClient> {
   bool is_terminated() const;
 
  private:
-  FirestoreClient(const DatabaseInfo& database_info,
-                  std::shared_ptr<credentials::AuthCredentialsProvider>
-                      auth_credentials_provider,
-                  std::shared_ptr<credentials::AppCheckCredentialsProvider>
-                      app_check_credentials_provider,
-                  std::shared_ptr<util::Executor> user_executor,
-                  std::shared_ptr<util::AsyncQueue> worker_queue,
-                  std::unique_ptr<remote::FirebaseMetadataProvider>
-                      firebase_metadata_provider);
+  FirestoreClient(
+      const DatabaseInfo& database_info,
+      std::shared_ptr<auth::CredentialsProvider> credentials_provider,
+      std::shared_ptr<util::Executor> user_executor,
+      std::shared_ptr<util::AsyncQueue> worker_queue,
+      std::unique_ptr<remote::FirebaseMetadataProvider>
+          firebase_metadata_provider);
 
-  void Initialize(const credentials::User& user, const api::Settings& settings);
+  void Initialize(const auth::User& user, const api::Settings& settings);
 
   void VerifyNotTerminated();
 
   void TerminateInternal();
 
-  /**
-   * Schedules a callback to try running LRU garbage collection. Reschedules
-   * itself after the GC has run.
-   */
   void ScheduleLruGarbageCollection();
 
-  /**
-   * Schedules a callback to try running index backfiller. Reschedules
-   * itself after the backfiller has run.
-   */
-  void ScheduleIndexBackfiller();
-
   DatabaseInfo database_info_;
-  std::shared_ptr<credentials::AppCheckCredentialsProvider>
-      app_check_credentials_provider_;
-  std::shared_ptr<credentials::AuthCredentialsProvider>
-      auth_credentials_provider_;
+  std::shared_ptr<auth::CredentialsProvider> credentials_provider_;
   /**
    * Async queue responsible for all of our internal processing. When we get
    * incoming work from the user (via public API) or the network (incoming gRPC
@@ -244,12 +226,12 @@ class FirestoreClient : public std::enable_shared_from_this<FirestoreClient> {
   std::unique_ptr<SyncEngine> sync_engine_;
   std::unique_ptr<EventManager> event_manager_;
 
+  std::chrono::milliseconds initial_gc_delay_ = std::chrono::minutes(1);
+  std::chrono::milliseconds regular_gc_delay_ = std::chrono::minutes(5);
   bool gc_has_run_ = false;
-  bool backfiller_has_run_ = false;
   bool credentials_initialized_ = false;
   local::LruDelegate* _Nullable lru_delegate_;
   util::DelayedOperation lru_callback_;
-  util::DelayedOperation backfiller_callback_;
 };
 
 }  // namespace core

@@ -20,6 +20,7 @@
 
 #include "Firestore/core/src/bundle/bundle_metadata.h"
 #include "Firestore/core/src/bundle/named_query.h"
+#include "Firestore/core/src/model/document_map.h"
 
 namespace firebase {
 namespace firestore {
@@ -40,8 +41,8 @@ class BundleCallback {
    * Local documents are re-calculated if there are remaining mutations in the
    * queue.
    */
-  virtual model::DocumentMap ApplyBundledDocuments(
-      const model::MutableDocumentMap& documents,
+  virtual model::MaybeDocumentMap ApplyBundledDocuments(
+      const model::MaybeDocumentMap& documents,
       const std::string& bundle_id) = 0;
 
   /** Saves the given NamedQuery to local persistence. */

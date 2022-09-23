@@ -26,7 +26,7 @@
 #include "Firestore/core/src/local/leveldb_persistence.h"
 #include "Firestore/core/src/local/local_serializer.h"
 #include "Firestore/core/src/model/document_key_set.h"
-#include "Firestore/core/src/model/mutable_document.h"
+#include "Firestore/core/src/model/document_map.h"
 #include "Firestore/core/src/nanopb/message.h"
 #include "Firestore/core/src/nanopb/reader.h"
 #include "Firestore/core/src/util/background_queue.h"
@@ -42,11 +42,13 @@ namespace {
 
 using core::Query;
 using leveldb::Status;
+using model::Document;
 using model::DocumentKey;
 using model::DocumentKeySet;
-using model::DocumentVersionMap;
-using model::MutableDocument;
-using model::MutableDocumentMap;
+using model::DocumentMap;
+using model::MaybeDocument;
+using model::MaybeDocumentMap;
+using model::OptionalMaybeDocumentMap;
 using model::ResourcePath;
 using model::SnapshotVersion;
 using nanopb::Message;
@@ -103,7 +105,7 @@ LevelDbRemoteDocumentCache::LevelDbRemoteDocumentCache(
 // Out of line because of unique_ptrs to incomplete types.
 LevelDbRemoteDocumentCache::~LevelDbRemoteDocumentCache() = default;
 
-void LevelDbRemoteDocumentCache::Add(const MutableDocument& document,
+void LevelDbRemoteDocumentCache::Add(const MaybeDocument& document,
                                      const SnapshotVersion& read_time) {
   const DocumentKey& key = document.key();
   const ResourcePath& path = key.path();
@@ -116,8 +118,8 @@ void LevelDbRemoteDocumentCache::Add(const MutableDocument& document,
       path.PopLast(), read_time, path.last_segment());
   db_->current_transaction()->Put(ldb_read_time_key, "");
 
-  NOT_NULL(index_manager_);
-  index_manager_->AddToCollectionParentIndex(document.key().path().PopLast());
+  db_->index_manager()->AddToCollectionParentIndex(
+      document.key().path().PopLast());
 }
 
 void LevelDbRemoteDocumentCache::Remove(const DocumentKey& key) {
@@ -125,12 +127,13 @@ void LevelDbRemoteDocumentCache::Remove(const DocumentKey& key) {
   db_->current_transaction()->Delete(ldb_key);
 }
 
-MutableDocument LevelDbRemoteDocumentCache::Get(const DocumentKey& key) const {
+absl::optional<MaybeDocument> LevelDbRemoteDocumentCache::Get(
+    const DocumentKey& key) {
   std::string ldb_key = LevelDbRemoteDocumentKey::Key(key);
   std::string value;
   Status status = db_->current_transaction()->Get(ldb_key, &value);
   if (status.IsNotFound()) {
-    return MutableDocument::InvalidDocument(key);
+    return absl::nullopt;
   } else if (status.ok()) {
     return DecodeMaybeDocument(value, key);
   } else {
@@ -139,10 +142,10 @@ MutableDocument LevelDbRemoteDocumentCache::Get(const DocumentKey& key) const {
   }
 }
 
-MutableDocumentMap LevelDbRemoteDocumentCache::GetAll(
-    const DocumentKeySet& keys) const {
+OptionalMaybeDocumentMap LevelDbRemoteDocumentCache::GetAll(
+    const DocumentKeySet& keys) {
   BackgroundQueue tasks(executor_.get());
-  AsyncResults<std::pair<DocumentKey, MutableDocument>> results;
+  AsyncResults<std::pair<DocumentKey, absl::optional<MaybeDocument>>> results;
 
   LevelDbRemoteDocumentKey current_key;
   auto it = db_->current_transaction()->NewIterator();
@@ -151,8 +154,7 @@ MutableDocumentMap LevelDbRemoteDocumentCache::GetAll(
     it->Seek(LevelDbRemoteDocumentKey::Key(key));
     if (!it->Valid() || !current_key.Decode(it->key()) ||
         current_key.document_key() != key) {
-      results.Insert(
-          std::make_pair(key, MutableDocument::InvalidDocument(key)));
+      results.Insert(std::make_pair(key, absl::nullopt));
     } else {
       const std::string& contents = it->value();
       tasks.Execute([this, &results, &key, contents] {
@@ -163,104 +165,117 @@ MutableDocumentMap LevelDbRemoteDocumentCache::GetAll(
 
   tasks.AwaitAll();
 
-  MutableDocumentMap map;
+  OptionalMaybeDocumentMap map;
   for (const auto& entry : results.Result()) {
     map = map.insert(entry.first, entry.second);
   }
   return map;
 }
 
-MutableDocumentMap LevelDbRemoteDocumentCache::GetAllExisting(
-    DocumentVersionMap&& remote_map) const {
-  BackgroundQueue tasks(executor_.get());
-  AsyncResults<std::pair<DocumentKey, MutableDocument>> results;
-  for (const auto& key_version : remote_map) {
-    tasks.Execute([this, &results, key_version] {
-      auto document = Get(key_version.first).WithReadTime(key_version.second);
-      if (document.is_found_document()) {
-        results.Insert(std::make_pair(key_version.first, std::move(document)));
-      }
-    });
-  }
-  tasks.AwaitAll();
+DocumentMap LevelDbRemoteDocumentCache::GetAllExisting(
+    const DocumentKeySet& keys) {
+  DocumentMap results;
 
-  MutableDocumentMap map;
-  for (const auto& entry : results.Result()) {
-    map = map.insert(entry.first, entry.second);
-  }
-  return map;
-}
-
-MutableDocumentMap LevelDbRemoteDocumentCache::GetAll(
-    const std::string& collection_group,
-    const model::IndexOffset& offset,
-    size_t limit) const {
-  HARD_ASSERT(limit > 0u, "Limit should be at least 1");
-  const auto parents = index_manager_->GetCollectionParents(collection_group);
-  std::vector<ResourcePath> collections;
-  collections.reserve(parents.size());
-  for (const auto& parent : parents) {
-    collections.push_back(parent.Append(collection_group));
-  }
-
-  MutableDocumentMap result;
-  for (auto path = collections.cbegin();
-       path != collections.cend() && result.size() < limit; path++) {
-    const auto remote_docs = GetAll(*path, offset, limit - result.size());
-    for (const auto& doc : remote_docs) {
-      result = result.insert(doc.first, doc.second);
+  OptionalMaybeDocumentMap docs = LevelDbRemoteDocumentCache::GetAll(keys);
+  for (const auto& kv : docs) {
+    const DocumentKey& key = kv.first;
+    const auto& maybe_doc = kv.second;
+    if (maybe_doc && maybe_doc->is_document()) {
+      results = results.insert(key, Document(*maybe_doc));
     }
   }
-  return result;
+
+  return results;
 }
 
-MutableDocumentMap LevelDbRemoteDocumentCache::GetAll(
-    const model::ResourcePath& path,
-    const model::IndexOffset& offset,
-    const absl::optional<size_t> limit) const {
+DocumentMap LevelDbRemoteDocumentCache::GetMatching(
+    const Query& query, const SnapshotVersion& since_read_time) {
+  HARD_ASSERT(
+      !query.IsCollectionGroupQuery(),
+      "CollectionGroup queries should be handled in LocalDocumentsView");
+
   // Use the query path as a prefix for testing if a document matches the query.
+  const ResourcePath& query_path = query.path();
+  size_t immediate_children_path_length = query_path.size() + 1;
 
-  // Execute an index-free query and filter by read time. This is safe since
-  // all document changes to queries that have a
-  // last_limbo_free_snapshot_version (`since_read_time`) have a read time
-  // set.
-  std::string start_key =
-      LevelDbRemoteDocumentReadTimeKey::KeyPrefix(path, offset.read_time());
-  auto it = db_->current_transaction()->NewIterator();
-  it->Seek(util::ImmediateSuccessor(start_key));
+  if (since_read_time != SnapshotVersion::None()) {
+    // Execute an index-free query and filter by read time. This is safe since
+    // all document changes to queries that have a
+    // last_limbo_free_snapshot_version (`since_read_time`) have a read time
+    // set.
+    std::string start_key = LevelDbRemoteDocumentReadTimeKey::KeyPrefix(
+        query_path, since_read_time);
+    auto it = db_->current_transaction()->NewIterator();
+    it->Seek(util::ImmediateSuccessor(start_key));
 
-  DocumentVersionMap remote_map;
+    DocumentKeySet remote_keys;
 
-  LevelDbRemoteDocumentReadTimeKey current_key;
-  for (; it->Valid() && current_key.Decode(it->key()) &&
-         (!limit.has_value() || remote_map.size() < limit);
-       it->Next()) {
-    const ResourcePath& collection_path = current_key.collection_path();
-    if (collection_path != path) {
-      break;
-    }
+    LevelDbRemoteDocumentReadTimeKey current_key;
+    for (; it->Valid() && current_key.Decode(it->key()); it->Next()) {
+      const ResourcePath& collection_path = current_key.collection_path();
+      if (collection_path != query_path) {
+        break;
+      }
 
-    const SnapshotVersion& read_time = current_key.read_time();
-    if (read_time > offset.read_time()) {
-      DocumentKey document_key(path.Append(current_key.document_id()));
-      remote_map[document_key] = read_time;
-    } else if (read_time == offset.read_time()) {
-      DocumentKey document_key(path.Append(current_key.document_id()));
-      if (document_key > offset.document_key()) {
-        remote_map[document_key] = read_time;
+      const SnapshotVersion& read_time = current_key.read_time();
+      if (read_time > since_read_time) {
+        DocumentKey document_key(query_path.Append(current_key.document_id()));
+        remote_keys = remote_keys.insert(document_key);
       }
     }
-  }
 
-  return LevelDbRemoteDocumentCache::GetAllExisting(std::move(remote_map));
+    return LevelDbRemoteDocumentCache::GetAllExisting(remote_keys);
+  } else {
+    BackgroundQueue tasks(executor_.get());
+    AsyncResults<Document> results;
+
+    // Documents are ordered by key, so we can use a prefix scan to narrow down
+    // the documents we need to match the query against.
+    std::string start_key = LevelDbRemoteDocumentKey::KeyPrefix(query_path);
+    auto it = db_->current_transaction()->NewIterator();
+    it->Seek(start_key);
+
+    LevelDbRemoteDocumentKey current_key;
+    for (; it->Valid() && current_key.Decode(it->key()); it->Next()) {
+      // The query is actually returning any path that starts with the query
+      // path prefix which may include documents in subcollections. For example,
+      // a query on 'rooms' will return rooms/abc/messages/xyx but we shouldn't
+      // match it. Fix this by discarding rows with document keys more than one
+      // segment longer than the query path.
+      const DocumentKey& document_key = current_key.document_key();
+      if (document_key.path().size() != immediate_children_path_length) {
+        continue;
+      }
+
+      if (!query_path.IsPrefixOf(document_key.path())) {
+        break;
+      }
+
+      const std::string& contents = it->value();
+      tasks.Execute([this, &results, document_key, contents] {
+        MaybeDocument maybe_doc = DecodeMaybeDocument(contents, document_key);
+        if (maybe_doc.is_document()) {
+          results.Insert(Document(maybe_doc));
+        }
+      });
+    }
+
+    tasks.AwaitAll();
+
+    DocumentMap map;
+    for (const Document& doc : results.Result()) {
+      map = map.insert(doc.key(), doc);
+    }
+    return map;
+  }
 }
 
-MutableDocument LevelDbRemoteDocumentCache::DecodeMaybeDocument(
-    absl::string_view encoded, const DocumentKey& key) const {
+MaybeDocument LevelDbRemoteDocumentCache::DecodeMaybeDocument(
+    absl::string_view encoded, const DocumentKey& key) {
   StringReader reader{encoded};
 
   auto message = Message<firestore_client_MaybeDocument>::TryParse(&reader);
-  MutableDocument maybe_document =
+  MaybeDocument maybe_document =
       serializer_->DecodeMaybeDocument(&reader, *message);
 
   if (!reader.ok()) {
@@ -272,10 +287,6 @@ MutableDocument LevelDbRemoteDocumentCache::DecodeMaybeDocument(
               maybe_document.key().ToString(), key.ToString());
 
   return maybe_document;
-}
-
-void LevelDbRemoteDocumentCache::SetIndexManager(IndexManager* manager) {
-  index_manager_ = NOT_NULL(manager);
 }
 
 }  // namespace local

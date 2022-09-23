@@ -20,7 +20,7 @@
 #import "FirebaseAuth/Sources/Public/FirebaseAuth/FIRAuthSettings.h"
 #import "FirebaseAuth/Sources/Public/FirebaseAuth/FIRMultiFactorResolver.h"
 #import "FirebaseAuth/Sources/Public/FirebaseAuth/FIRPhoneAuthProvider.h"
-#import "FirebaseCore/Extension/FirebaseCoreInternal.h"
+#import "FirebaseCore/Sources/Private/FirebaseCoreInternal.h"
 
 #import "FirebaseAuth/Sources/Auth/FIRAuthGlobalWorkQueue.h"
 #import "FirebaseAuth/Sources/Auth/FIRAuth_Internal.h"
@@ -263,7 +263,7 @@ extern NSString *const FIRPhoneMultiFactorID;
   } else {
     errorData = nil;
   }
-  if (error != NULL && errorData != nil) {
+  if (error != NULL) {
     NSError *jsonError;
     NSDictionary *errorDict = [NSJSONSerialization JSONObjectWithData:errorData
                                                               options:0
@@ -632,12 +632,8 @@ extern NSString *const FIRPhoneMultiFactorID;
                                              FIRLogWarning(kFIRLoggerAuth, @"I-AUT000014",
                                                            @"Failed to receive remote notification "
                                                            @"to verify app identity within "
-                                                           @"%.0f second(s), falling back to "
-                                                           @"reCAPTCHA verification.",
+                                                           @"%.0f second(s)",
                                                            timeout);
-                                             [self reCAPTCHAFlowWithUIDelegate:UIDelegate
-                                                                    completion:completion];
-                                             return;
                                            }
                                            completion(credential, nil, nil);
                                          }];

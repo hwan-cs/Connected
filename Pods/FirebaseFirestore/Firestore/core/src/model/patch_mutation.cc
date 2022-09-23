@@ -17,19 +17,19 @@
 #include "Firestore/core/src/model/patch_mutation.h"
 
 #include <cstdlib>
-#include <set>
 #include <utility>
 
+#include "Firestore/core/src/model/document.h"
 #include "Firestore/core/src/model/field_path.h"
-#include "Firestore/core/src/model/mutable_document.h"
+#include "Firestore/core/src/model/field_value.h"
+#include "Firestore/core/src/model/no_document.h"
+#include "Firestore/core/src/model/unknown_document.h"
 #include "Firestore/core/src/util/hard_assert.h"
 #include "Firestore/core/src/util/to_string.h"
 
 namespace firebase {
 namespace firestore {
 namespace model {
-
-using nanopb::Message;
 
 static_assert(
     sizeof(Mutation) == sizeof(PatchMutation),
@@ -67,96 +67,99 @@ PatchMutation::Rep::Rep(DocumentKey&& key,
                         FieldMask&& mask,
                         Precondition&& precondition,
                         std::vector<FieldTransform>&& field_transforms)
-    : Mutation::Rep(std::move(key),
-                    std::move(precondition),
-                    std::move(field_transforms),
-                    std::move(mask)),
-      value_(std::move(value)) {
+    : Mutation::Rep(
+          std::move(key), std::move(precondition), std::move(field_transforms)),
+      value_(std::move(value)),
+      mask_(std::move(mask)) {
 }
 
-void PatchMutation::Rep::ApplyToRemoteDocument(
-    MutableDocument& document, const MutationResult& mutation_result) const {
-  VerifyKeyMatches(document);
+MaybeDocument PatchMutation::Rep::ApplyToRemoteDocument(
+    const absl::optional<MaybeDocument>& maybe_doc,
+    const MutationResult& mutation_result) const {
+  VerifyKeyMatches(maybe_doc);
 
-  if (!precondition().IsValidFor(document)) {
+  if (!precondition().IsValidFor(maybe_doc)) {
     // Since the mutation was not rejected, we know that the precondition
     // matched on the backend. We therefore must not have the expected version
     // of the document in our cache and return an UnknownDocument with the known
     // update_time.
-    document.ConvertToUnknownDocument(mutation_result.version());
-    return;
+    return UnknownDocument(key(), mutation_result.version());
   }
 
-  ObjectValue& data = document.data();
-  auto transform_results =
-      ServerTransformResults(data, mutation_result.transform_results());
-  data.SetAll(GetPatch());
-  data.SetAll(std::move(transform_results));
-  document.ConvertToFoundDocument(mutation_result.version())
-      .SetHasCommittedMutations();
+  std::vector<FieldValue> transform_results =
+      mutation_result.transform_results() != absl::nullopt
+          ? ServerTransformResults(maybe_doc,
+                                   *mutation_result.transform_results())
+          : std::vector<FieldValue>();
+
+  ObjectValue new_data = PatchDocument(maybe_doc, transform_results);
+  const SnapshotVersion& version = mutation_result.version();
+  return Document(std::move(new_data), key(), version,
+                  DocumentState::kCommittedMutations);
 }
 
-absl::optional<FieldMask> PatchMutation::Rep::ApplyToLocalView(
-    MutableDocument& document,
-    absl::optional<FieldMask> previous_mask,
+absl::optional<MaybeDocument> PatchMutation::Rep::ApplyToLocalView(
+    const absl::optional<MaybeDocument>& maybe_doc,
     const Timestamp& local_write_time) const {
-  VerifyKeyMatches(document);
+  VerifyKeyMatches(maybe_doc);
 
-  if (!precondition().IsValidFor(document)) {
-    return previous_mask;
+  if (!precondition().IsValidFor(maybe_doc)) {
+    return maybe_doc;
   }
 
-  ObjectValue& data = document.data();
-  auto transform_results = LocalTransformResults(data, local_write_time);
-  data.SetAll(GetPatch());
-  data.SetAll(std::move(transform_results));
-  document.ConvertToFoundDocument(document.version()).SetHasLocalMutations();
+  std::vector<FieldValue> transform_results =
+      LocalTransformResults(maybe_doc, local_write_time);
 
-  if (!previous_mask.has_value()) {
-    return absl::nullopt;
-  }
-
-  std::set<FieldPath> merged_set(previous_mask.value().begin(),
-                                 previous_mask.value().end());
-  merged_set.insert(field_mask().value().begin(), field_mask().value().end());
-  std::vector<FieldPath> transformed;
-  for (const auto& transform : this->field_transforms()) {
-    merged_set.insert(transform.path());
-  }
-  return FieldMask{merged_set};
+  ObjectValue new_data = PatchDocument(maybe_doc, transform_results);
+  SnapshotVersion version = GetPostMutationVersion(maybe_doc);
+  return Document(std::move(new_data), key(), version,
+                  DocumentState::kLocalMutations);
 }
 
-TransformMap PatchMutation::Rep::GetPatch() const {
-  TransformMap result;
-  for (const FieldPath& path : field_mask().value()) {
+ObjectValue PatchMutation::Rep::PatchDocument(
+    const absl::optional<MaybeDocument>& maybe_doc,
+    const std::vector<FieldValue>& transform_results) const {
+  ObjectValue data;
+  if (maybe_doc && maybe_doc->type() == MaybeDocument::Type::Document) {
+    data = Document(*maybe_doc).data();
+  } else {
+    data = ObjectValue::Empty();
+  }
+  data = PatchObject(data);
+  data = TransformObject(data, transform_results);
+  return data;
+}
+
+ObjectValue PatchMutation::Rep::PatchObject(ObjectValue obj) const {
+  for (const FieldPath& path : mask_) {
     if (!path.empty()) {
-      auto value = value_.Get(path);
-      if (value) {
-        result[path] = DeepClone(*value);
+      absl::optional<FieldValue> new_value = value_.Get(path);
+      if (!new_value) {
+        obj = obj.Delete(path);
       } else {
-        result[path] = absl::nullopt;
+        obj = obj.Set(path, *new_value);
       }
     }
   }
-  return result;
+  return obj;
 }
 
 bool PatchMutation::Rep::Equals(const Mutation::Rep& other) const {
   if (!Mutation::Rep::Equals(other)) return false;
 
   const auto& other_rep = static_cast<const PatchMutation::Rep&>(other);
-  return value_ == other_rep.value_ && field_mask() == other_rep.field_mask();
+  return value_ == other_rep.value_ && mask_ == other_rep.mask_;
 }
 
 size_t PatchMutation::Rep::Hash() const {
-  return util::Hash(Mutation::Rep::Hash(), field_mask(), value_);
+  return util::Hash(Mutation::Rep::Hash(), mask_, value_);
 }
 
 std::string PatchMutation::Rep::ToString() const {
   return absl::StrCat("PatchMutation(key=", key().ToString(),
                       ", precondition=", precondition().ToString(),
                       ", value=", value().ToString(),
-                      ", mask=", field_mask().value().ToString(),
+                      ", mask=", mask().ToString(),
                       ", transforms=", util::ToString(field_transforms()), ")");
 }
 

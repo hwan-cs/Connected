@@ -16,6 +16,16 @@
 
 #import <Foundation/Foundation.h>
 
+// NS_SWIFT_NAME can only translate factory methods before the iOS 9.3 SDK.
+// Wrap it in our own macro if it's a non-compatible SDK.
+#ifndef FIR_SWIFT_NAME
+#ifdef __IPHONE_9_3
+#define FIR_SWIFT_NAME(X) NS_SWIFT_NAME(X)
+#else
+#define FIR_SWIFT_NAME(X)  // Intentionally blank.
+#endif                     // #ifdef __IPHONE_9_3
+#endif                     // #ifndef FIR_SWIFT_NAME
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -30,7 +40,7 @@ typedef NS_ENUM(NSInteger, FIRShortDynamicLinkPathLength) {
   FIRShortDynamicLinkPathLengthShort,
   /** Short link with an extra long path for great difficulty in guessing. */
   FIRShortDynamicLinkPathLengthUnguessable,
-} NS_SWIFT_NAME(ShortDynamicLinkPathLength);
+} FIR_SWIFT_NAME(ShortDynamicLinkPathLength);
 
 /**
  * @abstract The definition of the completion block used by URL shortener.
@@ -43,13 +53,13 @@ typedef NS_ENUM(NSInteger, FIRShortDynamicLinkPathLength) {
 typedef void (^FIRDynamicLinkShortenerCompletion)(NSURL *_Nullable shortURL,
                                                   NSArray<NSString *> *_Nullable warnings,
                                                   NSError *_Nullable error)
-    NS_SWIFT_UNAVAILABLE("Use Swift's closure syntax instead.");
+    FIR_SWIFT_NAME(DynamicLinkShortenerCompletion);
 
 /**
  * @class FIRDynamicLinkGoogleAnalyticsParameters
  * @abstract The Dynamic Link analytics parameters.
  */
-NS_SWIFT_NAME(DynamicLinkGoogleAnalyticsParameters)
+FIR_SWIFT_NAME(DynamicLinkGoogleAnalyticsParameters)
 @interface FIRDynamicLinkGoogleAnalyticsParameters : NSObject
 
 /**
@@ -128,7 +138,7 @@ NS_SWIFT_NAME(DynamicLinkGoogleAnalyticsParameters)
  * @class FIRDynamicLinkIOSParameters
  * @abstract The Dynamic Link iOS parameters.
  */
-NS_SWIFT_NAME(DynamicLinkIOSParameters)
+FIR_SWIFT_NAME(DynamicLinkIOSParameters)
 @interface FIRDynamicLinkIOSParameters : NSObject
 
 /**
@@ -172,7 +182,7 @@ NS_SWIFT_NAME(DynamicLinkIOSParameters)
 
 /**
  @property minimumAppVersion
- @abstract The minimum version of your app that can open the link. If the
+ @abstract The the minimum version of your app that can open the link. If the
  *     installed app is an older version, the user is taken to the AppStore to upgrade the app.
  *     Note: It is app's developer responsibility to open AppStore when received link declares
  *     higher minimumAppVersion than currently installed.
@@ -204,7 +214,7 @@ NS_SWIFT_NAME(DynamicLinkIOSParameters)
  * @class FIRDynamicLinkItunesConnectAnalyticsParameters
  * @abstract The Dynamic Link iTunes Connect parameters.
  */
-NS_SWIFT_NAME(DynamicLinkItunesConnectAnalyticsParameters)
+FIR_SWIFT_NAME(DynamicLinkItunesConnectAnalyticsParameters)
 @interface FIRDynamicLinkItunesConnectAnalyticsParameters : NSObject
 
 /**
@@ -245,7 +255,7 @@ NS_SWIFT_NAME(DynamicLinkItunesConnectAnalyticsParameters)
  * @class FIRDynamicLinkAndroidParameters
  * @abstract The Dynamic Link Android parameters.
  */
-NS_SWIFT_NAME(DynamicLinkAndroidParameters)
+FIR_SWIFT_NAME(DynamicLinkAndroidParameters)
 @interface FIRDynamicLinkAndroidParameters : NSObject
 
 /**
@@ -293,7 +303,7 @@ NS_SWIFT_NAME(DynamicLinkAndroidParameters)
  * @class FIRDynamicLinkSocialMetaTagParameters
  * @abstract The Dynamic Link Social Meta Tag parameters.
  */
-NS_SWIFT_NAME(DynamicLinkSocialMetaTagParameters)
+FIR_SWIFT_NAME(DynamicLinkSocialMetaTagParameters)
 @interface FIRDynamicLinkSocialMetaTagParameters : NSObject
 
 /**
@@ -334,7 +344,7 @@ NS_SWIFT_NAME(DynamicLinkSocialMetaTagParameters)
  * @class FIRDynamicLinkNavigationInfoParameters
  * @abstract Options class for defining navigation behavior of the Dynamic Link.
  */
-NS_SWIFT_NAME(DynamicLinkNavigationInfoParameters)
+FIR_SWIFT_NAME(DynamicLinkNavigationInfoParameters)
 @interface FIRDynamicLinkNavigationInfoParameters : NSObject
 
 /**
@@ -369,7 +379,7 @@ NS_SWIFT_NAME(DynamicLinkNavigationInfoParameters)
  * @abstract Options class for defining other platform(s) parameters of the Dynamic Link.
  *     Other here means not covered by specific parameters (not iOS and not Android).
  */
-NS_SWIFT_NAME(DynamicLinkOtherPlatformParameters)
+FIR_SWIFT_NAME(DynamicLinkOtherPlatformParameters)
 @interface FIRDynamicLinkOtherPlatformParameters : NSObject
 
 /**
@@ -401,7 +411,7 @@ NS_SWIFT_NAME(DynamicLinkOtherPlatformParameters)
  * @class FIRDynamicLinkComponentsOptions
  * @abstract Options class for defining how Dynamic Link URLs are generated.
  */
-NS_SWIFT_NAME(DynamicLinkComponentsOptions)
+FIR_SWIFT_NAME(DynamicLinkComponentsOptions)
 @interface FIRDynamicLinkComponentsOptions : NSObject
 
 /**
@@ -434,7 +444,7 @@ NS_SWIFT_NAME(DynamicLinkComponentsOptions)
  *     Dynamic Link URLs. Short URLs will have a domain and a randomized path; long URLs will have a
  *     domain and a query that contains all of the Dynamic Link parameters.
  */
-NS_SWIFT_NAME(DynamicLinkComponents)
+FIR_SWIFT_NAME(DynamicLinkComponents)
 @interface FIRDynamicLinkComponents : NSObject
 
 /**
@@ -541,9 +551,7 @@ NS_SWIFT_NAME(DynamicLinkComponents)
  */
 + (void)shortenURL:(NSURL *)url
            options:(FIRDynamicLinkComponentsOptions *_Nullable)options
-        completion:(void (^)(NSURL *_Nullable shortURL,
-                             NSArray<NSString *> *_Nullable warnings,
-                             NSError *_Nullable error))completion;
+        completion:(FIRDynamicLinkShortenerCompletion)completion;
 
 /**
  * @method shortenWithCompletion:
@@ -551,9 +559,7 @@ NS_SWIFT_NAME(DynamicLinkComponents)
  * @param completion A block to be executed upon completion of the shortening attempt. It is
  *     guaranteed to be executed once and on the main thread.
  */
-- (void)shortenWithCompletion:(void (^)(NSURL *_Nullable shortURL,
-                                        NSArray<NSString *> *_Nullable warnings,
-                                        NSError *_Nullable error))completion;
+- (void)shortenWithCompletion:(FIRDynamicLinkShortenerCompletion)completion;
 
 @end
 

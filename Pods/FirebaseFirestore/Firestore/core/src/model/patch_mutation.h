@@ -17,13 +17,13 @@
 #ifndef FIRESTORE_CORE_SRC_MODEL_PATCH_MUTATION_H_
 #define FIRESTORE_CORE_SRC_MODEL_PATCH_MUTATION_H_
 
-#include <map>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "Firestore/core/src/model/field_mask.h"
+#include "Firestore/core/src/model/field_value.h"
 #include "Firestore/core/src/model/model_fwd.h"
 #include "Firestore/core/src/model/mutation.h"
 
@@ -73,6 +73,14 @@ class PatchMutation : public Mutation {
     return patch_rep().value();
   }
 
+  /**
+   * Returns the mask to apply to value(), where only fields that are in both
+   * the field_mask and the value will be updated.
+   */
+  const FieldMask& mask() const {
+    return patch_rep().mask();
+  }
+
  private:
   class Rep : public Mutation::Rep {
    public:
@@ -90,19 +98,16 @@ class PatchMutation : public Mutation {
       return value_;
     }
 
-    /**
-     * Returns this patch mutation as a list of field paths to values (or
-     * nullopt for deletes).
-     */
-    TransformMap GetPatch() const;
+    const FieldMask& mask() const {
+      return mask_;
+    }
 
-    void ApplyToRemoteDocument(
-        MutableDocument& document,
+    MaybeDocument ApplyToRemoteDocument(
+        const absl::optional<MaybeDocument>& maybe_doc,
         const MutationResult& mutation_result) const override;
 
-    absl::optional<FieldMask> ApplyToLocalView(
-        MutableDocument& document,
-        absl::optional<FieldMask> previous_mask,
+    absl::optional<MaybeDocument> ApplyToLocalView(
+        const absl::optional<MaybeDocument>& maybe_doc,
         const Timestamp& local_write_time) const override;
 
     bool Equals(const Mutation::Rep& other) const override;
@@ -112,7 +117,14 @@ class PatchMutation : public Mutation {
     std::string ToString() const override;
 
    private:
+    ObjectValue PatchDocument(
+        const absl::optional<MaybeDocument>& maybe_doc,
+        const std::vector<FieldValue>& transform_results) const;
+
+    ObjectValue PatchObject(ObjectValue obj) const;
+
     ObjectValue value_;
+    FieldMask mask_;
   };
 
   const Rep& patch_rep() const {

@@ -19,7 +19,7 @@
 #include <utility>
 
 #include "Firestore/core/src/model/field_path.h"
-#include "Firestore/core/src/model/mutable_document.h"
+#include "Firestore/core/src/model/no_document.h"
 #include "Firestore/core/src/util/hard_assert.h"
 
 namespace firebase {
@@ -38,16 +38,13 @@ VerifyMutation::VerifyMutation(const Mutation& mutation) : Mutation(mutation) {
   HARD_ASSERT(type() == Type::Verify);
 }
 
-void VerifyMutation::Rep::ApplyToRemoteDocument(MutableDocument&,
-                                                const MutationResult&) const {
+MaybeDocument VerifyMutation::Rep::ApplyToRemoteDocument(
+    const absl::optional<MaybeDocument>&, const MutationResult&) const {
   HARD_FAIL("VerifyMutation should only be used in Transactions.");
 }
 
-absl::optional<FieldMask> VerifyMutation::Rep::ApplyToLocalView(
-    MutableDocument&,
-    absl::optional<FieldMask> previous_mask,
-    const Timestamp&) const {
-  (void)previous_mask;
+absl::optional<MaybeDocument> VerifyMutation::Rep::ApplyToLocalView(
+    const absl::optional<MaybeDocument>&, const Timestamp&) const {
   HARD_FAIL("VerifyMutation should only be used in Transactions.");
 }
 

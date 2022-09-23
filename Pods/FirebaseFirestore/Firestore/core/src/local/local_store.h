@@ -26,28 +26,21 @@
 #include "Firestore/core/src/bundle/bundle_metadata.h"
 #include "Firestore/core/src/bundle/named_query.h"
 #include "Firestore/core/src/core/target_id_generator.h"
-#include "Firestore/core/src/local/document_overlay_cache.h"
-#include "Firestore/core/src/local/overlay_migration_manager.h"
 #include "Firestore/core/src/local/reference_set.h"
 #include "Firestore/core/src/local/target_data.h"
-#include "Firestore/core/src/model/document.h"
 #include "Firestore/core/src/model/model_fwd.h"
 #include "absl/types/optional.h"
 
 namespace firebase {
 namespace firestore {
 
-namespace credentials {
+namespace auth {
 class User;
-}  // namespace credentials
+}  // namespace auth
 
 namespace core {
 class Query;
 }  // namespace core
-
-namespace model {
-class FieldIndex;
-}  // namespace model
 
 namespace remote {
 class RemoteEvent;
@@ -57,7 +50,6 @@ class TargetChange;
 namespace local {
 
 class BundleCache;
-class IndexManager;
 class LocalDocumentsView;
 class LocalViewChanges;
 class LocalWriteResult;
@@ -68,7 +60,6 @@ class QueryEngine;
 class QueryResult;
 class RemoteDocumentCache;
 class TargetCache;
-class IndexBackfiller;
 
 struct LruResults;
 
@@ -116,7 +107,7 @@ class LocalStore : public bundle::BundleCallback {
  public:
   LocalStore(Persistence* persistence,
              QueryEngine* query_engine,
-             const credentials::User& initial_user);
+             const auth::User& initial_user);
 
   ~LocalStore();
 
@@ -129,16 +120,17 @@ class LocalStore : public bundle::BundleCallback {
    * In response the local store switches the mutation queue to the new user and
    * returns any resulting document changes.
    */
-  model::DocumentMap HandleUserChange(const credentials::User& user);
+  model::MaybeDocumentMap HandleUserChange(const auth::User& user);
 
   /** Accepts locally generated Mutations and commits them to storage. */
   LocalWriteResult WriteLocally(std::vector<model::Mutation>&& mutations);
 
   /**
-   * Returns the current value of a document with a given key, or an invalid
-   * document if not found.
+   * Returns the current value of a document with a given key, or `nullopt` if
+   * not found.
    */
-  const model::Document ReadDocument(const model::DocumentKey& key);
+  absl::optional<model::MaybeDocument> ReadDocument(
+      const model::DocumentKey& key);
 
   /**
    * Acknowledges the given batch.
@@ -154,7 +146,7 @@ class LocalStore : public bundle::BundleCallback {
    *
    * @return The resulting (modified) documents.
    */
-  model::DocumentMap AcknowledgeBatch(
+  model::MaybeDocumentMap AcknowledgeBatch(
       const model::MutationBatchResult& batch_result);
 
   /**
@@ -163,7 +155,7 @@ class LocalStore : public bundle::BundleCallback {
    *
    * @return The resulting (modified) documents.
    */
-  model::DocumentMap RejectBatch(model::BatchId batch_id);
+  model::MaybeDocumentMap RejectBatch(model::BatchId batch_id);
 
   /** Returns the last recorded stream token for the current user. */
   nanopb::ByteString GetLastStreamToken();
@@ -189,7 +181,8 @@ class LocalStore : public bundle::BundleCallback {
    * LocalDocuments are re-calculated if there are remaining mutations in the
    * queue.
    */
-  model::DocumentMap ApplyRemoteEvent(const remote::RemoteEvent& remote_event);
+  model::MaybeDocumentMap ApplyRemoteEvent(
+      const remote::RemoteEvent& remote_event);
 
   /**
    * Returns the keys of the documents that are associated with the given
@@ -251,12 +244,6 @@ class LocalStore : public bundle::BundleCallback {
   LruResults CollectGarbage(LruGarbageCollector* garbage_collector);
 
   /**
-   * Runs a single backfill operation and returns the number of documents
-   * processed.
-   */
-  int Backfill() const;
-
-  /**
    * Returns whether the given bundle has already been loaded and its create
    * time is newer or equal to the currently loading bundle.
    */
@@ -272,8 +259,8 @@ class LocalStore : public bundle::BundleCallback {
    * Local documents are re-calculated if there are remaining mutations in the
    * queue.
    */
-  model::DocumentMap ApplyBundledDocuments(
-      const model::MutableDocumentMap& documents,
+  model::MaybeDocumentMap ApplyBundledDocuments(
+      const model::MaybeDocumentMap& documents,
       const std::string& bundle_id) override;
 
   /** Saves the given `NamedQuery` to local persistence. */
@@ -286,36 +273,10 @@ class LocalStore : public bundle::BundleCallback {
   absl::optional<bundle::NamedQuery> GetNamedQuery(
       const std::string& query_name);
 
-  void ConfigureFieldIndexes(std::vector<model::FieldIndex> new_field_indexes);
-
  private:
-  friend class IndexBackfiller;
-  friend class IndexBackfillerTest;
-  friend class LocalStoreTestBase;
-  friend class LevelDbOverlayMigrationManagerTest;
-
-  IndexManager* index_manager() const {
-    return index_manager_;
-  }
-
-  const LocalDocumentsView* local_documents() const {
-    return local_documents_.get();
-  }
-
-  // For testing
-  IndexBackfiller* index_backfiller() const {
-    return index_backfiller_.get();
-  }
-
-  struct DocumentChangeResult {
-    model::MutableDocumentMap changed_docs;
-    model::DocumentKeySet existence_changed_keys;
-  };
+  friend class LocalStoreTest;  // for `GetTargetData()`
 
   void StartMutationQueue();
-
-  void StartIndexManager();
-
   void ApplyBatchResult(const model::MutationBatchResult& batch_result);
 
   /**
@@ -361,13 +322,10 @@ class LocalStore : public bundle::BundleCallback {
    * @param global_version A SnapshotVersion representing the read time if all
    * documents have the same read time.
    */
-  DocumentChangeResult PopulateDocumentChanges(
+  model::OptionalMaybeDocumentMap PopulateDocumentChanges(
       const model::DocumentUpdateMap& documents,
       const model::DocumentVersionMap& document_versions,
       const model::SnapshotVersion& global_version);
-
-  // For testing
-  std::vector<model::FieldIndex> GetFieldIndexes();
 
   /** Manages our in-memory or durable persistence. Owned by FirestoreClient. */
   Persistence* persistence_ = nullptr;
@@ -380,12 +338,6 @@ class LocalStore : public bundle::BundleCallback {
    * the backend.
    */
   MutationQueue* mutation_queue_ = nullptr;
-
-  /**
-   * The overlays that can be used to short circuit applying all mutations from
-   * mutation queue.
-   */
-  DocumentOverlayCache* document_overlay_cache_ = nullptr;
 
   /** The set of all cached remote documents. */
   RemoteDocumentCache* remote_document_cache_ = nullptr;
@@ -403,25 +355,10 @@ class LocalStore : public bundle::BundleCallback {
   QueryEngine* query_engine_ = nullptr;
 
   /**
-   * Manages indexes and support indexed queries.
-   */
-  IndexManager* index_manager_ = nullptr;
-
-  /**
-   * Manages overlay migration.
-   */
-  OverlayMigrationManager* overlay_migration_manager_ = nullptr;
-
-  /**
    * The "local" view of all documents (layering mutation queue on top of
    * remote_document_cache_).
    */
   std::unique_ptr<LocalDocumentsView> local_documents_;
-
-  /**
-   * Implements the steps for backfilling indexes.
-   */
-  std::unique_ptr<IndexBackfiller> index_backfiller_;
 
   /** The set of document references maintained by any local views. */
   ReferenceSet local_view_references_;

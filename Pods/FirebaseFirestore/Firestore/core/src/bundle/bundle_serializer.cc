@@ -7,7 +7,7 @@
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
+ * Unless Requiredd by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -26,17 +26,13 @@
 #include "Firestore/core/src/core/order_by.h"
 #include "Firestore/core/src/core/query.h"
 #include "Firestore/core/src/core/target.h"
+#include "Firestore/core/src/model/document.h"
 #include "Firestore/core/src/model/field_path.h"
-#include "Firestore/core/src/model/mutable_document.h"
+#include "Firestore/core/src/model/field_value.h"
 #include "Firestore/core/src/model/resource_path.h"
-#include "Firestore/core/src/model/value_util.h"
 #include "Firestore/core/src/nanopb/byte_string.h"
-#include "Firestore/core/src/nanopb/message.h"
-#include "Firestore/core/src/nanopb/nanopb_util.h"
 #include "Firestore/core/src/timestamp_internal.h"
-#include "Firestore/core/src/util/no_destructor.h"
 #include "Firestore/core/src/util/statusor.h"
-#include "Firestore/core/src/util/string_format.h"
 #include "Firestore/core/src/util/string_util.h"
 #include "absl/strings/escaping.h"
 #include "absl/strings/numbers.h"
@@ -45,6 +41,7 @@
 namespace firebase {
 namespace firestore {
 namespace bundle {
+namespace {
 
 using absl::Time;
 using core::Bound;
@@ -56,32 +53,22 @@ using core::LimitType;
 using core::OrderBy;
 using core::OrderByList;
 using core::Target;
-using model::DeepClone;
 using model::Document;
 using model::DocumentKey;
 using model::FieldPath;
-using model::MutableDocument;
-using model::NaNValue;
-using model::NullValue;
+using model::FieldValue;
 using model::ObjectValue;
 using model::ResourcePath;
 using model::SnapshotVersion;
 using nanopb::ByteString;
-using nanopb::MakeSharedMessage;
-using nanopb::Message;
-using nanopb::SetRepeatedField;
-using nanopb::SharedMessage;
 using nlohmann::json;
-using util::JsonReader;
-using util::NoDestructor;
 using util::StatusOr;
-using util::StringFormat;
-using Operator = FieldFilter::Operator;
 
-namespace {
-
-const NoDestructor<Bound> kDefaultBound{Bound::FromValue(
-    MakeSharedMessage<google_firestore_v1_ArrayValue>({}), false)};
+template <typename T>
+const std::vector<T>& EmptyVector() {
+  static auto* empty = new std::vector<T>;
+  return *empty;
+}
 
 Timestamp DecodeTimestamp(JsonReader& reader, const json& version) {
   StatusOr<Timestamp> decoded;
@@ -98,8 +85,8 @@ Timestamp DecodeTimestamp(JsonReader& reader, const json& version) {
     }
   } else {
     decoded = TimestampInternal::FromUntrustedSecondsAndNanos(
-        reader.OptionalInt<int64_t>("seconds", version, 0),
-        reader.OptionalInt<int32_t>("nanos", version, 0));
+        reader.RequiredInt<int64_t>("seconds", version),
+        reader.RequiredInt<int32_t>("nanos", version));
   }
 
   if (!decoded.ok()) {
@@ -182,39 +169,39 @@ FieldPath DecodeFieldReference(JsonReader& reader, const json& field) {
   }
 }
 
-Operator DecodeFieldFilterOperator(JsonReader& reader, const std::string& op) {
+Filter::Operator DecodeFieldFilterOperator(JsonReader& reader,
+                                           const std::string& op) {
   if (op == "LESS_THAN") {
-    return Operator::LessThan;
+    return Filter::Operator::LessThan;
   } else if (op == "LESS_THAN_OR_EQUAL") {
-    return Operator::LessThanOrEqual;
+    return Filter::Operator::LessThanOrEqual;
   } else if (op == "EQUAL") {
-    return Operator::Equal;
+    return Filter::Operator::Equal;
   } else if (op == "NOT_EQUAL") {
-    return Operator::NotEqual;
+    return Filter::Operator::NotEqual;
   } else if (op == "GREATER_THAN") {
-    return Operator::GreaterThan;
+    return Filter::Operator::GreaterThan;
   } else if (op == "GREATER_THAN_OR_EQUAL") {
-    return Operator::GreaterThanOrEqual;
+    return Filter::Operator::GreaterThanOrEqual;
   } else if (op == "ARRAY_CONTAINS") {
-    return Operator::ArrayContains;
+    return Filter::Operator::ArrayContains;
   } else if (op == "IN") {
-    return Operator::In;
+    return Filter::Operator::In;
   } else if (op == "ARRAY_CONTAINS_ANY") {
-    return Operator::ArrayContainsAny;
+    return Filter::Operator::ArrayContainsAny;
   } else if (op == "NOT_IN") {
-    return Operator::NotIn;
+    return Filter::Operator::NotIn;
   } else {
     reader.Fail("Operator in filter is not valid: " + op);
     // We have to return something.
-    return Operator::Equal;
+    return Filter::Operator::Equal;
   }
 }
 
 Filter InvalidFilter() {
   // The exact value doesn't matter. Note that there's no way to create the base
   // class `Filter`, so it has to be one of the derived classes.
-  return FieldFilter::Create({}, {},
-                             MakeSharedMessage(google_firestore_v1_Value{}));
+  return FieldFilter::Create({}, {}, {});
 }
 
 Filter DecodeUnaryFilter(JsonReader& reader, const json& filter) {
@@ -229,14 +216,17 @@ Filter DecodeUnaryFilter(JsonReader& reader, const json& filter) {
   }
 
   if (op == "IS_NAN") {
-    return FieldFilter::Create(path, Operator::Equal, DeepClone(NaNValue()));
+    return FieldFilter::Create(std::move(path), Filter::Operator::Equal,
+                               FieldValue::Nan());
   } else if (op == "IS_NULL") {
-    return FieldFilter::Create(path, Operator::Equal, DeepClone(NullValue()));
+    return FieldFilter::Create(std::move(path), Filter::Operator::Equal,
+                               FieldValue::Null());
   } else if (op == "IS_NOT_NAN") {
-    return FieldFilter::Create(path, Operator::NotEqual, DeepClone(NaNValue()));
+    return FieldFilter::Create(std::move(path), Filter::Operator::NotEqual,
+                               FieldValue::Nan());
   } else if (op == "IS_NOT_NULL") {
-    return FieldFilter::Create(path, Operator::NotEqual,
-                               DeepClone(NullValue()));
+    return FieldFilter::Create(std::move(path), Filter::Operator::NotEqual,
+                               FieldValue::Null());
   }
 
   reader.Fail("Unexpected unary filter operator: " + op);
@@ -300,25 +290,188 @@ LimitType DecodeLimitType(JsonReader& reader, const json& query) {
   }
 }
 
-google_type_LatLng DecodeGeoPointValue(JsonReader& reader,
-                                       const json& geo_json) {
-  google_type_LatLng result{};
-  result.latitude = reader.OptionalDouble("latitude", geo_json, 0.0);
-  result.longitude = reader.OptionalDouble("longitude", geo_json, 0.0);
-  return result;
+FieldValue DecodeGeoPointValue(JsonReader& reader, const json& geo_json) {
+  double latitude = reader.OptionalDouble("latitude", geo_json, 0.0);
+  double longitude = reader.OptionalDouble("longitude", geo_json, 0.0);
+
+  return FieldValue::FromGeoPoint(GeoPoint(latitude, longitude));
 }
 
-pb_bytes_array_t* DecodeBytesValue(JsonReader& reader,
-                                   const std::string& bytes_string) {
+FieldValue DecodeBytesValue(JsonReader& reader,
+                            const std::string& bytes_string) {
   std::string decoded;
   if (!absl::Base64Unescape(bytes_string, &decoded)) {
     reader.Fail("Failed to decode bytesValue string into binary form");
     return {};
   }
-  return nanopb::MakeBytesArray(decoded);
+  return FieldValue::FromBlob(ByteString((decoded)));
 }
 
 }  // namespace
+
+// Mark: JsonReader
+
+const std::string& JsonReader::RequiredString(const char* name,
+                                              const json& json_object) {
+  if (json_object.contains(name)) {
+    const json& child = json_object.at(name);
+    if (child.is_string()) {
+      return child.get_ref<const std::string&>();
+    }
+  }
+
+  Fail("'%s' is missing or is not a string", name);
+  return util::EmptyString();
+}
+
+const std::string& JsonReader::OptionalString(
+    const char* name,
+    const json& json_object,
+    const std::string& default_value) {
+  if (json_object.contains(name)) {
+    const json& child = json_object.at(name);
+    if (child.is_string()) {
+      return child.get_ref<const std::string&>();
+    }
+  }
+
+  return default_value;
+}
+
+const std::vector<json>& JsonReader::RequiredArray(const char* name,
+                                                   const json& json_object) {
+  if (json_object.contains(name)) {
+    const json& child = json_object.at(name);
+    if (child.is_array()) {
+      return child.get_ref<const std::vector<json>&>();
+    }
+  }
+
+  Fail("'%s' is missing or is not an array", name);
+  return EmptyVector<json>();
+}
+
+const std::vector<json>& JsonReader::OptionalArray(
+    const char* name,
+    const json& json_object,
+    const std::vector<json>& default_value) {
+  if (!json_object.contains(name)) {
+    return default_value;
+  }
+
+  const json& child = json_object.at(name);
+  if (child.is_array()) {
+    return child.get_ref<const std::vector<json>&>();
+  } else {
+    Fail("'%s' is not an array", name);
+    return EmptyVector<json>();
+  }
+}
+
+bool JsonReader::OptionalBool(const char* name,
+                              const json& json_object,
+                              bool default_value) {
+  return (json_object.contains(name) && json_object.at(name).is_boolean() &&
+          json_object.at(name).get<bool>()) ||
+         default_value;
+}
+
+const nlohmann::json& JsonReader::RequiredObject(const char* child_name,
+                                                 const json& json_object) {
+  if (!json_object.contains(child_name)) {
+    Fail("Missing child '%s'", child_name);
+    return json_object;
+  }
+  return json_object.at(child_name);
+}
+
+double JsonReader::RequiredDouble(const char* name, const json& json_object) {
+  if (json_object.contains(name)) {
+    double result = DecodeDouble(json_object.at(name));
+    if (ok()) {
+      return result;
+    }
+  }
+
+  Fail("'%s' is missing or is not a double", name);
+  return 0.0;
+}
+
+double JsonReader::OptionalDouble(const char* name,
+                                  const json& json_object,
+                                  double default_value) {
+  if (json_object.contains(name)) {
+    double result = DecodeDouble(json_object.at(name));
+    if (ok()) {
+      return result;
+    }
+  }
+
+  return default_value;
+}
+
+double JsonReader::DecodeDouble(const nlohmann::json& value) {
+  if (value.is_number()) {
+    return value.get<double>();
+  }
+
+  double result = 0;
+  if (value.is_string()) {
+    const auto& s = value.get_ref<const std::string&>();
+    auto ok = absl::SimpleAtod(s, &result);
+    if (!ok) {
+      Fail("Failed to parse into double: " + s);
+    }
+  }
+  return result;
+}
+
+template <typename IntType>
+IntType ParseInt(const json& value, JsonReader& reader) {
+  if (value.is_number_integer()) {
+    return value.get<IntType>();
+  }
+
+  IntType result = 0;
+  if (value.is_string()) {
+    const auto& s = value.get_ref<const std::string&>();
+    auto ok = absl::SimpleAtoi<IntType>(s, &result);
+    if (!ok) {
+      reader.Fail("Failed to parse into integer: " + s);
+      return 0;
+    }
+
+    return result;
+  }
+
+  reader.Fail("Only integer and string can be parsed into int type");
+  return 0;
+}
+
+template <typename IntType>
+IntType JsonReader::RequiredInt(const char* name, const json& json_object) {
+  if (!json_object.contains(name)) {
+    Fail("'%s' is missing or is not a double", name);
+    return 0;
+  }
+
+  const json& value = json_object.at(name);
+  return ParseInt<IntType>(value, *this);
+}
+
+template <typename IntType>
+IntType JsonReader::OptionalInt(const char* name,
+                                const json& json_object,
+                                IntType default_value) {
+  if (!json_object.contains(name)) {
+    return default_value;
+  }
+
+  const json& value = json_object.at(name);
+  return ParseInt<IntType>(value, *this);
+}
+
+// Mark: BundleSerializer
 
 BundleMetadata BundleSerializer::DecodeBundleMetadata(
     JsonReader& reader, const json& metadata) const {
@@ -363,16 +516,16 @@ BundledQuery BundleSerializer::DecodeBundledQuery(
   auto filters = DecodeWhere(reader, structured_query);
   auto order_bys = DecodeOrderBy(reader, structured_query);
 
-  auto start_at_bound = DecodeStartAtBound(reader, structured_query);
-  absl::optional<Bound> start_at;
-  if (start_at_bound.position()->values_count > 0) {
-    start_at = std::move(start_at_bound);
+  auto start_at_bound = DecodeBound(reader, structured_query, "startAt");
+  std::shared_ptr<Bound> start_at;
+  if (!start_at_bound.position().empty()) {
+    start_at = std::make_shared<Bound>(std::move(start_at_bound));
   }
 
-  auto end_at_bound = DecodeEndAtBound(reader, structured_query);
-  absl::optional<Bound> end_at;
-  if (end_at_bound.position()->values_count > 0) {
-    end_at = std::move(end_at_bound);
+  auto end_at_bound = DecodeBound(reader, structured_query, "endAt");
+  std::shared_ptr<Bound> end_at;
+  if (!end_at_bound.position().empty()) {
+    end_at = std::make_shared<Bound>(std::move(end_at_bound));
   }
 
   int32_t limit = DecodeLimit(reader, structured_query);
@@ -434,7 +587,7 @@ Filter BundleSerializer::DecodeFieldFilter(JsonReader& reader,
   const auto& op_string = reader.RequiredString("op", filter);
   auto op = DecodeFieldFilterOperator(reader, op_string);
 
-  Message<google_firestore_v1_Value> value =
+  FieldValue value =
       DecodeValue(reader, reader.RequiredObject("value", filter));
 
   // Return early if !ok(), because `FieldFilter::Create` will abort with
@@ -443,7 +596,7 @@ Filter BundleSerializer::DecodeFieldFilter(JsonReader& reader,
     return InvalidFilter();
   }
 
-  return FieldFilter::Create(path, op, std::move(value));
+  return FieldFilter::Create(path, op, value);
 }
 
 FilterList BundleSerializer::DecodeCompositeFilter(JsonReader& reader,
@@ -453,22 +606,11 @@ FilterList BundleSerializer::DecodeCompositeFilter(JsonReader& reader,
     return {};
   }
 
-  const std::vector<json> default_filters;
-  const auto& filters =
-      reader.OptionalArray("filters", filter, default_filters);
-
-  const json default_objects;
+  auto filters = reader.RequiredArray("filters", filter);
   FilterList result;
   for (const auto& f : filters) {
-    const json& field_filter =
-        reader.OptionalObject("fieldFilter", f, default_objects);
-    if (!field_filter.empty()) {
-      result = result.push_back(DecodeFieldFilter(reader, field_filter));
-    } else {
-      result = result.push_back(DecodeUnaryFilter(
-          reader, reader.OptionalObject("unaryFilter", f, default_objects)));
-    }
-
+    result = result.push_back(
+        DecodeFieldFilter(reader, reader.RequiredObject("fieldFilter", f)));
     if (!reader.ok()) {
       return {};
     }
@@ -477,106 +619,72 @@ FilterList BundleSerializer::DecodeCompositeFilter(JsonReader& reader,
   return result;
 }
 
-Bound BundleSerializer::DecodeStartAtBound(JsonReader& reader,
-                                           const json& query) const {
-  if (!query.contains("startAt")) {
-    return *kDefaultBound;
+Bound BundleSerializer::DecodeBound(JsonReader& reader,
+                                    const json& query,
+                                    const char* bound_name) const {
+  Bound default_bound = Bound({}, false);
+  if (!query.contains(bound_name)) {
+    return default_bound;
   }
 
-  auto result =
-      DecodeBoundFields(reader, reader.RequiredObject("startAt", query));
-  return Bound::FromValue(std::move(result.second), result.first);
-}
-
-Bound BundleSerializer::DecodeEndAtBound(JsonReader& reader,
-                                         const json& query) const {
-  if (!query.contains("endAt")) {
-    return *kDefaultBound;
-  }
-
-  auto result =
-      DecodeBoundFields(reader, reader.RequiredObject("endAt", query));
-  return Bound::FromValue(std::move(result.second), !result.first);
-}
-
-std::pair<bool, nanopb::SharedMessage<google_firestore_v1_ArrayValue>>
-BundleSerializer::DecodeBoundFields(JsonReader& reader,
-                                    const nlohmann::json& bound_json) const {
+  const json& bound_json = reader.RequiredObject(bound_name, query);
   bool before = reader.OptionalBool("before", bound_json);
 
-  std::vector<json> default_values;
-  std::vector<json> values =
-      reader.OptionalArray("values", bound_json, default_values);
-  auto positions = MakeSharedMessage<google_firestore_v1_ArrayValue>({});
-  SetRepeatedField(
-      &positions->values, &positions->values_count, values,
-      [&](const json& j) { return *DecodeValue(reader, j).release(); });
+  std::vector<FieldValue> positions;
 
-  return {before, std::move(positions)};
+  for (const auto& value : reader.RequiredArray("values", bound_json)) {
+    positions.push_back(DecodeValue(reader, value));
+  }
+
+  return Bound(std::move(positions), before);
 }
 
-Message<google_firestore_v1_Value> BundleSerializer::DecodeValue(
-    JsonReader& reader, const json& value) const {
+FieldValue BundleSerializer::DecodeValue(JsonReader& reader,
+                                         const json& value) const {
   if (!value.is_object()) {
     reader.Fail("'value' is not encoded as JSON object");
     return {};
   }
 
-  Message<google_firestore_v1_Value> result;
   if (value.contains("nullValue")) {
-    result->which_value_type = google_firestore_v1_Value_null_value_tag;
-    result->null_value = {};
+    return FieldValue::Null();
   } else if (value.contains("booleanValue")) {
-    result->which_value_type = google_firestore_v1_Value_boolean_value_tag;
     auto val = value.at("booleanValue");
     if (!val.is_boolean()) {
       reader.Fail("'booleanValue' is not encoded as a valid boolean");
       return {};
     }
-    result->boolean_value = val.get<bool>();
+    return FieldValue::FromBoolean(val.get<bool>());
   } else if (value.contains("integerValue")) {
-    result->which_value_type = google_firestore_v1_Value_integer_value_tag;
-    result->integer_value = reader.RequiredInt<int64_t>("integerValue", value);
+    return FieldValue::FromInteger(
+        reader.RequiredInt<int64_t>("integerValue", value));
   } else if (value.contains("doubleValue")) {
-    result->which_value_type = google_firestore_v1_Value_double_value_tag;
-    result->double_value = reader.RequiredDouble("doubleValue", value);
+    return FieldValue::FromDouble(reader.RequiredDouble("doubleValue", value));
   } else if (value.contains("timestampValue")) {
     auto val = DecodeTimestamp(reader, value.at("timestampValue"));
-    result->which_value_type = google_firestore_v1_Value_timestamp_value_tag;
-    result->timestamp_value.seconds = val.seconds();
-    result->timestamp_value.nanos = val.nanoseconds();
+    return FieldValue::FromTimestamp(val);
   } else if (value.contains("stringValue")) {
-    result->which_value_type = google_firestore_v1_Value_string_value_tag;
-    result->string_value =
-        nanopb::MakeBytesArray(reader.RequiredString("stringValue", value));
+    auto val = reader.RequiredString("stringValue", value);
+    return FieldValue::FromString(std::move(val));
   } else if (value.contains("bytesValue")) {
-    result->which_value_type = google_firestore_v1_Value_bytes_value_tag;
-    result->bytes_value =
-        DecodeBytesValue(reader, reader.RequiredString("bytesValue", value));
+    return DecodeBytesValue(reader, reader.RequiredString("bytesValue", value));
   } else if (value.contains("referenceValue")) {
-    result->which_value_type = google_firestore_v1_Value_reference_value_tag;
-    result->reference_value = DecodeReferenceValue(
-        reader, reader.RequiredString("referenceValue", value));
+    return DecodeReferenceValue(reader,
+                                reader.RequiredString("referenceValue", value));
   } else if (value.contains("geoPointValue")) {
-    result->which_value_type = google_firestore_v1_Value_geo_point_value_tag;
-    result->geo_point_value =
-        DecodeGeoPointValue(reader, value.at("geoPointValue"));
+    return DecodeGeoPointValue(reader, value.at("geoPointValue"));
   } else if (value.contains("arrayValue")) {
-    result->which_value_type = google_firestore_v1_Value_array_value_tag;
-    result->array_value =
-        *DecodeArrayValue(reader, value.at("arrayValue")).release();
+    return DecodeArrayValue(reader, value.at("arrayValue"));
   } else if (value.contains("mapValue")) {
-    result->which_value_type = google_firestore_v1_Value_map_value_tag;
-    result->map_value = *DecodeMapValue(reader, value.at("mapValue")).release();
+    return DecodeMapValue(reader, value.at("mapValue"));
   } else {
     reader.Fail("Failed to decode value, no type is recognized");
     return {};
   }
-  return result;
 }
 
-Message<google_firestore_v1_MapValue> BundleSerializer::DecodeMapValue(
-    JsonReader& reader, const json& map_json) const {
+FieldValue BundleSerializer::DecodeMapValue(JsonReader& reader,
+                                            const json& map_json) const {
   if (!map_json.is_object() || !map_json.contains("fields")) {
     reader.Fail("mapValue is not a valid map");
     return {};
@@ -587,43 +695,38 @@ Message<google_firestore_v1_MapValue> BundleSerializer::DecodeMapValue(
     return {};
   }
 
-  // Fill the map array. Note that we can't use SetRepeatedField here since the
-  // JSON map doesn't currently work with SetRepeatedField.
-  Message<google_firestore_v1_MapValue> map_value;
-  map_value->fields_count = nanopb::CheckedSize(fields.size());
-  map_value->fields =
-      nanopb::MakeArray<google_firestore_v1_MapValue_FieldsEntry>(
-          map_value->fields_count);
-  pb_size_t i = 0;
-  for (const auto& entry : fields.items()) {
-    map_value->fields[i] = {nanopb::MakeBytesArray(entry.key()),
-                            *DecodeValue(reader, entry.value()).release()};
-    ++i;
+  immutable::SortedMap<std::string, FieldValue> field_values;
+  for (auto it = fields.begin(); it != fields.end(); ++it) {
+    field_values =
+        field_values.insert(it.key(), DecodeValue(reader, it.value()));
   }
-  return map_value;
+
+  return FieldValue::FromMap(std::move(field_values));
 }
 
-Message<google_firestore_v1_ArrayValue> BundleSerializer::DecodeArrayValue(
-    JsonReader& reader, const json& array_json) const {
-  std::vector<json> default_values;
-  const auto& values =
-      reader.OptionalArray("values", array_json, default_values);
+FieldValue BundleSerializer::DecodeArrayValue(JsonReader& reader,
+                                              const json& array_json) const {
+  const auto& values = reader.RequiredArray("values", array_json);
+  std::vector<FieldValue> field_values;
+  field_values.reserve(values.size());
+  for (const json& json_value : values) {
+    field_values.push_back(DecodeValue(reader, json_value));
+  }
+  if (!reader.ok()) {
+    return {};
+  }
 
-  Message<google_firestore_v1_ArrayValue> array_value;
-  SetRepeatedField(
-      &array_value->values, &array_value->values_count, values,
-      [&](const json& j) { return *DecodeValue(reader, j).release(); });
-  return array_value;
+  return FieldValue::FromArray(std::move(field_values));
 }
 
-pb_bytes_array_t* BundleSerializer::DecodeReferenceValue(
+FieldValue BundleSerializer::DecodeReferenceValue(
     JsonReader& reader, const std::string& ref_string) const {
-  if (reader.ok() && !rpc_serializer_.IsLocalDocumentKey(ref_string)) {
-    reader.Fail(
-        StringFormat("Tried to deserialize an invalid key: %s", ref_string));
+  // Check if ref_string is indeed a valid string passed in.
+  if (!reader.ok()) {
+    return {};
   }
 
-  return nanopb::MakeBytesArray(ref_string);
+  return rpc_serializer_.DecodeReference(&reader, ref_string);
 }
 
 BundledDocumentMetadata BundleSerializer::DecodeDocumentMetadata(
@@ -672,9 +775,9 @@ BundleDocument BundleSerializer::DecodeDocument(JsonReader& reader,
 
   auto map_value = DecodeMapValue(reader, document);
 
-  return BundleDocument(MutableDocument::FoundDocument(
-      std::move(key), update_time,
-      ObjectValue::FromMapValue(std::move(map_value))));
+  return BundleDocument(Document(ObjectValue::FromMap(map_value.object_value()),
+                                 std::move(key), update_time,
+                                 model::DocumentState::kSynced));
 }
 
 }  // namespace bundle
