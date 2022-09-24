@@ -16,13 +16,16 @@ extension ChatViewController
     func setBindings()
     {
         print("ChatVC - setBindings()")
-        self.userViewModel.$audioURLArray.sink
-        { (updatedArray:[URL]) in
+        self.userViewModel.$audioArray.sink
+        { (updatedArray:[Data]) in
             print("ChatVC - audioURL count: \(updatedArray.count)")
-            self.audioURLArray = updatedArray
+            self.audioArray = updatedArray
             DispatchQueue.main.async
             {
-                self.tableView.reloadData()
+                if self.audioArray.count > 0
+                {
+                    self.tableView.insertRows(at: [IndexPath(row: self.audioArray.count-1, section: 0)], with: .automatic)
+                }
             }
         }.store(in: &disposableBag)
     }
