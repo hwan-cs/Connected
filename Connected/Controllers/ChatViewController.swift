@@ -17,6 +17,8 @@ class ChatViewController: UIViewController
     
     @IBOutlet var tableView: UITableView!
     
+    @IBOutlet var recordButton: UIButton!
+    
     var userViewModel: UserViewModel = UserViewModel()
     
     var disposableBag = Set<AnyCancellable>()
@@ -26,6 +28,8 @@ class ChatViewController: UIViewController
     var audioWaveImageArray = [UIImage]()
     
     let waveformImageDrawer = WaveformImageDrawer()
+    
+    var timer: Timer?
     
     override func viewDidLoad()
     {
@@ -46,9 +50,31 @@ class ChatViewController: UIViewController
         stackView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
+        recordButton.addTarget(self, action: #selector(startPulse), for: .touchDown)
+        recordButton.addTarget(self, action: #selector(stopPulse), for: [.touchUpInside, .touchUpOutside])
         self.setBindings()
     }
     
+    @objc func startPulse()
+    {
+        pulse()
+        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(pulse), userInfo: nil, repeats: true)
+    }
+    
+    @objc func pulse()
+    {
+        print(self.recordButton.center.x)
+        print(self.recordButton.center.y)
+        let pulse = PulseAnimation(numberOfPulse: 2.0, radius: 75, position: CGPoint(x: self.recordButton.center.x, y: self.stackView.center.y))
+        pulse.animationDuration = 0.5
+        pulse.backgroundColor = K.mainColor.cgColor
+        self.view.layer.insertSublayer(pulse, below: self.view.layer)
+    }
+    
+    @objc func stopPulse()
+    {
+        timer?.invalidate()
+    }
 }
 
 extension ChatViewController: UITableViewDelegate
@@ -60,7 +86,6 @@ extension ChatViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        print("CELLFORROWAT")
         let myCell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
         let yourCell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
         self.loadAudio(indexPath.row)
@@ -87,6 +112,7 @@ extension ChatViewController: UITableViewDataSource
                         secondImageView.bounds = myCell.waveFormImageView.bounds
                         secondImageView.layer.opacity = 0.3
                         myCell.messageView.addSubview(secondImageView)
+                        myCell.selectionStyle = .none
                     }
                 }
                 else
@@ -103,6 +129,7 @@ extension ChatViewController: UITableViewDataSource
                         secondImageView.bounds = yourCell.waveFormImageView.bounds
                         secondImageView.layer.opacity = 0.3
                         yourCell.messageView.addSubview(secondImageView)
+                        yourCell.selectionStyle = .none
                     }
                 }
             }
@@ -129,4 +156,5 @@ extension ChatViewController: UITableViewDataSource
             print(error.localizedDescription)
         }
     }
+
 }

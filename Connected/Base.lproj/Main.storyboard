@@ -489,9 +489,11 @@
                                         <rect key="frame" x="8" y="12" width="130" height="52"/>
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Voice" translatesAutoresizingMaskIntoConstraints="NO" id="hpU-ZW-u6X">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWG-QT-g1z">
                                         <rect key="frame" x="142" y="12" width="130" height="52"/>
-                                    </imageView>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="Voice"/>
+                                    </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oO5-Ik-fCu">
                                         <rect key="frame" x="276" y="9" width="130" height="58"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -531,6 +533,7 @@
                         <barButtonItem key="backBarButtonItem" title="뒤로가기" id="eKn-i9-R10"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="recordButton" destination="RWG-QT-g1z" id="C8t-i1-evn"/>
                         <outlet property="stackView" destination="pGP-tS-sae" id="a2D-6Z-IM2"/>
                         <outlet property="tableView" destination="ufU-6B-BoY" id="jRT-28-yfj"/>
                     </connections>
