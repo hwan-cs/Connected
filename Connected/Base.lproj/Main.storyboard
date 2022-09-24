@@ -104,7 +104,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nH9-cE-Z4O">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nH9-cE-Z4O" customClass="TransitionButton" customModule="TransitionButton">
                                 <rect key="frame" x="30" y="253" width="354" height="63"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -118,9 +118,12 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="14"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="spinnerColor">
+                                        <color key="value" red="0.98039215690000003" green="0.98039215690000003" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="didTapLogin:" destination="4U0-Z6-3QZ" eventType="touchUpInside" id="nPC-zh-THE"/>
+                                    <action selector="didTapLogin:" destination="4U0-Z6-3QZ" eventType="touchUpInside" id="R1c-eM-0Rq"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SIJ-bN-1wF">
@@ -173,7 +176,7 @@
                     <connections>
                         <outlet property="dragBar" destination="OYj-XS-BAD" id="bXp-4H-NRI"/>
                         <outlet property="eyeImageView" destination="Py2-MT-7pu" id="EIg-0z-lGR"/>
-                        <outlet property="loginBtn" destination="nH9-cE-Z4O" id="G31-aC-IuI"/>
+                        <outlet property="loginBtn" destination="nH9-cE-Z4O" id="W2Z-K6-m1v"/>
                         <outlet property="passwordTextField" destination="Xps-pz-0Da" id="PI1-Mu-hYm"/>
                         <outlet property="signupBtn" destination="SIJ-bN-1wF" id="zdH-YM-dWx"/>
                         <outlet property="usernameTextField" destination="lxr-0f-KBy" id="vTy-DO-ius"/>

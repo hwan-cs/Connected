@@ -32,6 +32,7 @@
 		1AACE8EB28CE312700B96A7C /* UIViewController_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE8EA28CE312700B96A7C /* UIViewController_Extensions.swift */; };
 		1AACE8F028CE39F400B96A7C /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 1AACE8EF28CE39F400B96A7C /* PartialSheet */; };
 		1AACE8F228CE3CF400B96A7C /* LoginSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE8F128CE3CF400B96A7C /* LoginSheetViewController.swift */; };
+		1AAF931128DF5E7C007FDCBB /* PulseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF931028DF5E7C007FDCBB /* PulseAnimation.swift */; };
 		1AB6A01828CF057300A0D127 /* LoginSheetVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A01728CF057300A0D127 /* LoginSheetVC_Extensions.swift */; };
 		1AB6A01A28D09A8900A0D127 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A01928D09A8900A0D127 /* SignupViewController.swift */; };
 		1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */; };
@@ -79,6 +80,7 @@
 		1AACE8E828CE300A00B96A7C /* UITextField_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField_Extensions.swift; sourceTree = "<group>"; };
 		1AACE8EA28CE312700B96A7C /* UIViewController_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController_Extensions.swift; sourceTree = "<group>"; };
 		1AACE8F128CE3CF400B96A7C /* LoginSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSheetViewController.swift; sourceTree = "<group>"; };
+		1AAF931028DF5E7C007FDCBB /* PulseAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseAnimation.swift; sourceTree = "<group>"; };
 		1AB6A01728CF057300A0D127 /* LoginSheetVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSheetVC_Extensions.swift; sourceTree = "<group>"; };
 		1AB6A01928D09A8900A0D127 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication_Extensions.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */,
 				1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */,
 				1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */,
+				1AAF931028DF5E7C007FDCBB /* PulseAnimation.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				1ADA77B528DB0985006EC39B /* UserViewModel.swift in Sources */,
 				1AACE8F228CE3CF400B96A7C /* LoginSheetViewController.swift in Sources */,
 				1ADA77B828DB099D006EC39B /* ChatTableViewCell.swift in Sources */,
+				1AAF931128DF5E7C007FDCBB /* PulseAnimation.swift in Sources */,
 				1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */,
 				1ADA77BB28DB09B3006EC39B /* ChatViewController.swift in Sources */,
 				1A48B3D528DD7B1200FCEA88 /* UIView_Extensions.swift in Sources */,

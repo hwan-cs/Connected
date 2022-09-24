@@ -80,6 +80,13 @@ extension ChatViewController: UITableViewDataSource
                         print("URL\(indexPath.row):", url)
                         //myCell.waveFormImageView.waveformAudioURL = url
                         myCell.waveFormImageView.image = image
+                        myCell.audio = self.audioArray[indexPath.row]
+                        
+                        let secondImageView = UIImageView(image: image)
+                        secondImageView.frame = myCell.waveFormImageView.frame
+                        secondImageView.bounds = myCell.waveFormImageView.bounds
+                        secondImageView.layer.opacity = 0.3
+                        myCell.messageView.addSubview(secondImageView)
                     }
                 }
                 else
@@ -89,6 +96,13 @@ extension ChatViewController: UITableViewDataSource
                         print("URL\(indexPath.row):", url)
                         //yourCell.waveFormImageView.waveformAudioURL = url
                         yourCell.waveFormImageView.image = image
+                        yourCell.audio = self.audioArray[indexPath.row]
+                        
+                        let secondImageView = UIImageView(image: image)
+                        secondImageView.frame = yourCell.waveFormImageView.frame
+                        secondImageView.bounds = yourCell.waveFormImageView.bounds
+                        secondImageView.layer.opacity = 0.3
+                        yourCell.messageView.addSubview(secondImageView)
                     }
                 }
             }

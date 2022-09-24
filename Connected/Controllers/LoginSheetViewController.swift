@@ -12,6 +12,7 @@ import SwiftMessages
 import AMPopTip
 import FirebaseAuth
 import Firebase
+import TransitionButton
 import FirebaseFirestore
 
 class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate
@@ -31,7 +32,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     @IBOutlet var eyeImageView: UIImageView!
     
-    @IBOutlet var loginBtn: UIButton!
+    @IBOutlet var loginBtn: TransitionButton!
 
     @IBOutlet var signupBtn: UIButton!
     
@@ -277,14 +278,16 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         }
     }
     
-    @IBAction func didTapLogin(_ sender: UIButton)
+    @IBAction func didTapLogin(_ sender: TransitionButton)
     {
         sender.isUserInteractionEnabled = false
         sender.backgroundColor = .gray
+        sender.startAnimation()
         if !(usernameTextField.text?.isValidEmail ?? true) && !(passwordTextField.text?.isValidPassword ?? true)
         {
             sender.isUserInteractionEnabled = true
             sender.backgroundColor = K.mainColor
+            sender.stopAnimation(animationStyle: .normal)
             return
         }
         else
@@ -306,6 +309,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                     passwordTextField.showInfo("존재하지 않는 사용자 입니다! 회원가입을 먼저 진행 해주세요", animated: true)
                     sender.isUserInteractionEnabled = true
                     sender.backgroundColor = K.mainColor
+                    sender.stopAnimation(animationStyle: .normal)
                     return
                 }
                 do
@@ -318,6 +322,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                     print("nope")
                     sender.isUserInteractionEnabled = true
                     sender.backgroundColor = K.mainColor
+                    sender.stopAnimation(animationStyle: .normal)
                     let alert = UIAlertController(title: "", message: "비밀번호가 틀렸습니다!", preferredStyle: .alert)
                     self.present(alert, animated: true, completion: nil)
 
@@ -364,7 +369,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                                         self.dismiss(animated: true)
                                         {
                                             self.timer.invalidate()
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0)
+                                            sender.stopAnimation(animationStyle: .expand)
                                             {
                                                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "CWCNavigationController") as! UINavigationController
                                                 let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
@@ -417,6 +422,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                         self.makeResendEmailButton()
                         sender.isUserInteractionEnabled = true
                         sender.backgroundColor = K.mainColor
+                        sender.stopAnimation(animationStyle: .normal)
                     }
                 }
             }

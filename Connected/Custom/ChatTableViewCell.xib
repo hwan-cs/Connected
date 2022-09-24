@@ -28,6 +28,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="Play-2"/>
+                                <connections>
+                                    <action selector="didTapPlayButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="n3M-Au-yhz"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFO-G2-1zc">
                                 <rect key="frame" x="150" y="8" width="32" height="32"/>
@@ -109,6 +112,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="messageView" destination="ap1-Ed-My4" id="aYQ-wP-gDw"/>
+                <outlet property="playButton" destination="Tc8-UP-sJP" id="uhs-4W-iHI"/>
                 <outlet property="waveFormImageView" destination="d1v-jc-2ZH" id="UWb-we-UM7"/>
             </connections>
             <point key="canvasLocation" x="135.38461538461539" y="22.748815165876778"/>

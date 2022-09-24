@@ -21,15 +21,8 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ANo-9W-2fe">
                         <rect key="frame" x="10" y="8" width="194" height="48"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Play" translatesAutoresizingMaskIntoConstraints="NO" id="j1f-3h-ot1">
-                                <rect key="frame" x="10" y="12" width="24" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="8JG-Ux-mqB"/>
-                                    <constraint firstAttribute="height" constant="24" id="PHm-VI-2w0"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSc-fh-3qg">
-                                <rect key="frame" x="150" y="8" width="32" height="32"/>
+                                <rect key="frame" x="153" y="8" width="32" height="32"/>
                                 <color key="backgroundColor" red="0.80784313725490198" green="0.83529411764705885" blue="0.85882352941176465" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="999" constant="32" id="YZj-0o-Nlg"/>
@@ -44,32 +37,43 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKy-Db-ZRw">
-                                <rect key="frame" x="156.66666666666666" y="18" width="19" height="12"/>
+                                <rect key="frame" x="159.66666666666666" y="18" width="19" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7F3-Fg-apH" customClass="WaveformImageView" customModule="DSWaveformImage">
-                                <rect key="frame" x="45" y="12" width="94" height="24"/>
+                                <rect key="frame" x="48" y="12" width="94" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="94" id="1a8-kA-l6n"/>
                                     <constraint firstAttribute="height" constant="24" id="DI4-oQ-EtF"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tJk-p6-I3u">
+                                <rect key="frame" x="11" y="12" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="al5-7L-xMz"/>
+                                    <constraint firstAttribute="width" constant="24" id="olf-Ae-pqL"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="Play"/>
+                                <connections>
+                                    <action selector="didTapPlayButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="v4X-2S-78v"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="j1f-3h-ot1" secondAttribute="bottom" constant="12" id="0Ja-Pv-psG"/>
                             <constraint firstItem="xSc-fh-3qg" firstAttribute="top" secondItem="ANo-9W-2fe" secondAttribute="top" priority="999" constant="8" id="Kzx-rR-dPy"/>
-                            <constraint firstItem="j1f-3h-ot1" firstAttribute="leading" secondItem="ANo-9W-2fe" secondAttribute="leading" constant="10" id="LUm-iw-j6k"/>
-                            <constraint firstItem="j1f-3h-ot1" firstAttribute="top" secondItem="ANo-9W-2fe" secondAttribute="top" constant="12" id="Lms-wE-578"/>
                             <constraint firstItem="7F3-Fg-apH" firstAttribute="centerY" secondItem="ANo-9W-2fe" secondAttribute="centerY" id="Loq-x5-ejR"/>
                             <constraint firstAttribute="width" constant="194" id="Osc-k2-A4a"/>
+                            <constraint firstItem="tJk-p6-I3u" firstAttribute="leading" secondItem="ANo-9W-2fe" secondAttribute="leading" constant="11" id="SgT-14-mI9"/>
                             <constraint firstItem="aKy-Db-ZRw" firstAttribute="centerY" secondItem="xSc-fh-3qg" secondAttribute="centerY" id="Z1l-hT-ScQ"/>
+                            <constraint firstItem="7F3-Fg-apH" firstAttribute="leading" secondItem="tJk-p6-I3u" secondAttribute="trailing" constant="13" id="aCJ-dA-gsp"/>
                             <constraint firstAttribute="bottom" secondItem="xSc-fh-3qg" secondAttribute="bottom" priority="999" constant="8" id="cCl-EU-dey"/>
                             <constraint firstItem="xSc-fh-3qg" firstAttribute="leading" secondItem="7F3-Fg-apH" secondAttribute="trailing" constant="11" id="cPp-lH-aCJ"/>
+                            <constraint firstItem="tJk-p6-I3u" firstAttribute="centerY" secondItem="ANo-9W-2fe" secondAttribute="centerY" id="eBQ-L6-eBm"/>
                             <constraint firstItem="aKy-Db-ZRw" firstAttribute="centerX" secondItem="xSc-fh-3qg" secondAttribute="centerX" id="lHF-jN-0xY"/>
-                            <constraint firstItem="7F3-Fg-apH" firstAttribute="leading" secondItem="j1f-3h-ot1" secondAttribute="trailing" constant="11" id="xNT-VR-Qsf"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7BG-uY-mgh">
@@ -107,6 +111,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="messageView" destination="ANo-9W-2fe" id="XBs-hv-TjE"/>
+                <outlet property="playButton" destination="tJk-p6-I3u" id="NDE-AQ-jgo"/>
                 <outlet property="waveFormImageView" destination="7F3-Fg-apH" id="GNQ-Lo-hiV"/>
             </connections>
             <point key="canvasLocation" x="130.76923076923077" y="-11.374407582938389"/>
