@@ -24,9 +24,16 @@ extension ChatViewController
             {
                 if self.audioArray.count > 0
                 {
-                    self.tableView.insertRows(at: [IndexPath(row: self.audioArray.count-1, section: 0)], with: .automatic)
+                    for i in 0..<self.audioArray.count
+                    {
+                        if self.tableView.cellForRow(at: IndexPath(row: i, section: 0)) == nil
+                        {
+                            self.tableView.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+                        }
+                    }
                 }
             }
         }.store(in: &disposableBag)
     }
 }
+

@@ -31,6 +31,14 @@ class ChatViewController: UIViewController
     
     var timer: Timer?
     
+    var audioPulse: PulseAnimation!
+    
+    var recordingSession: AVAudioSession = AVAudioSession()
+    
+    var audioRecorder: AVAudioRecorder!
+    
+    var waveFormView: WaveformLiveView = WaveformLiveView()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -53,27 +61,120 @@ class ChatViewController: UIViewController
         recordButton.addTarget(self, action: #selector(startPulse), for: .touchDown)
         recordButton.addTarget(self, action: #selector(stopPulse), for: [.touchUpInside, .touchUpOutside])
         self.setBindings()
+        
+        recordingSession = AVAudioSession.sharedInstance()
+
+        do
+        {
+            try recordingSession.setCategory(.playAndRecord, mode: .voiceChat)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission()
+            { [unowned self] allowed in
+                DispatchQueue.main.async
+                {
+                    if allowed
+                    {
+                        self.loadRecordingUI()
+                    }
+                    else
+                    {
+                        print("recording not allowd")
+                    }
+                }
+            }
+        }
+        catch
+        {
+            print("some error")
+        }
     }
     
     @objc func startPulse()
     {
+        audioPulse = PulseAnimation(numberOfPulse: Float.infinity, radius: 75, position: CGPoint(x: self.recordButton.center.x, y: self.stackView.center.y))
+        audioPulse.animationDuration = 0.5
+        audioPulse.backgroundColor = K.mainColor.cgColor
+        self.view.layer.insertSublayer(audioPulse, below: self.view.layer)
+        
+        startRecording()
         pulse()
-        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(pulse), userInfo: nil, repeats: true)
+//        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(pulse), userInfo: nil, repeats: true)
     }
     
     @objc func pulse()
     {
-        print(self.recordButton.center.x)
-        print(self.recordButton.center.y)
-        let pulse = PulseAnimation(numberOfPulse: 2.0, radius: 75, position: CGPoint(x: self.recordButton.center.x, y: self.stackView.center.y))
-        pulse.animationDuration = 0.5
-        pulse.backgroundColor = K.mainColor.cgColor
-        self.view.layer.insertSublayer(pulse, below: self.view.layer)
+        let displayLink = CADisplayLink(target: self, selector: #selector(updateWave))
+        displayLink.add(to: .current, forMode: .default)
+    }
+    
+    @objc func updateWave()
+    {
+        audioRecorder.updateMeters()
+        let avgPower = audioRecorder.averagePower(forChannel: 0)
+        let linear = 1 - pow(10, avgPower / 20)
+        
+        waveFormView.add(samples: [linear, linear, linear])
     }
     
     @objc func stopPulse()
     {
         timer?.invalidate()
+        audioPulse.removeFromSuperlayer()
+    }
+    
+    func loadRecordingUI()
+    {
+//        waveFormView.center.y = recordButton.center.y - 200
+//        waveFormView.center.x = stackView.center.x
+        waveFormView.backgroundColor = .clear
+        waveFormView.frame = CGRect(origin: CGPoint(x: stackView.center.x-self.recordButton.frame.width, y: stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
+        waveFormView.configuration = waveFormView.configuration.with(
+            style: .striped(.init(color: K.mainColor, width: 3, spacing: 3)),
+            position: .middle,
+            verticalScalingFactor: 3)
+        //stackView.addSubview(waveFormView)
+        view.addSubview(waveFormView)
+    }
+    
+    func finishRecording(success: Bool)
+    {
+        audioRecorder.stop()
+        audioRecorder = nil
+
+        if success
+        {
+            self.waveFormView.backgroundColor = .blue
+        }
+        else
+        {
+            self.waveFormView.backgroundColor = .red
+            // recording failed :(
+        }
+    }
+    
+    func startRecording()
+    {
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(String(describing: UUID.init(uuidString: "helloworld"))).m4a", conformingTo: .audio)
+
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+
+        do
+        {
+            audioRecorder = try AVAudioRecorder(url: path, settings: settings)
+            audioRecorder.delegate = self
+            audioRecorder.prepareToRecord()
+            audioRecorder.isMeteringEnabled = true
+            audioRecorder.record()
+        }
+        catch
+        {
+            finishRecording(success: false)
+        }
     }
 }
 
@@ -145,7 +246,6 @@ extension ChatViewController: UITableViewDataSource
     func loadAudio(_ index: Int, completionHandler: @escaping (URL) -> Void)
     {
         let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(index+1).m4a", conformingTo: .audio)
-        guard let url = Bundle.main.url(forResource: "localAudio", withExtension: "m4a") else { fatalError() }
         do
         {
             try self.audioArray[index].write(to: path)
@@ -157,4 +257,15 @@ extension ChatViewController: UITableViewDataSource
         }
     }
 
+}
+
+extension ChatViewController: AVAudioRecorderDelegate
+{
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool)
+    {
+        if !flag
+        {
+            self.finishRecording(success: false)
+        }
+    }
 }
