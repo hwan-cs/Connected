@@ -85,7 +85,7 @@
                         <color key="textColor" red="0.44705882349999998" green="0.47058823529999999" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tr7-u2-1fK">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tr7-u2-1fK">
                         <rect key="frame" x="8" y="10" width="42" height="28"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="BBg-Bk-LND"/>
@@ -112,6 +112,8 @@
             <connections>
                 <outlet property="messageView" destination="ap1-Ed-My4" id="aYQ-wP-gDw"/>
                 <outlet property="playButton" destination="Tc8-UP-sJP" id="uhs-4W-iHI"/>
+                <outlet property="readLabel" destination="eeN-4d-6Ph" id="qs0-fS-QuY"/>
+                <outlet property="timeLabel" destination="tr7-u2-1fK" id="3Wn-3x-BHu"/>
                 <outlet property="waveFormImageView" destination="d1v-jc-2ZH" id="UWb-we-UM7"/>
             </connections>
             <point key="canvasLocation" x="135.38461538461539" y="22.748815165876778"/>

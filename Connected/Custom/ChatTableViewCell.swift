@@ -11,14 +11,29 @@ import AVFoundation
 
 class ChatTableViewCell: UITableViewCell
 {
-
+    
     @IBOutlet var messageView: UIView!
     
     @IBOutlet var waveFormImageView: WaveformImageView!
     
     @IBOutlet var playButton: UIButton!
     
+    @IBOutlet var timeLabel: UILabel!
+    
+    @IBOutlet var readLabel: UILabel!
+    
     var audio: Data?
+    
+    var audioName: String!
+    {
+        didSet
+        {
+            let foo = self.audioName.components(separatedBy: "_")[1]
+            let bar = foo.components(separatedBy: "m4a")[0]
+            let time = bar.components(separatedBy: "T")[0]
+            self.timeLabel.text = time
+        }
+    }
     
     var player: AVAudioPlayer?
     
@@ -51,10 +66,19 @@ class ChatTableViewCell: UITableViewCell
         borderLayer.lineWidth = 1
         borderLayer.frame = self.messageView.bounds
         self.messageView.layer.addSublayer(borderLayer)
+        
+        self.readLabel.text = "안읽음"
+        
+        self.player?.delegate = self
     }
 
     @IBAction func didTapPlayButton(_ sender: UIButton)
     {
+        let shadowImage = UIImageView(image: self.waveFormImageView.image)
+        shadowImage.frame = self.waveFormImageView.frame
+        shadowImage.bounds = self.waveFormImageView.bounds
+        shadowImage.layer.opacity = 0.3
+        self.messageView.addSubview(shadowImage)
         if self.playButton.currentImage == UIImage(named: "Play-2.svg")
         {
             self.playButton.setImage(UIImage(named: "Stop-2.svg"), for: .normal)
@@ -111,6 +135,25 @@ class ChatTableViewCell: UITableViewCell
 
         // Configure the view for the selected state
     }
-
 }
 
+extension ChatTableViewCell: AVAudioPlayerDelegate
+{
+    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool)
+    {
+        if flag
+        {
+            print("finished")
+            player.stop()
+            player.currentTime = 0
+            self.second = 0
+            self.playButton.setImage(UIImage(named: "Play-2.svg"), for: .normal)
+            timer?.invalidate()
+            timer = nil
+        }
+        else
+        {
+            print("not successful")
+        }
+    }
+}

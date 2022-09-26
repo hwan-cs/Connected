@@ -10,6 +10,8 @@ import UIKit
 import Combine
 import AVFoundation
 import DSWaveformImage
+import FirebaseStorage
+import FirebaseAuth
 
 class ChatViewController: UIViewController
 {
@@ -19,7 +21,9 @@ class ChatViewController: UIViewController
     
     @IBOutlet var recordButton: UIButton!
     
-    var userViewModel: UserViewModel = UserViewModel()
+    var userViewModel: UserViewModel?
+    
+    let storage = Storage.storage()
     
     var disposableBag = Set<AnyCancellable>()
     
@@ -33,11 +37,17 @@ class ChatViewController: UIViewController
     
     var audioPulse: PulseAnimation!
     
+    var displayLink: CADisplayLink?
+    
     var recordingSession: AVAudioSession = AVAudioSession()
     
     var audioRecorder: AVAudioRecorder!
     
     var waveFormView: WaveformLiveView = WaveformLiveView()
+    
+    var path: URL?
+    
+    var recepientUID = "NLsm46kThrXznH1daKbBK1U3eyf1"
     
     override func viewDidLoad()
     {
@@ -60,6 +70,9 @@ class ChatViewController: UIViewController
         
         recordButton.addTarget(self, action: #selector(startPulse), for: .touchDown)
         recordButton.addTarget(self, action: #selector(stopPulse), for: [.touchUpInside, .touchUpOutside])
+        
+        self.userViewModel = UserViewModel(Auth.auth().currentUser!.uid, self.recepientUID)
+        
         self.setBindings()
         
         recordingSession = AVAudioSession.sharedInstance()
@@ -95,16 +108,15 @@ class ChatViewController: UIViewController
         audioPulse.animationDuration = 0.5
         audioPulse.backgroundColor = K.mainColor.cgColor
         self.view.layer.insertSublayer(audioPulse, below: self.view.layer)
-        
+        view.addSubview(waveFormView)
         startRecording()
         pulse()
-//        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(pulse), userInfo: nil, repeats: true)
     }
     
     @objc func pulse()
     {
-        let displayLink = CADisplayLink(target: self, selector: #selector(updateWave))
-        displayLink.add(to: .current, forMode: .default)
+        displayLink = CADisplayLink(target: self, selector: #selector(updateWave))
+        displayLink!.add(to: .current, forMode: .common)
     }
     
     @objc func updateWave()
@@ -119,13 +131,15 @@ class ChatViewController: UIViewController
     @objc func stopPulse()
     {
         timer?.invalidate()
+        self.finishRecording(success: true)
         audioPulse.removeFromSuperlayer()
+        self.waveFormView.removeFromSuperview()
+        displayLink?.invalidate()
+        displayLink = nil
     }
     
     func loadRecordingUI()
     {
-//        waveFormView.center.y = recordButton.center.y - 200
-//        waveFormView.center.x = stackView.center.x
         waveFormView.backgroundColor = .clear
         waveFormView.frame = CGRect(origin: CGPoint(x: stackView.center.x-self.recordButton.frame.width, y: stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
         waveFormView.configuration = waveFormView.configuration.with(
@@ -140,21 +154,49 @@ class ChatViewController: UIViewController
     {
         audioRecorder.stop()
         audioRecorder = nil
-
+        
+        let uuid = Auth.auth().currentUser!.uid
+        let metadata = StorageMetadata()
+        metadata.contentType = AVFileType.m4a.rawValue
+        
         if success
         {
-            self.waveFormView.backgroundColor = .blue
+            let storageRef = self.storage.reference()
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone.current
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            let audioRef = storageRef.child("\(uuid)/\(self.recepientUID)_\(formatter.string(from: Date.now)).m4a")
+            
+            let uploadTask = audioRef.putFile(from: self.path!, metadata: metadata)
+            { metadata, error in
+                if let error = error
+                {
+                    print(error.localizedDescription)
+                }
+                else
+                {
+                    do
+                    {
+                        let data = try Data(contentsOf: self.path!)
+                        self.userViewModel?.audioArray.append(data)
+                    }
+                    catch
+                    {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
         }
         else
         {
-            self.waveFormView.backgroundColor = .red
+            
             // recording failed :(
         }
     }
     
     func startRecording()
     {
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(String(describing: UUID.init(uuidString: "helloworld"))).m4a", conformingTo: .audio)
+        path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("\(self.recepientUID).m4a", conformingTo: .audio)
 
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -165,7 +207,7 @@ class ChatViewController: UIViewController
 
         do
         {
-            audioRecorder = try AVAudioRecorder(url: path, settings: settings)
+            audioRecorder = try AVAudioRecorder(url: self.path!, settings: settings)
             audioRecorder.delegate = self
             audioRecorder.prepareToRecord()
             audioRecorder.isMeteringEnabled = true
@@ -193,7 +235,7 @@ extension ChatViewController: UITableViewDataSource
         { url in
             Task.init
             {
-                let image = try! await self.waveformImageDrawer.waveformImage(fromAudioAt: url, with: .init(
+                let image = try await self.waveformImageDrawer.waveformImage(fromAudioAt: url, with: .init(
                     size: myCell.waveFormImageView.bounds.size,
                     style: .striped(.init(color: .gray, width: 3, spacing: 3)),
                     position: .middle,
@@ -208,11 +250,7 @@ extension ChatViewController: UITableViewDataSource
                         myCell.waveFormImageView.image = image
                         myCell.audio = self.audioArray[indexPath.row]
                         
-                        let secondImageView = UIImageView(image: image)
-                        secondImageView.frame = myCell.waveFormImageView.frame
-                        secondImageView.bounds = myCell.waveFormImageView.bounds
-                        secondImageView.layer.opacity = 0.3
-                        myCell.messageView.addSubview(secondImageView)
+                        myCell.audioName = self.userViewModel?.audioName[indexPath.row]
                         myCell.selectionStyle = .none
                     }
                 }
@@ -225,11 +263,7 @@ extension ChatViewController: UITableViewDataSource
                         yourCell.waveFormImageView.image = image
                         yourCell.audio = self.audioArray[indexPath.row]
                         
-                        let secondImageView = UIImageView(image: image)
-                        secondImageView.frame = yourCell.waveFormImageView.frame
-                        secondImageView.bounds = yourCell.waveFormImageView.bounds
-                        secondImageView.layer.opacity = 0.3
-                        yourCell.messageView.addSubview(secondImageView)
+                        yourCell.audioName = self.userViewModel?.audioName[indexPath.row]
                         yourCell.selectionStyle = .none
                     }
                 }
@@ -245,11 +279,11 @@ extension ChatViewController: UITableViewDataSource
     
     func loadAudio(_ index: Int, completionHandler: @escaping (URL) -> Void)
     {
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(index+1).m4a", conformingTo: .audio)
+        let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(index+1).m4a", conformingTo: .audio)
         do
         {
-            try self.audioArray[index].write(to: path)
-            completionHandler(path)
+            try self.audioArray[index].write(to: filePath)
+            completionHandler(filePath)
         }
         catch
         {

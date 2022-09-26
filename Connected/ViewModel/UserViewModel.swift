@@ -18,32 +18,44 @@ class UserViewModel: ObservableObject
     
     var userName: String?
     
+    var audioName: [String] = []
+    
     @Published var audioArray: [Data] = []
     
     var audioWaveImageArray: [UIImage] = []
     
     let waveformImageDrawer = WaveformImageDrawer()
     
-    init()
+    init(_ uid: String, _ suid: String)
     {
         let storageRef = self.storage.reference()
-        let audioRef = storageRef.child("Audios")
-        for i in 1...5
-        {
-            var audios = storageRef.child("Audios/cwv_\(i).m4a")
-            audios.getData(maxSize: 1*1024*1024)
-            { data, error in
-                if let error = error
+        let audioRef = storageRef.child("\(uid)/")
+        audioRef.listAll(completion:
+        { (storageListResult, error) in
+            if let error = error
+            {
+                print(error.localizedDescription)
+            }
+            else
+            {
+                for items in storageListResult!.items
                 {
-                    print(error.localizedDescription)
-                }
-                else
-                {
-                    print(data!)
-                    self.audioArray.append(data!)
+                    items.getData(maxSize: 1*1024*1024)
+                    { data, errpr in
+                        if let error = error
+                        {
+                            print(error.localizedDescription)
+                        }
+                        else
+                        {
+                            print(data!)
+                            self.audioName.append(items.name)
+                            self.audioArray.append(data!)
+                        }
+                    }
                 }
             }
-        }
+        })
         print("User Viewmodel init")
     }
 }

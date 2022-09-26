@@ -76,7 +76,7 @@
                             <constraint firstItem="aKy-Db-ZRw" firstAttribute="centerX" secondItem="xSc-fh-3qg" secondAttribute="centerX" id="lHF-jN-0xY"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7BG-uY-mgh">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7BG-uY-mgh">
                         <rect key="frame" x="212" y="10" width="42" height="28"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="8x1-gn-J3D"/>
@@ -112,6 +112,8 @@
             <connections>
                 <outlet property="messageView" destination="ANo-9W-2fe" id="XBs-hv-TjE"/>
                 <outlet property="playButton" destination="tJk-p6-I3u" id="NDE-AQ-jgo"/>
+                <outlet property="readLabel" destination="YA4-bc-XnY" id="fxS-8u-FlA"/>
+                <outlet property="timeLabel" destination="7BG-uY-mgh" id="8Gt-jV-EiR"/>
                 <outlet property="waveFormImageView" destination="7F3-Fg-apH" id="GNQ-Lo-hiV"/>
             </connections>
             <point key="canvasLocation" x="130.76923076923077" y="-11.374407582938389"/>
