@@ -246,12 +246,9 @@ extension ChatViewController: UITableViewDataSource
                 {
                     DispatchQueue.main.async
                     {
-                        print("URL\(indexPath.row):", url)
                         //myCell.waveFormImageView.waveformAudioURL = url
-                        myCell.playerItem = CachingPlayerItem(url: url)
                         myCell.waveFormImageView.image = image
                         myCell.audio = self.audioArray[indexPath.row]
-                        myCell.playerItem?.delegate = self
                         myCell.audioName = self.userViewModel?.audioName[indexPath.row]
                         myCell.selectionStyle = .none
                     }
@@ -260,12 +257,9 @@ extension ChatViewController: UITableViewDataSource
                 {
                     DispatchQueue.main.async
                     {
-                        print("URL\(indexPath.row):", url)
                         //yourCell.waveFormImageView.waveformAudioURL = url
-                        yourCell.playerItem = CachingPlayerItem(url: url)
                         yourCell.waveFormImageView.image = image
                         yourCell.audio = self.audioArray[indexPath.row]
-                        yourCell.playerItem?.delegate = self
                         yourCell.audioName = self.userViewModel?.audioName[indexPath.row]
                         yourCell.selectionStyle = .none
                     }
@@ -305,29 +299,4 @@ extension ChatViewController: AVAudioRecorderDelegate
             self.finishRecording(success: false)
         }
     }
-}
-
-extension ChatViewController: CachingPlayerItemDelegate
-{
-    
-    func playerItem(_ playerItem: CachingPlayerItem, didFinishDownloadingData data: Data)
-    {
-        print("File is downloaded and ready for storing")
-    }
-    
-    func playerItem(_ playerItem: CachingPlayerItem, didDownloadBytesSoFar bytesDownloaded: Int, outOf bytesExpected: Int)
-    {
-        print("\(bytesDownloaded)/\(bytesExpected)")
-    }
-    
-    func playerItemPlaybackStalled(_ playerItem: CachingPlayerItem)
-    {
-        print("Not enough data for playback. Probably because of the poor network. Wait a bit and try to play later.")
-    }
-    
-    func playerItem(_ playerItem: CachingPlayerItem, downloadingFailedWith error: Error)
-    {
-        print(error)
-    }
-    
 }

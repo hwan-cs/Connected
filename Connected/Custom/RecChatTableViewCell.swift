@@ -8,6 +8,7 @@
 import UIKit
 import DSWaveformImage
 import AVFoundation
+import Cache
 
 class RecChatTableViewCell: UITableViewCell
 {
@@ -28,20 +29,19 @@ class RecChatTableViewCell: UITableViewCell
     {
         didSet
         {
-            let time = self.audioName.components(separatedBy: "T")[0]
-            self.timeLabel.text = time
+            let time = self.audioName.components(separatedBy: "T")
+            self.timeLabel.text = time[0]
+            self.readLabel.text = time[1]
         }
     }
     
-    var player: AVPlayer?
+    var player: AVAudioPlayer?
     
     var playerItem: CachingPlayerItem?
     
     weak var timer: Timer?
     
     var second = 0
-    
-    var duration: Double?
     
     override func awakeFromNib()
     {
@@ -68,8 +68,6 @@ class RecChatTableViewCell: UITableViewCell
         borderLayer.lineWidth = 1
         borderLayer.frame = self.messageView.bounds
         self.messageView.layer.addSublayer(borderLayer)
-        
-        self.readLabel.text = "안읽음"
     }
 
     @IBAction func didTapPlayButton(_ sender: UIButton)
@@ -84,20 +82,24 @@ class RecChatTableViewCell: UITableViewCell
             self.playButton.setImage(UIImage(named: "Stop-2-1.svg"), for: .normal)
             if let audio = audio
             {
-                if let player = player
+                do
                 {
-                    player.play()
-                    timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
+                    if let player = player
+                    {
+                        player.play()
+                        timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
+                    }
+                    else
+                    {
+                        player = try AVAudioPlayer(data: audio, fileTypeHint: AVFileType.m4a.rawValue)
+                        guard let player = player else { return }
+                        player.play()
+                        timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
+                    }
                 }
-                else
+                catch
                 {
-                    player = AVPlayer(playerItem: playerItem)
-                    player?.automaticallyWaitsToMinimizeStalling = true
-                    self.duration = self.playerItem?.duration.seconds
-                    guard let player = player else { return }
-                    player.play()
-                    playerItem?.download()
-                    timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
+                    print(error.localizedDescription)
                 }
             }
         }
@@ -112,7 +114,7 @@ class RecChatTableViewCell: UITableViewCell
     @objc func updateProgess()
     {
         let fullRect = self.waveFormImageView.bounds
-        let newWidth = Double(fullRect.size.width) * Double(self.second)/10.0/self.duration!
+        let newWidth = Double(fullRect.size.width) * Double(self.second)/10.0/self.player!.duration
         let maskLayer = CAShapeLayer()
         let maskRect = CGRect(x: 0.0, y: 0.0, width: newWidth, height: Double(fullRect.size.height))
 

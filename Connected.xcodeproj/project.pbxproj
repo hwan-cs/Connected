@@ -12,6 +12,7 @@
 		1A48B3D328DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48B3D228DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift */; };
 		1A48B3D528DD7B1200FCEA88 /* UIView_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48B3D428DD7B1200FCEA88 /* UIView_Extensions.swift */; };
 		1A48B41828DD93D100FCEA88 /* ChatVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48B41728DD93D100FCEA88 /* ChatVC_Extensions.swift */; };
+		1A4A864C28E31B820078EAFC /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 1A4A864B28E31B820078EAFC /* Cache */; };
 		1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88628CB409F00B96A7C /* AppDelegate.swift */; };
 		1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88A28CB409F00B96A7C /* LoginViewController.swift */; };
 		1AACE88E28CB409F00B96A7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AACE88C28CB409F00B96A7C /* Main.storyboard */; };
@@ -109,6 +110,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AACE8F028CE39F400B96A7C /* PartialSheet in Frameworks */,
+				1A4A864C28E31B820078EAFC /* Cache in Frameworks */,
 				1ADA77BE28DB55CC006EC39B /* DSWaveformImage in Frameworks */,
 				AD6B26617F4BE5548B4C4AF1 /* Pods_Connected.framework in Frameworks */,
 			);
@@ -261,7 +263,7 @@
 				1AACE87F28CB409F00B96A7C /* Sources */,
 				1AACE88028CB409F00B96A7C /* Frameworks */,
 				1AACE88128CB409F00B96A7C /* Resources */,
-				C02F48145C27C7E96BC71F97 /* [CP] Embed Pods Frameworks */,
+				F405929D23D322E53D930496 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -271,6 +273,7 @@
 			packageProductDependencies = (
 				1AACE8EF28CE39F400B96A7C /* PartialSheet */,
 				1ADA77BD28DB55CC006EC39B /* DSWaveformImage */,
+				1A4A864B28E31B820078EAFC /* Cache */,
 			);
 			productName = Connected;
 			productReference = 1AACE88328CB409F00B96A7C /* Connected.app */;
@@ -303,6 +306,7 @@
 			packageReferences = (
 				1AACE8EE28CE39F400B96A7C /* XCRemoteSwiftPackageReference "PartialSheet" */,
 				1ADA77BC28DB55CC006EC39B /* XCRemoteSwiftPackageReference "DSWaveformImage" */,
+				1A4A864A28E31B820078EAFC /* XCRemoteSwiftPackageReference "Cache" */,
 			);
 			productRefGroup = 1AACE88428CB409F00B96A7C /* Products */;
 			projectDirPath = "";
@@ -365,7 +369,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C02F48145C27C7E96BC71F97 /* [CP] Embed Pods Frameworks */ = {
+		F405929D23D322E53D930496 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -474,7 +478,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -533,7 +537,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -636,6 +640,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1A4A864A28E31B820078EAFC /* XCRemoteSwiftPackageReference "Cache" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hyperoslo/Cache";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		1AACE8EE28CE39F400B96A7C /* XCRemoteSwiftPackageReference "PartialSheet" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AndreaMiotto/PartialSheet";
@@ -655,6 +667,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A4A864B28E31B820078EAFC /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A4A864A28E31B820078EAFC /* XCRemoteSwiftPackageReference "Cache" */;
+			productName = Cache;
+		};
 		1AACE8EF28CE39F400B96A7C /* PartialSheet */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1AACE8EE28CE39F400B96A7C /* XCRemoteSwiftPackageReference "PartialSheet" */;
