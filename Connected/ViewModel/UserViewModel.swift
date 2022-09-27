@@ -29,7 +29,7 @@ class UserViewModel: ObservableObject
     init(_ uid: String, _ suid: String)
     {
         let storageRef = self.storage.reference()
-        let audioRef = storageRef.child("\(uid)/")
+        let audioRef = storageRef.child("\(uid)/\(suid)/")
         audioRef.listAll(completion:
         { (storageListResult, error) in
             if let error = error
