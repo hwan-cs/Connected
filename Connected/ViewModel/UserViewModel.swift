@@ -23,8 +23,6 @@ class UserViewModel: ObservableObject
     
     @Published var audioArray: [Data] = []
     
-    var audioWaveImageArray: [UIImage] = []
-    
     let waveformImageDrawer = WaveformImageDrawer()
     
     let diskConfig = DiskConfig(name: "DiskCache")

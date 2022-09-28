@@ -31,7 +31,7 @@ class ChatTableViewCell: UITableViewCell
         {
             let time = self.audioName.components(separatedBy: "T")
             self.timeLabel.text = time[0]
-            self.readLabel.text = time[1]
+            self.readLabel.text = String(time[1].prefix(5))
         }
     }
     
@@ -68,15 +68,15 @@ class ChatTableViewCell: UITableViewCell
         borderLayer.lineWidth = 1
         borderLayer.frame = self.messageView.bounds
         self.messageView.layer.addSublayer(borderLayer)
-    
+
     }
 
     @IBAction func didTapPlayButton(_ sender: UIButton)
     {
-        let shadowImage = UIImageView(image: self.waveFormImageView.image)
+        let shadowImage = UIImageView(image: self.waveFormImageView.image?.withTintColor(.white))
         shadowImage.frame = self.waveFormImageView.frame
         shadowImage.bounds = self.waveFormImageView.bounds
-        shadowImage.layer.opacity = 0.3
+        shadowImage.layer.opacity = 0.2
         self.messageView.addSubview(shadowImage)
         if self.playButton.currentImage == UIImage(named: "Play-2.svg")
         {
@@ -94,6 +94,9 @@ class ChatTableViewCell: UITableViewCell
                     {
                         player = try AVAudioPlayer(data: audio, fileTypeHint: AVFileType.m4a.rawValue)
                         guard let player = player else { return }
+                        player.prepareToPlay()
+                        player.delegate = self
+                        player.volume = 10.0
                         player.play()
                         timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
                     }

@@ -21,4 +21,6 @@ target 'Connected' do
   pod 'Firebase/DynamicLinks'
   pod 'FirebaseStorage'
   pod 'TransitionButton'
+  pod 'GrowingTextView', '0.7.2'
+  pod 'IQKeyboardManagerSwift'
 end

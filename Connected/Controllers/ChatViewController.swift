@@ -12,14 +12,27 @@ import AVFoundation
 import DSWaveformImage
 import FirebaseStorage
 import FirebaseAuth
+import GrowingTextView
 
 class ChatViewController: UIViewController
 {
     @IBOutlet var stackView: UIStackView!
+
+    @IBOutlet var textButton: UIButton!
+    
+    @IBOutlet var locationButotn: UIButton!
     
     @IBOutlet var tableView: UITableView!
     
     @IBOutlet var recordButton: UIButton!
+    
+    @IBOutlet var textView: UIView!
+    
+    @IBOutlet var growingTextView: GrowingTextView!
+    
+    @IBOutlet var backToMicButton: UIButton!
+    
+    @IBOutlet var sendButton: UIButton!
     
     var userViewModel: UserViewModel?
     
@@ -28,8 +41,6 @@ class ChatViewController: UIViewController
     var disposableBag = Set<AnyCancellable>()
     
     var audioArray: [Data] = []
-    
-    var audioWaveImageArray = [UIImage]()
     
     let waveformImageDrawer = WaveformImageDrawer()
     
@@ -52,6 +63,7 @@ class ChatViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.hideKeyboard()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableHeaderView?.backgroundColor = .clear
@@ -100,6 +112,11 @@ class ChatViewController: UIViewController
         {
             print("some error")
         }
+        
+        self.textView.removeFromSuperview()
+        self.growingTextView.translatesAutoresizingMaskIntoConstraints = false
+        self.growingTextView.textContainerInset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+        self.growingTextView.font = UIFont.systemFont(ofSize: 16.0)
     }
     
     @objc func startPulse()
@@ -219,6 +236,37 @@ class ChatViewController: UIViewController
             finishRecording(success: false)
         }
     }
+    
+    @IBAction func onTextButotnTap(_ sender: UIButton)
+    {
+        self.textButton.removeFromSuperview()
+        self.locationButotn.removeFromSuperview()
+        self.recordButton.removeFromSuperview()
+        self.stackView.addArrangedSubview(self.textView)
+        self.textView.isHidden = false
+        self.textView.isUserInteractionEnabled = true
+    }
+    
+    @IBAction func onLocationButtonTap(_ sender: UIButton)
+    {
+        
+    }
+    
+    @IBAction func onBackToMicButtonTap(_ sender: UIButton)
+    {
+        self.textView.removeFromSuperview()
+        self.textView.isHidden = true
+        self.textView.isUserInteractionEnabled = false
+        self.stackView.addArrangedSubview(self.textButton)
+        self.stackView.addArrangedSubview(self.recordButton)
+        self.stackView.addArrangedSubview(self.locationButotn)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        self.view.endEditing(true)
+        return false
+    }
 }
 
 extension ChatViewController: UITableViewDelegate
@@ -236,12 +284,12 @@ extension ChatViewController: UITableViewDataSource
         { url in
             Task.init
             {
+                let color = indexPath.row % 2 == 0 ? .white : K.mainColor
                 let image = try await self.waveformImageDrawer.waveformImage(fromAudioAt: url, with: .init(
                     size: myCell.waveFormImageView.bounds.size,
-                    style: .striped(.init(color: .gray, width: 3, spacing: 3)),
+                    style: .striped(.init(color: color, width: 3, spacing: 3)),
                     position: .middle,
                     verticalScalingFactor: 1))
-                self.audioWaveImageArray.append(image)
                 if indexPath.row % 2 == 0
                 {
                     DispatchQueue.main.async
@@ -287,7 +335,6 @@ extension ChatViewController: UITableViewDataSource
             print(error.localizedDescription)
         }
     }
-
 }
 
 extension ChatViewController: AVAudioRecorderDelegate
@@ -297,6 +344,17 @@ extension ChatViewController: AVAudioRecorderDelegate
         if !flag
         {
             self.finishRecording(success: false)
+        }
+    }
+}
+
+extension ChatViewController: GrowingTextViewDelegate
+{
+    func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat)
+    {
+        UIView.animate(withDuration: 0.2)
+        {
+            self.view.layoutIfNeeded()
         }
     }
 }
