@@ -26,10 +26,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="358.5"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dca-8O-woX">
-                                <rect key="frame" x="223" y="366.5" width="171" height="66"/>
+                                <rect key="frame" x="200.5" y="366.5" width="193.5" height="77"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aal-wl-hbS">
-                                        <rect key="frame" x="0.0" y="0.0" width="171" height="33"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="193.5" height="38.5"/>
                                         <string key="text">Connection 
 </string>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
@@ -37,7 +37,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="through voice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jB7-yY-nzD">
-                                        <rect key="frame" x="0.0" y="33" width="171" height="33"/>
+                                        <rect key="frame" x="0.0" y="38.5" width="193.5" height="38.5"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -51,10 +51,10 @@
                             <constraint firstItem="QPI-su-U89" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="5mz-9k-fCE"/>
                             <constraint firstItem="QPI-su-U89" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.4" id="GHA-Nh-qyi"/>
                             <constraint firstItem="QPI-su-U89" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="UWk-W5-F1U"/>
-                            <constraint firstItem="QPI-su-U89" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gSr-GF-BrN"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QPI-su-U89" secondAttribute="trailing" id="nFz-xp-OUR"/>
+                            <constraint firstItem="QPI-su-U89" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gSr-GF-BrN"/>
+                            <constraint firstAttribute="trailing" secondItem="QPI-su-U89" secondAttribute="trailing" id="nFz-xp-OUR"/>
                             <constraint firstItem="dca-8O-woX" firstAttribute="top" secondItem="QPI-su-U89" secondAttribute="bottom" constant="8" id="sdk-W4-GIe"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dca-8O-woX" secondAttribute="trailing" constant="20" id="vGO-PV-hZU"/>
+                            <constraint firstAttribute="trailing" secondItem="dca-8O-woX" secondAttribute="trailing" constant="20" id="vGO-PV-hZU"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9fz-ax-pRc"/>
