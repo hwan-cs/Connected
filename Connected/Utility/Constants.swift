@@ -22,4 +22,6 @@ struct K
     static var didInit = false
     static let myTextCellNibName = "TextChatTableViewCell"
     static let myTextCellID = "MyTextCell"
+    static let yourTextCellNibName = "RecTextChatTableViewCell"
+    static let yourTextCellID = "YourTextCell"
 }

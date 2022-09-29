@@ -479,7 +479,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ufU-6B-BoY">
-                                <rect key="frame" x="0.0" y="92" width="414" height="698"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="690"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -591,7 +591,7 @@
                             <constraint firstItem="Cbs-Hi-UZW" firstAttribute="top" secondItem="pGP-tS-sae" secondAttribute="bottom" id="cKj-eh-gJK"/>
                             <constraint firstItem="Cbs-Hi-UZW" firstAttribute="leading" secondItem="Hu2-ui-evE" secondAttribute="leading" id="hY8-3l-KmL"/>
                             <constraint firstItem="ufU-6B-BoY" firstAttribute="leading" secondItem="Hu2-ui-evE" secondAttribute="leading" id="ky9-i8-EwU"/>
-                            <constraint firstItem="pGP-tS-sae" firstAttribute="top" secondItem="ufU-6B-BoY" secondAttribute="bottom" id="m86-Vz-9QC"/>
+                            <constraint firstItem="pGP-tS-sae" firstAttribute="top" secondItem="ufU-6B-BoY" secondAttribute="bottom" constant="8" id="m86-Vz-9QC"/>
                             <constraint firstItem="pGP-tS-sae" firstAttribute="leading" secondItem="Hu2-ui-evE" secondAttribute="leading" id="pbP-kY-k5J"/>
                             <constraint firstAttribute="bottom" secondItem="Cbs-Hi-UZW" secondAttribute="bottom" id="tt7-cB-ndU"/>
                             <constraint firstItem="pGP-tS-sae" firstAttribute="trailing" secondItem="Hu2-ui-evE" secondAttribute="trailing" id="uIo-fW-x2x"/>

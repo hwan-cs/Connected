@@ -40,7 +40,9 @@ class ChatViewController: UIViewController
     
     var disposableBag = Set<AnyCancellable>()
     
-    var audioArray: [Data] = []
+    var userDataArray: [Data:Bool] = [:]
+    
+    var dataName: [String] = []
     
     let waveformImageDrawer = WaveformImageDrawer()
     
@@ -70,6 +72,7 @@ class ChatViewController: UIViewController
         tableView.register(UINib(nibName: K.myChatCellNibName, bundle: nil), forCellReuseIdentifier: K.myChatCellID)
         tableView.register(UINib(nibName: K.yourChatCellNibName, bundle: nil), forCellReuseIdentifier: K.yourChatCellID)
         tableView.register(UINib(nibName: K.myTextCellNibName, bundle: nil), forCellReuseIdentifier: K.myTextCellID)
+        tableView.register(UINib(nibName: K.yourTextCellNibName, bundle: nil), forCellReuseIdentifier: K.yourTextCellID)
         
         stackView.clipsToBounds = true
         stackView.layer.masksToBounds = false
@@ -146,14 +149,14 @@ class ChatViewController: UIViewController
                 {
                     if allowed
                     {
-                        waveFormView.backgroundColor = .clear
-                        waveFormView.frame = CGRect(origin: CGPoint(x: stackView.center.x-self.recordButton.frame.width, y: stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
-                        waveFormView.configuration = waveFormView.configuration.with(
+                        self.waveFormView.backgroundColor = .clear
+                        self.waveFormView.frame = CGRect(origin: CGPoint(x: stackView.center.x-self.recordButton.frame.width, y: stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
+                        self.waveFormView.configuration = waveFormView.configuration.with(
                             style: .striped(.init(color: K.mainColor, width: 3, spacing: 3)),
                             position: .middle,
                             verticalScalingFactor: 3)
                         //stackView.addSubview(waveFormView)
-                        view.addSubview(waveFormView)
+                        view.addSubview(self.waveFormView)
                     }
                     else
                     {
@@ -196,8 +199,8 @@ class ChatViewController: UIViewController
                     do
                     {
                         let data = try Data(contentsOf: self.path!)
-                        self.userViewModel?.audioName.append((metadata?.name)! )
-                        self.userViewModel?.audioArray.append(data)
+                        self.userViewModel?.dataName.append((metadata?.name)! )
+                        self.userViewModel?.userDataArray[data] = true
                     }
                     catch
                     {
@@ -273,9 +276,9 @@ class ChatViewController: UIViewController
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        let audioRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(formatter.string(from: Date.now)).txt")
-        
-        let uploadTask = audioRef.putFile(from: self.path!, metadata: metadata)
+        let textRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(formatter.string(from: Date.now)).txt")
+        guard let textToSend = self.growingTextView.text.data(using: .utf8) else { return }
+        let uploadTask = textRef.putData(textToSend, metadata: metadata)
         { metadata, error in
             if let error = error
             {
@@ -285,9 +288,9 @@ class ChatViewController: UIViewController
             {
                 do
                 {
-                    let data = try Data(contentsOf: self.path!)
-                    self.userViewModel?.audioName.append((metadata?.name)! )
-                    self.userViewModel?.audioArray.append(data)
+                    self.userViewModel?.dataName.append((metadata?.name)!)
+                    self.userViewModel?.userDataArray[textToSend] = true
+                    self.scrollToBottom()
                 }
                 catch
                 {
@@ -313,39 +316,88 @@ extension ChatViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
+        let isMe = Array(self.userDataArray.values)[indexPath.row]
         let myCell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
         let yourCell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
         let myTextCell = tableView.dequeueReusableCell(withIdentifier:  K.myTextCellID, for: indexPath) as!  TextChatTableViewCell
-        if indexPath.row == 1
+        let yourTextCell = tableView.dequeueReusableCell(withIdentifier:  K.yourTextCellID, for: indexPath) as!  RecTextChatTableViewCell
+        
+        let txtFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("localTxt_\(indexPath.row).txt", conformingTo: .text)
+        if self.dataName[indexPath.row].contains(".txt") && isMe
         {
-            myTextCell.myChatTextLabel.text = "heldsddd"
-            if myTextCell.myChatTextLabel.text!.count < 14
+            let text =  String(decoding: Array(self.userDataArray.keys)[indexPath.row] , as: UTF8.self)
+            do
             {
+                try text.write(to: txtFilePath, atomically: false, encoding: .utf8)
+            }
+            catch
+            {
+                print("Cannot write txt file")
+            }
+            do
+            {
+                let contents = try String(contentsOf: txtFilePath, encoding: .utf8)
+                print(contents)
+                myTextCell.myChatTextLabel.text =  contents
                 if let cons = myTextCell.messageView.constraints.filter({ $0.identifier == "messageViewWidthConstraint" }).first
                 {
-                    cons.constant = CGFloat(myTextCell.myChatTextLabel.text!.count)*12.0
+                    cons.constant = myTextCell.myChatTextLabel.text!.count < 14 ? CGFloat(myTextCell.myChatTextLabel.text!.count)*11.0 : 192
+                    cons.isActive = true
                 }
+            }
+            catch
+            {
+                print("Cannot read txt file")
             }
             return myTextCell
         }
+        else if self.dataName[indexPath.row].contains(".txt") && !isMe
+        {
+            let text =  String(decoding: Array(self.userDataArray.keys)[indexPath.row] , as: UTF8.self)
+            do
+            {
+                try text.write(to: txtFilePath, atomically: false, encoding: .utf8)
+            }
+            catch
+            {
+                print("Cannot write txt file")
+            }
+            do
+            {
+                let contents = try String(contentsOf: txtFilePath, encoding: .ascii)
+                print(contents)
+                yourTextCell.myChatTextLabel.text =  contents
+                if let cons = yourTextCell.messageView.constraints.filter({ $0.identifier == "recTextMessageViewWidthConstraint" }).first
+                {
+                    cons.constant = yourTextCell.myChatTextLabel.text!.count < 14 ? CGFloat(yourTextCell.myChatTextLabel.text!.count)*11.0 : 192
+                    cons.isActive = true
+                }
+            }
+            catch
+            {
+                print("Canot read txt file")
+            }
+            return yourTextCell
+        }
+        
         self.loadAudio(indexPath.row)
         { url in
             Task.init
             {
-                let color = indexPath.row % 2 == 0 ? .white : K.mainColor
+                let color = isMe ? .white : K.mainColor
                 let image = try await self.waveformImageDrawer.waveformImage(fromAudioAt: url, with: .init(
                     size: myCell.waveFormImageView.bounds.size,
                     style: .striped(.init(color: color, width: 3, spacing: 3)),
                     position: .middle,
                     verticalScalingFactor: 1))
-                if indexPath.row % 2 == 0
+                if isMe
                 {
                     DispatchQueue.main.async
                     {
                         //myCell.waveFormImageView.waveformAudioURL = url
                         myCell.waveFormImageView.image = image
-                        myCell.audio = self.audioArray[indexPath.row]
-                        myCell.audioName = self.userViewModel?.audioName[indexPath.row]
+                        myCell.audio = Array(self.userDataArray.keys)[indexPath.row]
+                        myCell.audioName = self.dataName[indexPath.row]
                         myCell.selectionStyle = .none
                     }
                 }
@@ -355,19 +407,19 @@ extension ChatViewController: UITableViewDataSource
                     {
                         //yourCell.waveFormImageView.waveformAudioURL = url
                         yourCell.waveFormImageView.image = image
-                        yourCell.audio = self.audioArray[indexPath.row]
-                        yourCell.audioName = self.userViewModel?.audioName[indexPath.row]
+                        yourCell.audio = Array(self.userDataArray.keys)[indexPath.row]
+                        yourCell.audioName = self.dataName[indexPath.row]
                         yourCell.selectionStyle = .none
                     }
                 }
             }
         }
-        return indexPath.row % 2 == 0 ? myCell : yourCell
+        return isMe ? myCell : yourCell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        self.audioArray.count
+        self.userDataArray.count
     }
     
     func loadAudio(_ index: Int, completionHandler: @escaping (URL) -> Void)
@@ -375,7 +427,7 @@ extension ChatViewController: UITableViewDataSource
         let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(index+1).m4a", conformingTo: .audio)
         do
         {
-            try self.audioArray[index].write(to: filePath)
+            try Array(self.userDataArray.keys)[index].write(to: filePath)
             completionHandler(filePath)
         }
         catch

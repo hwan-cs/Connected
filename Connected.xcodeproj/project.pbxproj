@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1A2442A128E5E61200E4A0DD /* TextChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A24429F28E5E61200E4A0DD /* TextChatTableViewCell.swift */; };
 		1A2442A228E5E61200E4A0DD /* TextChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */; };
+		1A2442A528E6054900E4A0DD /* RecTextChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2442A328E6054900E4A0DD /* RecTextChatTableViewCell.swift */; };
+		1A2442A628E6054900E4A0DD /* RecTextChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A2442A428E6054900E4A0DD /* RecTextChatTableViewCell.xib */; };
 		1A2D1A7B28D4D2300075AB3B /* String_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */; };
 		1A41E69628E2D8C7006D0C9A /* CachingPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41E69528E2D8C6006D0C9A /* CachingPlayerItem.swift */; };
 		1A48B3D328DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48B3D228DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift */; };
@@ -50,7 +52,6 @@
 		1ADA77BE28DB55CC006EC39B /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1ADA77BD28DB55CC006EC39B /* DSWaveformImage */; };
 		1ADA77C128DB5722006EC39B /* RecChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */; };
 		1ADA77C228DB5722006EC39B /* RecChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */; };
-		1ADA77C428DB66E1006EC39B /* AppDelegate_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77C328DB66E1006EC39B /* AppDelegate_Extensions.swift */; };
 		1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */; };
 		1ADDB27128D7244E00329EA4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB27028D7244E00329EA4 /* Constants.swift */; };
 		AD6B26617F4BE5548B4C4AF1 /* Pods_Connected.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48F2E930CD9E1781D878261 /* Pods_Connected.framework */; };
@@ -60,6 +61,8 @@
 		064D0AEE5178D604102F31F1 /* Pods-Connected.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.debug.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.debug.xcconfig"; sourceTree = "<group>"; };
 		1A24429F28E5E61200E4A0DD /* TextChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChatTableViewCell.swift; sourceTree = "<group>"; };
 		1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextChatTableViewCell.xib; sourceTree = "<group>"; };
+		1A2442A328E6054900E4A0DD /* RecTextChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecTextChatTableViewCell.swift; sourceTree = "<group>"; };
+		1A2442A428E6054900E4A0DD /* RecTextChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecTextChatTableViewCell.xib; sourceTree = "<group>"; };
 		1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_Extensions.swift; sourceTree = "<group>"; };
 		1A41E69528E2D8C6006D0C9A /* CachingPlayerItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachingPlayerItem.swift; sourceTree = "<group>"; };
 		1A48B3D228DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPath_Extensions.swift; sourceTree = "<group>"; };
@@ -101,7 +104,6 @@
 		1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecChatTableViewCell.swift; sourceTree = "<group>"; };
 		1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecChatTableViewCell.xib; sourceTree = "<group>"; };
-		1ADA77C328DB66E1006EC39B /* AppDelegate_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate_Extensions.swift; sourceTree = "<group>"; };
 		1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupVC_Extensions.swift; sourceTree = "<group>"; };
 		1ADDB27028D7244E00329EA4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8AA12650B1F3ED57E08103C7 /* Pods-Connected.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.release.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.release.xcconfig"; sourceTree = "<group>"; };
@@ -190,7 +192,6 @@
 				1AB6A01B28D0D80600A0D127 /* UIApplication_Extensions.swift */,
 				1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */,
 				1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */,
-				1ADA77C328DB66E1006EC39B /* AppDelegate_Extensions.swift */,
 				1A48B3D228DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift */,
 				1A48B3D428DD7B1200FCEA88 /* UIView_Extensions.swift */,
 				1A48B41728DD93D100FCEA88 /* ChatVC_Extensions.swift */,
@@ -220,6 +221,8 @@
 				1AAF931028DF5E7C007FDCBB /* PulseAnimation.swift */,
 				1A24429F28E5E61200E4A0DD /* TextChatTableViewCell.swift */,
 				1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */,
+				1A2442A328E6054900E4A0DD /* RecTextChatTableViewCell.swift */,
+				1A2442A428E6054900E4A0DD /* RecTextChatTableViewCell.xib */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 			files = (
 				1AACE8DC28CE0AAA00B96A7C /* OpenSans-SemiBoldItalic.ttf in Resources */,
 				1AB6A02428D2E08A00A0D127 /* GoogleService-Info.plist in Resources */,
+				1A2442A628E6054900E4A0DD /* RecTextChatTableViewCell.xib in Resources */,
 				1AACE8DF28CE0AAA00B96A7C /* OpenSans-MediumItalic.ttf in Resources */,
 				1AACE8E428CE0AAA00B96A7C /* OpenSans-LightItalic.ttf in Resources */,
 				1ABF82D328DDDF1400433095 /* localAudio.m4a in Resources */,
@@ -406,7 +410,6 @@
 				1ADA77C128DB5722006EC39B /* RecChatTableViewCell.swift in Sources */,
 				1A48B3D328DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift in Sources */,
 				1AACE8EB28CE312700B96A7C /* UIViewController_Extensions.swift in Sources */,
-				1ADA77C428DB66E1006EC39B /* AppDelegate_Extensions.swift in Sources */,
 				1AB6A01A28D09A8900A0D127 /* SignupViewController.swift in Sources */,
 				1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */,
 				1AACE8E928CE300A00B96A7C /* UITextField_Extensions.swift in Sources */,
@@ -416,6 +419,7 @@
 				1AB6A01828CF057300A0D127 /* LoginSheetVC_Extensions.swift in Sources */,
 				1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */,
 				1ADA77B528DB0985006EC39B /* UserViewModel.swift in Sources */,
+				1A2442A528E6054900E4A0DD /* RecTextChatTableViewCell.swift in Sources */,
 				1AACE8F228CE3CF400B96A7C /* LoginSheetViewController.swift in Sources */,
 				1ADA77B828DB099D006EC39B /* ChatTableViewCell.swift in Sources */,
 				1AAF931128DF5E7C007FDCBB /* PulseAnimation.swift in Sources */,
