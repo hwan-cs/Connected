@@ -69,6 +69,7 @@ class ChatViewController: UIViewController
         tableView.tableHeaderView?.backgroundColor = .clear
         tableView.register(UINib(nibName: K.myChatCellNibName, bundle: nil), forCellReuseIdentifier: K.myChatCellID)
         tableView.register(UINib(nibName: K.yourChatCellNibName, bundle: nil), forCellReuseIdentifier: K.yourChatCellID)
+        tableView.register(UINib(nibName: K.myTextCellNibName, bundle: nil), forCellReuseIdentifier: K.myTextCellID)
         
         stackView.clipsToBounds = true
         stackView.layer.masksToBounds = false
@@ -88,35 +89,13 @@ class ChatViewController: UIViewController
         self.setBindings()
         
         recordingSession = AVAudioSession.sharedInstance()
-
-        do
-        {
-            try recordingSession.setCategory(.playAndRecord, mode: .voiceChat)
-            try recordingSession.setActive(true)
-            recordingSession.requestRecordPermission()
-            { [unowned self] allowed in
-                DispatchQueue.main.async
-                {
-                    if allowed
-                    {
-                        self.loadRecordingUI()
-                    }
-                    else
-                    {
-                        print("recording not allowd")
-                    }
-                }
-            }
-        }
-        catch
-        {
-            print("some error")
-        }
         
         self.textView.removeFromSuperview()
         self.growingTextView.translatesAutoresizingMaskIntoConstraints = false
-        self.growingTextView.textContainerInset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+        self.growingTextView.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 8, right: 12)
         self.growingTextView.font = UIFont.systemFont(ofSize: 16.0)
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.estimatedRowHeight = 64
     }
     
     @objc func startPulse()
@@ -157,14 +136,36 @@ class ChatViewController: UIViewController
     
     func loadRecordingUI()
     {
-        waveFormView.backgroundColor = .clear
-        waveFormView.frame = CGRect(origin: CGPoint(x: stackView.center.x-self.recordButton.frame.width, y: stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
-        waveFormView.configuration = waveFormView.configuration.with(
-            style: .striped(.init(color: K.mainColor, width: 3, spacing: 3)),
-            position: .middle,
-            verticalScalingFactor: 3)
-        //stackView.addSubview(waveFormView)
-        view.addSubview(waveFormView)
+        do
+        {
+            try recordingSession.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetoothA2DP, .mixWithOthers])
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission()
+            { [unowned self] allowed in
+                DispatchQueue.main.async
+                {
+                    if allowed
+                    {
+                        waveFormView.backgroundColor = .clear
+                        waveFormView.frame = CGRect(origin: CGPoint(x: stackView.center.x-self.recordButton.frame.width, y: stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
+                        waveFormView.configuration = waveFormView.configuration.with(
+                            style: .striped(.init(color: K.mainColor, width: 3, spacing: 3)),
+                            position: .middle,
+                            verticalScalingFactor: 3)
+                        //stackView.addSubview(waveFormView)
+                        view.addSubview(waveFormView)
+                    }
+                    else
+                    {
+                        print("recording not allowd")
+                    }
+                }
+            }
+        }
+        catch
+        {
+            print("some error")
+        }
     }
     
     func finishRecording(success: Bool)
@@ -262,6 +263,40 @@ class ChatViewController: UIViewController
         self.stackView.addArrangedSubview(self.locationButotn)
     }
     
+    @IBAction func onSendButtonTap(_ sender: UIButton)
+    {
+        let uuid = Auth.auth().currentUser!.uid
+        let metadata = StorageMetadata()
+        metadata.contentType = "txt"
+
+        let storageRef = self.storage.reference()
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let audioRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(formatter.string(from: Date.now)).txt")
+        
+        let uploadTask = audioRef.putFile(from: self.path!, metadata: metadata)
+        { metadata, error in
+            if let error = error
+            {
+                print(error.localizedDescription)
+            }
+            else
+            {
+                do
+                {
+                    let data = try Data(contentsOf: self.path!)
+                    self.userViewModel?.audioName.append((metadata?.name)! )
+                    self.userViewModel?.audioArray.append(data)
+                }
+                catch
+                {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
         self.view.endEditing(true)
@@ -280,6 +315,19 @@ extension ChatViewController: UITableViewDataSource
     {
         let myCell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
         let yourCell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
+        let myTextCell = tableView.dequeueReusableCell(withIdentifier:  K.myTextCellID, for: indexPath) as!  TextChatTableViewCell
+        if indexPath.row == 1
+        {
+            myTextCell.myChatTextLabel.text = "heldsddd"
+            if myTextCell.myChatTextLabel.text!.count < 14
+            {
+                if let cons = myTextCell.messageView.constraints.filter({ $0.identifier == "messageViewWidthConstraint" }).first
+                {
+                    cons.constant = CGFloat(myTextCell.myChatTextLabel.text!.count)*12.0
+                }
+            }
+            return myTextCell
+        }
         self.loadAudio(indexPath.row)
         { url in
             Task.init
@@ -335,6 +383,22 @@ extension ChatViewController: UITableViewDataSource
             print(error.localizedDescription)
         }
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        if K.didInit
+        {
+            return
+        }
+        if let lastVisibleIndexPath = tableView.indexPathsForVisibleRows?.last
+        {
+            if indexPath == lastVisibleIndexPath
+            {
+                self.scrollToBottom()
+                K.didInit = true
+            }
+        }
+    }
 }
 
 extension ChatViewController: AVAudioRecorderDelegate
@@ -350,11 +414,5 @@ extension ChatViewController: AVAudioRecorderDelegate
 
 extension ChatViewController: GrowingTextViewDelegate
 {
-    func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat)
-    {
-        UIView.animate(withDuration: 0.2)
-        {
-            self.view.layoutIfNeeded()
-        }
-    }
+
 }

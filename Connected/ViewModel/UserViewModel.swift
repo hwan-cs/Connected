@@ -36,7 +36,7 @@ class UserViewModel: ObservableObject
     
     init(_ uid: String, _ suid: String)
     {
-        
+        var count = 0
         let storageRef = self.storage.reference()
         let audioRef = storageRef.child("\(uid)/\(suid)/")
         audioRef.listAll(completion:

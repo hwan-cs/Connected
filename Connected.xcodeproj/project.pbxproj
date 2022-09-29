@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A2442A128E5E61200E4A0DD /* TextChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A24429F28E5E61200E4A0DD /* TextChatTableViewCell.swift */; };
+		1A2442A228E5E61200E4A0DD /* TextChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */; };
 		1A2D1A7B28D4D2300075AB3B /* String_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */; };
 		1A41E69628E2D8C7006D0C9A /* CachingPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41E69528E2D8C6006D0C9A /* CachingPlayerItem.swift */; };
 		1A48B3D328DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48B3D228DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift */; };
@@ -56,6 +58,8 @@
 
 /* Begin PBXFileReference section */
 		064D0AEE5178D604102F31F1 /* Pods-Connected.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.debug.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.debug.xcconfig"; sourceTree = "<group>"; };
+		1A24429F28E5E61200E4A0DD /* TextChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChatTableViewCell.swift; sourceTree = "<group>"; };
+		1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextChatTableViewCell.xib; sourceTree = "<group>"; };
 		1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_Extensions.swift; sourceTree = "<group>"; };
 		1A41E69528E2D8C6006D0C9A /* CachingPlayerItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachingPlayerItem.swift; sourceTree = "<group>"; };
 		1A48B3D228DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPath_Extensions.swift; sourceTree = "<group>"; };
@@ -214,6 +218,8 @@
 				1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */,
 				1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */,
 				1AAF931028DF5E7C007FDCBB /* PulseAnimation.swift */,
+				1A24429F28E5E61200E4A0DD /* TextChatTableViewCell.swift */,
+				1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -340,6 +346,7 @@
 				1ADA77C228DB5722006EC39B /* RecChatTableViewCell.xib in Resources */,
 				1AACE88E28CB409F00B96A7C /* Main.storyboard in Resources */,
 				1AACE8E128CE0AAA00B96A7C /* OpenSans-Light.ttf in Resources */,
+				1A2442A228E5E61200E4A0DD /* TextChatTableViewCell.xib in Resources */,
 				1AACE8E028CE0AAA00B96A7C /* OpenSans-ExtraBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A2D1A7B28D4D2300075AB3B /* String_Extensions.swift in Sources */,
+				1A2442A128E5E61200E4A0DD /* TextChatTableViewCell.swift in Sources */,
 				1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */,
 				1ADA77C128DB5722006EC39B /* RecChatTableViewCell.swift in Sources */,
 				1A48B3D328DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift in Sources */,

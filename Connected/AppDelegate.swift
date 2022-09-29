@@ -25,5 +25,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         FirebaseApp.configure()
         return true
     }
+    
+    func applicationDidBecomeActive(_ application: UIApplication)
+    {
+        IQKeyboardManager.shared.reloadLayoutIfNeeded()
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication)
+    {
+        IQKeyboardManager.shared.resignFirstResponder()
+    }
 }
 
