@@ -105,6 +105,7 @@ class ChatViewController: UIViewController
         audioPulse.animationDuration = 0.5
         audioPulse.backgroundColor = K.mainColor.cgColor
         self.view.layer.insertSublayer(audioPulse, below: self.view.layer)
+        self.waveFormView.backgroundColor = .blue
         view.addSubview(waveFormView)
         startRecording()
         pulse()
@@ -148,13 +149,13 @@ class ChatViewController: UIViewController
                     if allowed
                     {
                         self.waveFormView.backgroundColor = .clear
-                        self.waveFormView.frame = CGRect(origin: CGPoint(x: stackView.center.x-self.recordButton.frame.width, y: stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
-                        self.waveFormView.configuration = waveFormView.configuration.with(
+                        self.waveFormView.frame = CGRect(origin: CGPoint(x: stackView.center.x-self.recordButton.frame.width, y: self.stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
+                        self.waveFormView.configuration = self.waveFormView.configuration.with(
                             style: .striped(.init(color: K.mainColor, width: 3, spacing: 3)),
                             position: .middle,
                             verticalScalingFactor: 3)
                         //stackView.addSubview(waveFormView)
-                        view.addSubview(self.waveFormView)
+                        self.view.addSubview(self.waveFormView)
                     }
                     else
                     {
@@ -328,7 +329,7 @@ extension ChatViewController: UITableViewDataSource
             myTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
             if let cons = myTextCell.messageView.constraints.filter({ $0.identifier == "messageViewWidthConstraint" }).first
             {
-                cons.constant = myTextCell.myChatTextLabel.text!.count < 14 ? CGFloat(myTextCell.myChatTextLabel.text!.count)*11.0 : 192
+                cons.constant = myTextCell.myChatTextLabel.text!.count < 14 ? myTextCell.myChatTextLabel.intrinsicContentSize.width : 192
                 cons.isActive = true
             }
             return myTextCell
@@ -338,7 +339,7 @@ extension ChatViewController: UITableViewDataSource
             yourTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
             if let cons = yourTextCell.messageView.constraints.filter({ $0.identifier == "recTextMessageViewWidthConstraint" }).first
             {
-                cons.constant = yourTextCell.myChatTextLabel.text!.count < 14 ? CGFloat(yourTextCell.myChatTextLabel.text!.count)*11.0 : 192
+                cons.constant = yourTextCell.myChatTextLabel.text!.count < 14 ? yourTextCell.intrinsicContentSize.width : 192
                 cons.isActive = true
             }
             return yourTextCell
