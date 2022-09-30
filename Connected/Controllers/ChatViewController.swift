@@ -40,9 +40,7 @@ class ChatViewController: UIViewController
     
     var disposableBag = Set<AnyCancellable>()
     
-    var userDataArray: [Data:Bool] = [:]
-    
-    var dataName: [String] = []
+    var userDataArray: [Data:[Any]] = [:]
     
     let waveformImageDrawer = WaveformImageDrawer()
     
@@ -199,8 +197,7 @@ class ChatViewController: UIViewController
                     do
                     {
                         let data = try Data(contentsOf: self.path!)
-                        self.userViewModel?.dataName.append((metadata?.name)! )
-                        self.userViewModel?.userDataArray[data] = true
+                        self.userViewModel?.userDataArray[data] = [true, metadata?.name]
                     }
                     catch
                     {
@@ -288,8 +285,7 @@ class ChatViewController: UIViewController
             {
                 do
                 {
-                    self.userViewModel?.dataName.append((metadata?.name)!)
-                    self.userViewModel?.userDataArray[textToSend] = true
+                    self.userViewModel?.userDataArray[textToSend] = [true, metadata?.name]
                     self.scrollToBottom()
                 }
                 catch
@@ -316,66 +312,34 @@ extension ChatViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let isMe = Array(self.userDataArray.values)[indexPath.row]
+        let sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.key})
+        let sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.value})
+        
+        let isMe = sortedByValueDictionaryValue[indexPath.row][0] as! Bool
+        let dataName = sortedByValueDictionaryValue[indexPath.row][1] as! String
+        
         let myCell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
         let yourCell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
         let myTextCell = tableView.dequeueReusableCell(withIdentifier:  K.myTextCellID, for: indexPath) as!  TextChatTableViewCell
         let yourTextCell = tableView.dequeueReusableCell(withIdentifier:  K.yourTextCellID, for: indexPath) as!  RecTextChatTableViewCell
-        
-        let txtFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("localTxt_\(indexPath.row).txt", conformingTo: .text)
-        if self.dataName[indexPath.row].contains(".txt") && isMe
+
+        if dataName.contains(".txt") && isMe
         {
-            let text =  String(decoding: Array(self.userDataArray.keys)[indexPath.row] , as: UTF8.self)
-            do
+            myTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
+            if let cons = myTextCell.messageView.constraints.filter({ $0.identifier == "messageViewWidthConstraint" }).first
             {
-                try text.write(to: txtFilePath, atomically: false, encoding: .utf8)
-            }
-            catch
-            {
-                print("Cannot write txt file")
-            }
-            do
-            {
-                let contents = try String(contentsOf: txtFilePath, encoding: .utf8)
-                print(contents)
-                myTextCell.myChatTextLabel.text =  contents
-                if let cons = myTextCell.messageView.constraints.filter({ $0.identifier == "messageViewWidthConstraint" }).first
-                {
-                    cons.constant = myTextCell.myChatTextLabel.text!.count < 14 ? CGFloat(myTextCell.myChatTextLabel.text!.count)*11.0 : 192
-                    cons.isActive = true
-                }
-            }
-            catch
-            {
-                print("Cannot read txt file")
+                cons.constant = myTextCell.myChatTextLabel.text!.count < 14 ? CGFloat(myTextCell.myChatTextLabel.text!.count)*11.0 : 192
+                cons.isActive = true
             }
             return myTextCell
         }
-        else if self.dataName[indexPath.row].contains(".txt") && !isMe
+        else if dataName.contains(".txt") && !isMe
         {
-            let text =  String(decoding: Array(self.userDataArray.keys)[indexPath.row] , as: UTF8.self)
-            do
+            yourTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
+            if let cons = yourTextCell.messageView.constraints.filter({ $0.identifier == "recTextMessageViewWidthConstraint" }).first
             {
-                try text.write(to: txtFilePath, atomically: false, encoding: .utf8)
-            }
-            catch
-            {
-                print("Cannot write txt file")
-            }
-            do
-            {
-                let contents = try String(contentsOf: txtFilePath, encoding: .ascii)
-                print(contents)
-                yourTextCell.myChatTextLabel.text =  contents
-                if let cons = yourTextCell.messageView.constraints.filter({ $0.identifier == "recTextMessageViewWidthConstraint" }).first
-                {
-                    cons.constant = yourTextCell.myChatTextLabel.text!.count < 14 ? CGFloat(yourTextCell.myChatTextLabel.text!.count)*11.0 : 192
-                    cons.isActive = true
-                }
-            }
-            catch
-            {
-                print("Canot read txt file")
+                cons.constant = yourTextCell.myChatTextLabel.text!.count < 14 ? CGFloat(yourTextCell.myChatTextLabel.text!.count)*11.0 : 192
+                cons.isActive = true
             }
             return yourTextCell
         }
@@ -396,8 +360,8 @@ extension ChatViewController: UITableViewDataSource
                     {
                         //myCell.waveFormImageView.waveformAudioURL = url
                         myCell.waveFormImageView.image = image
-                        myCell.audio = Array(self.userDataArray.keys)[indexPath.row]
-                        myCell.audioName = self.dataName[indexPath.row]
+                        myCell.audio = sortedByValueDictionaryKey[indexPath.row]
+                        myCell.audioName = sortedByValueDictionaryValue[indexPath.row][1] as? String
                         myCell.selectionStyle = .none
                     }
                 }
@@ -407,8 +371,8 @@ extension ChatViewController: UITableViewDataSource
                     {
                         //yourCell.waveFormImageView.waveformAudioURL = url
                         yourCell.waveFormImageView.image = image
-                        yourCell.audio = Array(self.userDataArray.keys)[indexPath.row]
-                        yourCell.audioName = self.dataName[indexPath.row]
+                        yourCell.audio = sortedByValueDictionaryKey[indexPath.row]
+                        myCell.audioName = sortedByValueDictionaryValue[indexPath.row][1] as? String
                         yourCell.selectionStyle = .none
                     }
                 }
@@ -425,9 +389,10 @@ extension ChatViewController: UITableViewDataSource
     func loadAudio(_ index: Int, completionHandler: @escaping (URL) -> Void)
     {
         let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(index+1).m4a", conformingTo: .audio)
+        let sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.key})
         do
         {
-            try Array(self.userDataArray.keys)[index].write(to: filePath)
+            try sortedByValueDictionaryKey[index].write(to: filePath)
             completionHandler(filePath)
         }
         catch

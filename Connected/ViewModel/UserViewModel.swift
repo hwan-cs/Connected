@@ -19,9 +19,7 @@ class UserViewModel: ObservableObject
     
     var userName: String?
     
-    @Published var dataName: [String] = []
-    
-    @Published var userDataArray: [Data:Bool] = [:]
+    @Published var userDataArray: [Data:[Any]] = [:]
     
     let waveformImageDrawer = WaveformImageDrawer()
     
@@ -53,8 +51,7 @@ class UserViewModel: ObservableObject
                     {
                         let result = try self.cacheStorage!.entry(forKey: items.name)
                         // The video is cached.
-                        self.dataName.append(items.name)
-                        self.userDataArray[result.object] = true
+                        self.userDataArray[result.object] = [true, items.name]
                     }
                     catch
                     {
@@ -67,8 +64,7 @@ class UserViewModel: ObservableObject
                             else
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
-                                self.dataName.append(items.name)
-                                self.userDataArray[data!] = true
+                                self.userDataArray[data!] = [true, items.name]
                             }
                         }
                     }

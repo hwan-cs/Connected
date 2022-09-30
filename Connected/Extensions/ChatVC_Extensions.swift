@@ -17,15 +17,11 @@ extension ChatViewController
     {
         print("ChatVC - setBindings()")
         
-        self.userViewModel!.$dataName.sink
-        { (updatedArray:[String]) in
-            self.dataName = updatedArray
-        }.store(in: &disposableBag)
-        
         self.userViewModel!.$userDataArray.sink
-        { (updatedArray:[Data:Bool]) in
-            print("ChatVC - count: \(updatedArray.count)")
+        { (updatedArray:[Data:[Any]]) in
+            print("ChatVC - datarray count: \(updatedArray.count)")
             self.userDataArray = updatedArray
+    
             DispatchQueue.main.async
             {
                 self.tableView.reloadData()
