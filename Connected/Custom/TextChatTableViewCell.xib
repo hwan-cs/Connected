@@ -18,10 +18,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XAe-LL-dnX">
-                        <rect key="frame" x="58" y="8" width="192" height="48"/>
+                        <rect key="frame" x="195" y="8" width="55" height="48"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="MyTextCell" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iax-Jb-pjB">
-                                <rect key="frame" x="12" y="8" width="168" height="32"/>
+                                <rect key="frame" x="12" y="8" width="31" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -30,14 +30,13 @@
                         <color key="backgroundColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Iax-Jb-pjB" secondAttribute="bottom" constant="8" id="ErM-SF-Yj3"/>
-                            <constraint firstAttribute="width" constant="192" identifier="messageViewWidthConstraint" id="HCs-Xe-4lc"/>
                             <constraint firstItem="Iax-Jb-pjB" firstAttribute="top" secondItem="XAe-LL-dnX" secondAttribute="top" constant="8" id="Nse-k6-VFi"/>
                             <constraint firstItem="Iax-Jb-pjB" firstAttribute="leading" secondItem="XAe-LL-dnX" secondAttribute="leading" constant="12" id="S0Z-sf-RPj"/>
                             <constraint firstAttribute="trailing" secondItem="Iax-Jb-pjB" secondAttribute="trailing" constant="12" id="cc5-io-9a3"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZbA-Rz-1Fy">
-                        <rect key="frame" x="8" y="40" width="42" height="14"/>
+                        <rect key="frame" x="145" y="40" width="42" height="14"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="QvQ-YD-ndS"/>
                         </constraints>
@@ -46,7 +45,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ebb-Ex-2gr">
-                        <rect key="frame" x="8" y="10" width="42" height="28"/>
+                        <rect key="frame" x="145" y="10" width="42" height="28"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="cKT-nO-eUk"/>
                             <constraint firstAttribute="height" constant="28" id="w8M-5B-jOg"/>

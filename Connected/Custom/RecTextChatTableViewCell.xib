@@ -19,10 +19,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ntl-kQ-SHo">
-                        <rect key="frame" x="10" y="8" width="192" height="48"/>
+                        <rect key="frame" x="10" y="8" width="65.333333333333329" height="48"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="recTextMessageViewWidthConstraint" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="01t-lN-mbd">
-                                <rect key="frame" x="12" y="8" width="168" height="32"/>
+                                <rect key="frame" x="12.000000000000004" y="8" width="41.333333333333343" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -31,14 +31,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="01t-lN-mbd" secondAttribute="bottom" constant="8" id="F24-ib-Y08"/>
-                            <constraint firstAttribute="width" constant="192" identifier="recTextMessageViewWidthConstraint" id="VT3-s2-xvR"/>
                             <constraint firstItem="01t-lN-mbd" firstAttribute="top" secondItem="ntl-kQ-SHo" secondAttribute="top" constant="8" id="Zs9-D5-f56"/>
                             <constraint firstItem="01t-lN-mbd" firstAttribute="leading" secondItem="ntl-kQ-SHo" secondAttribute="leading" constant="12" id="daj-py-pk5"/>
                             <constraint firstAttribute="trailing" secondItem="01t-lN-mbd" secondAttribute="trailing" constant="12" id="wHU-Wq-hvd"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M1R-Hv-yTH">
-                        <rect key="frame" x="210" y="40" width="42" height="14"/>
+                        <rect key="frame" x="83.333333333333329" y="40" width="42" height="14"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="ppZ-1d-OAH"/>
                         </constraints>
@@ -47,7 +46,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lb7-xx-Vnz">
-                        <rect key="frame" x="210" y="10" width="42" height="28"/>
+                        <rect key="frame" x="83.333333333333329" y="10" width="42" height="28"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="Yb6-Mg-mrD"/>
                             <constraint firstAttribute="height" constant="28" id="fUB-9u-Shs"/>

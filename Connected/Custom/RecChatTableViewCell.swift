@@ -148,6 +148,7 @@ extension RecChatTableViewCell: AVAudioPlayerDelegate
             player.currentTime = 0
             self.second = 0
             self.playButton.setImage(UIImage(named: "Play.svg"), for: .normal)
+            self.updateProgess()
             timer?.invalidate()
             timer = nil
         }

@@ -13,6 +13,7 @@ import DSWaveformImage
 import FirebaseStorage
 import FirebaseAuth
 import GrowingTextView
+import FirebaseFirestore
 
 class ChatViewController: UIViewController
 {
@@ -60,6 +61,12 @@ class ChatViewController: UIViewController
     
     var recepientUID = "NLsm46kThrXznH1daKbBK1U3eyf1"
     
+    let db = Firestore.firestore()
+    
+    var listener: ListenerRegistration?
+    
+    let myBucketURL =  "gs://connected-3ed2d.appspot.com/"
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -97,6 +104,33 @@ class ChatViewController: UIViewController
         self.growingTextView.font = UIFont.systemFont(ofSize: 16.0)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 64
+        
+        //If recipient is talking to me, add snapshot listener their firdoc
+        Task.init
+        {
+            let uuid = Auth.auth().currentUser!.uid
+            let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+            if talkingTo!["talkingTo"] as? String == uuid && K.didInit
+            {
+                listener = self.db.collection("users").document(self.recepientUID).addSnapshotListener(
+                { documentSnapshot, error in
+                    guard documentSnapshot != nil
+                    else
+                    {
+                        print("Error fetching document: \(error!)")
+                        return
+                    }
+                    print("changed)")
+                    let storageRef = self.storage.reference()
+                    let myAudioRef = storageRef.child("\(self.recepientUID)/\(uuid)/")
+                    myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 1*1024*1024)
+                    { data, error in
+                        self.userDataArray[data!] = [true, talkingTo!["change"] as! String]
+                        print("addded)", talkingTo!["change"] as! String)
+                    }
+                })
+            }
+        }
     }
     
     @objc func startPulse()
@@ -105,8 +139,8 @@ class ChatViewController: UIViewController
         audioPulse.animationDuration = 0.5
         audioPulse.backgroundColor = K.mainColor.cgColor
         self.view.layer.insertSublayer(audioPulse, below: self.view.layer)
-        self.waveFormView.backgroundColor = .blue
-        view.addSubview(waveFormView)
+        
+        self.loadRecordingUI()
         startRecording()
         pulse()
     }
@@ -128,6 +162,14 @@ class ChatViewController: UIViewController
     
     @objc func stopPulse()
     {
+        do
+        {
+            try recordingSession.setActive(false)
+        }
+        catch
+        {
+            print("Cannot set recordingsession to false")
+        }
         timer?.invalidate()
         self.finishRecording(success: true)
         audioPulse.removeFromSuperlayer()
@@ -148,8 +190,9 @@ class ChatViewController: UIViewController
                 {
                     if allowed
                     {
+                        print("mic allowed")
                         self.waveFormView.backgroundColor = .clear
-                        self.waveFormView.frame = CGRect(origin: CGPoint(x: stackView.center.x-self.recordButton.frame.width, y: self.stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
+                        self.waveFormView.frame = CGRect(origin: CGPoint(x: self.stackView.center.x-self.recordButton.frame.width, y: self.stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
                         self.waveFormView.configuration = self.waveFormView.configuration.with(
                             style: .striped(.init(color: K.mainColor, width: 3, spacing: 3)),
                             position: .middle,
@@ -186,7 +229,6 @@ class ChatViewController: UIViewController
             formatter.timeZone = TimeZone.current
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
             let audioRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(formatter.string(from: Date.now)).m4a")
-            
             let uploadTask = audioRef.putFile(from: self.path!, metadata: metadata)
             { metadata, error in
                 if let error = error
@@ -198,7 +240,8 @@ class ChatViewController: UIViewController
                     do
                     {
                         let data = try Data(contentsOf: self.path!)
-                        self.userViewModel?.userDataArray[data] = [true, metadata?.name]
+                        self.userViewModel?.userDataArray[data] = [true, metadata?.name!]
+                        self.db.collection("users").document(self.recepientUID).updateData(["change": self.myBucketURL+(metadata?.path)!])
                     }
                     catch
                     {
@@ -327,20 +370,18 @@ extension ChatViewController: UITableViewDataSource
         if dataName.contains(".txt") && isMe
         {
             myTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
-            if let cons = myTextCell.messageView.constraints.filter({ $0.identifier == "messageViewWidthConstraint" }).first
+            if myTextCell.myChatTextLabel.text!.count > 13
             {
-                cons.constant = myTextCell.myChatTextLabel.text!.count < 14 ? myTextCell.myChatTextLabel.intrinsicContentSize.width : 192
-                cons.isActive = true
+                myTextCell.messageView.widthAnchor.constraint(equalToConstant: 192).isActive = true
             }
             return myTextCell
         }
         else if dataName.contains(".txt") && !isMe
         {
             yourTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
-            if let cons = yourTextCell.messageView.constraints.filter({ $0.identifier == "recTextMessageViewWidthConstraint" }).first
+            if yourTextCell.myChatTextLabel.text!.count > 13
             {
-                cons.constant = yourTextCell.myChatTextLabel.text!.count < 14 ? yourTextCell.intrinsicContentSize.width : 192
-                cons.isActive = true
+                yourTextCell.messageView.widthAnchor.constraint(equalToConstant: 192).isActive = true
             }
             return yourTextCell
         }

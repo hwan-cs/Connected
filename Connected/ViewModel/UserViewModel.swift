@@ -34,10 +34,9 @@ class UserViewModel: ObservableObject
     
     init(_ uid: String, _ suid: String)
     {
-        var count = 0
         let storageRef = self.storage.reference()
-        let audioRef = storageRef.child("\(uid)/\(suid)/")
-        audioRef.listAll(completion:
+        let myAudioRef = storageRef.child("\(uid)/\(suid)/")
+        myAudioRef.listAll(completion:
         { (storageListResult, error) in
             if let error = error
             {
@@ -71,6 +70,42 @@ class UserViewModel: ObservableObject
                 }
             }
         })
-        print("User Viewmodel init")
+        let yourAudioRef = storageRef.child("\(suid)/\(uid)/")
+        yourAudioRef.listAll(completion:
+        { (storageListResult, error) in
+            if let error = error
+            {
+                print("error")
+                print(error.localizedDescription)
+            }
+            else
+            {
+                for items in storageListResult!.items
+                {
+                    print(items.name)
+                    do
+                    {
+                        let result = try self.cacheStorage!.entry(forKey: items.name)
+                        // The video is cached.
+                        self.userDataArray[result.object] = [false, items.name]
+                    }
+                    catch
+                    {
+                        items.getData(maxSize: 1*1024*1024)
+                        { data, dError in
+                            if let dError = dError
+                            {
+                                print(dError.localizedDescription)
+                            }
+                            else
+                            {
+                                self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                self.userDataArray[data!] = [false, items.name]
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 }
