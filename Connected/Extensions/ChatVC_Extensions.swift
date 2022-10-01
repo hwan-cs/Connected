@@ -33,8 +33,22 @@ extension ChatViewController
     {
         DispatchQueue.main.async
         {
-            let indexPath = IndexPath(row: self.userDataArray.count-1, section: 0)
-            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            let indexPath = IndexPath(row: (self.userViewModel?.userDataArray.count ?? 1)-1, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
+    
+    @objc func keyboardWillShow(notification: NSNotification)
+    {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        {
+            self.view.frame.origin.y -= keyboardSize.height
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification)
+    {
+        self.view.frame.origin.y = 0
+    }
+
 }

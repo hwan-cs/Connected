@@ -14,6 +14,7 @@ import FirebaseStorage
 import FirebaseAuth
 import GrowingTextView
 import FirebaseFirestore
+import IQKeyboardManagerSwift
 
 class ChatViewController: UIViewController
 {
@@ -71,6 +72,8 @@ class ChatViewController: UIViewController
     {
         super.viewDidLoad()
         self.hideKeyboard()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableHeaderView?.backgroundColor = .clear
@@ -99,14 +102,13 @@ class ChatViewController: UIViewController
         recordingSession = AVAudioSession.sharedInstance()
         
         self.textView.removeFromSuperview()
+        self.growingTextView.delegate = self
         self.growingTextView.translatesAutoresizingMaskIntoConstraints = false
         self.growingTextView.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 8, right: 12)
         self.growingTextView.font = UIFont.systemFont(ofSize: 16.0)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 64
-        
-        //If recipient is talking to me, add snapshot listener their firdoc
-        
+        self.recordButton.imageView?.image?.withTintColor(K.mainColor)
     }
     
     @objc func startPulse()
@@ -285,6 +287,7 @@ class ChatViewController: UIViewController
     
     @IBAction func onSendButtonTap(_ sender: UIButton)
     {
+        self.sendButton.tintColor = .lightGray
         let uuid = Auth.auth().currentUser!.uid
         let metadata = StorageMetadata()
         metadata.contentType = "txt"
@@ -315,6 +318,7 @@ class ChatViewController: UIViewController
                 }
             }
         }
+        self.growingTextView.text = ""
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
@@ -432,9 +436,10 @@ extension ChatViewController: UITableViewDataSource
         {
             if indexPath == lastVisibleIndexPath
             {
-                //self.scrollToBottom()
+                self.scrollToBottom()
                 let uuid = Auth.auth().currentUser!.uid
                 K.didInit = true
+                //If recipient is talking to me, add snapshot listener their firdoc
                 Task.init
                 {
                     let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
@@ -482,5 +487,24 @@ extension ChatViewController: AVAudioRecorderDelegate
 
 extension ChatViewController: GrowingTextViewDelegate
 {
-
+    func textViewDidChange(_ textView: UITextView)
+    {
+        if textView.text.count > 0
+        {
+            self.sendButton.tintColor = K.mainColor
+        }
+        else
+        {
+            self.sendButton.tintColor = .lightGray
+        }
+    }
+    
+    func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat)
+    {
+        print("changed height??")
+        UIView.animate(withDuration: 0.2)
+        {
+            self.view.layoutIfNeeded()
+        }
+    }
 }

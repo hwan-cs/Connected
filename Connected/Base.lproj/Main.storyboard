@@ -18,7 +18,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -30,10 +30,10 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dca-8O-woX">
-                                <rect key="frame" x="200.5" y="366.5" width="193.5" height="77"/>
+                                <rect key="frame" x="223" y="366.5" width="171" height="66"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aal-wl-hbS">
-                                        <rect key="frame" x="0.0" y="0.0" width="193.5" height="38.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="171" height="33"/>
                                         <string key="text">Connection 
 </string>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
@@ -41,7 +41,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="through voice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jB7-yY-nzD">
-                                        <rect key="frame" x="0.0" y="38.5" width="193.5" height="38.5"/>
+                                        <rect key="frame" x="0.0" y="33" width="171" height="33"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -492,18 +492,9 @@
                                         <rect key="frame" x="54.5" y="4" width="305" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.80784313725490198" green="0.83529411764705885" blue="0.85882352941176465" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="iN3-an-VuD"/>
-                                        </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="22"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="maxHeight">
-                                                <real key="value" value="44"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="minHeight">
-                                                <real key="value" value="44"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -521,7 +512,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vin-Ea-vc7">
                                         <rect key="frame" x="363.5" y="0.0" width="50.5" height="52"/>
-                                        <color key="tintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="paperplane.fill" catalog="system"/>
                                         <connections>
@@ -533,10 +524,8 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="vin-Ea-vc7" secondAttribute="bottom" id="7E4-oV-ZS0"/>
                                     <constraint firstItem="22d-SY-80F" firstAttribute="top" secondItem="c8L-x4-SgK" secondAttribute="top" id="BGH-YF-WA4"/>
-                                    <constraint firstAttribute="bottom" secondItem="WLJ-AF-fyD" secondAttribute="bottom" constant="4" id="OCz-a8-yHD"/>
                                     <constraint firstItem="vin-Ea-vc7" firstAttribute="top" secondItem="c8L-x4-SgK" secondAttribute="top" id="Ogb-8F-dp1"/>
                                     <constraint firstItem="WLJ-AF-fyD" firstAttribute="centerY" secondItem="c8L-x4-SgK" secondAttribute="centerY" id="Q4h-JD-WWh"/>
-                                    <constraint firstItem="WLJ-AF-fyD" firstAttribute="top" secondItem="c8L-x4-SgK" secondAttribute="top" constant="4" id="Wkb-Jv-Z2z"/>
                                     <constraint firstAttribute="bottom" secondItem="22d-SY-80F" secondAttribute="bottom" id="ako-XR-DDo"/>
                                     <constraint firstItem="WLJ-AF-fyD" firstAttribute="leading" secondItem="22d-SY-80F" secondAttribute="trailing" constant="4" id="buV-gz-LUM"/>
                                     <constraint firstItem="vin-Ea-vc7" firstAttribute="leading" secondItem="WLJ-AF-fyD" secondAttribute="trailing" constant="4" id="d8e-op-8LD"/>
@@ -558,8 +547,12 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWG-QT-g1z">
                                         <rect key="frame" x="142" y="12" width="130" height="52"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="Voice"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="Voice">
+                                            <color key="baseForegroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmw-JV-oCH">
                                         <rect key="frame" x="276" y="12" width="130" height="52"/>
