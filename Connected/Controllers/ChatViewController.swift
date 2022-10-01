@@ -106,31 +106,7 @@ class ChatViewController: UIViewController
         self.tableView.estimatedRowHeight = 64
         
         //If recipient is talking to me, add snapshot listener their firdoc
-        Task.init
-        {
-            let uuid = Auth.auth().currentUser!.uid
-            let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
-            if talkingTo!["talkingTo"] as? String == uuid && K.didInit
-            {
-                listener = self.db.collection("users").document(self.recepientUID).addSnapshotListener(
-                { documentSnapshot, error in
-                    guard documentSnapshot != nil
-                    else
-                    {
-                        print("Error fetching document: \(error!)")
-                        return
-                    }
-                    print("changed)")
-                    let storageRef = self.storage.reference()
-                    let myAudioRef = storageRef.child("\(self.recepientUID)/\(uuid)/")
-                    myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 1*1024*1024)
-                    { data, error in
-                        self.userDataArray[data!] = [true, talkingTo!["change"] as! String]
-                        print("addded)", talkingTo!["change"] as! String)
-                    }
-                })
-            }
-        }
+        
     }
     
     @objc func startPulse()
@@ -162,14 +138,6 @@ class ChatViewController: UIViewController
     
     @objc func stopPulse()
     {
-        do
-        {
-            try recordingSession.setActive(false)
-        }
-        catch
-        {
-            print("Cannot set recordingsession to false")
-        }
         timer?.invalidate()
         self.finishRecording(success: true)
         audioPulse.removeFromSuperlayer()
@@ -224,6 +192,14 @@ class ChatViewController: UIViewController
         
         if success
         {
+            do
+            {
+                try recordingSession.setActive(false)
+            }
+            catch
+            {
+                print("Cannot set recordingsession to false")
+            }
             let storageRef = self.storage.reference()
             let formatter = DateFormatter()
             formatter.timeZone = TimeZone.current
@@ -241,7 +217,7 @@ class ChatViewController: UIViewController
                     {
                         let data = try Data(contentsOf: self.path!)
                         self.userViewModel?.userDataArray[data] = [true, metadata?.name!]
-                        self.db.collection("users").document(self.recepientUID).updateData(["change": self.myBucketURL+(metadata?.path)!])
+                        self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
                     }
                     catch
                     {
@@ -330,6 +306,7 @@ class ChatViewController: UIViewController
                 do
                 {
                     self.userViewModel?.userDataArray[textToSend] = [true, metadata?.name]
+                    self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
                     self.scrollToBottom()
                 }
                 catch
@@ -374,6 +351,7 @@ extension ChatViewController: UITableViewDataSource
             {
                 myTextCell.messageView.widthAnchor.constraint(equalToConstant: 192).isActive = true
             }
+            myTextCell.selectionStyle = .none
             return myTextCell
         }
         else if dataName.contains(".txt") && !isMe
@@ -383,6 +361,7 @@ extension ChatViewController: UITableViewDataSource
             {
                 yourTextCell.messageView.widthAnchor.constraint(equalToConstant: 192).isActive = true
             }
+            yourTextCell.selectionStyle = .none
             return yourTextCell
         }
         
@@ -453,8 +432,38 @@ extension ChatViewController: UITableViewDataSource
         {
             if indexPath == lastVisibleIndexPath
             {
-                self.scrollToBottom()
+                //self.scrollToBottom()
+                let uuid = Auth.auth().currentUser!.uid
                 K.didInit = true
+                Task.init
+                {
+                    let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+                    print(uuid)
+                    if !(talkingTo!["talkingTo"] as? String == uuid && K.didInit)
+                    {
+                        return
+                    }
+                }
+                listener = self.db.collection("users").document(self.recepientUID).addSnapshotListener(
+                { documentSnapshot, error in
+                    guard documentSnapshot != nil
+                    else
+                    {
+                        print("Error fetching document: \(error!)")
+                        return
+                    }
+                    Task.init
+                    {
+                        let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+                        let storageRef = self.storage.reference()
+                        let myAudioRef = storageRef.child("\(self.recepientUID)/\(uuid)/")
+                        let fileName = (talkingTo!["change"] as! String).components(separatedBy: uuid+"/")[1]
+                        myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 1*1024*1024)
+                        { data, error in
+                            self.userViewModel?.userDataArray[data!] = [false, fileName]
+                        }
+                    }
+                })
             }
         }
     }

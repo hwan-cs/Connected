@@ -82,7 +82,6 @@ class UserViewModel: ObservableObject
             {
                 for items in storageListResult!.items
                 {
-                    print(items.name)
                     do
                     {
                         let result = try self.cacheStorage!.entry(forKey: items.name)
