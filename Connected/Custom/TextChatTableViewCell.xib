@@ -72,6 +72,8 @@
             <connections>
                 <outlet property="messageView" destination="XAe-LL-dnX" id="rv3-8a-7ue"/>
                 <outlet property="myChatTextLabel" destination="Iax-Jb-pjB" id="gna-Oz-wpy"/>
+                <outlet property="timeLabel" destination="Ebb-Ex-2gr" id="RHh-nP-0wg"/>
+                <outlet property="timeLabel_2" destination="ZbA-Rz-1Fy" id="wXf-e6-1bp"/>
             </connections>
             <point key="canvasLocation" x="127.69230769230769" y="20.616113744075829"/>
         </tableViewCell>

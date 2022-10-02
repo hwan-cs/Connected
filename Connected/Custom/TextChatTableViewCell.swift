@@ -14,6 +14,20 @@ class TextChatTableViewCell: UITableViewCell
     
     @IBOutlet var myChatTextLabel: UILabel!
     
+    @IBOutlet var timeLabel: UILabel!
+    
+    @IBOutlet var timeLabel_2: UILabel!
+    
+    var txtName: String!
+    {
+        didSet
+        {
+            let time = self.txtName.components(separatedBy: "T")
+            self.timeLabel.text = time[0]
+            self.timeLabel_2.text = String(time[1].prefix(5))
+        }
+    }
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()

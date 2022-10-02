@@ -30,10 +30,10 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dca-8O-woX">
-                                <rect key="frame" x="223" y="366.5" width="171" height="66"/>
+                                <rect key="frame" x="200.5" y="366.5" width="193.5" height="77"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aal-wl-hbS">
-                                        <rect key="frame" x="0.0" y="0.0" width="171" height="33"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="193.5" height="38.5"/>
                                         <string key="text">Connection 
 </string>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
@@ -41,7 +41,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="through voice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jB7-yY-nzD">
-                                        <rect key="frame" x="0.0" y="33" width="171" height="33"/>
+                                        <rect key="frame" x="0.0" y="38.5" width="193.5" height="38.5"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -651,9 +651,6 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="WLJ-AF-fyD">
-            <size key="intrinsicContentSize" width="-1" height="30"/>
-        </designable>
         <designable name="nH9-cE-Z4O">
             <size key="intrinsicContentSize" width="63" height="32"/>
         </designable>

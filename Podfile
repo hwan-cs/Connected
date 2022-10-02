@@ -8,7 +8,6 @@ target 'Connected' do
   # Pods for Connected
   pod 'GrowingTextView', '0.7.2'
   pod 'EasyTipView', '~> 2.1'
-  pod 'SkeletonView'
   pod 'FFPopup'
   pod 'STPopup'
   pod 'AMPopTip'
@@ -23,4 +22,5 @@ target 'Connected' do
   pod 'TransitionButton'
   pod 'GrowingTextView', '0.7.2'
   pod 'IQKeyboardManagerSwift'
+  pod 'LoadingShimmer'
 end

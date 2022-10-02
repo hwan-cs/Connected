@@ -15,6 +15,7 @@ import FirebaseAuth
 import GrowingTextView
 import FirebaseFirestore
 import IQKeyboardManagerSwift
+import LoadingShimmer
 
 class ChatViewController: UIViewController
 {
@@ -68,6 +69,10 @@ class ChatViewController: UIViewController
     
     let myBucketURL =  "gs://connected-3ed2d.appspot.com/"
     
+    var sortedByValueDictionaryKey: [Data] = []
+    
+    var sortedByValueDictionaryValue: [[Any?]] = [[]]
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -108,9 +113,13 @@ class ChatViewController: UIViewController
         self.growingTextView.font = UIFont.systemFont(ofSize: 16.0)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 64
-        self.recordButton.imageView?.image?.withTintColor(K.mainColor)
     }
     
+    override func viewWillAppear(_ animated: Bool)
+    {
+        LoadingShimmer.startCovering(self.tableView, with: nil)
+    }
+
     @objc func startPulse()
     {
         audioPulse = PulseAnimation(numberOfPulse: Float.infinity, radius: 75, position: CGPoint(x: self.recordButton.center.x, y: self.stackView.center.y))
@@ -152,7 +161,7 @@ class ChatViewController: UIViewController
     {
         do
         {
-            try recordingSession.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetoothA2DP, .mixWithOthers])
+            try recordingSession.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetoothA2DP, .mixWithOthers, .allowBluetooth])
             try recordingSession.setActive(true)
             recordingSession.requestRecordPermission()
             { [unowned self] allowed in
@@ -337,9 +346,6 @@ extension ChatViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.key})
-        let sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.value})
-        
         let isMe = sortedByValueDictionaryValue[indexPath.row][0] as! Bool
         let dataName = sortedByValueDictionaryValue[indexPath.row][1] as! String
         
@@ -355,6 +361,7 @@ extension ChatViewController: UITableViewDataSource
             {
                 myTextCell.messageView.widthAnchor.constraint(equalToConstant: 192).isActive = true
             }
+            myTextCell.txtName = sortedByValueDictionaryValue[indexPath.row][1] as? String
             myTextCell.selectionStyle = .none
             return myTextCell
         }
@@ -365,6 +372,7 @@ extension ChatViewController: UITableViewDataSource
             {
                 yourTextCell.messageView.widthAnchor.constraint(equalToConstant: 192).isActive = true
             }
+            yourTextCell.txtName = sortedByValueDictionaryValue[indexPath.row][1] as? String
             yourTextCell.selectionStyle = .none
             return yourTextCell
         }
@@ -385,8 +393,8 @@ extension ChatViewController: UITableViewDataSource
                     {
                         //myCell.waveFormImageView.waveformAudioURL = url
                         myCell.waveFormImageView.image = image
-                        myCell.audio = sortedByValueDictionaryKey[indexPath.row]
-                        myCell.audioName = sortedByValueDictionaryValue[indexPath.row][1] as? String
+                        myCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
+                        myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
                         myCell.selectionStyle = .none
                     }
                 }
@@ -396,8 +404,8 @@ extension ChatViewController: UITableViewDataSource
                     {
                         //yourCell.waveFormImageView.waveformAudioURL = url
                         yourCell.waveFormImageView.image = image
-                        yourCell.audio = sortedByValueDictionaryKey[indexPath.row]
-                        myCell.audioName = sortedByValueDictionaryValue[indexPath.row][1] as? String
+                        yourCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
+                        myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
                         yourCell.selectionStyle = .none
                     }
                 }
@@ -439,6 +447,10 @@ extension ChatViewController: UITableViewDataSource
                 self.scrollToBottom()
                 let uuid = Auth.auth().currentUser!.uid
                 K.didInit = true
+                DispatchQueue.main.asyncAfter(deadline: .now()+10)
+                {
+                    LoadingShimmer.stopCovering(self.tableView)
+                }
                 //If recipient is talking to me, add snapshot listener their firdoc
                 Task.init
                 {
@@ -501,7 +513,6 @@ extension ChatViewController: GrowingTextViewDelegate
     
     func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat)
     {
-        print("changed height??")
         UIView.animate(withDuration: 0.2)
         {
             self.view.layoutIfNeeded()
