@@ -64,7 +64,7 @@ class ChatViewController: UIViewController
     
     var path: URL?
     
-    var recepientUID = "iE3iwgBCujSXNiazEsGHKJrxa9G3"
+    var recepientUID = "NLsm46kThrXznH1daKbBK1U3eyf1"
     
     let db = Firestore.firestore()
     
@@ -625,7 +625,7 @@ extension ChatViewController: UITableViewDataSource
                         }
                         if (talkingTo!["isSharingLocation"] as! Bool)
                         {
-                            if !self.backgroundView.isDescendant(of: self.view)
+                            if !self.recBackgroundView.isDescendant(of: self.view)
                             {
                                 self.initRecMapView()
                             }

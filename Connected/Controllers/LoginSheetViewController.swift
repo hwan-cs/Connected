@@ -72,7 +72,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             self.runResendEmailTimer()
         }
         
-        self.usernameTextField.text = "hwan333@konkuk.ac.kr"
+        self.usernameTextField.text = "jushua2838@gmail.com"
         self.passwordTextField.text = "Hwan@001005"
     }
     
