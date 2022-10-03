@@ -90,6 +90,26 @@ class ChatViewController: UIViewController
     
     var backgroundViewTrailingConstraint: NSLayoutConstraint?
     
+    var backgroundViewLeadingConstraint: NSLayoutConstraint?
+    
+    var backgroundViewTopAnchorConstraint: NSLayoutConstraint?
+    
+    var isSharingLocation = false
+    
+    var recMapView: GMSMapView = GMSMapView()
+    
+    var recBackgroundView: UIView = UIView()
+    
+    var recMinMaxBtn: UIButton = UIButton()
+    
+    var recBackgroundViewHeightConstraint: NSLayoutConstraint?
+    
+    var recBackgroundViewTrailingConstraint: NSLayoutConstraint?
+    
+    var recBackgroundViewLeadingConstraint: NSLayoutConstraint?
+    
+    var recBackgroundViewTopAnchorConstraint: NSLayoutConstraint?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -134,7 +154,41 @@ class ChatViewController: UIViewController
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestAlwaysAuthorization()
-
+        
+        Task.init
+        {
+            let uuid = Auth.auth().currentUser?.uid
+            if let mData = try await self.db.collection("users").document(uuid!).getDocument().data()
+            {
+                if (mData["isSharingLocation"] as! Bool)
+                {
+                    self.locationManager?.requestAlwaysAuthorization()
+                    mapView.delegate = self
+                    mapView.isMyLocationEnabled = true
+                    if let location = locationManager?.location
+                    {
+                        let camera = GMSCameraPosition.camera(withLatitude: (location.coordinate.latitude), longitude: (location.coordinate.longitude), zoom: 17.0)
+                        mapView.camera = camera
+                    }
+                    self.loadMap()
+                    self.locationButotn.isUserInteractionEnabled = false
+                    self.locationButotn.tintColor = .gray
+                }
+            }
+            if let data = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+            {
+                self.isSharingLocation = data["isSharingLocation"] as! Bool
+                if self.isSharingLocation
+                {
+                    self.initRecMapView()
+                    if let location = data["location"] as? GeoPoint
+                    {
+                        let camera = GMSCameraPosition.camera(withLatitude: (location.latitude), longitude: (location.longitude), zoom: 17.0)
+                        recMapView.camera = camera
+                    }
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -305,7 +359,7 @@ class ChatViewController: UIViewController
     {
         self.locationManager?.requestAlwaysAuthorization()
         mapView.delegate = self
-        
+        mapView.isMyLocationEnabled = true
         if let location = locationManager?.location
         {
             let camera = GMSCameraPosition.camera(withLatitude: (location.coordinate.latitude), longitude: (location.coordinate.longitude), zoom: 17.0)
@@ -366,23 +420,15 @@ class ChatViewController: UIViewController
         self.initMapView()
         self.view.layoutIfNeeded()
         let uuid = Auth.auth().currentUser?.uid
-//        Task.init
-//        {
-//            if let data = try await self.db.collection("users").document(uuid!).getDocument().data()
-//            {
-//                if let geopoint = data["location"] as? GeoPoint
-//                {
-//                    let marker = GMSMarker()
-//                    marker.position = CLLocationCoordinate2D(latitude: geopoint.latitude, longitude: geopoint.longitude)
-//                    marker.userData = uuid!
-//                    if !self.markers.contains(marker)
-//                    {
-//                        self.markers.append(marker)
-//                    }
-//                    marker.map = self.mapView
-//                }
-//            }
-//        }
+        Task.init
+        {
+            try await self.db.collection("users").document(uuid!).updateData(["isSharingLocation": true])
+        }
+    }
+    
+    func loadRecipientMap()
+    {
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
@@ -526,9 +572,33 @@ extension ChatViewController: UITableViewDataSource
                         let storageRef = self.storage.reference()
                         let myAudioRef = storageRef.child("\(self.recepientUID)/\(uuid)/")
                         let fileName = (talkingTo!["change"] as! String).components(separatedBy: uuid+"/")[1]
-                        myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 1*1024*1024)
-                        { data, error in
-                            self.userViewModel?.userDataArray[data!] = [false, fileName]
+                        if !self.userDataArray.values.contains(where: { value in
+                            value as? [AnyHashable] == [false, fileName]
+                        })
+                        {
+                            myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 1*1024*1024)
+                            { data, error in
+                                self.userViewModel?.userDataArray[data!] = [false, fileName]
+                            }
+                        }
+                        if self.isSharingLocation
+                        {
+                            let marker = GMSMarker()
+                            let loc = talkingTo!["location"] as! GeoPoint
+                            print("Location of rec: ", loc)
+                            marker.position = CLLocationCoordinate2D(latitude: loc.latitude, longitude: loc.longitude)
+                            if self.markers.count > 0
+                            {
+                                self.markers[0].map = nil
+                                self.markers.append(marker)
+                            }
+                            else
+                            {
+                                self.markers.append(marker)
+                            }
+                            marker.map = self.recMapView
+                            let camera = GMSCameraPosition.camera(withLatitude: (loc.latitude), longitude: (loc.longitude), zoom: 17.0)
+                            self.recMapView.camera = camera
                         }
                     }
                 })
@@ -587,7 +657,8 @@ extension ChatViewController: CLLocationManagerDelegate
     {
         if let location = locations.first
         {
-//            print("new location is \(location)")
+            let uuid = Auth.auth().currentUser?.uid
+            self.db.collection("users").document(uuid!).updateData(["location": GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)])
         }
     }
 }

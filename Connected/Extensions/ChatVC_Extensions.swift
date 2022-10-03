@@ -41,6 +41,7 @@ extension ChatViewController
         }
     }
     
+    //MARK: - Initialize my map view
     func initMapView()
     {
         backgroundView.backgroundColor = K.mainColor
@@ -51,21 +52,23 @@ extension ChatViewController
         self.backgroundViewHeightConstraint!.isActive = true
         self.backgroundViewTrailingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: -8.0)
         self.backgroundViewTrailingConstraint!.isActive = true
-        
-        NSLayoutConstraint.activate([
-            backgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 8.0),
-            backgroundView.topAnchor.constraint(equalTo: self.tableView.topAnchor, constant: 8.0),
-        ])
+        self.backgroundViewLeadingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 8.0)
+        self.backgroundViewLeadingConstraint?.isActive = true
+        self.backgroundViewTopAnchorConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .top, relatedBy: .equal, toItem: self.tableView, attribute: .top, multiplier: 1.0, constant: 8.0)
+        self.backgroundViewTopAnchorConstraint?.isActive = true
+
         minMaxBtn.setTitle("축소", for: .normal)
+        minMaxBtn.tag = 0
+        minMaxBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         minMaxBtn.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundView.addSubview(minMaxBtn)
         NSLayoutConstraint.activate([
             minMaxBtn.heightAnchor.constraint(equalToConstant: 20.0),
-            minMaxBtn.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: 8.0),
+            minMaxBtn.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: 12.0),
             minMaxBtn.widthAnchor.constraint(equalToConstant: 25.0),
             minMaxBtn.topAnchor.constraint(equalTo: self.backgroundView.topAnchor, constant: 10),
         ])
-        minMaxBtn.addTarget(self, action: #selector(minimizeMapView), for: .touchUpInside)
+        minMaxBtn.addTarget(self, action: #selector(minimizeMapView(_ :)), for: .touchUpInside)
         backgroundView.addSubview(self.mapView)
         self.mapView.layer.cornerRadius = 18
         self.mapView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,49 +80,151 @@ extension ChatViewController
         ])
     }
     
-    @objc func minimizeMapView()
+    //MARK: - Initialize recipients map view
+    func initRecMapView()
     {
-        self.minMaxBtn.setTitle("확대", for: .normal)
-        self.mapView.removeFromSuperview()
-        self.backgroundViewHeightConstraint!.isActive = false
-        self.backgroundViewTrailingConstraint!.isActive = false
-        self.backgroundView.layoutIfNeeded()
-        UIView.animate(withDuration: 1.5, delay: 0.0)
-        {
-            var mapFrame = self.backgroundView.frame
-            mapFrame.size.height = 50
-            mapFrame.size.width = 80
-            self.backgroundView.frame = mapFrame
-            self.backgroundViewHeightConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 50)
-            self.backgroundViewHeightConstraint!.isActive = true
-            self.backgroundViewTrailingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 88.0)
-            self.backgroundViewTrailingConstraint!.isActive = true
-        }
-        self.backgroundView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handler)))
+        recBackgroundView.backgroundColor = .lightGray
+        recBackgroundView.layer.cornerRadius = 20
+        recBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(recBackgroundView)
+        self.recBackgroundViewHeightConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 150.0)
+        self.recBackgroundViewHeightConstraint!.isActive = true
+        self.recBackgroundViewTrailingConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: -8.0)
+        self.recBackgroundViewTrailingConstraint!.isActive = true
+        self.recBackgroundViewLeadingConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 8.0)
+        self.recBackgroundViewLeadingConstraint?.isActive = true
+        let cons = self.backgroundView.isDescendant(of: self.view) ? 12.0+self.backgroundView.frame.height : 8.0
+        self.recBackgroundViewTopAnchorConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .top, relatedBy: .equal, toItem: self.tableView, attribute: .top, multiplier: 1.0, constant: cons)
+        self.recBackgroundViewTopAnchorConstraint?.isActive = true
+
+        recMinMaxBtn.setTitle("축소", for: .normal)
+        recMinMaxBtn.tag = 1
+        recMinMaxBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        recMinMaxBtn.translatesAutoresizingMaskIntoConstraints = false
+        self.recBackgroundView.addSubview(recMinMaxBtn)
+        NSLayoutConstraint.activate([
+            recMinMaxBtn.heightAnchor.constraint(equalToConstant: 20.0),
+            recMinMaxBtn.leadingAnchor.constraint(equalTo: self.recBackgroundView.leadingAnchor, constant: 12.0),
+            recMinMaxBtn.widthAnchor.constraint(equalToConstant: 25.0),
+            recMinMaxBtn.topAnchor.constraint(equalTo: self.recBackgroundView.topAnchor, constant: 10),
+        ])
+        recMinMaxBtn.addTarget(self, action: #selector(minimizeMapView(_ :)), for: .touchUpInside)
+        recBackgroundView.addSubview(self.recMapView)
+        self.recMapView.layer.cornerRadius = 18
+        self.recMapView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.recMapView.topAnchor.constraint(equalTo: recBackgroundView.topAnchor, constant: 32.0),
+            self.recMapView.leadingAnchor.constraint(equalTo: recBackgroundView.leadingAnchor, constant: 8.0),
+            self.recMapView.trailingAnchor.constraint(equalTo: recBackgroundView.trailingAnchor, constant: -8.0),
+            self.recMapView.bottomAnchor.constraint(equalTo: recBackgroundView.bottomAnchor, constant: -8.0)
+        ])
     }
     
-    @objc func handler(gesture: UIPanGestureRecognizer)
+    @objc func minimizeMapView(_ sender: UIButton)
     {
-        let location = gesture.location(in: self.view)
-        let draggedView = gesture.view
-        draggedView?.center = location
-        
-        if gesture.state == .ended
+        if sender.tag == 0
         {
-            if self.backgroundView.frame.midX >= self.view.layer.frame.width / 2
+            self.minMaxBtn.setTitle("확대", for: .normal)
+            self.mapView.removeFromSuperview()
+            self.backgroundViewHeightConstraint!.isActive = false
+            self.backgroundViewTrailingConstraint!.isActive = false
+            self.backgroundView.layoutIfNeeded()
+            UIView.animate(withDuration: 1.0, delay: 0.0)
             {
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations:
-                {
-                    self.backgroundView.center.x = self.view.layer.frame.width - 48
-                }, completion: nil)
+                var mapFrame = self.backgroundView.frame
+                mapFrame.size.height = 50
+                mapFrame.size.width = 80
+                self.backgroundView.frame = mapFrame
+                self.backgroundViewHeightConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 50.0)
+                self.backgroundViewTrailingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 88.0)
+                self.backgroundViewHeightConstraint!.isActive = true
+                self.backgroundViewTrailingConstraint!.isActive = true
             }
-            else
+            self.minMaxBtn.removeTarget(self, action: #selector(minimizeMapView(_ :)), for: .touchUpInside)
+            self.minMaxBtn.addTarget(self, action: #selector(maximizeMapView(_ :)), for: .touchUpInside)
+        }
+        else
+        {
+            self.recMinMaxBtn.setTitle("확대", for: .normal)
+            self.recMapView.removeFromSuperview()
+            self.recBackgroundViewHeightConstraint!.isActive = false
+            self.recBackgroundViewTrailingConstraint!.isActive = false
+            self.recBackgroundView.layoutIfNeeded()
+            UIView.animate(withDuration: 1.0, delay: 0.0)
             {
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations:
-                {
-                    self.backgroundView.center.x = 48
-                }, completion: nil)
+                var mapFrame = self.recBackgroundView.frame
+                mapFrame.size.height = 50
+                mapFrame.size.width = 80
+                self.recBackgroundView.frame = mapFrame
+                self.recBackgroundViewHeightConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 50.0)
+                self.recBackgroundViewTrailingConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 88.0)
+                self.recBackgroundViewHeightConstraint!.isActive = true
+                self.recBackgroundViewTrailingConstraint!.isActive = true
             }
+            self.recMinMaxBtn.removeTarget(self, action: #selector(minimizeMapView(_ :)), for: .touchUpInside)
+            self.recMinMaxBtn.addTarget(self, action: #selector(maximizeMapView(_ :)), for: .touchUpInside)
+        }
+    }
+    
+    @objc func maximizeMapView(_ sender: UIButton)
+    {
+        if sender.tag == 0
+        {
+            self.minMaxBtn.setTitle("축소", for: .normal)
+            self.backgroundView.addSubview(self.mapView)
+            self.backgroundViewHeightConstraint!.isActive = false
+            self.backgroundViewTrailingConstraint!.isActive = false
+            UIView.animate(withDuration: 1.0, delay: 0.0)
+            {
+                var mapFrame = self.backgroundView.frame
+                mapFrame.size.height = 150
+                mapFrame.size.width = self.view.frame.size.width
+                self.backgroundView.frame = mapFrame
+                self.backgroundViewLeadingConstraint?.isActive = false
+                self.backgroundViewLeadingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 8.0)
+                self.backgroundViewLeadingConstraint?.isActive = true
+                self.backgroundViewHeightConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 150)
+                self.backgroundViewHeightConstraint!.isActive = true
+                self.backgroundViewTrailingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: -8.0)
+                self.backgroundViewTrailingConstraint!.isActive = true
+            }
+            NSLayoutConstraint.activate([
+                self.mapView.topAnchor.constraint(equalTo: self.backgroundView.topAnchor, constant: 32.0),
+                self.mapView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: 8.0),
+                self.mapView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor, constant: -8.0),
+                self.mapView.bottomAnchor.constraint(equalTo: self.backgroundView.bottomAnchor, constant: -8.0)
+            ])
+            self.minMaxBtn.removeTarget(self, action: #selector(maximizeMapView(_ :)), for: .touchUpInside)
+            self.minMaxBtn.addTarget(self, action: #selector(minimizeMapView(_ :)), for: .touchUpInside)
+        }
+        else
+        {
+            self.recMinMaxBtn.setTitle("축소", for: .normal)
+            self.recBackgroundView.addSubview(self.recMapView)
+            self.recBackgroundViewHeightConstraint!.isActive = false
+            self.recBackgroundViewTrailingConstraint!.isActive = false
+            UIView.animate(withDuration: 1.0, delay: 0.0)
+            {
+                var mapFrame = self.recBackgroundView.frame
+                mapFrame.size.height = 150
+                mapFrame.size.width = self.view.frame.size.width
+                self.recBackgroundView.frame = mapFrame
+                self.recBackgroundViewLeadingConstraint?.isActive = false
+                self.recBackgroundViewLeadingConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 8.0)
+                self.recBackgroundViewLeadingConstraint?.isActive = true
+                self.recBackgroundViewHeightConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 150)
+                self.recBackgroundViewHeightConstraint!.isActive = true
+                self.recBackgroundViewTrailingConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: -8.0)
+                self.recBackgroundViewTrailingConstraint!.isActive = true
+            }
+            NSLayoutConstraint.activate([
+                self.recMapView.topAnchor.constraint(equalTo: self.recBackgroundView.topAnchor, constant: 32.0),
+                self.recMapView.leadingAnchor.constraint(equalTo: self.recBackgroundView.leadingAnchor, constant: 8.0),
+                self.recMapView.trailingAnchor.constraint(equalTo: self.recBackgroundView.trailingAnchor, constant: -8.0),
+                self.recMapView.bottomAnchor.constraint(equalTo: self.recBackgroundView.bottomAnchor, constant: -8.0)
+            ])
+            self.recMinMaxBtn.removeTarget(self, action: #selector(maximizeMapView(_ :)), for: .touchUpInside)
+            self.recMinMaxBtn.addTarget(self, action: #selector(minimizeMapView(_ :)), for: .touchUpInside)
         }
     }
     
