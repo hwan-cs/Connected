@@ -23,4 +23,6 @@ target 'Connected' do
   pod 'GrowingTextView', '0.7.2'
   pod 'IQKeyboardManagerSwift'
   pod 'LoadingShimmer'
+  pod 'GoogleMaps'
+  pod 'GooglePlaces'
 end

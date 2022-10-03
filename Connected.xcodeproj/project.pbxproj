@@ -273,6 +273,7 @@
 				1AACE88028CB409F00B96A7C /* Frameworks */,
 				1AACE88128CB409F00B96A7C /* Resources */,
 				F405929D23D322E53D930496 /* [CP] Embed Pods Frameworks */,
+				8331DD759E1493CF5DAAAD36 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -358,6 +359,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8331DD759E1493CF5DAAAD36 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A61FB702B9FE4D05932C674E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -578,6 +596,7 @@
 				DEVELOPMENT_TEAM = 6DXT245L5T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Connected/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 권한이 필요합니다!";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = HELLO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -609,6 +628,7 @@
 				DEVELOPMENT_TEAM = 6DXT245L5T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Connected/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 권한이 필요합니다!";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = HELLO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

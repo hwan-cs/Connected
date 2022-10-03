@@ -16,6 +16,9 @@ import GrowingTextView
 import FirebaseFirestore
 import IQKeyboardManagerSwift
 import LoadingShimmer
+import CoreLocation
+import GoogleMaps
+import GooglePlaces
 
 class ChatViewController: UIViewController
 {
@@ -73,6 +76,10 @@ class ChatViewController: UIViewController
     
     var sortedByValueDictionaryValue: [[Any?]] = [[]]
     
+    var locationManager: CLLocationManager?
+    
+    var mapView: GMSMapView?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -113,6 +120,10 @@ class ChatViewController: UIViewController
         self.growingTextView.font = UIFont.systemFont(ofSize: 16.0)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 64
+        
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.requestAlwaysAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -281,7 +292,9 @@ class ChatViewController: UIViewController
     
     @IBAction func onLocationButtonTap(_ sender: UIButton)
     {
-        
+        mapView.delegate = self
+        mapView.isMyLocationEnabled = true
+        mapView.settings.myLocationButton = true
     }
     
     @IBAction func onBackToMicButtonTap(_ sender: UIButton)

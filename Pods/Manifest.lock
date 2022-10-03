@@ -665,6 +665,12 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleMaps (7.1.0):
+    - GoogleMaps/Maps (= 7.1.0)
+  - GoogleMaps/Base (7.1.0)
+  - GoogleMaps/Maps (7.1.0):
+    - GoogleMaps/Base
+  - GooglePlaces (7.1.0)
   - GoogleUtilities/AppDelegateSwizzler (7.8.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -773,6 +779,8 @@ DEPENDENCIES:
   - Firebase/DynamicLinks
   - Firebase/Firestore
   - FirebaseStorage
+  - GoogleMaps
+  - GooglePlaces
   - GrowingTextView (= 0.7.2)
   - IQKeyboardManagerSwift
   - LoadingShimmer
@@ -803,6 +811,8 @@ SPEC REPOS:
     - FirebaseStorage
     - FirebaseStorageInternal
     - GoogleDataTransport
+    - GoogleMaps
+    - GooglePlaces
     - GoogleUtilities
     - GrowingTextView
     - "gRPC-C++"
@@ -840,6 +850,8 @@ SPEC CHECKSUMS:
   FirebaseStorage: 1fead543a1f441c3b434c1c9f12560dd82f8b568
   FirebaseStorageInternal: 81d8a597324ccd06c41a43c5700bc1185a2fc328
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
+  GoogleMaps: bc56ffb0324e345a2d91bac1a64a920f9c8f1b20
+  GooglePlaces: 187946335ec3dc624de71c0a9ddcc712f19b0ee1
   GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
   GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
   "gRPC-C++": 9675f953ace2b3de7c506039d77be1f2e77a8db2
@@ -858,6 +870,6 @@ SPEC CHECKSUMS:
   TweeTextField: 726de695eead9784f7ed02e22f6944bfcfcca07a
   VBRRollingPit: 62a79cc663aeea6a196878b3a907056617f96b6a
 
-PODFILE CHECKSUM: 3ac9638768b8ffd9843bb03d8daf6618685770ae
+PODFILE CHECKSUM: 76e28e665e969106015288637401ff2069dbe6b2
 
 COCOAPODS: 1.11.3
