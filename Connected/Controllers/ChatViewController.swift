@@ -78,7 +78,9 @@ class ChatViewController: UIViewController
     
     var locationManager: CLLocationManager?
     
-    var mapView: GMSMapView?
+    var mapView: GMSMapView = GMSMapView()
+    
+    var markers = [GMSMarker]()
     
     override func viewDidLoad()
     {
@@ -295,6 +297,14 @@ class ChatViewController: UIViewController
         mapView.delegate = self
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
+        
+        if let location = locationManager?.location
+        {
+            let camera = GMSCameraPosition.camera(withLatitude: (location.coordinate.latitude), longitude: (location.coordinate.longitude), zoom: 17.0)
+            mapView.camera = camera
+        }
+        
+        self.loadMap()
     }
     
     @IBAction func onBackToMicButtonTap(_ sender: UIButton)
@@ -341,6 +351,29 @@ class ChatViewController: UIViewController
             }
         }
         self.growingTextView.text = ""
+    }
+    
+    func loadMap()
+    {
+        self.initMapView()
+        let uuid = Auth.auth().currentUser?.uid
+//        Task.init
+//        {
+//            if let data = try await self.db.collection("users").document(uuid!).getDocument().data()
+//            {
+//                if let geopoint = data["location"] as? GeoPoint
+//                {
+//                    let marker = GMSMarker()
+//                    marker.position = CLLocationCoordinate2D(latitude: geopoint.latitude, longitude: geopoint.longitude)
+//                    marker.userData = uuid!
+//                    if !self.markers.contains(marker)
+//                    {
+//                        self.markers.append(marker)
+//                    }
+//                    marker.map = self.mapView
+//                }
+//            }
+//        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
@@ -532,3 +565,37 @@ extension ChatViewController: GrowingTextViewDelegate
         }
     }
 }
+
+//MARK: - CLLocation delegate methods
+extension ChatViewController: CLLocationManagerDelegate
+{
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager)
+    {
+        if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse
+        {
+            locationManager?.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    {
+        if let location = locations.first
+        {
+//            print("new location is \(location)")
+        }
+    }
+}
+
+extension ChatViewController: GMSMapViewDelegate
+{
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker)
+    {
+        
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool
+    {
+        return true
+    }
+}
+

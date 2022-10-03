@@ -297,7 +297,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
             else
             {
                 let uid = authDataResult?.user.uid
-                let userData = ["username": self.idTextField.text!, "email": self.emailTextField.text!, "password": self.passwordTextField[0].text!, "name": self.nameTextField.text!, "verified": false, "uid": uid!, "change": "", "talkingTo":""]
+                let userData = ["username": self.idTextField.text!, "email": self.emailTextField.text!, "password": self.passwordTextField[0].text!, "name": self.nameTextField.text!, "verified": false, "uid": uid!, "change": "", "talkingTo":"", "location": ]
                 self.db.collection("users").document(uid!).setData(userData)
                 let currentUser = FirebaseAuth.Auth.auth().currentUser
                 currentUser?.sendEmailVerification(completion:

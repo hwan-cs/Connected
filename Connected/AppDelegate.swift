@@ -11,6 +11,8 @@ import AuthenticationServices
 import Firebase
 import FirebaseDynamicLinks
 import IQKeyboardManagerSwift
+import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate
@@ -21,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     {
         // Override point for customization after application launch.
 //        IQKeyboardManager.shared.enable = true
+        GMSServices.provideAPIKey(K.GoogleMapsAPIKey)
+        GMSPlacesClient.provideAPIKey(K.GoogleMapsAPIKey)
         IQKeyboardManager.shared.enableAutoToolbar = false
         FirebaseApp.configure()
         return true
