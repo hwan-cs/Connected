@@ -80,7 +80,15 @@ class ChatViewController: UIViewController
     
     var mapView: GMSMapView = GMSMapView()
     
+    var backgroundView: UIView = UIView()
+    
+    var minMaxBtn: UIButton = UIButton()
+    
     var markers = [GMSMarker]()
+    
+    var backgroundViewHeightConstraint: NSLayoutConstraint?
+    
+    var backgroundViewTrailingConstraint: NSLayoutConstraint?
     
     override func viewDidLoad()
     {
@@ -126,11 +134,12 @@ class ChatViewController: UIViewController
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestAlwaysAuthorization()
+
     }
     
     override func viewWillAppear(_ animated: Bool)
     {
-        LoadingShimmer.startCovering(self.tableView, with: nil)
+
     }
 
     @objc func startPulse()
@@ -294,9 +303,8 @@ class ChatViewController: UIViewController
     
     @IBAction func onLocationButtonTap(_ sender: UIButton)
     {
+        self.locationManager?.requestAlwaysAuthorization()
         mapView.delegate = self
-        mapView.isMyLocationEnabled = true
-        mapView.settings.myLocationButton = true
         
         if let location = locationManager?.location
         {
@@ -356,6 +364,7 @@ class ChatViewController: UIViewController
     func loadMap()
     {
         self.initMapView()
+        self.view.layoutIfNeeded()
         let uuid = Auth.auth().currentUser?.uid
 //        Task.init
 //        {
@@ -490,13 +499,9 @@ extension ChatViewController: UITableViewDataSource
         {
             if indexPath == lastVisibleIndexPath
             {
-                self.scrollToBottom()
                 let uuid = Auth.auth().currentUser!.uid
                 K.didInit = true
-                DispatchQueue.main.asyncAfter(deadline: .now()+10)
-                {
-                    LoadingShimmer.stopCovering(self.tableView)
-                }
+//                LoadingShimmer.stopCovering(self.tableView)
                 //If recipient is talking to me, add snapshot listener their firdoc
                 Task.init
                 {
@@ -527,6 +532,7 @@ extension ChatViewController: UITableViewDataSource
                         }
                     }
                 })
+                self.scrollToBottom()
             }
         }
     }

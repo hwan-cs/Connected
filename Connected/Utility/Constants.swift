@@ -24,4 +24,5 @@ struct K
     static let myTextCellID = "MyTextCell"
     static let yourTextCellNibName = "RecTextChatTableViewCell"
     static let yourTextCellID = "YourTextCell"
+    static let GoogleMapsAPIKey = "AIzaSyCa2-FW5UZaId_S6QmuNAAtOqTEEDKUcpM"
 }
