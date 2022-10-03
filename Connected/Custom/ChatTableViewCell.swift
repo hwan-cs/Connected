@@ -148,6 +148,7 @@ extension ChatTableViewCell: AVAudioPlayerDelegate
             player.currentTime = 0
             self.second = 0
             self.playButton.setImage(UIImage(named: "Play-2.svg"), for: .normal)
+            self.updateProgess()
             timer?.invalidate()
             timer = nil
         }

@@ -48,6 +48,7 @@ extension ChatViewController
         backgroundView.layer.cornerRadius = 20
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(backgroundView)
+        self.backgroundViewHeightConstraint?.isActive = false
         self.backgroundViewHeightConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 150.0)
         self.backgroundViewHeightConstraint!.isActive = true
         self.backgroundViewTrailingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: -8.0)

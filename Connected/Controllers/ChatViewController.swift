@@ -64,7 +64,7 @@ class ChatViewController: UIViewController
     
     var path: URL?
     
-    var recepientUID = "NLsm46kThrXznH1daKbBK1U3eyf1"
+    var recepientUID = "iE3iwgBCujSXNiazEsGHKJrxa9G3"
     
     let db = Firestore.firestore()
     
@@ -171,7 +171,6 @@ class ChatViewController: UIViewController
                         mapView.camera = camera
                     }
                     self.loadMap()
-                    self.locationButotn.isUserInteractionEnabled = false
                     self.locationButotn.tintColor = .gray
                 }
             }
@@ -206,6 +205,16 @@ class ChatViewController: UIViewController
         self.loadRecordingUI()
         startRecording()
         pulse()
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(recordingStoppedEarlier), userInfo: nil, repeats: true)
+    }
+    
+    //Recording stopped before maximum duration time (60 seconds)
+    @objc func recordingStoppedEarlier()
+    {
+        if !self.audioRecorder.isRecording
+        {
+            self.stopPulse()
+        }
     }
     
     @objc func pulse()
@@ -226,6 +235,7 @@ class ChatViewController: UIViewController
     @objc func stopPulse()
     {
         timer?.invalidate()
+        timer = nil
         self.finishRecording(success: true)
         audioPulse.removeFromSuperlayer()
         self.waveFormView.removeFromSuperview()
@@ -270,6 +280,10 @@ class ChatViewController: UIViewController
     
     func finishRecording(success: Bool)
     {
+        if self.audioRecorder == nil
+        {
+            return
+        }
         audioRecorder.stop()
         audioRecorder = nil
         
@@ -337,7 +351,7 @@ class ChatViewController: UIViewController
             audioRecorder.delegate = self
             audioRecorder.prepareToRecord()
             audioRecorder.isMeteringEnabled = true
-            audioRecorder.record()
+            audioRecorder.record(forDuration: 5.0)
         }
         catch
         {
@@ -357,16 +371,44 @@ class ChatViewController: UIViewController
     
     @IBAction func onLocationButtonTap(_ sender: UIButton)
     {
-        self.locationManager?.requestAlwaysAuthorization()
-        mapView.delegate = self
-        mapView.isMyLocationEnabled = true
-        if let location = locationManager?.location
+        if self.locationButotn.tintColor == .gray
         {
-            let camera = GMSCameraPosition.camera(withLatitude: (location.coordinate.latitude), longitude: (location.coordinate.longitude), zoom: 17.0)
-            mapView.camera = camera
+            self.locationButotn.tintColor = K.mainColor
+            if self.recBackgroundView.isDescendant(of: self.view)
+            {
+                self.recBackgroundViewTopAnchorConstraint?.isActive = false
+                self.recBackgroundViewTopAnchorConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .top, relatedBy: .equal, toItem: self.tableView, attribute: .top, multiplier: 1.0, constant: 8.0)
+                self.recBackgroundViewTopAnchorConstraint?.isActive = true
+            }
+            self.backgroundView.removeFromSuperview()
+            self.view.layoutIfNeeded()
+            let uuid = Auth.auth().currentUser?.uid
+            Task.init
+            {
+                try await self.db.collection("users").document(uuid!).updateData(["isSharingLocation": false])
+            }
         }
-        
-        self.loadMap()
+        else
+        {
+            self.locationManager?.requestAlwaysAuthorization()
+            mapView.delegate = self
+            mapView.isMyLocationEnabled = true
+            if let location = locationManager?.location
+            {
+                let camera = GMSCameraPosition.camera(withLatitude: (location.coordinate.latitude), longitude: (location.coordinate.longitude), zoom: 17.0)
+                mapView.camera = camera
+            }
+            self.locationButotn.tintColor = .gray
+            if self.recBackgroundView.isDescendant(of: self.view)
+            {
+                self.recBackgroundViewTopAnchorConstraint?.isActive = false
+                self.recBackgroundViewTopAnchorConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .top, relatedBy: .equal, toItem: self.tableView, attribute: .top, multiplier: 1.0, constant: 162)
+                self.recBackgroundViewTopAnchorConstraint?.isActive = true
+            }
+            self.view.layoutIfNeeded()
+            self.loadMap()
+        }
+
     }
     
     @IBAction func onBackToMicButtonTap(_ sender: UIButton)
@@ -581,15 +623,19 @@ extension ChatViewController: UITableViewDataSource
                                 self.userViewModel?.userDataArray[data!] = [false, fileName]
                             }
                         }
-                        if self.isSharingLocation
+                        if (talkingTo!["isSharingLocation"] as! Bool)
                         {
+                            if !self.backgroundView.isDescendant(of: self.view)
+                            {
+                                self.initRecMapView()
+                            }
                             let marker = GMSMarker()
                             let loc = talkingTo!["location"] as! GeoPoint
-                            print("Location of rec: ", loc)
                             marker.position = CLLocationCoordinate2D(latitude: loc.latitude, longitude: loc.longitude)
                             if self.markers.count > 0
                             {
                                 self.markers[0].map = nil
+                                self.markers.remove(at: 0)
                                 self.markers.append(marker)
                             }
                             else
@@ -600,9 +646,13 @@ extension ChatViewController: UITableViewDataSource
                             let camera = GMSCameraPosition.camera(withLatitude: (loc.latitude), longitude: (loc.longitude), zoom: 17.0)
                             self.recMapView.camera = camera
                         }
+                        else
+                        {
+                            self.recBackgroundView.removeFromSuperview()
+                        }
                     }
                 })
-                self.scrollToBottom()
+//                self.scrollToBottom()
             }
         }
     }
