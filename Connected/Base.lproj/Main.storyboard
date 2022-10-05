@@ -64,7 +64,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1042.0289855072465" y="109.82142857142857"/>
+            <point key="canvasLocation" x="3193" y="98"/>
         </scene>
         <!--Login Sheet View Controller-->
         <scene sceneID="0js-Ol-SiX">
@@ -186,7 +186,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VuG-8c-gHV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1979.7101449275365" y="109.82142857142857"/>
+            <point key="canvasLocation" x="4130" y="98"/>
         </scene>
         <!--Signup View Controller-->
         <scene sceneID="Jqo-Vr-g7c">
@@ -468,7 +468,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tRY-Fb-h8v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2818.840579710145" y="109.82142857142857"/>
+            <point key="canvasLocation" x="4970" y="98"/>
         </scene>
         <!--김길동-->
         <scene sceneID="ovj-19-Lxa">
@@ -609,7 +609,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m1Q-B0-H6P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4664" y="110"/>
+            <point key="canvasLocation" x="6814" y="98"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="K3T-nn-HQO">
@@ -628,7 +628,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wfe-u2-8DG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="131.8840579710145" y="109.82142857142857"/>
+            <point key="canvasLocation" x="2283" y="98"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rZq-g8-zsx">
@@ -647,7 +647,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uty-gc-WgB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3768" y="110"/>
+            <point key="canvasLocation" x="5917" y="98"/>
         </scene>
         <!--친구-->
         <scene sceneID="21X-gt-0Uc">
@@ -670,18 +670,55 @@
         <!--채팅-->
         <scene sceneID="EzJ-wR-MRO">
             <objects>
-                <viewController id="f0X-GL-SrL" sceneMemberID="viewController">
+                <viewController id="f0X-GL-SrL" customClass="ChatRoomViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="guR-HV-P1q">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" placeholder="검색" translatesAutoresizingMaskIntoConstraints="NO" id="W4O-Yz-oy3">
+                                <rect key="frame" x="0.0" y="144" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="f0X-GL-SrL" id="tqs-5Z-OW1"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="XWB-eM-zN2">
+                                <rect key="frame" x="0.0" y="200" width="414" height="613"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="59j-f8-xlM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="XWB-eM-zN2" firstAttribute="top" secondItem="W4O-Yz-oy3" secondAttribute="bottom" id="42B-x8-ylv"/>
+                            <constraint firstItem="W4O-Yz-oy3" firstAttribute="top" secondItem="59j-f8-xlM" secondAttribute="top" id="BrZ-DC-4fW"/>
+                            <constraint firstItem="XWB-eM-zN2" firstAttribute="top" secondItem="W4O-Yz-oy3" secondAttribute="bottom" id="Fte-kE-iBA"/>
+                            <constraint firstItem="XWB-eM-zN2" firstAttribute="trailing" secondItem="59j-f8-xlM" secondAttribute="trailing" id="JCG-P1-VQL"/>
+                            <constraint firstItem="XWB-eM-zN2" firstAttribute="bottom" secondItem="59j-f8-xlM" secondAttribute="bottom" id="Yj5-KH-x8A"/>
+                            <constraint firstItem="XWB-eM-zN2" firstAttribute="leading" secondItem="59j-f8-xlM" secondAttribute="leading" id="cCm-h1-Mgn"/>
+                            <constraint firstItem="W4O-Yz-oy3" firstAttribute="leading" secondItem="59j-f8-xlM" secondAttribute="leading" id="lVa-pS-FtX"/>
+                            <constraint firstItem="W4O-Yz-oy3" firstAttribute="trailing" secondItem="59j-f8-xlM" secondAttribute="trailing" id="rye-Ru-L0s"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="채팅" image="Chat_Inactive" selectedImage="Chat_Active" id="nZ7-gt-tAh"/>
+                    <navigationItem key="navigationItem" title="채팅" id="5li-U5-rDa">
+                        <barButtonItem key="rightBarButtonItem" image="NewChat" id="iVY-en-O6t"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="lMP-fx-z8T" id="KKo-pQ-fE1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B7c-L6-od1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="lMP-fx-z8T">
+                    <connections>
+                        <outlet property="delegate" destination="f0X-GL-SrL" id="4W3-Qk-iGF"/>
+                        <outlet property="searchBar" destination="W4O-Yz-oy3" id="Mcl-Ga-HjV"/>
+                        <outlet property="searchContentsController" destination="f0X-GL-SrL" id="ms2-Tg-Bcg"/>
+                        <outlet property="searchResultsDataSource" destination="f0X-GL-SrL" id="Kmc-hf-wRr"/>
+                        <outlet property="searchResultsDelegate" destination="f0X-GL-SrL" id="ASs-cY-fNG"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="4619" y="844"/>
+            <point key="canvasLocation" x="5528.985507246377" y="843.75"/>
         </scene>
         <!--설정-->
         <scene sceneID="xbF-xh-ZZ5">
@@ -693,20 +730,20 @@
                         <viewLayoutGuide key="safeArea" id="vVx-eB-OWs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="설정" image="Setting_Inactive" selectedImage="Setting_Active" id="gH0-08-EF6"/>
+                    <navigationItem key="navigationItem" title="설정" id="vZt-5Z-WfK"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J35-OZ-Ll3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5493" y="844"/>
+            <point key="canvasLocation" x="7313.04347826087" y="843.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="CDr-jy-xNw">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6S-jT-vSH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hm8-12-ohA" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MainPageNavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hm8-12-ohA" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RCZ-MO-kwb">
-                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="RCZ-MO-kwb">
+                        <rect key="frame" x="0.0" y="48" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -717,25 +754,71 @@
             </objects>
             <point key="canvasLocation" x="1980" y="845"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--친구-->
         <scene sceneID="Wlv-ke-gOg">
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="OOJ-GD-pbH" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="n7z-sL-GUv"/>
+                    <navigationItem key="navigationItem" title="친구" id="n7z-sL-GUv"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5YW-x8-RuY">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="selectedImageTintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="20"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </tabBar>
                     <connections>
                         <segue destination="KQf-vO-qhg" kind="relationship" relationship="viewControllers" id="diT-3c-VpR"/>
-                        <segue destination="f0X-GL-SrL" kind="relationship" relationship="viewControllers" id="2F5-Hb-bF3"/>
-                        <segue destination="jbV-cb-oQF" kind="relationship" relationship="viewControllers" id="mLB-qB-f3d"/>
+                        <segue destination="mOu-Sd-Vbk" kind="relationship" relationship="viewControllers" id="2F5-Hb-bF3"/>
+                        <segue destination="l4Z-Nm-pwg" kind="relationship" relationship="viewControllers" id="mLB-qB-f3d"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e91-pg-vhz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2874" y="845"/>
+        </scene>
+        <!--채팅-->
+        <scene sceneID="a1N-p6-DVZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mOu-Sd-Vbk" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="채팅" image="Chat_Inactive" selectedImage="Chat_Active" id="nZ7-gt-tAh"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="mPe-JE-wfL">
+                        <rect key="frame" x="0.0" y="48" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="f0X-GL-SrL" kind="relationship" relationship="rootViewController" id="vId-Wa-gVt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xHs-r3-bwR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4618.840579710145" y="843.75"/>
+        </scene>
+        <!--설정-->
+        <scene sceneID="2Dz-d8-W4K">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="l4Z-Nm-pwg" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="설정" image="Setting_Inactive" selectedImage="Setting_Active" id="gH0-08-EF6"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="xbl-Mn-BTe">
+                        <rect key="frame" x="0.0" y="48" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="jbV-cb-oQF" kind="relationship" relationship="rootViewController" id="qiv-5e-7jC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="stD-ot-FRf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6402.898550724638" y="843.75"/>
         </scene>
     </scenes>
     <designables>
@@ -749,6 +832,7 @@
         <image name="Friend_Active" width="24" height="24"/>
         <image name="LoginLogo_Light" width="360" height="296"/>
         <image name="LogoSmall_Light" width="64" height="64"/>
+        <image name="NewChat" width="24" height="24"/>
         <image name="Setting_Active" width="24" height="24"/>
         <image name="Setting_Inactive" width="24" height="24"/>
         <image name="Voice" width="56" height="56"/>

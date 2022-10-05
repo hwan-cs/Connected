@@ -371,7 +371,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                                             self.timer.invalidate()
                                             sender.stopAnimation(animationStyle: .expand)
                                             {
-                                                let vc = self.storyboard?.instantiateViewController(withIdentifier: "CWCNavigationController") as! UINavigationController
+                                                let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainPageNavigationController") as! UINavigationController
                                                 let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                                                 windowScene?.windows.first?.rootViewController = vc
                                                 windowScene?.windows.first?.makeKeyAndVisible()

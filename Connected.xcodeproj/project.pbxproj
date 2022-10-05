@@ -18,6 +18,9 @@
 		1A48B41828DD93D100FCEA88 /* ChatVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48B41728DD93D100FCEA88 /* ChatVC_Extensions.swift */; };
 		1A4A864C28E31B820078EAFC /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 1A4A864B28E31B820078EAFC /* Cache */; };
 		1A72070828EB62CB008F8B82 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72070728EB62CB008F8B82 /* Constants.swift */; };
+		1A72070B28ED7263008F8B82 /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72070928ED7263008F8B82 /* ChatRoomTableViewCell.swift */; };
+		1A72070C28ED7263008F8B82 /* ChatRoomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A72070A28ED7263008F8B82 /* ChatRoomTableViewCell.xib */; };
+		1A72070F28ED7508008F8B82 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72070E28ED7508008F8B82 /* ChatRoomViewController.swift */; };
 		1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88628CB409F00B96A7C /* AppDelegate.swift */; };
 		1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88A28CB409F00B96A7C /* LoginViewController.swift */; };
 		1AACE88E28CB409F00B96A7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AACE88C28CB409F00B96A7C /* Main.storyboard */; };
@@ -69,6 +72,9 @@
 		1A48B3D428DD7B1200FCEA88 /* UIView_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView_Extensions.swift; sourceTree = "<group>"; };
 		1A48B41728DD93D100FCEA88 /* ChatVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC_Extensions.swift; sourceTree = "<group>"; };
 		1A72070728EB62CB008F8B82 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1A72070928ED7263008F8B82 /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
+		1A72070A28ED7263008F8B82 /* ChatRoomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatRoomTableViewCell.xib; sourceTree = "<group>"; };
+		1A72070E28ED7508008F8B82 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		1AACE88328CB409F00B96A7C /* Connected.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connected.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AACE88628CB409F00B96A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AACE88A28CB409F00B96A7C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +212,7 @@
 				1AACE8F128CE3CF400B96A7C /* LoginSheetViewController.swift */,
 				1AB6A01928D09A8900A0D127 /* SignupViewController.swift */,
 				1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */,
+				1A72070E28ED7508008F8B82 /* ChatRoomViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -223,6 +230,8 @@
 				1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */,
 				1A2442A328E6054900E4A0DD /* RecTextChatTableViewCell.swift */,
 				1A2442A428E6054900E4A0DD /* RecTextChatTableViewCell.xib */,
+				1A72070928ED7263008F8B82 /* ChatRoomTableViewCell.swift */,
+				1A72070A28ED7263008F8B82 /* ChatRoomTableViewCell.xib */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -340,6 +349,7 @@
 				1ABF82D328DDDF1400433095 /* localAudio.m4a in Resources */,
 				1AACE8E228CE0AAA00B96A7C /* OpenSans-Bold.ttf in Resources */,
 				1AACE89328CB40A300B96A7C /* LaunchScreen.storyboard in Resources */,
+				1A72070C28ED7263008F8B82 /* ChatRoomTableViewCell.xib in Resources */,
 				1AACE8E328CE0AAA00B96A7C /* OpenSans-Italic.ttf in Resources */,
 				1AACE8DD28CE0AAA00B96A7C /* OpenSans-SemiBold.ttf in Resources */,
 				1AACE8E528CE0AAA00B96A7C /* OpenSans-ExtraBoldItalic.ttf in Resources */,
@@ -439,11 +449,13 @@
 				1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */,
 				1ADA77B528DB0985006EC39B /* UserViewModel.swift in Sources */,
 				1A2442A528E6054900E4A0DD /* RecTextChatTableViewCell.swift in Sources */,
+				1A72070F28ED7508008F8B82 /* ChatRoomViewController.swift in Sources */,
 				1AACE8F228CE3CF400B96A7C /* LoginSheetViewController.swift in Sources */,
 				1ADA77B828DB099D006EC39B /* ChatTableViewCell.swift in Sources */,
 				1AAF931128DF5E7C007FDCBB /* PulseAnimation.swift in Sources */,
 				1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */,
 				1ADA77BB28DB09B3006EC39B /* ChatViewController.swift in Sources */,
+				1A72070B28ED7263008F8B82 /* ChatRoomTableViewCell.swift in Sources */,
 				1A48B3D528DD7B1200FCEA88 /* UIView_Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
