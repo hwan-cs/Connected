@@ -158,6 +158,7 @@ class ChatViewController: UIViewController
         Task.init
         {
             let uuid = Auth.auth().currentUser?.uid
+            try await self.db.collection("users").document(uuid!).updateData(["isOnline": true])
             if let mData = try await self.db.collection("users").document(uuid!).getDocument().data()
             {
                 if (mData["isSharingLocation"] as! Bool)
@@ -305,7 +306,9 @@ class ChatViewController: UIViewController
             let formatter = DateFormatter()
             formatter.timeZone = TimeZone.current
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            let audioRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(formatter.string(from: Date.now)).m4a")
+            let now = formatter.string(from: Date.now)
+            print(now)
+            let audioRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(now).m4a")
             let uploadTask = audioRef.putFile(from: self.path!, metadata: metadata)
             { metadata, error in
                 if let error = error
@@ -319,6 +322,7 @@ class ChatViewController: UIViewController
                         let data = try Data(contentsOf: self.path!)
                         self.userViewModel?.userDataArray[data] = [true, metadata?.name!]
                         self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
+                        self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID: ["waveform",now]]])
                     }
                     catch
                     {
@@ -432,7 +436,8 @@ class ChatViewController: UIViewController
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        let textRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(formatter.string(from: Date.now)).txt")
+        let now = formatter.string(from: Date.now)
+        let textRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(now).txt")
         guard let textToSend = self.growingTextView.text.data(using: .utf8) else { return }
         let uploadTask = textRef.putData(textToSend, metadata: metadata)
         { metadata, error in
@@ -446,6 +451,12 @@ class ChatViewController: UIViewController
                 {
                     self.userViewModel?.userDataArray[textToSend] = [true, metadata?.name]
                     self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
+                    var foo = self.growingTextView.text!
+                    if foo == "waveform"
+                    {
+                        foo = "waveform_"
+                    }
+                    self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:[foo,now]]])
                     self.scrollToBottom()
                 }
                 catch
@@ -594,7 +605,6 @@ extension ChatViewController: UITableViewDataSource
                 Task.init
                 {
                     let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
-                    print(uuid)
                     if !(talkingTo!["talkingTo"] as? String == uuid && K.didInit)
                     {
                         return

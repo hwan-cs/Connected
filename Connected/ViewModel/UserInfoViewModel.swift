@@ -17,7 +17,7 @@ class UserInfoViewModel: ObservableObject
 {
     @Published var friendsArray: [String] = []
     
-    @Published var chatRoomArray: [String] = []
+    @Published var chatRoomArray: [String:[Any]] = [:]
     
     let db = Firestore.firestore()
     
@@ -27,13 +27,16 @@ class UserInfoViewModel: ObservableObject
         {
             if let data = try await self.db.collection("userInfo").document(uid).getDocument().data()
             {
+                print("INIT USERINFOVIEWMODEL")
                 if let friends = (data["friends"] as? [String])
                 {
                     self.friendsArray = friends
+                    print(friends)
                 }
-                if let chatRoom = (data["chatRoom"] as? [String])
+                if let chatRoom = (data["chatRoom"] as? [String: [Any]])
                 {
                     self.chatRoomArray = chatRoom
+                    print(chatRoom)
                 }
             }
         }

@@ -9,6 +9,14 @@ import UIKit
 
 class ChatRoomTableViewCell: UITableViewCell
 {
+    @IBOutlet var nameLabel: UILabel!
+    
+    @IBOutlet var previewLabel: UILabel!
+    
+    @IBOutlet var timeLabel: UILabel!
+    
+    @IBOutlet var onlineButton: UIButton!
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()
