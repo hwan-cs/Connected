@@ -18,7 +18,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -609,7 +609,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m1Q-B0-H6P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4589.8550724637689" y="109.82142857142857"/>
+            <point key="canvasLocation" x="4664" y="110"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="K3T-nn-HQO">
@@ -647,7 +647,95 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uty-gc-WgB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3694" y="110"/>
+            <point key="canvasLocation" x="3768" y="110"/>
+        </scene>
+        <!--친구-->
+        <scene sceneID="21X-gt-0Uc">
+            <objects>
+                <viewController id="KQf-vO-qhg" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Uod-i9-138">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ohK-0a-j0E"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="친구" image="Friend_Active" selectedImage="Friend_Active" id="FY5-5H-WPp"/>
+                    <navigationItem key="navigationItem" id="qOz-OV-gfV"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jDl-E7-4fc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3784" y="845"/>
+        </scene>
+        <!--채팅-->
+        <scene sceneID="EzJ-wR-MRO">
+            <objects>
+                <viewController id="f0X-GL-SrL" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="guR-HV-P1q">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="59j-f8-xlM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="채팅" image="Chat_Inactive" selectedImage="Chat_Active" id="nZ7-gt-tAh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B7c-L6-od1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4619" y="844"/>
+        </scene>
+        <!--설정-->
+        <scene sceneID="xbF-xh-ZZ5">
+            <objects>
+                <viewController id="jbV-cb-oQF" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Lu9-fs-Rs3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="vVx-eB-OWs"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="설정" image="Setting_Inactive" selectedImage="Setting_Active" id="gH0-08-EF6"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J35-OZ-Ll3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5493" y="844"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="CDr-jy-xNw">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F6S-jT-vSH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hm8-12-ohA" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RCZ-MO-kwb">
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OOJ-GD-pbH" kind="relationship" relationship="rootViewController" id="6Uw-pV-Ds0"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="1980" y="845"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Wlv-ke-gOg">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="OOJ-GD-pbH" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="n7z-sL-GUv"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5YW-x8-RuY">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="KQf-vO-qhg" kind="relationship" relationship="viewControllers" id="diT-3c-VpR"/>
+                        <segue destination="f0X-GL-SrL" kind="relationship" relationship="viewControllers" id="2F5-Hb-bF3"/>
+                        <segue destination="jbV-cb-oQF" kind="relationship" relationship="viewControllers" id="mLB-qB-f3d"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e91-pg-vhz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2874" y="845"/>
         </scene>
     </scenes>
     <designables>
@@ -656,8 +744,13 @@
         </designable>
     </designables>
     <resources>
+        <image name="Chat_Active" width="24" height="24"/>
+        <image name="Chat_Inactive" width="24" height="24"/>
+        <image name="Friend_Active" width="24" height="24"/>
         <image name="LoginLogo_Light" width="360" height="296"/>
         <image name="LogoSmall_Light" width="64" height="64"/>
+        <image name="Setting_Active" width="24" height="24"/>
+        <image name="Setting_Inactive" width="24" height="24"/>
         <image name="Voice" width="56" height="56"/>
         <image name="eye" catalog="system" width="128" height="79"/>
         <image name="location.fill" catalog="system" width="128" height="119"/>
