@@ -55,7 +55,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bXf-BO-bn7">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bXf-BO-bn7">
                         <rect key="frame" x="324" y="46" width="16" height="16"/>
                         <color key="backgroundColor" systemColor="systemRedColor"/>
                         <constraints>
@@ -71,21 +71,22 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z7S-Iw-nBY">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HPP-Ns-vAS">
                         <rect key="frame" x="56" y="52" width="8" height="8"/>
                         <color key="backgroundColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="8" id="4kl-c3-ccl"/>
-                            <constraint firstAttribute="width" constant="8" id="NmL-EH-3Y3"/>
+                            <constraint firstAttribute="height" constant="8" id="7ZA-I9-Hd2"/>
+                            <constraint firstAttribute="width" constant="8" id="vSk-dG-4Xj"/>
                         </constraints>
-                        <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                 <integer key="value" value="4"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
-                    </button>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="ng9-B1-Y0U" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="ACP-ad-RAO"/>
@@ -100,16 +101,17 @@
                     <constraint firstItem="VmV-EZ-Jgg" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="euB-rd-RXK"/>
                     <constraint firstAttribute="trailing" secondItem="65q-rn-a6y" secondAttribute="trailing" constant="20" id="gXz-If-bof"/>
                     <constraint firstItem="65q-rn-a6y" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="mBl-TH-8WY"/>
-                    <constraint firstItem="atn-ut-qLt" firstAttribute="leading" secondItem="z7S-Iw-nBY" secondAttribute="trailing" constant="16" id="rFD-Md-lQA"/>
-                    <constraint firstItem="z7S-Iw-nBY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="52" id="sbr-q6-7Ec"/>
+                    <constraint firstItem="HPP-Ns-vAS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="52" id="mVn-GT-GL3"/>
+                    <constraint firstItem="atn-ut-qLt" firstAttribute="leading" secondItem="HPP-Ns-vAS" secondAttribute="trailing" constant="16" id="nvv-Hh-2Bw"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="nameLabel" destination="ng9-B1-Y0U" id="k2M-sr-jVF"/>
-                <outlet property="onlineButton" destination="z7S-Iw-nBY" id="eVA-WM-dqN"/>
+                <outlet property="onlineLabel" destination="HPP-Ns-vAS" id="Za6-SN-ZCM"/>
                 <outlet property="previewLabel" destination="atn-ut-qLt" id="Z6i-yH-PEe"/>
                 <outlet property="timeLabel" destination="65q-rn-a6y" id="dMh-Ka-SC9"/>
+                <outlet property="unreadMessagesCount" destination="bXf-BO-bn7" id="jBa-qh-Ucl"/>
             </connections>
             <point key="canvasLocation" x="124.61538461538461" y="20.616113744075829"/>
         </tableViewCell>

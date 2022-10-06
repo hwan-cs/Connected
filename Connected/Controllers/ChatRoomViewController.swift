@@ -32,6 +32,8 @@ class ChatRoomViewController: UIViewController
     
     let db = Firestore.firestore()
     
+    var listener: ListenerRegistration?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -46,6 +48,26 @@ class ChatRoomViewController: UIViewController
         self.navigationController?.navigationBar.backgroundColor = .clear
         self.userInfoViewModel = UserInfoViewModel(uuid!)
         self.setBindings()
+        
+        listener = self.db.collection("userInfo").document(self.uuid!).addSnapshotListener(
+        { documentSnapshot, error in
+            guard documentSnapshot != nil
+            else
+            {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            Task.init
+            {
+                if let data = documentSnapshot?.data()
+                {
+                    if let chatRooms = data["chatRoom"] as? [String:[Any]]
+                    {
+                        self.userInfoViewModel?.chatRoomArray = chatRooms
+                    }
+                }
+            }
+        })
     }
     
     @objc func onNewChatTap()
@@ -56,7 +78,14 @@ class ChatRoomViewController: UIViewController
 
 extension ChatRoomViewController: UITableViewDelegate
 {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        print("selected at \(indexPath.row)")
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        vc.recepientUID = (self.sortedByValueDictionaryKey[indexPath.row])
+        print(self.sortedByValueDictionaryKey[indexPath.row])
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension ChatRoomViewController: UITableViewDataSource
@@ -81,6 +110,10 @@ extension ChatRoomViewController: UITableViewDataSource
             chatRoomCell.previewLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][0] as! String)
         }
         chatRoomCell.timeLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][1] as! String)
+        if let unreadCount = (self.sortedByValueDictionaryValue[indexPath.row][2] as? NSNumber)
+        {
+            chatRoomCell.unreadMessagesCount.text = unreadCount.stringValue
+        }
         return chatRoomCell
     }
     

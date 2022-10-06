@@ -36,7 +36,6 @@ class UserInfoViewModel: ObservableObject
                 if let chatRoom = (data["chatRoom"] as? [String: [Any]])
                 {
                     self.chatRoomArray = chatRoom
-                    print(chatRoom)
                 }
             }
         }

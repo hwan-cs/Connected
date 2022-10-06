@@ -135,6 +135,10 @@ extension ChatViewController
                 mapFrame.size.height = 50
                 mapFrame.size.width = 80
                 self.backgroundView.frame = mapFrame
+                var mapViewFrame = self.mapView.frame
+                mapViewFrame.size.height = 0
+                mapViewFrame.size.width = 0
+                self.mapView.frame = mapViewFrame
                 self.backgroundViewHeightConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 50.0)
                 self.backgroundViewTrailingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 88.0)
                 self.backgroundViewHeightConstraint!.isActive = true
@@ -156,6 +160,10 @@ extension ChatViewController
                 mapFrame.size.height = 50
                 mapFrame.size.width = 80
                 self.recBackgroundView.frame = mapFrame
+                var mapViewFrame = self.recMapView.frame
+                mapViewFrame.size.height = 0
+                mapViewFrame.size.width = 0
+                self.recMapView.frame = mapViewFrame
                 self.recBackgroundViewHeightConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 50.0)
                 self.recBackgroundViewTrailingConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 88.0)
                 self.recBackgroundViewHeightConstraint!.isActive = true
@@ -180,6 +188,10 @@ extension ChatViewController
                 mapFrame.size.height = 150
                 mapFrame.size.width = self.view.frame.size.width
                 self.backgroundView.frame = mapFrame
+                var mapViewFrame = self.mapView.frame
+                mapViewFrame.size.height = 150
+                mapViewFrame.size.width = self.view.frame.size.width
+                self.mapView.frame = mapViewFrame
                 self.backgroundViewLeadingConstraint?.isActive = false
                 self.backgroundViewLeadingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 8.0)
                 self.backgroundViewLeadingConstraint?.isActive = true
@@ -209,6 +221,10 @@ extension ChatViewController
                 mapFrame.size.height = 150
                 mapFrame.size.width = self.view.frame.size.width
                 self.recBackgroundView.frame = mapFrame
+                var mapViewFrame = self.recMapView.frame
+                mapViewFrame.size.height = 150
+                mapViewFrame.size.width = self.view.frame.size.width
+                self.recMapView.frame = mapViewFrame
                 self.recBackgroundViewLeadingConstraint?.isActive = false
                 self.recBackgroundViewLeadingConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 8.0)
                 self.recBackgroundViewLeadingConstraint?.isActive = true

@@ -15,7 +15,9 @@ class ChatRoomTableViewCell: UITableViewCell
     
     @IBOutlet var timeLabel: UILabel!
     
-    @IBOutlet var onlineButton: UIButton!
+    @IBOutlet var onlineLabel: UILabel!
+    
+    @IBOutlet var unreadMessagesCount: UILabel!
     
     override func awakeFromNib()
     {

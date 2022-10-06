@@ -473,7 +473,7 @@
         <!--김길동-->
         <scene sceneID="ovj-19-Lxa">
             <objects>
-                <viewController id="HQI-be-aIM" customClass="ChatViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatViewController" id="HQI-be-aIM" customClass="ChatViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CtO-ho-Icq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

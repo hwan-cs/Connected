@@ -155,6 +155,13 @@ class ChatViewController: UIViewController
         locationManager?.delegate = self
         locationManager?.requestAlwaysAuthorization()
         
+        self.navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = K.mainColor
+        Task.init
+        {
+            self.navigationController?.navigationBar.topItem?.title = try await self.db.collection("users").document(self.recepientUID).getDocument().data()?["name"] as! String
+            self.navigationController?.navigationBar.prefersLargeTitles = false
+        }
+        
         Task.init
         {
             let uuid = Auth.auth().currentUser?.uid
