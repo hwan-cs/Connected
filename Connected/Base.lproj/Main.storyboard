@@ -30,10 +30,10 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dca-8O-woX">
-                                <rect key="frame" x="200.5" y="366.5" width="193.5" height="77"/>
+                                <rect key="frame" x="223" y="366.5" width="171" height="66"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aal-wl-hbS">
-                                        <rect key="frame" x="0.0" y="0.0" width="193.5" height="38.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="171" height="33"/>
                                         <string key="text">Connection 
 </string>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
@@ -41,7 +41,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="through voice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jB7-yY-nzD">
-                                        <rect key="frame" x="0.0" y="38.5" width="193.5" height="38.5"/>
+                                        <rect key="frame" x="0.0" y="33" width="171" height="33"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -652,7 +652,7 @@
         <!--친구-->
         <scene sceneID="21X-gt-0Uc">
             <objects>
-                <viewController id="KQf-vO-qhg" sceneMemberID="viewController">
+                <viewController id="KQf-vO-qhg" customClass="FriendsViewControlleR" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Uod-i9-138">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -732,7 +732,6 @@
         <!--Navigation Controller-->
         <scene sceneID="CDr-jy-xNw">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="F6S-jT-vSH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="MainPageNavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hm8-12-ohA" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="RCZ-MO-kwb">
@@ -744,16 +743,18 @@
                         <segue destination="OOJ-GD-pbH" kind="relationship" relationship="rootViewController" id="6Uw-pV-Ds0"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F6S-jT-vSH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1980" y="845"/>
         </scene>
         <!--친구-->
         <scene sceneID="Wlv-ke-gOg">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="OOJ-GD-pbH" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="OOJ-GD-pbH" customClass="MyTabBarController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="친구" id="n7z-sL-GUv"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5YW-x8-RuY">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5YW-x8-RuY" customClass="RollingPitTabBar" customModule="VBRRollingPit">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -763,9 +764,25 @@
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                 <integer key="value" value="20"/>
                             </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="barTopRadius">
+                                <real key="value" value="20"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="barBackColor">
+                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="circleRadius">
+                                <real key="value" value="35"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="circleBackColor">
+                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="marginBottom">
+                                <real key="value" value="20"/>
+                            </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBar>
                     <connections>
+                        <outlet property="rollingPitTabBar" destination="5YW-x8-RuY" id="VwL-aq-yEB"/>
                         <segue destination="KQf-vO-qhg" kind="relationship" relationship="viewControllers" id="diT-3c-VpR"/>
                         <segue destination="f0X-GL-SrL" kind="relationship" relationship="viewControllers" id="lnK-0Z-Byv"/>
                         <segue destination="jbV-cb-oQF" kind="relationship" relationship="viewControllers" id="Ze7-GX-5Yz"/>
@@ -777,6 +794,12 @@
         </scene>
     </scenes>
     <designables>
+        <designable name="5YW-x8-RuY">
+            <size key="intrinsicContentSize" width="-1" height="83"/>
+        </designable>
+        <designable name="WLJ-AF-fyD">
+            <size key="intrinsicContentSize" width="-1" height="30"/>
+        </designable>
         <designable name="nH9-cE-Z4O">
             <size key="intrinsicContentSize" width="63" height="32"/>
         </designable>

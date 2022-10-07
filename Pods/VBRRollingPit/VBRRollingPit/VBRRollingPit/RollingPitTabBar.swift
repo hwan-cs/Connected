@@ -244,7 +244,7 @@ extension CGFloat {
     }
     private func createPathMoveAnimation(toVal : CGPath) -> CABasicAnimation{
         let animation = CABasicAnimation(keyPath: "path")
-        animation.duration = 1
+        animation.duration = 0.5
 //        animation.beginTime = CACurrentMediaTime() + 2
         animation.toValue = toVal
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
@@ -296,9 +296,9 @@ extension CGFloat {
         let barR = barRect
         let total = items.count
         for (idx, item) in items.enumerated() {
-            if selectedChanged {
-                self.animateHideAndShowItem(itemView: item.view)
-            }
+//            if selectedChanged {
+//                self.animateHideAndShowItem(itemView: item.view)
+//            }
             
             self.positionItem(barRect: barR, totalCount: total, idx: idx, item: item.item, view: item.view)
         }

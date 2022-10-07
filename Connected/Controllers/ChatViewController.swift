@@ -159,7 +159,6 @@ class ChatViewController: UIViewController
         Task.init
         {
             self.navigationController?.navigationBar.topItem?.title = try await self.db.collection("users").document(self.recepientUID).getDocument().data()?["name"] as! String
-            self.navigationController?.navigationBar.prefersLargeTitles = false
         }
         
         Task.init
@@ -200,9 +199,14 @@ class ChatViewController: UIViewController
     
     override func viewWillAppear(_ animated: Bool)
     {
-
+        self.navigationController?.navigationBar.prefersLargeTitles = false
     }
 
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
+        
     @objc func startPulse()
     {
         audioPulse = PulseAnimation(numberOfPulse: Float.infinity, radius: 75, position: CGPoint(x: self.recordButton.center.x, y: self.stackView.center.y))
@@ -326,10 +330,27 @@ class ChatViewController: UIViewController
                 {
                     do
                     {
-                        let data = try Data(contentsOf: self.path!)
-                        self.userViewModel?.userDataArray[data] = [true, metadata?.name!]
-                        self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
-                        self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID: ["waveform",now]]])
+                        Task.init
+                        {
+                            let data = try Data(contentsOf: self.path!)
+                            let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+                            if let dict = try await self.db.collection("userInfo").document(uuid).getDocument().data()?["chatRoom"] as? [String:[Any]]
+                            {
+                                if let rec = talkingTo!["talkingTo"] as? String
+                                {
+                                    if rec == self.recepientUID
+                                    {
+                                        try await self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
+                                        return
+                                    }
+                                }
+                                if let unreadCount = dict[self.recepientUID]![2] as? Int
+                                {
+                                    try await self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:["waveform",now, unreadCount+1]]])
+                                }
+                            }
+                            self.userViewModel?.userDataArray[data] = [true, metadata?.name!]
+                        }
                     }
                     catch
                     {
@@ -457,13 +478,31 @@ class ChatViewController: UIViewController
                 do
                 {
                     self.userViewModel?.userDataArray[textToSend] = [true, metadata?.name]
-                    self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
                     var foo = self.growingTextView.text!
                     if foo == "waveform"
                     {
                         foo = "waveform_"
                     }
-                    self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:[foo,now]]])
+                    //update unreadcount for recipient
+                    Task.init
+                    {
+                        let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+                        if let rec = talkingTo!["talkingTo"] as? String
+                        {
+                            if rec == self.recepientUID
+                            {
+                                try await self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
+                                return
+                            }
+                        }
+                        if let dict = try await self.db.collection("userInfo").document(uuid).getDocument().data()?["chatRoom"] as? [String:[Any]]
+                        {
+                            if let unreadCount = dict[self.recepientUID]![2] as? Int
+                            {
+                                try await self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:[foo,now, unreadCount+1]]])
+                            }
+                        }
+                    }
                     self.scrollToBottom()
                 }
                 catch

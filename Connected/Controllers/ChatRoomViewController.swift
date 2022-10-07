@@ -112,7 +112,15 @@ extension ChatRoomViewController: UITableViewDataSource
         chatRoomCell.timeLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][1] as! String)
         if let unreadCount = (self.sortedByValueDictionaryValue[indexPath.row][2] as? NSNumber)
         {
-            chatRoomCell.unreadMessagesCount.text = unreadCount.stringValue
+            if unreadCount.stringValue == "0"
+            {
+                chatRoomCell.unreadMessagesCount.isHidden = true
+            }
+            else
+            {
+                chatRoomCell.unreadMessagesCount.text = unreadCount.stringValue
+                chatRoomCell.unreadMessagesCount.isHidden = false
+            }
         }
         return chatRoomCell
     }
