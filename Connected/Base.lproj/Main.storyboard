@@ -737,7 +737,7 @@
                         <viewLayoutGuide key="safeArea" id="vVx-eB-OWs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Setting_Inactive" selectedImage="Setting_Active" id="XzE-9Y-r1E"/>
+                    <tabBarItem key="tabBarItem" title="설정" image="Setting_Inactive" selectedImage="Setting_Active" id="XzE-9Y-r1E"/>
                     <navigationItem key="navigationItem" title="설정" id="vZt-5Z-WfK"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J35-OZ-Ll3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

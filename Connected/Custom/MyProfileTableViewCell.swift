@@ -7,14 +7,23 @@
 
 import UIKit
 
-class MyProfileTableViewCell: UITableViewCell {
+class MyProfileTableViewCell: UITableViewCell
+{
 
-    override func awakeFromNib() {
+    @IBOutlet var myProfileImage: UIImageView!
+    
+    @IBOutlet var myProfileName: UILabel!
+    
+    @IBOutlet var myProfileStatus: UILabel!
+    
+    override func awakeFromNib()
+    {
         super.awakeFromNib()
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool)
+    {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

@@ -23,6 +23,11 @@
                             <constraint firstAttribute="width" constant="56" id="R77-NB-ayc"/>
                             <constraint firstAttribute="height" constant="56" id="n7g-WO-H3E"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="16"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gV-Z7-95R">
                         <rect key="frame" x="20" y="22" width="58" height="28"/>
@@ -55,6 +60,11 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="myProfileImage" destination="ghn-Jr-aoa" id="tU4-vn-DMH"/>
+                <outlet property="myProfileName" destination="8gV-Z7-95R" id="NQU-Hu-ODX"/>
+                <outlet property="myProfileStatus" destination="M6k-9c-acX" id="lns-Fd-HIW"/>
+            </connections>
             <point key="canvasLocation" x="124.61538461538461" y="20.616113744075829"/>
         </tableViewCell>
     </objects>

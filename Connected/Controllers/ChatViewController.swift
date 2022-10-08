@@ -464,8 +464,11 @@ class ChatViewController: UIViewController
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        let now = formatter.string(from: Date.now)
-        let textRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(now).txt")
+        let now = Date.now
+        let formatted = formatter.string(from: now)
+        formatter.dateFormat = "yyyy-MM-dd\nHH:mm"
+        let formattedNow = formatter.string(from: now)
+        let textRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(formatted).txt")
         guard let textToSend = self.growingTextView.text.data(using: .utf8) else { return }
         let uploadTask = textRef.putData(textToSend, metadata: metadata)
         { metadata, error in
@@ -499,7 +502,7 @@ class ChatViewController: UIViewController
                         {
                             if let unreadCount = dict[self.recepientUID]![2] as? Int
                             {
-                                try await self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:[foo,now, unreadCount+1]]])
+                                try await self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:[foo, formattedNow, unreadCount+1]]])
                             }
                         }
                     }

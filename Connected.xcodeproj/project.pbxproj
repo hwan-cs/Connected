@@ -27,6 +27,7 @@
 		1A7FBDB628EFFE7C001A37BF /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FBDB528EFFE7C001A37BF /* MyTabBarController.swift */; };
 		1A7FBDB928F005DC001A37BF /* MyProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FBDB728F005DC001A37BF /* MyProfileTableViewCell.swift */; };
 		1A7FBDBA28F005DC001A37BF /* MyProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7FBDB828F005DC001A37BF /* MyProfileTableViewCell.xib */; };
+		1A7FBDBC28F025B8001A37BF /* FriendsVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FBDBB28F025B8001A37BF /* FriendsVC_Extensions.swift */; };
 		1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88628CB409F00B96A7C /* AppDelegate.swift */; };
 		1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88A28CB409F00B96A7C /* LoginViewController.swift */; };
 		1AACE88E28CB409F00B96A7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AACE88C28CB409F00B96A7C /* Main.storyboard */; };
@@ -87,6 +88,7 @@
 		1A7FBDB528EFFE7C001A37BF /* MyTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabBarController.swift; sourceTree = "<group>"; };
 		1A7FBDB728F005DC001A37BF /* MyProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileTableViewCell.swift; sourceTree = "<group>"; };
 		1A7FBDB828F005DC001A37BF /* MyProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyProfileTableViewCell.xib; sourceTree = "<group>"; };
+		1A7FBDBB28F025B8001A37BF /* FriendsVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVC_Extensions.swift; sourceTree = "<group>"; };
 		1AACE88328CB409F00B96A7C /* Connected.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connected.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AACE88628CB409F00B96A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AACE88A28CB409F00B96A7C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				1A48B3D428DD7B1200FCEA88 /* UIView_Extensions.swift */,
 				1A48B41728DD93D100FCEA88 /* ChatVC_Extensions.swift */,
 				1A72071228EDCEF9008F8B82 /* ChatRoomVC_Extensions.swift */,
+				1A7FBDBB28F025B8001A37BF /* FriendsVC_Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				1AACE8E928CE300A00B96A7C /* UITextField_Extensions.swift in Sources */,
 				1AB6A02128D0DEB000A0D127 /* CustomTransition.swift in Sources */,
 				1A48B41828DD93D100FCEA88 /* ChatVC_Extensions.swift in Sources */,
+				1A7FBDBC28F025B8001A37BF /* FriendsVC_Extensions.swift in Sources */,
 				1A7FBDB628EFFE7C001A37BF /* MyTabBarController.swift in Sources */,
 				1A41E69628E2D8C7006D0C9A /* CachingPlayerItem.swift in Sources */,
 				1AB6A01828CF057300A0D127 /* LoginSheetVC_Extensions.swift in Sources */,

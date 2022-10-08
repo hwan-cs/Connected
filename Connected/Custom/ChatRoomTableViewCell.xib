@@ -49,9 +49,12 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="65q-rn-a6y">
-                        <rect key="frame" x="298" y="18" width="42" height="20"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="65q-rn-a6y">
+                        <rect key="frame" x="268" y="12" width="72" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="72" id="brV-3M-mbf"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -62,7 +65,7 @@
                             <constraint firstAttribute="height" constant="16" id="ZVD-oe-9KS"/>
                             <constraint firstAttribute="width" constant="16" id="ZhI-BW-goo"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                         <userDefinedRuntimeAttributes>
@@ -100,7 +103,7 @@
                     <constraint firstAttribute="trailing" secondItem="bXf-BO-bn7" secondAttribute="trailing" constant="20" id="bTd-sw-2uK"/>
                     <constraint firstItem="VmV-EZ-Jgg" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="euB-rd-RXK"/>
                     <constraint firstAttribute="trailing" secondItem="65q-rn-a6y" secondAttribute="trailing" constant="20" id="gXz-If-bof"/>
-                    <constraint firstItem="65q-rn-a6y" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="mBl-TH-8WY"/>
+                    <constraint firstItem="65q-rn-a6y" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="mBl-TH-8WY"/>
                     <constraint firstItem="HPP-Ns-vAS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="52" id="mVn-GT-GL3"/>
                     <constraint firstItem="atn-ut-qLt" firstAttribute="leading" secondItem="HPP-Ns-vAS" secondAttribute="trailing" constant="16" id="nvv-Hh-2Bw"/>
                 </constraints>
