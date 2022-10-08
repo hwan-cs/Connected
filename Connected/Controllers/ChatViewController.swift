@@ -165,6 +165,7 @@ class ChatViewController: UIViewController
         {
             let uuid = Auth.auth().currentUser?.uid
             try await self.db.collection("users").document(uuid!).updateData(["isOnline": true])
+            try await self.db.collection("users").document(uuid!).updateData(["talkingTo": self.recepientUID])
             if let mData = try await self.db.collection("users").document(uuid!).getDocument().data()
             {
                 if (mData["isSharingLocation"] as! Bool)
@@ -338,7 +339,7 @@ class ChatViewController: UIViewController
                             {
                                 if let rec = talkingTo!["talkingTo"] as? String
                                 {
-                                    if rec == self.recepientUID
+                                    if rec == uuid
                                     {
                                         try await self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
                                         return
@@ -492,7 +493,7 @@ class ChatViewController: UIViewController
                         let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
                         if let rec = talkingTo!["talkingTo"] as? String
                         {
-                            if rec == self.recepientUID
+                            if rec == uuid
                             {
                                 try await self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
                                 return

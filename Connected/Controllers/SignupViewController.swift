@@ -297,7 +297,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
             else
             {
                 let uid = authDataResult?.user.uid
-                let userData = ["username": self.idTextField.text!, "email": self.emailTextField.text!, "password": self.passwordTextField[0].text!, "name": self.nameTextField.text!, "verified": false, "uid": uid!, "change": "", "talkingTo":"", "location": GeoPoint(latitude: 0, longitude: 0), "isSharingLocation": false, "isOnline": false]
+                let userData = ["username": self.idTextField.text!, "email": self.emailTextField.text!, "password": self.passwordTextField[0].text!, "name": self.nameTextField.text!, "verified": false, "uid": uid!, "change": "", "talkingTo":"", "location": GeoPoint(latitude: 0, longitude: 0), "isSharingLocation": false, "isOnline": false, "statusMsg": "Hello World!"]
                 
                 let userInfoData = ["chatRoom":[], "friends": []]
                 

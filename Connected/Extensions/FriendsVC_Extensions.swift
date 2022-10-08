@@ -14,6 +14,10 @@ extension FriendsViewController
         self.userInfoViewModel!.$friendsArray.sink
         { (updatedArray:[String]) in
             self.friendsArray = updatedArray
+            DispatchQueue.main.async
+            {
+                self.tableView.reloadData()
+            }
         }.store(in: &disposableBag)
     }
 }

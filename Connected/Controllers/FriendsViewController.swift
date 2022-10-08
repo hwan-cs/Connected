@@ -10,7 +10,9 @@ import UIKit
 import VBRRollingPit
 import Firebase
 import FirebaseAuth
+import FirebaseStorage
 import Combine
+import Cache
 
 class FriendsViewController: UIViewController
 {
@@ -30,6 +32,17 @@ class FriendsViewController: UIViewController
     
     let db = Firestore.firestore()
     
+    let diskConfig = DiskConfig(name: "FriendCache")
+    
+    let memoryConfig = MemoryConfig(expiry: .never, countLimit: 10, totalCostLimit: 10)
+    
+    lazy var cacheStorage: Cache.Storage<String, Data>? =
+    {
+        return try? Cache.Storage(diskConfig: diskConfig, memoryConfig: memoryConfig, transformer: TransformerFactory.forData())
+    }()
+    
+    let storage = Storage.storage()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -37,6 +50,7 @@ class FriendsViewController: UIViewController
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(UINib(nibName: K.myProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.myProfileCellID)
+        self.tableView.register(UINib(nibName: K.friendProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.friendProfileCellID)
         
         self.userInfoViewModel = UserInfoViewModel(uuid!)
         self.setBindings()
@@ -57,28 +71,109 @@ extension FriendsViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.myProfileCellID) as! MyProfileTableViewCell
+        let myProfileCell = tableView.dequeueReusableCell(withIdentifier: K.myProfileCellID) as! MyProfileTableViewCell
+        let friendProfileCell = tableView.dequeueReusableCell(withIdentifier: K.friendProfileCellID) as! FriendProfileTableViewCell
+        
         Task.init
         {
-            let data = try await self.db.collection("users").document(self.uuid!).getDocument().data()
-            cell.myProfileName.text = data!["name"] as? String
-            
-            self.getData(from: URL(string: "https://helios-i.mashable.com/imagery/articles/04i1KeWXNed98aQakEZjeOs/hero-image.fill.size_1248x702.v1623362896.jpg")!)
-            { data, response, error in
-                guard let data = data, error == nil else { return }
-                DispatchQueue.main.async
-                {
-                    cell.myProfileImage.image = UIImage(data: data)
-                    cell.myProfileImage.contentMode = .scaleAspectFit
-                }
+            let userID = indexPath.section == 0 ? self.uuid! : self.friendsArray[0]
+            let data = try await self.db.collection("users").document(userID).getDocument().data()
+            if indexPath.section == 0
+            {
+                let storageRef = self.storage.reference()
+                let myProfileRef = storageRef.child("\(self.uuid!)/ProfileInfo/")
+                myProfileRef.listAll(completion:
+                { (storageListResult, error) in
+                    if let error = error
+                    {
+                        print(error.localizedDescription)
+                    }
+                    else
+                    {
+                        for items in storageListResult!.items
+                        {
+                            do
+                            {
+                                let result = try self.cacheStorage!.entry(forKey: items.name)
+                                // The video is cached.
+                                DispatchQueue.main.async
+                                {
+                                    myProfileCell.myProfileImage.image = UIImage(data: result.object)
+                                    myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                }
+                            }
+                            catch
+                            {
+                                //maxsize of image file is 30MB
+                                items.getData(maxSize: 30*1024*1024)
+                                { data, dError in
+                                    if let dError = dError
+                                    {
+                                        print(dError.localizedDescription)
+                                    }
+                                    else
+                                    {
+                                        self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                        myProfileCell.myProfileImage.image = UIImage(data: data!)
+                                        myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+                myProfileCell.myProfileName.text = data!["name"] as? String
+                myProfileCell.myProfileStatus.text = data!["statusMsg"] as? String
             }
-            cell.myProfileStatus.text = "$sudo work"
+            else
+            {
+                friendProfileCell.friendName.text = data!["name"] as? String
+                friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
+                let storageRef = self.storage.reference()
+                let friendProfileRef = storageRef.child("\(self.friendsArray[0])/ProfileInfo/")
+                friendProfileRef.listAll(completion:
+                { (storageListResult, error) in
+                    if let error = error
+                    {
+                        print(error.localizedDescription)
+                    }
+                    else
+                    {
+                        for items in storageListResult!.items
+                        {
+                            do
+                            {
+                                let result = try self.cacheStorage!.entry(forKey: items.name)
+                                // The video is cached.
+                                DispatchQueue.main.async
+                                {
+                                    friendProfileCell.friendProfileImageView.image = UIImage(data: result.object)
+                                    friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFit
+                                }
+                            }
+                            catch
+                            {
+                                //maxsize of image file is 30MB
+                                items.getData(maxSize: 30*1024*1024)
+                                { data, dError in
+                                    if let dError = dError
+                                    {
+                                        print(dError.localizedDescription)
+                                    }
+                                    else
+                                    {
+                                        self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                        friendProfileCell.friendProfileImageView.image = UIImage(data: data!)
+                                        friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFit
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+            }
         }
-        if indexPath.section == 0
-        {
-            return cell
-        }
-        return cell
+        return indexPath.section == 0 ? myProfileCell : friendProfileCell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -89,9 +184,17 @@ extension FriendsViewController: UITableViewDataSource
         }
         else
         {
-            //number of friends, to be fixed later
-            return 0
+            return self.friendsArray.count*50
         }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    {
+        if section == 1
+        {
+            return "Friends \(self.friendsArray.count)"
+        }
+        return ""
     }
     
     func numberOfSections(in tableView: UITableView) -> Int

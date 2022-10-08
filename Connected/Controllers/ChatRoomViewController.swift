@@ -83,7 +83,6 @@ extension ChatRoomViewController: UITableViewDelegate
         print("selected at \(indexPath.row)")
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
         vc.recepientUID = (self.sortedByValueDictionaryKey[indexPath.row])
-        print(self.sortedByValueDictionaryKey[indexPath.row])
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -122,6 +121,7 @@ extension ChatRoomViewController: UITableViewDataSource
                 chatRoomCell.unreadMessagesCount.isHidden = false
             }
         }
+        chatRoomCell.selectionStyle = .default
         return chatRoomCell
     }
     
