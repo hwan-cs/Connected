@@ -9,8 +9,9 @@ import UIKit
 import DSWaveformImage
 import AVFoundation
 import Cache
+import UIView_Shimmer
 
-class RecChatTableViewCell: UITableViewCell
+class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
 {
 
     @IBOutlet var messageView: UIView!
@@ -39,6 +40,19 @@ class RecChatTableViewCell: UITableViewCell
         }
     }
     
+    var shimmeringAnimatedItems: [UIView]
+    {
+        [
+            messageView,
+            waveFormImageView,
+            playButton,
+            timeLabel,
+            readLabel,
+            playbackButton,
+            playbackLabel
+        ]
+    }
+    
     var player: AVAudioPlayer?
     
     var playerItem: CachingPlayerItem?
@@ -52,28 +66,23 @@ class RecChatTableViewCell: UITableViewCell
     override func awakeFromNib()
     {
         super.awakeFromNib()
+        self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear
         self.messageView.clipsToBounds = true
         self.messageView.layer.masksToBounds = false
         self.waveFormImageView.contentMode = .scaleAspectFit
+        self.playbackButton.backgroundColor = .lightGray
+        self.playbackButton.isUserInteractionEnabled = false
         self.contentView.layer.shadowRadius = 4
         self.contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
         self.contentView.layer.shadowColor = UIColor.gray.cgColor
         self.contentView.layer.shadowOpacity = 0.2
 
-        self.messageView.roundCorners(topLeft: 16, topRight: 24, bottomLeft: 0, bottomRight: 24)
+        self.messageView.layer.cornerRadius = 18.0
+        self.messageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         
-        let borderLayer = CAShapeLayer()
-        borderLayer.path = (self.messageView.layer.mask! as! CAShapeLayer).path! // Reuse the Bezier path
-        borderLayer.strokeColor = UIColor(red: 0.91, green: 0.92, blue: 0.94, alpha: 1.00).cgColor
-        borderLayer.shadowRadius = 24
-        borderLayer.shadowOffset = CGSize(width: 0, height: 8)
-        borderLayer.shadowColor = UIColor.black.cgColor
-        borderLayer.shadowOpacity = 0.2
-        borderLayer.fillColor = UIColor.clear.cgColor
-        borderLayer.lineWidth = 1
-        borderLayer.frame = self.messageView.bounds
-        self.messageView.layer.addSublayer(borderLayer)
+        self.messageView.layer.borderWidth = 0.5
+        self.messageView.layer.borderColor = UIColor.lightGray.cgColor
 
     }
 
@@ -93,11 +102,15 @@ class RecChatTableViewCell: UITableViewCell
                 {
                     if let player = player
                     {
+                        self.playbackButton.backgroundColor = UIColor(red: 0.82, green: 0.98, blue: 0.92, alpha: 1.00)
+                        self.playbackButton.isUserInteractionEnabled = true
                         player.play()
                         timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
                     }
                     else
                     {
+                        self.playbackButton.backgroundColor = UIColor(red: 0.82, green: 0.98, blue: 0.92, alpha: 1.00)
+                        self.playbackButton.isUserInteractionEnabled = true
                         player = try AVAudioPlayer(data: audio, fileTypeHint: AVFileType.m4a.rawValue)
                         guard let player = player else { return }
                         player.prepareToPlay()
@@ -118,6 +131,8 @@ class RecChatTableViewCell: UITableViewCell
             player?.pause()
             self.playButton.setImage(UIImage(named: "Play.svg"), for: .normal)
             timer?.invalidate()
+            self.playbackButton.backgroundColor = .lightGray
+            self.playbackButton.isUserInteractionEnabled = false
         }
     }
     
@@ -176,9 +191,10 @@ extension RecChatTableViewCell: AVAudioPlayerDelegate
             player.currentTime = 0
             self.second = 0
             self.playButton.setImage(UIImage(named: "Play.svg"), for: .normal)
-            self.updateProgess()
             timer?.invalidate()
             timer = nil
+            self.playbackButton.backgroundColor = .lightGray
+            self.playbackButton.isUserInteractionEnabled = false
         }
         else
         {

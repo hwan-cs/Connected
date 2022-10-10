@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import UIView_Shimmer
 
-class RecTextChatTableViewCell: UITableViewCell
+class RecTextChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
 {
     @IBOutlet var messageView: UIView!
     
@@ -27,9 +28,20 @@ class RecTextChatTableViewCell: UITableViewCell
         }
     }
     
+    var shimmeringAnimatedItems: [UIView]
+    {
+        [
+            messageView,
+            myChatTextLabel,
+            timeLabel,
+            timeLabel_2
+        ]
+    }
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()
+        self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear
         self.messageView.clipsToBounds = true
         self.messageView.layer.masksToBounds = false
@@ -41,6 +53,8 @@ class RecTextChatTableViewCell: UITableViewCell
         self.myChatTextLabel.font = UIFont.systemFont(ofSize: 16.0)
         self.messageView.layer.cornerRadius = 16.0
         self.messageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        self.messageView.layer.borderWidth = 0.5
+        self.messageView.layer.borderColor = UIColor.lightGray.cgColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool)

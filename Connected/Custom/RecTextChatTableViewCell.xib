@@ -33,6 +33,7 @@
                             <constraint firstAttribute="bottom" secondItem="01t-lN-mbd" secondAttribute="bottom" constant="8" id="F24-ib-Y08"/>
                             <constraint firstItem="01t-lN-mbd" firstAttribute="top" secondItem="ntl-kQ-SHo" secondAttribute="top" constant="8" id="Zs9-D5-f56"/>
                             <constraint firstItem="01t-lN-mbd" firstAttribute="leading" secondItem="ntl-kQ-SHo" secondAttribute="leading" constant="12" id="daj-py-pk5"/>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="192" id="qEg-dy-fT8"/>
                             <constraint firstAttribute="trailing" secondItem="01t-lN-mbd" secondAttribute="trailing" constant="12" id="wHU-Wq-hvd"/>
                         </constraints>
                     </view>

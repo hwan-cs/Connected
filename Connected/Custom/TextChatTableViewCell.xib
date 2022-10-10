@@ -32,6 +32,7 @@
                             <constraint firstAttribute="bottom" secondItem="Iax-Jb-pjB" secondAttribute="bottom" constant="8" id="ErM-SF-Yj3"/>
                             <constraint firstItem="Iax-Jb-pjB" firstAttribute="top" secondItem="XAe-LL-dnX" secondAttribute="top" constant="8" id="Nse-k6-VFi"/>
                             <constraint firstItem="Iax-Jb-pjB" firstAttribute="leading" secondItem="XAe-LL-dnX" secondAttribute="leading" constant="12" id="S0Z-sf-RPj"/>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="192" id="T6h-i6-kXT"/>
                             <constraint firstAttribute="trailing" secondItem="Iax-Jb-pjB" secondAttribute="trailing" constant="12" id="cc5-io-9a3"/>
                         </constraints>
                     </view>

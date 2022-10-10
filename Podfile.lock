@@ -769,6 +769,7 @@ PODS:
   - SwiftMessages/App (9.0.6)
   - TransitionButton (0.5.3)
   - TweeTextField (1.6.4)
+  - UIView-Shimmer (1.0.4)
   - VBRRollingPit (1.0.1)
 
 DEPENDENCIES:
@@ -789,6 +790,7 @@ DEPENDENCIES:
   - SwiftMessages
   - TransitionButton
   - TweeTextField
+  - UIView-Shimmer (~> 1.0)
   - VBRRollingPit
 
 SPEC REPOS:
@@ -829,6 +831,7 @@ SPEC REPOS:
     - SwiftMessages
     - TransitionButton
     - TweeTextField
+    - UIView-Shimmer
     - VBRRollingPit
 
 SPEC CHECKSUMS:
@@ -868,8 +871,9 @@ SPEC CHECKSUMS:
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
   TransitionButton: 36283346e17c64775a1b3bc3a7a72940a367de1f
   TweeTextField: 726de695eead9784f7ed02e22f6944bfcfcca07a
+  UIView-Shimmer: ff0a32c73d67c7dbdea3d9e530538b10d18aea56
   VBRRollingPit: 62a79cc663aeea6a196878b3a907056617f96b6a
 
-PODFILE CHECKSUM: 76e28e665e969106015288637401ff2069dbe6b2
+PODFILE CHECKSUM: e7b97691481dc3dacc776a17a7b02771ac57b1cf
 
 COCOAPODS: 1.11.3

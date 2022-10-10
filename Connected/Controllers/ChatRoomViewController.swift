@@ -53,10 +53,6 @@ class ChatRoomViewController: UIViewController
         self.tableView.register(UINib(nibName: K.chatRoomCellNibName, bundle: nil), forCellReuseIdentifier: K.chatRoomCellID)
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: "NewChat"), style: .plain, target: self, action: #selector(onNewChatTap))
-        barButtonItem.tintColor = K.mainColor
-        self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
-        self.navigationController?.navigationBar.backgroundColor = .clear
         self.userInfoViewModel = UserInfoViewModel(uuid!)
         self.setBindings()
         
@@ -84,6 +80,17 @@ class ChatRoomViewController: UIViewController
     override func viewWillAppear(_ animated: Bool)
     {
         self.navigationController?.navigationBar.topItem?.title = "채팅"
+        self.navigationController?.navigationBar.backgroundColor = K.mainColor
+        self.safeAreaColorToMainColor()
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "NewChat"), style: .plain, target: self, action: #selector(onNewChatTap))
+        barButtonItem.tintColor = .black
+        self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
+        self.navigationController?.navigationBar.backgroundColor = .clear
+    }
+    
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
     }
     
     @objc func onNewChatTap()
@@ -192,7 +199,7 @@ extension ChatRoomViewController: UITableViewDataSource
                 chatRoomCell.unreadMessagesCount.isHidden = false
             }
         }
-        chatRoomCell.selectionStyle = .default
+        chatRoomCell.selectionStyle = .none
         return chatRoomCell
     }
     

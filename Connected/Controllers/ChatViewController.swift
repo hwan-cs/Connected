@@ -19,6 +19,7 @@ import LoadingShimmer
 import CoreLocation
 import GoogleMaps
 import GooglePlaces
+import UIView_Shimmer
 
 class ChatViewController: UIViewController
 {
@@ -113,7 +114,7 @@ class ChatViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.hideKeyboard()
+        self.chatVCHideKeyboard()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         tableView.delegate = self
@@ -191,10 +192,6 @@ class ChatViewController: UIViewController
                     }
                 }
             }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now()+1.5)
-        {
-            self.tableView.reloadData()
         }
     }
     
@@ -335,23 +332,23 @@ class ChatViewController: UIViewController
                         Task.init
                         {
                             let data = try Data(contentsOf: self.path!)
+                            self.userViewModel?.userDataArray[data] = [true, metadata?.name!]
                             let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+                            if let rec = talkingTo!["talkingTo"] as? String
+                            {
+                                if rec == uuid
+                                {
+                                    try await self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
+                                    return
+                                }
+                            }
                             if let dict = try await self.db.collection("userInfo").document(uuid).getDocument().data()?["chatRoom"] as? [String:[Any]]
                             {
-                                if let rec = talkingTo!["talkingTo"] as? String
-                                {
-                                    if rec == uuid
-                                    {
-                                        try await self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
-                                        return
-                                    }
-                                }
                                 if let unreadCount = dict[self.recepientUID]![2] as? Int
                                 {
                                     try await self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:["waveform",now, unreadCount+1]]])
                                 }
                             }
-                            self.userViewModel?.userDataArray[data] = [true, metadata?.name!]
                         }
                     }
                     catch
@@ -363,8 +360,7 @@ class ChatViewController: UIViewController
         }
         else
         {
-            
-            // recording failed :(
+            print("recording failed")
         }
     }
     
@@ -385,7 +381,7 @@ class ChatViewController: UIViewController
             audioRecorder.delegate = self
             audioRecorder.prepareToRecord()
             audioRecorder.isMeteringEnabled = true
-            audioRecorder.record(forDuration: 5.0)
+            audioRecorder.record(forDuration: 60.0)
         }
         catch
         {
@@ -559,10 +555,8 @@ extension ChatViewController: UITableViewDataSource
         if dataName.contains(".txt") && isMe
         {
             myTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
-            if myTextCell.myChatTextLabel.text!.count > 13
-            {
-                myTextCell.messageView.widthAnchor.constraint(equalToConstant: 192).isActive = true
-            }
+            myTextCell.messageView.sizeToFit()
+            myTextCell.messageView.layoutIfNeeded()
             myTextCell.txtName = sortedByValueDictionaryValue[indexPath.row][1] as? String
             myTextCell.selectionStyle = .none
             return myTextCell
@@ -570,10 +564,8 @@ extension ChatViewController: UITableViewDataSource
         else if dataName.contains(".txt") && !isMe
         {
             yourTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
-            if yourTextCell.myChatTextLabel.text!.count > 13
-            {
-                yourTextCell.messageView.widthAnchor.constraint(equalToConstant: 192).isActive = true
-            }
+            yourTextCell.messageView.sizeToFit()
+            yourTextCell.messageView.layoutIfNeeded()
             yourTextCell.txtName = sortedByValueDictionaryValue[indexPath.row][1] as? String
             yourTextCell.selectionStyle = .none
             return yourTextCell
@@ -593,7 +585,6 @@ extension ChatViewController: UITableViewDataSource
                 {
                     DispatchQueue.main.async
                     {
-                        //myCell.waveFormImageView.waveformAudioURL = url
                         myCell.waveFormImageView.image = image
                         myCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
                         myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
@@ -604,7 +595,6 @@ extension ChatViewController: UITableViewDataSource
                 {
                     DispatchQueue.main.async
                     {
-                        //yourCell.waveFormImageView.waveformAudioURL = url
                         yourCell.waveFormImageView.image = image
                         yourCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
                         myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
@@ -613,7 +603,6 @@ extension ChatViewController: UITableViewDataSource
                 }
             }
         }
-//        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         return isMe ? myCell : yourCell
     }
     
@@ -639,6 +628,7 @@ extension ChatViewController: UITableViewDataSource
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
+        cell.setTemplateWithSubviews(!K.didInit)
         if K.didInit
         {
             return
@@ -649,7 +639,6 @@ extension ChatViewController: UITableViewDataSource
             {
                 let uuid = Auth.auth().currentUser!.uid
                 K.didInit = true
-//                LoadingShimmer.stopCovering(self.tableView)
                 //If recipient is talking to me, add snapshot listener their firdoc
                 Task.init
                 {

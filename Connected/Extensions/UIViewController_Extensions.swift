@@ -19,6 +19,20 @@ extension UIViewController
         view.addGestureRecognizer(tap)
     }
     
+    func safeAreaColorToMainColor()
+      {
+         let mainColor = UIView()
+         view.addSubview(mainColor)
+          mainColor.translatesAutoresizingMaskIntoConstraints = false
+          mainColor.backgroundColor = K.mainColor
+
+         NSLayoutConstraint.activate([
+            mainColor.topAnchor.constraint(equalTo: view.topAnchor),
+            mainColor.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            mainColor.widthAnchor.constraint(equalTo: view.widthAnchor),
+        ])
+      }
+    
     @objc func dismissKeyboard()
     {
         view.endEditing(true)

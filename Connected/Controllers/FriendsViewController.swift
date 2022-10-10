@@ -58,6 +58,8 @@ class FriendsViewController: UIViewController
     override func viewWillAppear(_ animated: Bool)
     {
         self.navigationController?.navigationBar.topItem?.title = "친구"
+        self.navigationController?.navigationBar.backgroundColor = K.mainColor
+        self.safeAreaColorToMainColor()
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())

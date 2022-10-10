@@ -24,6 +24,7 @@ class ChatRoomTableViewCell: UITableViewCell
     override func awakeFromNib()
     {
         super.awakeFromNib()
+        self.friendChatRoomProfileImage.layer.cornerRadius = 8.0
         // Initialization code
     }
 

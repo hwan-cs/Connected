@@ -27,6 +27,7 @@ ${BUILT_PRODUCTS_DIR}/STPopup/STPopup.framework
 ${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework
 ${BUILT_PRODUCTS_DIR}/TransitionButton/TransitionButton.framework
 ${BUILT_PRODUCTS_DIR}/TweeTextField/TweeTextField.framework
+${BUILT_PRODUCTS_DIR}/UIView-Shimmer/UIView_Shimmer.framework
 ${BUILT_PRODUCTS_DIR}/VBRRollingPit/VBRRollingPit.framework
 ${BUILT_PRODUCTS_DIR}/abseil/absl.framework
 ${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework

@@ -25,4 +25,6 @@ target 'Connected' do
   pod 'LoadingShimmer'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+  pod 'UIView-Shimmer', '~> 1.0'
+
 end

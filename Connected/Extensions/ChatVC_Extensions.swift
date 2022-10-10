@@ -24,7 +24,31 @@ extension ChatViewController
             //sort dictionary by name
             self.sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.key})
             self.sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.value})
+            DispatchQueue.main.async
+            {
+                print("reload data")
+                self.tableView.reloadData()
+                if self.userDataArray.count > 0
+                {
+                    self.scrollToBottom()
+                }
+            }
         }.store(in: &disposableBag)
+    }
+    
+    
+    func chatVCHideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(ChatViewController.chatVCDismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.tableView.addGestureRecognizer(tap)
+    }
+    
+    @objc func chatVCDismissKeyboard()
+    {
+        view.endEditing(true)
     }
     
     func scrollToBottom()
