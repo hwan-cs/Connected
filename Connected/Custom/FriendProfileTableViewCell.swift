@@ -19,6 +19,7 @@ class FriendProfileTableViewCell: UITableViewCell
     override func awakeFromNib()
     {
         super.awakeFromNib()
+        self.friendProfileImageView.layer.cornerRadius = 8.0
         // Initialization code
     }
 

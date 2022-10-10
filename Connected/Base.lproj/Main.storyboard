@@ -672,7 +672,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="친구" image="Friend_Active" selectedImage="Friend_Active" id="FY5-5H-WPp"/>
-                    <navigationItem key="navigationItem" id="qOz-OV-gfV"/>
+                    <navigationItem key="navigationItem" title="친구" id="qOz-OV-gfV"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="jle-sX-5ks" id="jBV-NZ-7Bc"/>
@@ -762,12 +762,12 @@
             </objects>
             <point key="canvasLocation" x="1980" y="845"/>
         </scene>
-        <!--친구-->
+        <!--My Tab Bar Controller-->
         <scene sceneID="Wlv-ke-gOg">
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="OOJ-GD-pbH" customClass="MyTabBarController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="친구" id="n7z-sL-GUv"/>
+                    <navigationItem key="navigationItem" id="n7z-sL-GUv"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5YW-x8-RuY" customClass="RollingPitTabBar" customModule="VBRRollingPit">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>

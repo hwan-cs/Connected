@@ -21,7 +21,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ANo-9W-2fe">
                         <rect key="frame" x="10" y="8" width="194" height="48"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSc-fh-3qg">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSc-fh-3qg">
                                 <rect key="frame" x="153" y="8" width="32" height="32"/>
                                 <color key="backgroundColor" red="0.80784313725490198" green="0.83529411764705885" blue="0.85882352941176465" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -35,9 +35,12 @@
                                         <integer key="value" value="16"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="onPlaybackButtonTap:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="gKP-Pb-aV1"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKy-Db-ZRw">
-                                <rect key="frame" x="159.66666666666666" y="18" width="19" height="12"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKy-Db-ZRw">
+                                <rect key="frame" x="164" y="18" width="10.333333333333343" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -112,6 +115,8 @@
             <connections>
                 <outlet property="messageView" destination="ANo-9W-2fe" id="XBs-hv-TjE"/>
                 <outlet property="playButton" destination="tJk-p6-I3u" id="NDE-AQ-jgo"/>
+                <outlet property="playbackButton" destination="xSc-fh-3qg" id="hEx-qm-clf"/>
+                <outlet property="playbackLabel" destination="aKy-Db-ZRw" id="gFG-Cv-ywC"/>
                 <outlet property="readLabel" destination="YA4-bc-XnY" id="fxS-8u-FlA"/>
                 <outlet property="timeLabel" destination="7BG-uY-mgh" id="8Gt-jV-EiR"/>
                 <outlet property="waveFormImageView" destination="7F3-Fg-apH" id="GNQ-Lo-hiV"/>

@@ -23,6 +23,10 @@ class ChatTableViewCell: UITableViewCell
     
     @IBOutlet var readLabel: UILabel!
     
+    @IBOutlet var playbackButton: UIButton!
+    
+    @IBOutlet var playbackLabel: UILabel!
+    
     var audio: Data?
     
     var audioName: String!
@@ -40,6 +44,8 @@ class ChatTableViewCell: UITableViewCell
     var playerItem: CachingPlayerItem?
     
     weak var timer: Timer?
+    
+    var rate = 1.0
     
     var second = 0
     
@@ -97,6 +103,7 @@ class ChatTableViewCell: UITableViewCell
                         player.prepareToPlay()
                         player.delegate = self
                         player.volume = 10.0
+                        player.enableRate = true
                         player.play()
                         timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
                     }
@@ -118,7 +125,7 @@ class ChatTableViewCell: UITableViewCell
     @objc func updateProgess()
     {
         let fullRect = self.waveFormImageView.bounds
-        let newWidth = Double(fullRect.size.width) * Double(self.second)/10.0/self.player!.duration
+        let newWidth = Double(fullRect.size.width) * Double(self.second)/10.0/(self.player!.duration/self.rate)
         let maskLayer = CAShapeLayer()
         let maskRect = CGRect(x: 0.0, y: 0.0, width: newWidth, height: Double(fullRect.size.height))
 
@@ -127,6 +134,28 @@ class ChatTableViewCell: UITableViewCell
 
         self.waveFormImageView.layer.mask = maskLayer
         self.second += 1
+    }
+    
+    @IBAction func onPlaybackButtonTap(_ sender: UIButton)
+    {
+        switch sender.tag
+        {
+        case 1:
+            self.player?.rate = 1.5
+            self.playbackLabel.text = "1.5x"
+            self.rate = 1.5
+            sender.tag = 2
+        case 2:
+            self.player?.rate = 2
+            self.playbackLabel.text = "2x"
+            self.rate = 2.0
+            sender.tag = 3
+        default:
+            self.player?.rate = 1
+            self.playbackLabel.text = "1x"
+            self.rate = 1.0
+            sender.tag = 1
+        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool)

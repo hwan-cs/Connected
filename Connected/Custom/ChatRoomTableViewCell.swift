@@ -19,6 +19,8 @@ class ChatRoomTableViewCell: UITableViewCell
     
     @IBOutlet var unreadMessagesCount: UILabel!
     
+    @IBOutlet var friendChatRoomProfileImage: UIImageView!
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()

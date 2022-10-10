@@ -137,10 +137,6 @@ class ChatViewController: UIViewController
         recordButton.addTarget(self, action: #selector(startPulse), for: .touchDown)
         recordButton.addTarget(self, action: #selector(stopPulse), for: [.touchUpInside, .touchUpOutside])
         
-        self.userViewModel = UserViewModel(Auth.auth().currentUser!.uid, self.recepientUID)
-        
-        self.setBindings()
-        
         recordingSession = AVAudioSession.sharedInstance()
         
         self.textView.removeFromSuperview()
@@ -196,11 +192,17 @@ class ChatViewController: UIViewController
                 }
             }
         }
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.5)
+        {
+            self.tableView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool)
     {
         self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.userViewModel = UserViewModel(Auth.auth().currentUser!.uid, self.recepientUID)
+        self.setBindings()
     }
 
     override func viewWillDisappear(_ animated: Bool)
@@ -319,7 +321,6 @@ class ChatViewController: UIViewController
             formatter.timeZone = TimeZone.current
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
             let now = formatter.string(from: Date.now)
-            print(now)
             let audioRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(now).m4a")
             let uploadTask = audioRef.putFile(from: self.path!, metadata: metadata)
             { metadata, error in
@@ -467,8 +468,6 @@ class ChatViewController: UIViewController
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         let now = Date.now
         let formatted = formatter.string(from: now)
-        formatter.dateFormat = "yyyy-MM-dd\nHH:mm"
-        let formattedNow = formatter.string(from: now)
         let textRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(formatted).txt")
         guard let textToSend = self.growingTextView.text.data(using: .utf8) else { return }
         let uploadTask = textRef.putData(textToSend, metadata: metadata)
@@ -503,11 +502,10 @@ class ChatViewController: UIViewController
                         {
                             if let unreadCount = dict[self.recepientUID]![2] as? Int
                             {
-                                try await self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:[foo, formattedNow, unreadCount+1]]])
+                                try await self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:[foo, formatted, unreadCount+1]]])
                             }
                         }
                     }
-                    self.scrollToBottom()
                 }
                 catch
                 {
@@ -615,6 +613,7 @@ extension ChatViewController: UITableViewDataSource
                 }
             }
         }
+//        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         return isMe ? myCell : yourCell
     }
     
@@ -712,7 +711,6 @@ extension ChatViewController: UITableViewDataSource
                         }
                     }
                 })
-//                self.scrollToBottom()
             }
         }
     }

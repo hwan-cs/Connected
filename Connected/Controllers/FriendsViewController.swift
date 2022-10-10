@@ -46,7 +46,6 @@ class FriendsViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.topItem?.title = "친구"
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(UINib(nibName: K.myProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.myProfileCellID)
@@ -54,6 +53,11 @@ class FriendsViewController: UIViewController
         
         self.userInfoViewModel = UserInfoViewModel(uuid!)
         self.setBindings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.navigationController?.navigationBar.topItem?.title = "친구"
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())

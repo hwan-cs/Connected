@@ -11,6 +11,7 @@ import Combine
 import FirebaseStorage
 import FirebaseAuth
 import Firebase
+import Cache
 
 class ChatRoomViewController: UIViewController
 {
@@ -34,6 +35,17 @@ class ChatRoomViewController: UIViewController
     
     var listener: ListenerRegistration?
     
+    let storage = Storage.storage()
+    
+    let diskConfig = DiskConfig(name: "ChatRoomCache")
+    
+    let memoryConfig = MemoryConfig(expiry: .never, countLimit: 10, totalCostLimit: 10)
+    
+    lazy var cacheStorage: Cache.Storage<String, Data>? =
+    {
+        return try? Cache.Storage(diskConfig: diskConfig, memoryConfig: memoryConfig, transformer: TransformerFactory.forData())
+    }()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -41,7 +53,6 @@ class ChatRoomViewController: UIViewController
         self.tableView.register(UINib(nibName: K.chatRoomCellNibName, bundle: nil), forCellReuseIdentifier: K.chatRoomCellID)
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.navigationController?.navigationBar.topItem?.title = "채팅"
         let barButtonItem = UIBarButtonItem(image: UIImage(named: "NewChat"), style: .plain, target: self, action: #selector(onNewChatTap))
         barButtonItem.tintColor = K.mainColor
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
@@ -70,6 +81,11 @@ class ChatRoomViewController: UIViewController
         })
     }
     
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.navigationController?.navigationBar.topItem?.title = "채팅"
+    }
+    
     @objc func onNewChatTap()
     {
         print("new chat tapped")
@@ -84,6 +100,11 @@ extension ChatRoomViewController: UITableViewDelegate
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
         vc.recepientUID = (self.sortedByValueDictionaryKey[indexPath.row])
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 80.0
     }
 }
 
@@ -108,7 +129,57 @@ extension ChatRoomViewController: UITableViewDataSource
         {
             chatRoomCell.previewLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][0] as! String)
         }
-        chatRoomCell.timeLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][1] as! String)
+        let storageRef = self.storage.reference()
+        let friendProfileRef = storageRef.child("\(self.friendsArray[0])/ProfileInfo/")
+        friendProfileRef.listAll(completion:
+        { (storageListResult, error) in
+            if let error = error
+            {
+                print(error.localizedDescription)
+            }
+            else
+            {
+                for items in storageListResult!.items
+                {
+                    do
+                    {
+                        let result = try self.cacheStorage!.entry(forKey: items.name)
+                        // The video is cached.
+                        DispatchQueue.main.async
+                        {
+                            chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: result.object)
+                            chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFit
+                        }
+                    }
+                    catch
+                    {
+                        //maxsize of image file is 30MB
+                        items.getData(maxSize: 30*1024*1024)
+                        { data, dError in
+                            if let dError = dError
+                            {
+                                print(dError.localizedDescription)
+                            }
+                            else
+                            {
+                                self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: data!)
+                                chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFit
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        if let date = formatter.date(from: (self.sortedByValueDictionaryValue[indexPath.row][1] as! String))
+        {
+            let relativeFormatter = RelativeDateTimeFormatter()
+            relativeFormatter.unitsStyle = .full
+            chatRoomCell.timeLabel.text = relativeFormatter.localizedString(for: date, relativeTo: Date.now)
+        }
         if let unreadCount = (self.sortedByValueDictionaryValue[indexPath.row][2] as? NSNumber)
         {
             if unreadCount.stringValue == "0"

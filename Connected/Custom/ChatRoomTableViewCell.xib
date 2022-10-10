@@ -54,7 +54,7 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="72" id="brV-3M-mbf"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -110,6 +110,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="friendChatRoomProfileImage" destination="VmV-EZ-Jgg" id="clG-OQ-Td1"/>
                 <outlet property="nameLabel" destination="ng9-B1-Y0U" id="k2M-sr-jVF"/>
                 <outlet property="onlineLabel" destination="HPP-Ns-vAS" id="Za6-SN-ZCM"/>
                 <outlet property="previewLabel" destination="atn-ut-qLt" id="Z6i-yH-PEe"/>

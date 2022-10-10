@@ -19,14 +19,15 @@ extension ChatRoomViewController
             self.chatRoomArray = updatedArray
             self.sortedByValueDictionaryKey = updatedArray.sorted(by: { ($0.value[1] as! String) < ($1.value[1] as! String)}).map({$0.key})
             self.sortedByValueDictionaryValue = updatedArray.sorted(by: { ($0.value[1] as! String) < ($1.value[1] as! String)}).map({$0.value})
+        }.store(in: &disposableBag)
+        
+        self.userInfoViewModel!.$friendsArray.sink
+        { (updatedArray:[String]) in
+            self.friendsArray = updatedArray
             DispatchQueue.main.async
             {
                 self.tableView.reloadData()
             }
-        }.store(in: &disposableBag)
-        self.userInfoViewModel!.$friendsArray.sink
-        { (updatedArray:[String]) in
-            self.friendsArray = updatedArray
         }.store(in: &disposableBag)
     }
 }
