@@ -26,12 +26,8 @@ extension ChatViewController
             self.sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.value})
             DispatchQueue.main.async
             {
-                print("reload data")
+                print("reloaddata")
                 self.tableView.reloadData()
-                if self.userDataArray.count > 0
-                {
-                    self.scrollToBottom()
-                }
             }
         }.store(in: &disposableBag)
     }

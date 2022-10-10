@@ -50,7 +50,10 @@ class FriendsViewController: UIViewController
         self.tableView.dataSource = self
         self.tableView.register(UINib(nibName: K.myProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.myProfileCellID)
         self.tableView.register(UINib(nibName: K.friendProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.friendProfileCellID)
-        
+        Task.init
+        {
+            try await self.db.collection("users").document(uuid!).updateData(["isOnline": true])
+        }
         self.userInfoViewModel = UserInfoViewModel(uuid!)
         self.setBindings()
     }

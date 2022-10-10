@@ -87,6 +87,7 @@ class UserViewModel: ObservableObject
                         let result = try self.cacheStorage!.entry(forKey: items.name)
                         // The video is cached.
                         self.userDataArray[result.object] = [false, items.name]
+                        K.didInitUserDataArray += 1
                     }
                     catch
                     {
@@ -100,6 +101,7 @@ class UserViewModel: ObservableObject
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
                                 self.userDataArray[data!] = [false, items.name]
+                                K.didInitUserDataArray += 1
                             }
                         }
                     }

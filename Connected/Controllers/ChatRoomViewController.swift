@@ -71,6 +71,13 @@ class ChatRoomViewController: UIViewController
                     if let chatRooms = data["chatRoom"] as? [String:[Any]]
                     {
                         self.userInfoViewModel?.chatRoomArray = chatRooms
+                        if self.chatRoomArray.count > 0  && self.friendsArray.count > 0
+                        {
+                            DispatchQueue.main.async
+                            {
+                                self.tableView.reloadData()
+                            }
+                        }
                     }
                 }
             }
@@ -106,6 +113,11 @@ extension ChatRoomViewController: UITableViewDelegate
         print("selected at \(indexPath.row)")
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
         vc.recepientUID = (self.sortedByValueDictionaryKey[indexPath.row])
+        vc.userViewModel = UserViewModel(self.uuid!, self.sortedByValueDictionaryKey[indexPath.row])
+        Task.init
+        {
+            await vc.setBindings()
+        }
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -123,6 +135,10 @@ extension ChatRoomViewController: UITableViewDataSource
         Task.init
         {
             chatRoomCell.nameLabel.text = (try await self.db.collection("users").document(self.sortedByValueDictionaryKey[indexPath.row]).getDocument().data()!["name"] as! String)
+            if let isOnline = (try await self.db.collection("users").document(self.sortedByValueDictionaryKey[indexPath.row]).getDocument().data()?["isOnline"] as? Bool)
+            {
+                chatRoomCell.onlineLabel.backgroundColor = isOnline ? K.mainColor : .lightGray
+            }
         }
         if (self.sortedByValueDictionaryValue[indexPath.row][0] as! String) == "waveform"
         {
@@ -155,7 +171,7 @@ extension ChatRoomViewController: UITableViewDataSource
                         DispatchQueue.main.async
                         {
                             chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: result.object)
-                            chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFit
+                            chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
                         }
                     }
                     catch
@@ -171,7 +187,7 @@ extension ChatRoomViewController: UITableViewDataSource
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
                                 chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: data!)
-                                chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFit
+                                chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
                             }
                         }
                     }

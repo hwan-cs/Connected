@@ -65,7 +65,7 @@ class ChatViewController: UIViewController
     
     var path: URL?
     
-    var recepientUID = "NLsm46kThrXznH1daKbBK1U3eyf1"
+    var recepientUID = ""
     
     let db = Firestore.firestore()
     
@@ -111,6 +111,8 @@ class ChatViewController: UIViewController
     
     var recBackgroundViewTopAnchorConstraint: NSLayoutConstraint?
     
+    let uuid = Auth.auth().currentUser?.uid
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -155,12 +157,17 @@ class ChatViewController: UIViewController
         self.navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = K.mainColor
         Task.init
         {
-            self.navigationController?.navigationBar.topItem?.title = try await self.db.collection("users").document(self.recepientUID).getDocument().data()?["name"] as! String
+            self.navigationController?.navigationBar.topItem?.title = try await self.db.collection("users").document(self.recepientUID).getDocument().data()?["name"] as? String
         }
         
         Task.init
         {
-            let uuid = Auth.auth().currentUser?.uid
+            if let dict = try await self.db.collection("userInfo").document(uuid!).getDocument().data()?["chatRoom"] as? [String:[Any]]
+            {
+                var temp = dict
+                temp[self.recepientUID]![2] = 0
+                try await self.db.collection("userInfo").document(uuid!).updateData(["chatRoom" : temp])
+            }
             try await self.db.collection("users").document(uuid!).updateData(["isOnline": true])
             try await self.db.collection("users").document(uuid!).updateData(["talkingTo": self.recepientUID])
             if let mData = try await self.db.collection("users").document(uuid!).getDocument().data()
@@ -170,7 +177,7 @@ class ChatViewController: UIViewController
                     self.locationManager?.requestAlwaysAuthorization()
                     mapView.delegate = self
                     mapView.isMyLocationEnabled = true
-                    if let location = locationManager?.location
+                    if let location = self.locationManager?.location
                     {
                         let camera = GMSCameraPosition.camera(withLatitude: (location.coordinate.latitude), longitude: (location.coordinate.longitude), zoom: 17.0)
                         mapView.camera = camera
@@ -198,8 +205,9 @@ class ChatViewController: UIViewController
     override func viewWillAppear(_ animated: Bool)
     {
         self.navigationController?.navigationBar.prefersLargeTitles = false
-        self.userViewModel = UserViewModel(Auth.auth().currentUser!.uid, self.recepientUID)
-        self.setBindings()
+        let backButton = UIImage(named: "backButton")
+        self.navigationController?.navigationBar.backIndicatorImage = backButton?.withTintColor(.black)
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton?.withTintColor(.black)
     }
 
     override func viewWillDisappear(_ animated: Bool)
@@ -299,7 +307,6 @@ class ChatViewController: UIViewController
         audioRecorder.stop()
         audioRecorder = nil
         
-        let uuid = Auth.auth().currentUser!.uid
         let metadata = StorageMetadata()
         metadata.contentType = AVFileType.m4a.rawValue
         
@@ -336,17 +343,19 @@ class ChatViewController: UIViewController
                             let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
                             if let rec = talkingTo!["talkingTo"] as? String
                             {
-                                if rec == uuid
+                                if rec == self.uuid!
                                 {
-                                    try await self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
+                                    try await self.db.collection("users").document(self.uuid!).updateData(["change": self.myBucketURL+(metadata?.path)!])
                                     return
                                 }
                             }
-                            if let dict = try await self.db.collection("userInfo").document(uuid).getDocument().data()?["chatRoom"] as? [String:[Any]]
+                            if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[Any]]
                             {
                                 if let unreadCount = dict[self.recepientUID]![2] as? Int
                                 {
-                                    try await self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:["waveform",now, unreadCount+1]]])
+                                    var temp = dict
+                                    temp[self.recepientUID]![2] = unreadCount + 1
+                                    try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
                                 }
                             }
                         }
@@ -412,7 +421,6 @@ class ChatViewController: UIViewController
             }
             self.backgroundView.removeFromSuperview()
             self.view.layoutIfNeeded()
-            let uuid = Auth.auth().currentUser?.uid
             Task.init
             {
                 try await self.db.collection("users").document(uuid!).updateData(["isSharingLocation": false])
@@ -454,7 +462,6 @@ class ChatViewController: UIViewController
     @IBAction func onSendButtonTap(_ sender: UIButton)
     {
         self.sendButton.tintColor = .lightGray
-        let uuid = Auth.auth().currentUser!.uid
         let metadata = StorageMetadata()
         metadata.contentType = "txt"
 
@@ -488,17 +495,19 @@ class ChatViewController: UIViewController
                         let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
                         if let rec = talkingTo!["talkingTo"] as? String
                         {
-                            if rec == uuid
+                            if rec == self.uuid!
                             {
-                                try await self.db.collection("users").document(uuid).updateData(["change": self.myBucketURL+(metadata?.path)!])
+                                try await self.db.collection("users").document(self.uuid!).updateData(["change": self.myBucketURL+(metadata?.path)!])
                                 return
                             }
                         }
-                        if let dict = try await self.db.collection("userInfo").document(uuid).getDocument().data()?["chatRoom"] as? [String:[Any]]
+                        if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[Any]]
                         {
                             if let unreadCount = dict[self.recepientUID]![2] as? Int
                             {
-                                try await self.db.collection("userInfo").document(uuid).updateData(["chatRoom": [self.recepientUID:[foo, formatted, unreadCount+1]]])
+                                var temp = dict
+                                temp[self.recepientUID]![2] = unreadCount+1
+                                try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
                             }
                         }
                     }
@@ -516,10 +525,9 @@ class ChatViewController: UIViewController
     {
         self.initMapView()
         self.view.layoutIfNeeded()
-        let uuid = Auth.auth().currentUser?.uid
         Task.init
         {
-            try await self.db.collection("users").document(uuid!).updateData(["isSharingLocation": true])
+            try await self.db.collection("users").document(self.uuid!).updateData(["isSharingLocation": true])
         }
     }
     
@@ -637,7 +645,6 @@ extension ChatViewController: UITableViewDataSource
         {
             if indexPath == lastVisibleIndexPath
             {
-                let uuid = Auth.auth().currentUser!.uid
                 K.didInit = true
                 //If recipient is talking to me, add snapshot listener their firdoc
                 Task.init
@@ -660,8 +667,8 @@ extension ChatViewController: UITableViewDataSource
                     {
                         let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
                         let storageRef = self.storage.reference()
-                        let myAudioRef = storageRef.child("\(self.recepientUID)/\(uuid)/")
-                        let fileName = (talkingTo!["change"] as! String).components(separatedBy: uuid+"/")[1]
+                        let myAudioRef = storageRef.child("\(self.recepientUID)/\(self.uuid!)/")
+                        let fileName = (talkingTo!["change"] as! String).components(separatedBy: self.uuid!+"/")[1]
                         if !self.userDataArray.values.contains(where: { value in
                             value as? [AnyHashable] == [false, fileName]
                         })
@@ -754,7 +761,6 @@ extension ChatViewController: CLLocationManagerDelegate
     {
         if let location = locations.first
         {
-            let uuid = Auth.auth().currentUser?.uid
             self.db.collection("users").document(uuid!).updateData(["location": GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)])
         }
     }
