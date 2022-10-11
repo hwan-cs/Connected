@@ -114,10 +114,7 @@ extension ChatRoomViewController: UITableViewDelegate
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
         vc.recepientUID = (self.sortedByValueDictionaryKey[indexPath.row])
         vc.userViewModel = UserViewModel(self.uuid!, self.sortedByValueDictionaryKey[indexPath.row])
-        Task.init
-        {
-            await vc.setBindings()
-        }
+        vc.setBindings()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

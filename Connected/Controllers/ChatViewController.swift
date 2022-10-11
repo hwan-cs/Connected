@@ -47,7 +47,7 @@ class ChatViewController: UIViewController
     
     var disposableBag = Set<AnyCancellable>()
     
-    var userDataArray: [Data:[Any]] = [:]
+    var userDataArray: [Data:[AnyHashable]] = [:]
     
     let waveformImageDrawer = WaveformImageDrawer()
     
@@ -75,7 +75,7 @@ class ChatViewController: UIViewController
     
     var sortedByValueDictionaryKey: [Data] = []
     
-    var sortedByValueDictionaryValue: [[Any?]] = [[]]
+    var sortedByValueDictionaryValue: [[AnyHashable]] = [[]]
     
     var locationManager: CLLocationManager?
     
@@ -120,7 +120,6 @@ class ChatViewController: UIViewController
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         tableView.delegate = self
-        tableView.dataSource = self
         tableView.tableHeaderView?.backgroundColor = .clear
         tableView.register(UINib(nibName: K.myChatCellNibName, bundle: nil), forCellReuseIdentifier: K.myChatCellID)
         tableView.register(UINib(nibName: K.yourChatCellNibName, bundle: nil), forCellReuseIdentifier: K.yourChatCellID)
@@ -162,7 +161,7 @@ class ChatViewController: UIViewController
         
         Task.init
         {
-            if let dict = try await self.db.collection("userInfo").document(uuid!).getDocument().data()?["chatRoom"] as? [String:[Any]]
+            if let dict = try await self.db.collection("userInfo").document(uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
             {
                 var temp = dict
                 temp[self.recepientUID]![2] = 0
@@ -200,6 +199,68 @@ class ChatViewController: UIViewController
                 }
             }
         }
+        self.setupDataSource()
+    }
+    
+    func setupDataSource()
+    {
+        self.userViewModel?.dataSource = UITableViewDiffableDataSource<Data, [AnyHashable]>(tableView: tableView, cellProvider:
+        { tableView, indexPath, itemIdentifier in
+            let isMe = self.sortedByValueDictionaryValue[indexPath.row][0] as! Bool
+            let dataName = self.sortedByValueDictionaryValue[indexPath.row][1] as! String
+            
+            let myCell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
+            let yourCell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
+            let myTextCell = tableView.dequeueReusableCell(withIdentifier:  K.myTextCellID, for: indexPath) as!  TextChatTableViewCell
+            let yourTextCell = tableView.dequeueReusableCell(withIdentifier:  K.yourTextCellID, for: indexPath) as!  RecTextChatTableViewCell
+
+            if dataName.contains(".txt") && isMe
+            {
+                myTextCell.myChatTextLabel.text = String(data: self.sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
+                myTextCell.messageView.sizeToFit()
+                myTextCell.messageView.layoutIfNeeded()
+                myTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
+                myTextCell.selectionStyle = .none
+                return myTextCell
+            }
+            else if dataName.contains(".txt") && !isMe
+            {
+                yourTextCell.myChatTextLabel.text = String(data: self.sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
+                yourTextCell.messageView.sizeToFit()
+                yourTextCell.messageView.layoutIfNeeded()
+                yourTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
+                yourTextCell.selectionStyle = .none
+                return yourTextCell
+            }
+            
+            self.loadAudio(indexPath.row)
+            { url in
+                Task.init
+                {
+                    let color = isMe ? .white : K.mainColor
+                    let image = try await self.waveformImageDrawer.waveformImage(fromAudioAt: url, with: .init(
+                        size: myCell.waveFormImageView.bounds.size,
+                        style: .striped(.init(color: color, width: 3, spacing: 3)),
+                        position: .middle,
+                        verticalScalingFactor: 1))
+                    if isMe
+                    {
+                        myCell.waveFormImageView.image = image
+                        myCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
+                        myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
+                        myCell.selectionStyle = .none
+                    }
+                    else
+                    {
+                        yourCell.waveFormImageView.image = image
+                        yourCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
+                        yourCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
+                        yourCell.selectionStyle = .none
+                    }
+                }
+            }
+            return isMe ? myCell : yourCell
+        })
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -325,7 +386,7 @@ class ChatViewController: UIViewController
             formatter.timeZone = TimeZone.current
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
             let now = formatter.string(from: Date.now)
-            let audioRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(now).m4a")
+            let audioRef = storageRef.child("\(self.uuid!)/\(self.recepientUID)/\(now).m4a")
             let uploadTask = audioRef.putFile(from: self.path!, metadata: metadata)
             { metadata, error in
                 if let error = error
@@ -349,7 +410,7 @@ class ChatViewController: UIViewController
                                     return
                                 }
                             }
-                            if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[Any]]
+                            if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                             {
                                 if let unreadCount = dict[self.recepientUID]![2] as? Int
                                 {
@@ -471,7 +532,7 @@ class ChatViewController: UIViewController
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         let now = Date.now
         let formatted = formatter.string(from: now)
-        let textRef = storageRef.child("\(uuid)/\(self.recepientUID)/\(formatted).txt")
+        let textRef = storageRef.child("\(self.uuid!)/\(self.recepientUID)/\(formatted).txt")
         guard let textToSend = self.growingTextView.text.data(using: .utf8) else { return }
         let uploadTask = textRef.putData(textToSend, metadata: metadata)
         { metadata, error in
@@ -501,7 +562,7 @@ class ChatViewController: UIViewController
                                 return
                             }
                         }
-                        if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[Any]]
+                        if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                         {
                             if let unreadCount = dict[self.recepientUID]![2] as? Int
                             {
@@ -545,87 +606,12 @@ class ChatViewController: UIViewController
 
 extension ChatViewController: UITableViewDelegate
 {
-
-}
-
-extension ChatViewController: UITableViewDataSource
-{
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-    {
-        let isMe = sortedByValueDictionaryValue[indexPath.row][0] as! Bool
-        let dataName = sortedByValueDictionaryValue[indexPath.row][1] as! String
-        
-        let myCell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
-        let yourCell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
-        let myTextCell = tableView.dequeueReusableCell(withIdentifier:  K.myTextCellID, for: indexPath) as!  TextChatTableViewCell
-        let yourTextCell = tableView.dequeueReusableCell(withIdentifier:  K.yourTextCellID, for: indexPath) as!  RecTextChatTableViewCell
-
-        if dataName.contains(".txt") && isMe
-        {
-            myTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
-            myTextCell.messageView.sizeToFit()
-            myTextCell.messageView.layoutIfNeeded()
-            myTextCell.txtName = sortedByValueDictionaryValue[indexPath.row][1] as? String
-            myTextCell.selectionStyle = .none
-            return myTextCell
-        }
-        else if dataName.contains(".txt") && !isMe
-        {
-            yourTextCell.myChatTextLabel.text = String(data: sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
-            yourTextCell.messageView.sizeToFit()
-            yourTextCell.messageView.layoutIfNeeded()
-            yourTextCell.txtName = sortedByValueDictionaryValue[indexPath.row][1] as? String
-            yourTextCell.selectionStyle = .none
-            return yourTextCell
-        }
-        
-        self.loadAudio(indexPath.row)
-        { url in
-            Task.init
-            {
-                let color = isMe ? .white : K.mainColor
-                let image = try await self.waveformImageDrawer.waveformImage(fromAudioAt: url, with: .init(
-                    size: myCell.waveFormImageView.bounds.size,
-                    style: .striped(.init(color: color, width: 3, spacing: 3)),
-                    position: .middle,
-                    verticalScalingFactor: 1))
-                if isMe
-                {
-                    DispatchQueue.main.async
-                    {
-                        myCell.waveFormImageView.image = image
-                        myCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
-                        myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
-                        myCell.selectionStyle = .none
-                    }
-                }
-                else
-                {
-                    DispatchQueue.main.async
-                    {
-                        yourCell.waveFormImageView.image = image
-                        yourCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
-                        myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
-                        yourCell.selectionStyle = .none
-                    }
-                }
-            }
-        }
-        return isMe ? myCell : yourCell
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        self.userDataArray.count
-    }
-    
     func loadAudio(_ index: Int, completionHandler: @escaping (URL) -> Void)
     {
         let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(index+1).m4a", conformingTo: .audio)
-        let sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.key})
         do
         {
-            try sortedByValueDictionaryKey[index].write(to: filePath)
+            try self.sortedByValueDictionaryKey[index].write(to: filePath)
             completionHandler(filePath)
         }
         catch
@@ -633,7 +619,7 @@ extension ChatViewController: UITableViewDataSource
             print(error.localizedDescription)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
         cell.setTemplateWithSubviews(!K.didInit)
@@ -670,7 +656,7 @@ extension ChatViewController: UITableViewDataSource
                         let myAudioRef = storageRef.child("\(self.recepientUID)/\(self.uuid!)/")
                         let fileName = (talkingTo!["change"] as! String).components(separatedBy: self.uuid!+"/")[1]
                         if !self.userDataArray.values.contains(where: { value in
-                            value as? [AnyHashable] == [false, fileName]
+                            value == [false, fileName]
                         })
                         {
                             myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 1*1024*1024)

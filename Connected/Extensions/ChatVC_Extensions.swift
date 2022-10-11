@@ -17,21 +17,35 @@ extension ChatViewController
     {
         print("ChatVC - setBindings()")
         
-        self.userViewModel!.$userDataArray.sink
-        { (updatedArray:[Data:[Any]]) in
-            print("ChatVC - datarray count: \(updatedArray.count)")
-            self.userDataArray = updatedArray
-            //sort dictionary by name
-            self.sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.key})
-            self.sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.value})
-            DispatchQueue.main.async
-            {
-                print("reloaddata")
-                self.tableView.reloadData()
-            }
-        }.store(in: &disposableBag)
+        self.userViewModel!.$userDataArray
+            .debounce(for: 0.05, scheduler: RunLoop.main)
+            .sink
+            { (updatedArray:[Data:[AnyHashable]]) in
+                print("ChatVC - datarray count: \(updatedArray.count)")
+                self.userDataArray = updatedArray
+                //sort dictionary by name
+                self.sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.key})
+                self.sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.value})
+                if self.userDataArray.count > 0
+                {
+                    self.loadData()
+                    self.tableView.scrollToBottom(isAnimated: true)
+                }
+            }.store(in: &disposableBag)
     }
     
+    func loadData()
+    {
+        var snapshot = self.userViewModel!.dataSource.snapshot()
+        if !(self.userDataArray.count > 0)
+        {
+            return
+        }
+        snapshot.deleteAllItems()
+        snapshot.appendSections(self.sortedByValueDictionaryKey)
+        snapshot.appendItems(self.sortedByValueDictionaryValue)
+        self.userViewModel!.dataSource.apply(snapshot, animatingDifferences: false)
+    }
     
     func chatVCHideKeyboard()
     {
@@ -51,7 +65,7 @@ extension ChatViewController
     {
         DispatchQueue.main.async
         {
-            let indexPath = IndexPath(row: (self.userViewModel?.userDataArray.count ?? 1)-1, section: 0)
+            let indexPath = IndexPath(row: (self.userViewModel?.userDataArray.count ?? 1)-1, section: 1)
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }

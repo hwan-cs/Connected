@@ -19,7 +19,7 @@ class UserViewModel: ObservableObject
     
     var userName: String?
     
-    @Published var userDataArray: [Data:[Any]] = [:]
+    @Published var userDataArray: [Data:[AnyHashable]] = [:]
     
     let waveformImageDrawer = WaveformImageDrawer()
     
@@ -31,6 +31,8 @@ class UserViewModel: ObservableObject
     {
         return try? Cache.Storage(diskConfig: diskConfig, memoryConfig: memoryConfig, transformer: TransformerFactory.forData())
     }()
+    
+    var dataSource: UITableViewDiffableDataSource<Data, [AnyHashable]>!
     
     init(_ uid: String, _ suid: String)
     {
@@ -87,7 +89,6 @@ class UserViewModel: ObservableObject
                         let result = try self.cacheStorage!.entry(forKey: items.name)
                         // The video is cached.
                         self.userDataArray[result.object] = [false, items.name]
-                        K.didInitUserDataArray += 1
                     }
                     catch
                     {
@@ -101,7 +102,6 @@ class UserViewModel: ObservableObject
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
                                 self.userDataArray[data!] = [false, items.name]
-                                K.didInitUserDataArray += 1
                             }
                         }
                     }
