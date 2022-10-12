@@ -97,7 +97,7 @@ class ChatRoomViewController: UIViewController
     
     override func viewWillDisappear(_ animated: Bool)
     {
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+//        self.tabBarController?.navigationItem.rightBarButtonItem = nil
     }
     
     @objc func onNewChatTap()

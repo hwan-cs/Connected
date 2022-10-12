@@ -63,6 +63,11 @@ class FriendsViewController: UIViewController
         self.navigationController?.navigationBar.topItem?.title = "친구"
         self.navigationController?.navigationBar.backgroundColor = K.mainColor
         self.safeAreaColorToMainColor()
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "Add_Friend"), style: .plain, target: self, action: nil)
+        barButtonItem.customView?.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
+        barButtonItem.tintColor = .black
+        self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
+        self.navigationController?.navigationBar.backgroundColor = .clear
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())
