@@ -43,6 +43,8 @@ class FriendsViewController: UIViewController
     
     let storage = Storage.storage()
     
+    var presentTransition: UIViewControllerAnimatedTransitioning?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -56,6 +58,7 @@ class FriendsViewController: UIViewController
         }
         self.userInfoViewModel = UserInfoViewModel(uuid!)
         self.setBindings()
+        presentTransition = CustomTransition()
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -78,7 +81,15 @@ class FriendsViewController: UIViewController
 
 extension FriendsViewController: UITableViewDelegate
 {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileSheetViewController") as! ProfileSheetViewController
+        vc.modalPresentationStyle = .pageSheet
+        vc.transitioningDelegate = self
+        self.present(vc, animated: true, completion: { [weak self] in
+            self?.presentTransition = nil
+        })
+    }
 }
 
 extension FriendsViewController: UITableViewDataSource
@@ -187,6 +198,8 @@ extension FriendsViewController: UITableViewDataSource
                 })
             }
         }
+        myProfileCell.selectionStyle = .none
+        friendProfileCell.selectionStyle = .none
         return indexPath.section == 0 ? myProfileCell : friendProfileCell
     }
     

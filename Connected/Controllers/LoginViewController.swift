@@ -46,3 +46,11 @@ extension LoginViewController:UIViewControllerTransitioningDelegate
         return presentTransition
     }
 }
+
+extension FriendsViewController:UIViewControllerTransitioningDelegate
+{
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning?
+    {
+        return presentTransition
+    }
+}
