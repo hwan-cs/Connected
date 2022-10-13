@@ -146,7 +146,6 @@ class ChatViewController: UIViewController
         self.growingTextView.translatesAutoresizingMaskIntoConstraints = false
         self.growingTextView.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 8, right: 12)
         self.growingTextView.font = UIFont.systemFont(ofSize: 16.0)
-        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 64
         
         locationManager = CLLocationManager()

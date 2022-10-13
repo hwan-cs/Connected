@@ -58,11 +58,9 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="ZbA-Rz-1Fy" firstAttribute="top" secondItem="Ebb-Ex-2gr" secondAttribute="bottom" constant="2" id="065-A7-FMA"/>
-                    <constraint firstItem="ZbA-Rz-1Fy" firstAttribute="top" secondItem="Ebb-Ex-2gr" secondAttribute="bottom" constant="2" id="9f8-zr-VGC"/>
                     <constraint firstAttribute="trailing" secondItem="XAe-LL-dnX" secondAttribute="trailing" constant="10" id="9qU-lV-zuu"/>
                     <constraint firstItem="Ebb-Ex-2gr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="RH9-aQ-TaB"/>
                     <constraint firstItem="XAe-LL-dnX" firstAttribute="leading" secondItem="ZbA-Rz-1Fy" secondAttribute="trailing" constant="8" id="bj4-gv-Wc4"/>
-                    <constraint firstItem="ZbA-Rz-1Fy" firstAttribute="top" secondItem="Ebb-Ex-2gr" secondAttribute="bottom" constant="2" id="gwX-N2-CVV"/>
                     <constraint firstAttribute="bottom" secondItem="XAe-LL-dnX" secondAttribute="bottom" constant="8" id="gze-rh-0JK"/>
                     <constraint firstItem="XAe-LL-dnX" firstAttribute="leading" secondItem="Ebb-Ex-2gr" secondAttribute="trailing" constant="8" id="lma-5R-QoN"/>
                     <constraint firstItem="XAe-LL-dnX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="xAz-d6-70I"/>

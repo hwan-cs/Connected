@@ -10,15 +10,6 @@ import UIKit
 
 class ProfileSheetViewController: UIViewController
 {
-    let defaultHeight: CGFloat = UIScreen.main.bounds.height * 0.6
-    let maximumContainerHeight: CGFloat = UIScreen.main.bounds.height - 100
-    // keep updated with new height
-    var currentContainerHeight: CGFloat = UIScreen.main.bounds.height * 0.6
-    
-    var containerViewHeightConstraint: NSLayoutConstraint?
-    
-    var containerViewBottomConstraint: NSLayoutConstraint?
-    
     @IBOutlet var containerView: UIView!
     
     @IBOutlet var profileBackgroundImage: UIImageView!
@@ -28,5 +19,7 @@ class ProfileSheetViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.profileBackgroundImage.layer.cornerRadius = 16.0
+        self.profileBackgroundImage.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     }
 }
