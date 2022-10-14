@@ -11,6 +11,7 @@ import VBRRollingPit
 import Firebase
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseFirestore
 import Combine
 import Cache
 
@@ -44,6 +45,8 @@ class FriendsViewController: UIViewController
     let storage = Storage.storage()
     
     var presentTransition: UIViewControllerAnimatedTransitioning?
+    
+    var backgroundImageToPass: UIImage?
     
     override func viewDidLoad()
     {
@@ -86,6 +89,30 @@ extension FriendsViewController: UITableViewDelegate
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileSheetViewController") as! ProfileSheetViewController
         vc.modalPresentationStyle = .pageSheet
         vc.transitioningDelegate = self
+        if indexPath.section == 0
+        {
+            let cell = tableView.cellForRow(at: indexPath) as! MyProfileTableViewCell
+            vc.profileImg = cell.myProfileImage.image
+            if let bg = cell.myBackgroundImage
+            {
+                vc.profileBg = bg
+            }
+            vc.name = cell.myProfileName.text ?? "홍길동"
+            vc.status = cell.myProfileStatus.text ?? "Hello World!"
+            vc.id = cell.userID!
+        }
+        else
+        {
+            let cell = tableView.cellForRow(at: indexPath) as! FriendProfileTableViewCell
+            vc.profileImg = cell.friendProfileImageView.image
+            if let bg = cell.myBackgroundImage
+            {
+                vc.profileBg = bg
+            }
+            vc.name = cell.friendName.text ?? "홍길동"
+            vc.status = cell.friendStatusMsg.text ?? "Hello World!"
+            vc.id = cell.userID!
+        }
         self.present(vc, animated: true, completion: { [weak self] in
             self?.presentTransition = nil
         })
@@ -101,7 +128,7 @@ extension FriendsViewController: UITableViewDataSource
         
         Task.init
         {
-            let userID = indexPath.section == 0 ? self.uuid! : self.friendsArray[0]
+            let userID = indexPath.section == 0 ? self.uuid! : self.friendsArray[indexPath.row]
             let data = try await self.db.collection("users").document(userID).getDocument().data()
             if indexPath.section == 0
             {
@@ -120,11 +147,17 @@ extension FriendsViewController: UITableViewDataSource
                             do
                             {
                                 let result = try self.cacheStorage!.entry(forKey: items.name)
-                                // The video is cached.
-                                DispatchQueue.main.async
+                                if items.name.contains("profileImage")
                                 {
-                                    myProfileCell.myProfileImage.image = UIImage(data: result.object)
-                                    myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                    DispatchQueue.main.async
+                                    {
+                                        myProfileCell.myProfileImage.image = UIImage(data: result.object)
+                                        myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                    }
+                                }
+                                else if items.name.contains("backgroundImage")
+                                {
+                                    myProfileCell.myBackgroundImage = UIImage(data: result.object)
                                 }
                             }
                             catch
@@ -139,8 +172,18 @@ extension FriendsViewController: UITableViewDataSource
                                     else
                                     {
                                         self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
-                                        myProfileCell.myProfileImage.image = UIImage(data: data!)
-                                        myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                        if items.name.contains("profileImage")
+                                        {
+                                            DispatchQueue.main.async
+                                            {
+                                                myProfileCell.myProfileImage.image = UIImage(data: data!)
+                                                myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                            }
+                                        }
+                                        else if items.name.contains("backgroundImage")
+                                        {
+                                            myProfileCell.myBackgroundImage = UIImage(data: data!)
+                                        }
                                     }
                                 }
                             }
@@ -149,13 +192,15 @@ extension FriendsViewController: UITableViewDataSource
                 })
                 myProfileCell.myProfileName.text = data!["name"] as? String
                 myProfileCell.myProfileStatus.text = data!["statusMsg"] as? String
+                myProfileCell.userID = data!["username"] as? String
             }
             else
             {
                 friendProfileCell.friendName.text = data!["name"] as? String
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
+                friendProfileCell.userID = data!["username"] as? String
                 let storageRef = self.storage.reference()
-                let friendProfileRef = storageRef.child("\(self.friendsArray[0])/ProfileInfo/")
+                let friendProfileRef = storageRef.child("\(self.friendsArray[indexPath.row])/ProfileInfo/")
                 friendProfileRef.listAll(completion:
                 { (storageListResult, error) in
                     if let error = error
@@ -169,11 +214,17 @@ extension FriendsViewController: UITableViewDataSource
                             do
                             {
                                 let result = try self.cacheStorage!.entry(forKey: items.name)
-                                // The video is cached.
-                                DispatchQueue.main.async
+                                if items.name.contains("profileImage")
                                 {
-                                    friendProfileCell.friendProfileImageView.image = UIImage(data: result.object)
-                                    friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFit
+                                    DispatchQueue.main.async
+                                    {
+                                        friendProfileCell.friendProfileImageView.image = UIImage(data: result.object)
+                                        friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFit
+                                    }
+                                }
+                                else if items.name.contains("backgroundImage")
+                                {
+                                    friendProfileCell.myBackgroundImage = UIImage(data: result.object)
                                 }
                             }
                             catch
@@ -188,8 +239,18 @@ extension FriendsViewController: UITableViewDataSource
                                     else
                                     {
                                         self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
-                                        friendProfileCell.friendProfileImageView.image = UIImage(data: data!)
-                                        friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFit
+                                        if items.name.contains("profileImage")
+                                        {
+                                            DispatchQueue.main.async
+                                            {
+                                                friendProfileCell.friendProfileImageView.image = UIImage(data:  data!)
+                                                friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFit
+                                            }
+                                        }
+                                        else if items.name.contains("backgroundImage")
+                                        {
+                                            friendProfileCell.myBackgroundImage = UIImage(data: data!)
+                                        }
                                     }
                                 }
                             }
@@ -211,7 +272,7 @@ extension FriendsViewController: UITableViewDataSource
         }
         else
         {
-            return self.friendsArray.count*50
+            return self.friendsArray.count
         }
     }
     

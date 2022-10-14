@@ -16,6 +16,10 @@ class FriendProfileTableViewCell: UITableViewCell
     
     @IBOutlet var friendStatusMsg: UILabel!
     
+    var myBackgroundImage: UIImage?
+    
+    var userID: String?
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()

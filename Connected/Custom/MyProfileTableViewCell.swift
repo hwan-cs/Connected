@@ -16,6 +16,10 @@ class MyProfileTableViewCell: UITableViewCell
     
     @IBOutlet var myProfileStatus: UILabel!
     
+    var myBackgroundImage: UIImage?
+    
+    var userID: String?
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()

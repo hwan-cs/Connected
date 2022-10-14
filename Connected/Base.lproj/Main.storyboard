@@ -895,7 +895,7 @@
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="foo.bar" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2z-df-Ghw">
                                                                 <rect key="frame" x="56" y="32" width="318" height="18"/>
-                                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -931,7 +931,7 @@
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hwan333@konkuk.ac.kr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p42-JL-ajg">
                                                                 <rect key="frame" x="56" y="32" width="318" height="18"/>
-                                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -974,7 +974,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="SdH-Qh-7cq" firstAttribute="top" secondItem="QA2-Et-pqB" secondAttribute="top" id="CZf-Nt-gHj"/>
                                     <constraint firstItem="p1j-sD-pdr" firstAttribute="leading" secondItem="QA2-Et-pqB" secondAttribute="leading" id="Jo7-ao-tub"/>
@@ -1000,7 +1000,12 @@
                     <connections>
                         <outlet property="containerView" destination="QA2-Et-pqB" id="Lwl-6M-s0D"/>
                         <outlet property="contentView" destination="p1j-sD-pdr" id="yOE-uX-XSO"/>
+                        <outlet property="editButton" destination="ZxM-qq-wBo" id="Mtm-jS-gdr"/>
+                        <outlet property="idLabel" destination="akr-WA-Noz" id="nEb-8m-jvm"/>
                         <outlet property="profileBackgroundImage" destination="SdH-Qh-7cq" id="qhm-N0-vq8"/>
+                        <outlet property="profileImage" destination="hzM-mS-72F" id="MMe-Zn-yzA"/>
+                        <outlet property="profileName" destination="IDk-m8-fHX" id="MSf-sF-iPi"/>
+                        <outlet property="statusMessage" destination="geV-6t-2yt" id="mR6-F1-k2U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BC1-lD-5NQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
