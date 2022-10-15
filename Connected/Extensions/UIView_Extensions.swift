@@ -22,4 +22,16 @@ extension UIView
         shape.path = maskPath.cgPath
         layer.mask = shape
     }
+    
+    func scrollToBottom(animated: Bool)
+    {
+//        DispatchQueue.main.async
+//        {
+//            let point = CGPoint(x: 0, y: self.intrinsicContentSize.height + self.safeAreaInsets.bottom - self.frame.height)
+//            if point.y >= 0
+//            {
+//                self.setContentOffset(point, animated: animated)
+//            }
+//        }
+    }
 }

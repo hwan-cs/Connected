@@ -238,8 +238,8 @@
 				1AB6A01928D09A8900A0D127 /* SignupViewController.swift */,
 				1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */,
 				1A72070E28ED7508008F8B82 /* ChatRoomViewController.swift */,
-				1A72071428EFF7A4008F8B82 /* FriendsViewController.swift */,
 				1A7FBDB528EFFE7C001A37BF /* MyTabBarController.swift */,
+				1A72071428EFF7A4008F8B82 /* FriendsViewController.swift */,
 				1A7FBDC328F6B1E7001A37BF /* ProfileSheetViewController.swift */,
 			);
 			path = Controllers;

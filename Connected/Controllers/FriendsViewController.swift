@@ -89,8 +89,10 @@ extension FriendsViewController: UITableViewDelegate
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileSheetViewController") as! ProfileSheetViewController
         vc.modalPresentationStyle = .pageSheet
         vc.transitioningDelegate = self
+        let dispatchGroup = DispatchGroup()
         if indexPath.section == 0
         {
+            dispatchGroup.enter()
             let cell = tableView.cellForRow(at: indexPath) as! MyProfileTableViewCell
             vc.profileImg = cell.myProfileImage.image
             if let bg = cell.myBackgroundImage
@@ -100,10 +102,18 @@ extension FriendsViewController: UITableViewDelegate
             vc.name = cell.myProfileName.text ?? "홍길동"
             vc.status = cell.myProfileStatus.text ?? "Hello World!"
             vc.id = cell.userID!
-            vc.isEditable = true
+            Task.init
+            {
+                let data = try await self.db.collection("users").document(self.uuid!).getDocument().data()
+                vc.github = data!["github"] as? String
+                vc.kakao = data!["kakao"] as? String
+                vc.insta = data!["insta"] as? String
+                dispatchGroup.leave()
+            }
         }
         else
         {
+            dispatchGroup.enter()
             let cell = tableView.cellForRow(at: indexPath) as! FriendProfileTableViewCell
             vc.profileImg = cell.friendProfileImageView.image
             if let bg = cell.myBackgroundImage
@@ -113,11 +123,21 @@ extension FriendsViewController: UITableViewDelegate
             vc.name = cell.friendName.text ?? "홍길동"
             vc.status = cell.friendStatusMsg.text ?? "Hello World!"
             vc.id = cell.userID!
-            vc.isEditable = false
+            Task.init
+            {
+                let data = try await self.db.collection("users").document(self.friendsArray[indexPath.row]).getDocument().data()
+                vc.github = data!["github"] as? String
+                vc.kakao = data!["kakao"] as? String
+                vc.insta = data!["insta"] as? String
+                dispatchGroup.leave()
+            }
         }
-        self.present(vc, animated: true, completion: { [weak self] in
-            self?.presentTransition = nil
-        })
+        dispatchGroup.notify(queue: .main)
+        {
+            self.present(vc, animated: true, completion: { [weak self] in
+                self?.presentTransition = nil
+            })
+        }
     }
 }
 

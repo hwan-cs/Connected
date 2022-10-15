@@ -622,7 +622,7 @@ extension ChatViewController: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
-        cell.setTemplateWithSubviews(!K.didInit)
+//        cell.setTemplateWithSubviews(!K.didInit)
         if K.didInit
         {
             return
