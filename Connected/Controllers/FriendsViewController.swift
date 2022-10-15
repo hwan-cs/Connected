@@ -100,6 +100,7 @@ extension FriendsViewController: UITableViewDelegate
             vc.name = cell.myProfileName.text ?? "홍길동"
             vc.status = cell.myProfileStatus.text ?? "Hello World!"
             vc.id = cell.userID!
+            vc.isEditable = true
         }
         else
         {
@@ -112,6 +113,7 @@ extension FriendsViewController: UITableViewDelegate
             vc.name = cell.friendName.text ?? "홍길동"
             vc.status = cell.friendStatusMsg.text ?? "Hello World!"
             vc.id = cell.userID!
+            vc.isEditable = false
         }
         self.present(vc, animated: true, completion: { [weak self] in
             self?.presentTransition = nil

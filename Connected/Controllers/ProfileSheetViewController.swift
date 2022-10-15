@@ -36,6 +36,8 @@ class ProfileSheetViewController: UIViewController
     
     @IBOutlet var editButton: UIButton!
     
+    var isEditable : Bool?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -45,8 +47,11 @@ class ProfileSheetViewController: UIViewController
         self.profileBackgroundImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         self.profileBackgroundImage.layer.borderColor = UIColor.lightGray.cgColor
         self.profileBackgroundImage.layer.borderWidth = 0.5
-//        self.containerView.sendSubviewToBack(self.profileImage)
         self.contentView.bringSubviewToFront(self.editButton)
+        if !self.isEditable!
+        {
+            self.editButton.removeFromSuperview()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -61,5 +66,10 @@ class ProfileSheetViewController: UIViewController
             self.statusMessage.text = self.status!
             self.idLabel.text = self.id!
         }
+    }
+    
+    @objc func didTapEditButton()
+    {
+        
     }
 }
