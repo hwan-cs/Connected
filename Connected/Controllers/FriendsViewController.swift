@@ -102,6 +102,7 @@ extension FriendsViewController: UITableViewDelegate
             vc.name = cell.myProfileName.text ?? "홍길동"
             vc.status = cell.myProfileStatus.text ?? "Hello World!"
             vc.id = cell.userID!
+            vc.isEditable = true
             Task.init
             {
                 let data = try await self.db.collection("users").document(self.uuid!).getDocument().data()
@@ -123,6 +124,7 @@ extension FriendsViewController: UITableViewDelegate
             vc.name = cell.friendName.text ?? "홍길동"
             vc.status = cell.friendStatusMsg.text ?? "Hello World!"
             vc.id = cell.userID!
+            vc.isEditable = false
             Task.init
             {
                 let data = try await self.db.collection("users").document(self.friendsArray[indexPath.row]).getDocument().data()

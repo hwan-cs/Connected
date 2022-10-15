@@ -30,6 +30,8 @@ class ProfileSheetViewController: UIViewController
     
     var id: String?
     
+    var isEditable: Bool?
+    
     @IBOutlet var editButton: UIButton!
     
     var editState = false
@@ -91,6 +93,11 @@ class ProfileSheetViewController: UIViewController
         self.toggleEdit(self.editState)
         
         self.contentView.bringSubviewToFront(self.editButton)
+        
+        if !self.isEditable!
+        {
+            self.editButton.removeFromSuperview()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool)
