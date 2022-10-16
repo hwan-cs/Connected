@@ -1,0 +1,15 @@
+version: "Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)"
+options: "dc9f1b5f31776831408f7d67db96c9ca23bd4000ffc5a453233f7dc8d3ba75ab"
+build_start_time: [1665929668, 362515926]
+build_end_time: [1665929675, 872771024]
+inputs:
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/CGRectExtension 2.swift": !private [1664279906, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/CGRectExtension.swift": !private [1665399324, 878279685]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/CustomTransitionViewController 2.swift": !private [1664279906, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/CustomTransitionViewController.swift": !private [1665399324, 876343727]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/FadeTransition 2.swift": !private [1664279906, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/FadeTransition.swift": !private [1665399324, 877848625]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/SpinerLayer 2.swift": !private [1664279906, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/SpinerLayer.swift": !private [1665399324, 876888513]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/TransitionButton 3.swift": !private [1664279906, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/TransitionButton/Source/TransitionButton.swift": !private [1665399324, 877412557]

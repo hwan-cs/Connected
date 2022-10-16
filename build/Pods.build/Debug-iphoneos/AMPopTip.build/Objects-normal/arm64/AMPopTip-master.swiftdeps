@@ -1,0 +1,10 @@
+version: "Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)"
+options: "866ccef4659d2c26ccf94855d263520bad34e9bb5442cbd2ce16f36fd7138ce8"
+build_start_time: [1665929668, 793184995]
+build_end_time: [1665929668, 882752895]
+inputs:
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/AMPopTip/Source/PopTip 2.swift": !private [1664279905, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/AMPopTip/Source/PopTip+Draw 2.swift": !private [1664279905, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/AMPopTip/Source/PopTip+Draw.swift": !private [1665399322, 330588340]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/AMPopTip/Source/PopTip+Transitions.swift": !private [1665399322, 331117153]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/AMPopTip/Source/PopTip.swift": !private [1665399322, 329945564]

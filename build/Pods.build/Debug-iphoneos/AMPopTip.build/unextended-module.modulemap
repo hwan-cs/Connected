@@ -1,0 +1,10 @@
+framework module AMPopTip {
+  umbrella header "AMPopTip-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module AMPopTip.__Swift {
+  exclude header "AMPopTip-Swift.h"
+}

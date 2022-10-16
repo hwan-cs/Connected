@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)"
+options: "0d0483881b33a345a1975b19eb55b8ae4635c7d34cac953dbb23fafdaa20f652"
+build_start_time: [1665929668, 259831905]
+build_end_time: [1665929668, 498827934]
+inputs:
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/LoadingShimmer/LoadingShimmer/Classes/LoadingShimmer 2.swift": !private [1664724352, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/LoadingShimmer/LoadingShimmer/Classes/LoadingShimmer.swift": !private [1665399324, 704683542]

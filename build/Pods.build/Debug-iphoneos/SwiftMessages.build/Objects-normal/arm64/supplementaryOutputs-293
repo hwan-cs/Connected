@@ -1,0 +1,40 @@
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/MaskingView 2.swift":
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MaskingView 2.swiftdeps"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MaskingView 2.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MaskingView 2.d"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MaskingView 2.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/MarginAdjustable.swift":
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable.dia"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable.swiftdeps"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable.d"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable.o"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/MarginAdjustable 2.swift":
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable 2.swiftdeps"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable 2.o"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable 2.dia"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable 2.d"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/MarginAdjustable+Extensions.swift":
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable+Extensions.o"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable+Extensions.dia"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable+Extensions.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable+Extensions.swiftdeps"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/MarginAdjustable+Extensions 2.swift":
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable+Extensions 2.o"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable+Extensions 2.swiftdeps"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable+Extensions 2.d"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MarginAdjustable+Extensions 2.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/KeyboardTrackingView.swift":
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/KeyboardTrackingView.swiftdeps"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/KeyboardTrackingView.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/KeyboardTrackingView.d"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/KeyboardTrackingView.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/KeyboardTrackingView 3.swift":
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/KeyboardTrackingView 3.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/KeyboardTrackingView 3.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/KeyboardTrackingView 3.swiftdeps"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/KeyboardTrackingView 3.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/MaskingView.swift":
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MaskingView.dia"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MaskingView.d"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MaskingView.o"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/MaskingView.swiftdeps"

@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)"
+options: "3f267953d5a1ece4258a98915c5dfabdfbfe2953260c0e0a5723d05a6ac6fb38"
+build_start_time: [1665929668, 640244007]
+build_end_time: [1665929668, 713302135]
+inputs:
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/GrowingTextView/Sources/GrowingTextView/GrowingTextView 3.swift": !private [1664279906, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/GrowingTextView/Sources/GrowingTextView/GrowingTextView.swift": !private [1665399324, 653485059]

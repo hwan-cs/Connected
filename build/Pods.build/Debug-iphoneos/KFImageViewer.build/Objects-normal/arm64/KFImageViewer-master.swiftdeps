@@ -1,0 +1,15 @@
+version: "Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)"
+options: "013ba6b4c38da0c40d2476d8a4461ca62acccffe833ec47ffbdb921da2cd064e"
+build_start_time: [1665929668, 362591028]
+build_end_time: [1665929668, 588407039]
+inputs:
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/ActivityIndicator.swift": !private [1665929589, 47185182]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/FullScreenSlideshowViewController.swift": !private [1665929589, 48151493]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/ImageSlideshowItem.swift": !private [1665929589, 46804666]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/InputSource.swift": !private [1665929589, 48745632]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/KFImageViewer.swift": !private [1665929589, 49683809]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/PageIndicator.swift": !private [1665929589, 49206733]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/PageIndicatorPosition.swift": !private [1665929589, 47725200]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/UIImage+AspectFit.swift": !private [1665929589, 44853210]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/UIImageView+Tools.swift": !private [1665929589, 46397924]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/KFImageViewer/Core/ZoomAnimatedTransitioning.swift": !private [1665929589, 50135612]

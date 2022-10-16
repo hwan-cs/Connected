@@ -1,0 +1,10 @@
+framework module VBRRollingPit {
+  umbrella header "VBRRollingPit-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module VBRRollingPit.__Swift {
+  exclude header "VBRRollingPit-Swift.h"
+}

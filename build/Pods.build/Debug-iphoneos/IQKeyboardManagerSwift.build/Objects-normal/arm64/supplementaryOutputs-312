@@ -1,0 +1,30 @@
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQToolbar/IQTitleBarButtonItem.swift":
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTitleBarButtonItem.swiftdeps"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTitleBarButtonItem.d"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTitleBarButtonItem.o"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTitleBarButtonItem.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQTextView/IQTextView 2.swift":
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTextView 2.swiftdeps"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTextView 2.o"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTextView 2.dia"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTextView 2.d"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQToolbar/IQToolbar.swift":
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQToolbar.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQToolbar.swiftdeps"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQToolbar.dia"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQToolbar.o"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQTextView/IQTextView.swift":
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTextView.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTextView.d"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTextView.dia"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTextView.swiftdeps"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQToolbar/IQToolbar 2.swift":
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQToolbar 2.dia"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQToolbar 2.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQToolbar 2.swiftdeps"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQToolbar 2.o"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQToolbar/IQTitleBarButtonItem 2.swift":
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTitleBarButtonItem 2.dia"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTitleBarButtonItem 2.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTitleBarButtonItem 2.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQTitleBarButtonItem 2.swiftdeps"

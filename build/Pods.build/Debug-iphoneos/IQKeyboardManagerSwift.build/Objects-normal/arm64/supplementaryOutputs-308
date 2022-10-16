@@ -1,0 +1,30 @@
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQKeyboardManager+Internal 2.swift":
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Internal 2.d"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Internal 2.o"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Internal 2.dia"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Internal 2.swiftdeps"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQKeyboardManager+OrientationNotification.swift":
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+OrientationNotification.d"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+OrientationNotification.o"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+OrientationNotification.dia"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+OrientationNotification.swiftdeps"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQKeyboardManager+OrientationNotification 2.swift":
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+OrientationNotification 2.d"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+OrientationNotification 2.o"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+OrientationNotification 2.dia"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+OrientationNotification 2.swiftdeps"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQKeyboardManager+Internal.swift":
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Internal.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Internal.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Internal.swiftdeps"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Internal.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQKeyboardManager+Debug 2.swift":
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Debug 2.dia"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Debug 2.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Debug 2.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Debug 2.swiftdeps"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/IQKeyboardManagerSwift/IQKeyboardManagerSwift/IQKeyboardManager+Debug.swift":
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Debug.swiftdeps"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Debug.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Debug.d"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/IQKeyboardManagerSwift.build/Objects-normal/arm64/IQKeyboardManager+Debug.dia"

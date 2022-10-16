@@ -1,0 +1,40 @@
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/Animator 2.swift":
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/Animator 2.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/Animator 2.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/Animator 2.swiftdeps"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/Animator 2.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/BackgroundViewable.swift":
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BackgroundViewable.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BackgroundViewable.swiftdeps"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BackgroundViewable.dia"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BackgroundViewable.o"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/BaseView.swift":
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BaseView.swiftdeps"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BaseView.dia"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BaseView.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BaseView.d"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/Animator.swift":
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/Animator.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/Animator.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/Animator.swiftdeps"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/Animator.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/AccessibleMessage 2.swift":
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/AccessibleMessage 2.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/AccessibleMessage 2.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/AccessibleMessage 2.swiftdeps"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/AccessibleMessage 2.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/BaseView 3.swift":
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BaseView 3.swiftdeps"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BaseView 3.d"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BaseView 3.o"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BaseView 3.dia"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/AccessibleMessage.swift":
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/AccessibleMessage.dia"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/AccessibleMessage.o"
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/AccessibleMessage.d"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/AccessibleMessage.swiftdeps"
+"/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/SwiftMessages/SwiftMessages/BackgroundViewable 2.swift":
+  dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BackgroundViewable 2.d"
+  object: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BackgroundViewable 2.o"
+  swift-dependencies: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BackgroundViewable 2.swiftdeps"
+  diagnostics: "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/SwiftMessages.build/Objects-normal/arm64/BackgroundViewable 2.dia"

@@ -1,0 +1,10 @@
+framework module TransitionButton {
+  umbrella header "TransitionButton-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module TransitionButton.__Swift {
+  exclude header "TransitionButton-Swift.h"
+}

@@ -1,0 +1,11 @@
+framework module KFImageViewer {
+  umbrella header "KFImageViewer-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module KFImageViewer.Swift {
+  header "KFImageViewer-Swift.h"
+  requires objc
+}

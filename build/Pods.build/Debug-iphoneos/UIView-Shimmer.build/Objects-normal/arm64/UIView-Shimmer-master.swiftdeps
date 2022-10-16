@@ -1,0 +1,22 @@
+version: "Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)"
+options: "275d81044374a7298bdf40901c618588d6f6d1ca4209611fcc7416c63a3b49fa"
+build_start_time: [1665929668, 362524986]
+build_end_time: [1665929674, 235986948]
+inputs:
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/Models/Constants 2.swift": !private [1665398661, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/Models/Constants.swift": !private [1665399324, 890366554]
+  ? "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/Models/ShimmeringViewProtocol 2.swift"
+  : !private [1665398661, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/Models/ShimmeringViewProtocol.swift": !private [1665399324, 890795230]
+  ? "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/UIView+Extensions/UIView+Extensions 2.swift"
+  : !private [1665398661, 0]
+  ? "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/UIView+Extensions/UIView+Extensions.swift"
+  : !private [1665399324, 891941547]
+  ? "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/UIView+Extensions/UIView+Shimmer 2.swift"
+  : !private [1665398661, 0]
+  ? "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/UIView+Extensions/UIView+Shimmer.swift"
+  : !private [1665399324, 892397642]
+  ? "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/UIView+Extensions/UIView+Template 2.swift"
+  : !private [1665398661, 0]
+  ? "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/UIView-Shimmer/Sources/UIView-Shimmer/UIView+Extensions/UIView+Template.swift"
+  : !private [1665399324, 892858505]

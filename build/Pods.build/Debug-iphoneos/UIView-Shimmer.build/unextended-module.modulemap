@@ -1,0 +1,10 @@
+framework module UIView_Shimmer {
+  umbrella header "UIView-Shimmer-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module UIView_Shimmer.__Swift {
+  exclude header "UIView_Shimmer-Swift.h"
+}

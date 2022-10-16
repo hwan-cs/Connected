@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)"
+options: "04c5052dbdca88d904ce65f78405b600374bcc23b70f6d680a50d01b8983182f"
+build_start_time: [1665929668, 259831905]
+build_end_time: [1665929672, 399274826]
+inputs:
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/VBRRollingPit/VBRRollingPit/VBRRollingPit/RollingPitTabBar 3.swift": !private [1665124729, 0]
+  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/VBRRollingPit/VBRRollingPit/VBRRollingPit/RollingPitTabBar.swift": !private [1665408974, 117211818]

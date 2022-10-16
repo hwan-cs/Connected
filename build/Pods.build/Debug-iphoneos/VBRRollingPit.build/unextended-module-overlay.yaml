@@ -1,0 +1,14 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Debug-iphoneos/VBRRollingPit/VBRRollingPit.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/19juhpark/Desktop/SwiftProjects/Connected/build/Pods.build/Debug-iphoneos/VBRRollingPit.build/unextended-module.modulemap",
+    }]
+  }]
+}
