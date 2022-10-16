@@ -64,25 +64,35 @@ class ProfileSheetViewController: UIViewController
         self.profileBackgroundImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         self.profileBackgroundImage.layer.borderColor = UIColor.lightGray.cgColor
         self.profileBackgroundImage.layer.borderWidth = 0.5
+        self.changeNameTextView.delegate = self
+        self.changeStatusMsgTextView.delegate = self
+        self.changeGithubTextView.delegate = self
+        self.changeKakaoTextView.delegate = self
+        self.changeInstaTextView.delegate = self
         
         self.changeNameTextView.textContainer.maximumNumberOfLines = 1
         self.changeNameTextView.textContainerInset = .zero
         self.changeNameTextView.isScrollEnabled = false
+        self.changeNameTextView.sizeToFit()
         self.changeStatusMsgTextView.textContainer.maximumNumberOfLines = 1
         self.changeStatusMsgTextView.textContainerInset = .zero
         self.changeStatusMsgTextView.isScrollEnabled = false
+        self.changeStatusMsgTextView.sizeToFit()
         self.changeGithubTextView.textContainer.maximumNumberOfLines = 1
         self.changeGithubTextView.textContainerInset = .zero
-        self.changeGithubTextView.textContainer.lineFragmentPadding = 0
+        self.changeGithubTextView.textContainer.lineFragmentPadding = 2
         self.changeGithubTextView.isScrollEnabled = false
+        self.changeGithubTextView.sizeToFit()
         self.changeKakaoTextView.textContainer.maximumNumberOfLines = 1
         self.changeKakaoTextView.textContainerInset = .zero
-        self.changeKakaoTextView.textContainer.lineFragmentPadding = 0
+        self.changeKakaoTextView.textContainer.lineFragmentPadding = 2
         self.changeKakaoTextView.isScrollEnabled = false
+        self.changeKakaoTextView.sizeToFit()
         self.changeInstaTextView.textContainer.maximumNumberOfLines = 1
         self.changeInstaTextView.textContainerInset = .zero
-        self.changeInstaTextView.textContainer.lineFragmentPadding = 0
+        self.changeInstaTextView.textContainer.lineFragmentPadding = 2
         self.changeInstaTextView.isScrollEnabled = false
+        self.changeInstaTextView.sizeToFit()
         
         self.changeNameTextView.text = self.name!
         self.changeStatusMsgTextView.text = self.status!
@@ -135,13 +145,42 @@ class ProfileSheetViewController: UIViewController
         self.changeKakaoTextView.isEditable = flag
         self.changeInstaTextView.isEditable = flag
         
-        self.changeNameTextView.backgroundColor = flag ? .lightGray : .clear
-        self.changeStatusMsgTextView.backgroundColor = flag ? .lightGray : .clear
-        self.changeGithubTextView.backgroundColor = flag ? .lightGray : .clear
-        self.changeKakaoTextView.backgroundColor = flag ? .lightGray : .clear
-        self.changeInstaTextView.backgroundColor = flag ? .lightGray : .clear
+        self.changeNameTextView.backgroundColor = flag ? .lightGray.withAlphaComponent(0.3) : .clear
+        self.changeStatusMsgTextView.backgroundColor = flag ? .lightGray.withAlphaComponent(0.4) : .clear
+        self.changeGithubTextView.backgroundColor = flag ? .lightGray.withAlphaComponent(0.5) : .clear
+        self.changeKakaoTextView.backgroundColor = flag ? .lightGray.withAlphaComponent(0.6) : .clear
+        self.changeInstaTextView.backgroundColor = flag ? .lightGray.withAlphaComponent(0.7) : .clear
         
         self.containerView.layoutSubviews()
         self.containerView.layoutIfNeeded()
+    }
+}
+
+extension ProfileSheetViewController: UITextViewDelegate
+{
+    func textViewDidChange(_ textView: UITextView)
+    {
+        if let myConstraint = textView.constraintWith(identifier: "widthConstraint")
+        {
+            let fixedHeight = textView.frame.size.height
+            let width = textView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: fixedHeight)).width
+            myConstraint.constant = textView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: fixedHeight)).width
+        }
+        textView.updateConstraints()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+    {
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        return newText.count <= 30
+    }
+}
+
+
+extension UITextView
+{
+    func constraintWith(identifier: String) -> NSLayoutConstraint?
+    {
+        return self.constraints.first(where: {$0.identifier == identifier})
     }
 }
