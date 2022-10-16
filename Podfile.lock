@@ -740,6 +740,9 @@ PODS:
   - gRPC-Core/Interface (1.44.0)
   - GTMSessionFetcher/Core (2.1.0)
   - IQKeyboardManagerSwift (6.5.10)
+  - KFImageViewer (1.0.0):
+    - KFImageViewer/Core (= 1.0.0)
+  - KFImageViewer/Core (1.0.0)
   - leveldb-library (1.22.1)
   - Libuv-gRPC (0.0.10):
     - Libuv-gRPC/Implementation (= 0.0.10)
@@ -784,6 +787,7 @@ DEPENDENCIES:
   - GooglePlaces
   - GrowingTextView (= 0.7.2)
   - IQKeyboardManagerSwift
+  - KFImageViewer (~> 1.0.0)
   - LoadingShimmer
   - PromiseKit (~> 6.8)
   - STPopup
@@ -821,6 +825,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - KFImageViewer
     - leveldb-library
     - Libuv-gRPC
     - LoadingShimmer
@@ -861,6 +866,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   GTMSessionFetcher: ffbb25ec00ebcb5201adab0a56d808f6f1902d9f
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
+  KFImageViewer: aef0b2b7d14087a9c972a5cfe6f8d4cd371cac37
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   LoadingShimmer: dd681218498ec9648f572b845a7299b9c62e8e30
@@ -874,6 +880,6 @@ SPEC CHECKSUMS:
   UIView-Shimmer: ff0a32c73d67c7dbdea3d9e530538b10d18aea56
   VBRRollingPit: 62a79cc663aeea6a196878b3a907056617f96b6a
 
-PODFILE CHECKSUM: e7b97691481dc3dacc776a17a7b02771ac57b1cf
+PODFILE CHECKSUM: 92b6c4d5035e640c564095b973ecf4e76eb76a8b
 
 COCOAPODS: 1.11.3

@@ -54,6 +54,10 @@ class ProfileSheetViewController: UIViewController
     
     var insta: String?
     
+    @IBOutlet var stackView: UIStackView!
+    
+    @IBOutlet var changeProfilePhotoButton: UIButton!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -127,7 +131,6 @@ class ProfileSheetViewController: UIViewController
     
     @IBAction func didTapEditButton(_ sender: UIButton)
     {
-        print("tapped")
         self.editState.toggle()
         print(self.editState)
         sender.tintColor = self.editState ? .tintColor : .blue
@@ -138,6 +141,8 @@ class ProfileSheetViewController: UIViewController
     {
         self.changeBackgroundPhotoButton.isHidden = !flag
         self.changeBackgroundPhotoButton.isUserInteractionEnabled = flag
+        self.changeProfilePhotoButton.isHidden = !flag
+        self.changeProfilePhotoButton.isUserInteractionEnabled = flag
         
         self.changeNameTextView.isEditable = flag
         self.changeStatusMsgTextView.isEditable = flag
@@ -150,6 +155,13 @@ class ProfileSheetViewController: UIViewController
         self.changeGithubTextView.backgroundColor = flag ? .lightGray.withAlphaComponent(0.5) : .clear
         self.changeKakaoTextView.backgroundColor = flag ? .lightGray.withAlphaComponent(0.6) : .clear
         self.changeInstaTextView.backgroundColor = flag ? .lightGray.withAlphaComponent(0.7) : .clear
+        
+        if flag
+        {
+            let saveButton = UIButton()
+            saveButton.setTitle("저장하기", for: .normal)
+            self.stackView.addSubview(saveButton)
+        }
         
         self.containerView.layoutSubviews()
         self.containerView.layoutIfNeeded()

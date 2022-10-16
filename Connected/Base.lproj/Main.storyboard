@@ -782,6 +782,13 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p1j-sD-pdr">
                                         <rect key="frame" x="0.0" y="240" width="414" height="432"/>
                                         <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Friend_Active" translatesAutoresizingMaskIntoConstraints="NO" id="hzM-mS-72F">
+                                                <rect key="frame" x="167" y="-22.5" width="80" height="80"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="80" id="4jP-9b-6B5"/>
+                                                    <constraint firstAttribute="width" constant="80" id="do2-OB-kxV"/>
+                                                </constraints>
+                                            </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZxM-qq-wBo">
                                                 <rect key="frame" x="233" y="43.5" width="28" height="28"/>
                                                 <constraints>
@@ -794,13 +801,24 @@
                                                     <action selector="didTapEditButton:" destination="9qE-iH-tlG" eventType="touchUpInside" id="Vec-7t-pw7"/>
                                                 </connections>
                                             </button>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Friend_Active" translatesAutoresizingMaskIntoConstraints="NO" id="hzM-mS-72F">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fxa-aF-l1y">
                                                 <rect key="frame" x="167" y="-22.5" width="80" height="80"/>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="80" id="4jP-9b-6B5"/>
-                                                    <constraint firstAttribute="width" constant="80" id="do2-OB-kxV"/>
+                                                    <constraint firstAttribute="height" constant="80" id="Gvx-ol-5vz"/>
+                                                    <constraint firstAttribute="width" constant="80" id="LIm-jy-U7l"/>
                                                 </constraints>
-                                            </imageView>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="pencil.circle" catalog="system"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.opacity">
+                                                        <real key="value" value="0.29999999999999999"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="16"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="BIq-GX-lw8">
                                                 <rect key="frame" x="157" y="73.5" width="100" height="26.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1018,13 +1036,17 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
+                                            <constraint firstItem="Fxa-aF-l1y" firstAttribute="leading" secondItem="hzM-mS-72F" secondAttribute="leading" id="2kQ-iY-2cQ"/>
                                             <constraint firstItem="glz-Cw-tYx" firstAttribute="leading" secondItem="p1j-sD-pdr" secondAttribute="leading" constant="20" id="603-az-AfJ"/>
                                             <constraint firstItem="JBW-Sf-5be" firstAttribute="top" secondItem="BIq-GX-lw8" secondAttribute="bottom" constant="8" id="AQh-3k-hMg"/>
                                             <constraint firstItem="akr-WA-Noz" firstAttribute="top" secondItem="JBW-Sf-5be" secondAttribute="bottom" constant="12" id="G5q-nF-2ZO"/>
                                             <constraint firstItem="ZxM-qq-wBo" firstAttribute="trailing" secondItem="hzM-mS-72F" secondAttribute="trailing" constant="14" id="OQC-4h-2uO"/>
                                             <constraint firstAttribute="trailing" secondItem="glz-Cw-tYx" secondAttribute="trailing" constant="20" id="Pe1-va-6eE"/>
+                                            <constraint firstItem="Fxa-aF-l1y" firstAttribute="trailing" secondItem="hzM-mS-72F" secondAttribute="trailing" id="Qfh-A0-yeA"/>
                                             <constraint firstItem="hzM-mS-72F" firstAttribute="centerX" secondItem="p1j-sD-pdr" secondAttribute="centerX" id="WiS-8j-QXg"/>
+                                            <constraint firstItem="Fxa-aF-l1y" firstAttribute="bottom" secondItem="ZxM-qq-wBo" secondAttribute="bottom" constant="-14" id="XcH-ds-0LB"/>
                                             <constraint firstAttribute="trailing" secondItem="akr-WA-Noz" secondAttribute="trailing" id="YCw-72-Ywu"/>
+                                            <constraint firstItem="Fxa-aF-l1y" firstAttribute="centerX" secondItem="p1j-sD-pdr" secondAttribute="centerX" id="YDu-of-eTf"/>
                                             <constraint firstItem="BIq-GX-lw8" firstAttribute="centerX" secondItem="p1j-sD-pdr" secondAttribute="centerX" id="ZjD-6h-JJn"/>
                                             <constraint firstItem="akr-WA-Noz" firstAttribute="leading" secondItem="p1j-sD-pdr" secondAttribute="leading" id="bpN-vk-EOm"/>
                                             <constraint firstItem="ZxM-qq-wBo" firstAttribute="bottom" secondItem="hzM-mS-72F" secondAttribute="bottom" constant="14" id="bxU-e3-CoV"/>
@@ -1069,6 +1091,7 @@
                         <outlet property="changeInstaTextView" destination="O2a-Bj-uZX" id="H7T-j6-3j6"/>
                         <outlet property="changeKakaoTextView" destination="NA7-Mp-i6M" id="pmf-8U-GL9"/>
                         <outlet property="changeNameTextView" destination="BIq-GX-lw8" id="uKn-0F-8Cj"/>
+                        <outlet property="changeProfilePhotoButton" destination="Fxa-aF-l1y" id="Kw5-ar-LXd"/>
                         <outlet property="changeStatusMsgTextView" destination="JBW-Sf-5be" id="Qdv-it-okg"/>
                         <outlet property="containerView" destination="QA2-Et-pqB" id="Lwl-6M-s0D"/>
                         <outlet property="contentView" destination="p1j-sD-pdr" id="yOE-uX-XSO"/>
@@ -1076,6 +1099,7 @@
                         <outlet property="idLabel" destination="akr-WA-Noz" id="nEb-8m-jvm"/>
                         <outlet property="profileBackgroundImage" destination="SdH-Qh-7cq" id="qhm-N0-vq8"/>
                         <outlet property="profileImage" destination="hzM-mS-72F" id="MMe-Zn-yzA"/>
+                        <outlet property="stackView" destination="glz-Cw-tYx" id="GmD-An-L4D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BC1-lD-5NQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

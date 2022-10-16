@@ -26,5 +26,6 @@ target 'Connected' do
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'UIView-Shimmer', '~> 1.0'
+  pod 'KFImageViewer', '~> 1.0.0'
 
 end
