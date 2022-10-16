@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import KFImageViewer
 
 class ProfileSheetViewController: UIViewController
 {
@@ -58,11 +59,22 @@ class ProfileSheetViewController: UIViewController
     
     @IBOutlet var changeProfilePhotoButton: UIButton!
     
+    @IBOutlet var editView: UIView!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         self.hideKeyboard()
         self.profileImage.layer.cornerRadius = 16.0
+        
+        self.profileBackgroundImage.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.didTapProfileBackgroundPhoto))
+        self.profileBackgroundImage.addGestureRecognizer(tap)
+        
+        self.profileImage.isUserInteractionEnabled = true
+        let tapPf = UITapGestureRecognizer(target: self, action: #selector(self.didTapProfilePhoto))
+        self.profileImage.addGestureRecognizer(tapPf)
+        
         self.profileBackgroundImage.layer.masksToBounds = true
         self.profileBackgroundImage.layer.cornerRadius = 16.0
         self.profileBackgroundImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -105,13 +117,32 @@ class ProfileSheetViewController: UIViewController
         self.changeInstaTextView.text = self.insta!
         
         self.toggleEdit(self.editState)
-        
-        self.contentView.bringSubviewToFront(self.editButton)
-        
         if !self.isEditable!
         {
-            self.editButton.removeFromSuperview()
+            self.editView.removeFromSuperview()
         }
+    
+    }
+    
+    @objc func didTapProfileBackgroundPhoto()
+    {
+        let imageViewer = FullScreenSlideshowViewController()
+        var ims : [ImageSource] = []
+        ims.append(ImageSource(image: self.profileBackgroundImage.image!))
+        imageViewer.inputs = ims
+        imageViewer.slideshow.activityIndicator = DefaultActivityIndicator(style: UIActivityIndicatorView.Style.medium, color: nil)
+        UIApplication.topViewController()?.present(imageViewer, animated: true)
+    }
+    
+    @objc func didTapProfilePhoto()
+    {
+        print("tapped profile pic")
+        let imageViewer = FullScreenSlideshowViewController()
+        var ims : [ImageSource] = []
+        ims.append(ImageSource(image: self.profileImage.image!))
+        imageViewer.inputs = ims
+        imageViewer.slideshow.activityIndicator = DefaultActivityIndicator(style: UIActivityIndicatorView.Style.medium, color: nil)
+        UIApplication.topViewController()?.present(imageViewer, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -140,6 +171,8 @@ class ProfileSheetViewController: UIViewController
     func toggleEdit(_ flag: Bool)
     {
         self.changeBackgroundPhotoButton.isHidden = !flag
+        self.profileBackgroundImage.isUserInteractionEnabled = !flag
+        self.profileImage.isUserInteractionEnabled = !flag
         self.changeBackgroundPhotoButton.isUserInteractionEnabled = flag
         self.changeProfilePhotoButton.isHidden = !flag
         self.changeProfilePhotoButton.isUserInteractionEnabled = flag

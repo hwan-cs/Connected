@@ -10,7 +10,6 @@
 #endif
 #endif
 
-#import "FFPopup 3.h"
 #import "FFPopup.h"
 
 FOUNDATION_EXPORT double FFPopupVersionNumber;

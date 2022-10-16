@@ -152,8 +152,8 @@ open class ImageSlideshowItem: UIScrollView, UIScrollViewDelegate {
             imageReleased = false
             activityIndicator?.show()
             self.progressView.isHidden = false
-            image.loadWithProgress!(to: self.imageView, with: {[weak self] image in
-                // set image to nil if there was a release request during the image load
+            image.load(to: self.imageView)
+            { [weak self] image in
                 if let imageRelease = self?.imageReleased, imageRelease {
                     self?.imageView.image = nil
                 }else{
@@ -161,11 +161,19 @@ open class ImageSlideshowItem: UIScrollView, UIScrollViewDelegate {
                 }
                 self?.progressView.isHidden = true
                 self?.activityIndicator?.hide()
-                self?.loadFailed = image == nil
-                self?.isLoading = false
-            }) { (progress) in
-                self.progressView.progress = Float(progress)
             }
+//            image.loadWithProgress!(to: self.imageView, with: {[weak self] image in
+//                // set image to nil if there was a release request during the image load
+//                if let imageRelease = self?.imageReleased, imageRelease {
+//                    self?.imageView.image = nil
+//                }else{
+//                    self?.imageView.image = image
+//                }
+//                self?.loadFailed = image == nil
+//                self?.isLoading = false
+//            }) { (progress) in
+//                self.progressView.progress = Float(progress)
+//            }
         }
     }
     

@@ -10,7 +10,6 @@
 #endif
 #endif
 
-#import "UIView_Shimmer 2.h"
 #import "UIView_Shimmer.h"
 
 FOUNDATION_EXPORT double UIView_ShimmerVersionNumber;
