@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 import KFImageViewer
+import FirebaseStorage
+import FirebaseAuth
+import FirebaseFirestore
 
 class ProfileSheetViewController: UIViewController
 {
@@ -60,6 +63,14 @@ class ProfileSheetViewController: UIViewController
     @IBOutlet var changeProfilePhotoButton: UIButton!
     
     @IBOutlet var editView: UIView!
+    
+    @IBOutlet var editLabel: UILabel!
+    
+    let storage = Storage.storage()
+    
+    let uuid = Auth.auth().currentUser?.uid
+    
+    let db = Firestore.firestore()
     
     override func viewDidLoad()
     {
@@ -121,7 +132,8 @@ class ProfileSheetViewController: UIViewController
         {
             self.editView.removeFromSuperview()
         }
-    
+        self.editButton.imageView?.contentMode = .scaleAspectFit
+        self.editButton.contentMode = .scaleAspectFit
     }
     
     @objc func didTapProfileBackgroundPhoto()
@@ -165,6 +177,60 @@ class ProfileSheetViewController: UIViewController
         self.editState.toggle()
         print(self.editState)
         sender.tintColor = self.editState ? .tintColor : .blue
+        let imgToDisplay = self.editState ? UIImage(named: "floppy_disk") : UIImage(named: "Edit")
+        sender.imageView?.image = imgToDisplay
+        sender.setImage(imgToDisplay, for: .normal)
+        if self.editLabel.text == "저장하기"
+        {
+            Task.init
+            {
+                let data = try await self.db.collection("users").document(self.uuid!).getDocument().data()
+                if let name = data!["name"] as? String
+                {
+                    if name != self.changeNameTextView.text
+                    {
+                        try await self.db.collection("users").document(self.uuid!).updateData(["name": self.changeNameTextView.text!])
+                    }
+                }
+                if let statusMsg = data!["statusMsg"] as? String
+                {
+                    if statusMsg != self.changeStatusMsgTextView.text
+                    {
+                        try await self.db.collection("users").document(self.uuid!).updateData(["statusMsg": self.changeStatusMsgTextView.text!])
+                    }
+                }
+                if let gh = data!["github"] as? String
+                {
+                    if gh != self.changeGithubTextView.text
+                    {
+                        try await self.db.collection("users").document(self.uuid!).updateData(["github": self.changeGithubTextView.text!])
+                    }
+                }
+                if let kk = data!["kakao"] as? String
+                {
+                    if kk != self.changeKakaoTextView.text
+                    {
+                        try await self.db.collection("users").document(self.uuid!).updateData(["kakao": self.changeKakaoTextView.text!])
+                    }
+                }
+                if let ins = data!["insta"] as? String
+                {
+                    if ins != self.changeInstaTextView.text
+                    {
+                        try await self.db.collection("users").document(self.uuid!).updateData(["insta": self.changeInstaTextView.text!])
+                    }
+                }
+            }
+//            let metadata = StorageMetadata()
+//            metadata.contentType = "txt"
+//            let storageRef = self.storage.reference()
+//            let profileInfoRef = storageRef.child("\(self.uuid!)/ProfileInfo/backgroundImage.txt")
+//            let uploadTask = profileInfoRef.putData(profileInfoRef, metadata: metadata)
+//            { metadata, error in
+//
+//            }
+        }
+        self.editLabel.text = self.editState ? "저장하기" : "수정하기"
         self.toggleEdit(self.editState)
     }
     
@@ -199,6 +265,27 @@ class ProfileSheetViewController: UIViewController
         self.containerView.layoutSubviews()
         self.containerView.layoutIfNeeded()
     }
+    
+    @IBAction func onChangeBackgroundPhotoButtonTap(_ sender: UIButton)
+    {
+        let imagePicker = UIImagePickerController()
+        imagePicker.view.tag = 0
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        UIApplication.topViewController()?.present(imagePicker, animated: true)
+    }
+    
+    
+    @IBAction func onChangeProfilePhotoButtonTap(_ sender: UIButton)
+    {
+        let imagePicker = UIImagePickerController()
+        imagePicker.view.tag = 1
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        UIApplication.topViewController()?.present(imagePicker, animated: true)
+    }
 }
 
 extension ProfileSheetViewController: UITextViewDelegate
@@ -221,6 +308,30 @@ extension ProfileSheetViewController: UITextViewDelegate
     }
 }
 
+extension ProfileSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate
+{
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
+    {
+        if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage
+        {
+            if picker.view.tag == 0
+            {
+                self.profileBackgroundImage.image = image
+            }
+            else
+            {
+                self.profileImage.image = image
+            }
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController)
+    {
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
+
 
 extension UITextView
 {
@@ -229,3 +340,4 @@ extension UITextView
         return self.constraints.first(where: {$0.identifier == identifier})
     }
 }
+

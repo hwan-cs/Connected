@@ -18,7 +18,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -982,7 +982,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="62M-Mh-IO9">
                                                                 <rect key="frame" x="0.0" y="256" width="374" height="64"/>
                                                                 <subviews>
-                                                                    <button opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZxM-qq-wBo">
+                                                                    <button opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZxM-qq-wBo">
                                                                         <rect key="frame" x="0.0" y="12" width="40" height="40"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="0dB-nb-odV"/>
@@ -1047,6 +1047,9 @@
                                             <constraint firstAttribute="trailing" secondItem="12M-pF-Tn9" secondAttribute="trailing" id="xtq-Wd-Kx5"/>
                                         </constraints>
                                     </view>
+                                    <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background_profile" translatesAutoresizingMaskIntoConstraints="NO" id="SdH-Qh-7cq">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="249.5"/>
+                                    </imageView>
                                     <button opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEd-vN-jpl">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="249.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1057,9 +1060,15 @@
                                                 <real key="value" value="0.29999999999999999"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="onChangeBackgroundPhotoButtonTap:" destination="9qE-iH-tlG" eventType="touchUpInside" id="Wfy-cK-lq2"/>
+                                        </connections>
                                     </button>
-                                    <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background_profile" translatesAutoresizingMaskIntoConstraints="NO" id="SdH-Qh-7cq">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="249.5"/>
+                                    <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Friend_Active" translatesAutoresizingMaskIntoConstraints="NO" id="hzM-mS-72F">
+                                        <rect key="frame" x="167" y="199.5" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="do2-OB-kxV"/>
+                                        </constraints>
                                     </imageView>
                                     <button opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fxa-aF-l1y">
                                         <rect key="frame" x="167" y="199.5" width="80" height="80"/>
@@ -1078,13 +1087,10 @@
                                                 <integer key="value" value="16"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="onChangeProfilePhotoButtonTap:" destination="9qE-iH-tlG" eventType="touchUpInside" id="Jec-Mp-fqw"/>
+                                        </connections>
                                     </button>
-                                    <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Friend_Active" translatesAutoresizingMaskIntoConstraints="NO" id="hzM-mS-72F">
-                                        <rect key="frame" x="167" y="199.5" width="80" height="80"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="do2-OB-kxV"/>
-                                        </constraints>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -1132,6 +1138,7 @@
                         <outlet property="containerView" destination="QA2-Et-pqB" id="Lwl-6M-s0D"/>
                         <outlet property="contentView" destination="p1j-sD-pdr" id="yOE-uX-XSO"/>
                         <outlet property="editButton" destination="ZxM-qq-wBo" id="Mtm-jS-gdr"/>
+                        <outlet property="editLabel" destination="Ckw-3J-VWi" id="J1l-j8-mcm"/>
                         <outlet property="editView" destination="62M-Mh-IO9" id="dXA-pl-TkJ"/>
                         <outlet property="idLabel" destination="akr-WA-Noz" id="nEb-8m-jvm"/>
                         <outlet property="profileBackgroundImage" destination="SdH-Qh-7cq" id="qhm-N0-vq8"/>
@@ -1213,6 +1220,9 @@
     <designables>
         <designable name="5YW-x8-RuY">
             <size key="intrinsicContentSize" width="-1" height="83"/>
+        </designable>
+        <designable name="WLJ-AF-fyD">
+            <size key="intrinsicContentSize" width="-1" height="30"/>
         </designable>
         <designable name="nH9-cE-Z4O">
             <size key="intrinsicContentSize" width="63" height="32"/>
