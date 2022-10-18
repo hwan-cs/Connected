@@ -94,7 +94,11 @@ extension FriendsViewController: UITableViewDelegate
         { success in
             if success
             {
-                self.tableView.reloadData()
+                DispatchQueue.main.async
+                {
+                    self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+                    self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
+                }
             }
         }
         let dispatchGroup = DispatchGroup()
@@ -179,11 +183,11 @@ extension FriendsViewController: UITableViewDataSource
                             do
                             {
                                 let result = try self.cacheStorage!.entry(forKey: items.name)
-                                print(result.object)
                                 if items.name.contains("profileImage")
                                 {
                                     DispatchQueue.main.async
                                     {
+                                        print("profile \(result.object)")
                                         myProfileCell.myProfileImage.image = UIImage(data: result.object)
                                         myProfileCell.myProfileImage.contentMode = .scaleAspectFit
                                     }

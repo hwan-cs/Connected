@@ -178,9 +178,11 @@ class ProfileSheetViewController: UIViewController
             if let bg = self.profileBg
             {
                 self.profileBackgroundImage.image = bg
+                self.profileBackgroundImage.contentMode = .scaleAspectFill
             }
             self.changeNameTextView.text = self.name!
             self.profileImage.image = self.profileImg!
+            self.profileImage.contentMode = .scaleAspectFit
             self.changeStatusMsgTextView.text = self.status!
             self.idLabel.text = self.id!
         }
@@ -249,7 +251,7 @@ class ProfileSheetViewController: UIViewController
                     }
                     else
                     {
-                        profileImageRef.getData(maxSize: 3*1024*1024)
+                        profileImageRef.getData(maxSize: 30*1024*1024)
                         { data, error in
                             if let error = error
                             {
@@ -260,7 +262,9 @@ class ProfileSheetViewController: UIViewController
                                 self.cacheStorage?.async.removeObject(forKey: "profileImage.png", completion:
                                 { _ in
                                     print("cached profileimage")
-                                    self.cacheStorage?.async.setObject(data!, forKey: "profileImage.png", completion: {_ in})
+                                    print(data!)
+                                    self.cacheStorage?.async.setObject(data!, forKey: "profileImage.png", completion: {_ in
+                                        self.onDismissBlock!(true)})
                                 })
                             }
                         }
@@ -276,7 +280,7 @@ class ProfileSheetViewController: UIViewController
                     }
                     else
                     {
-                        backgroundImageRef.getData(maxSize: 3*1024*1024)
+                        backgroundImageRef.getData(maxSize: 30*1024*1024)
                         { data, error in
                             if let error = error
                             {
@@ -287,7 +291,8 @@ class ProfileSheetViewController: UIViewController
                                 self.cacheStorage?.async.removeObject(forKey: "backgroundImage.png", completion:
                                 { _ in
                                     print("cached background image")
-                                    self.cacheStorage?.async.setObject(data!, forKey: "backgroundImage.png", completion: {_ in})
+                                    print(data!)
+                                    self.cacheStorage?.async.setObject(data!, forKey: "backgroundImage.png", completion: {_ in self.onDismissBlock!(true) })
                                 })
                             }
                         }
@@ -375,7 +380,7 @@ extension ProfileSheetViewController: UITextViewDelegate
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count <= 20
+        return newText.count <= 20 && text != "\n"
     }
 }
 

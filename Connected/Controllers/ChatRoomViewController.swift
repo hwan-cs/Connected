@@ -151,7 +151,7 @@ extension ChatRoomViewController: UITableViewDataSource
             chatRoomCell.previewLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][0] as! String)
         }
         let storageRef = self.storage.reference()
-        let friendProfileRef = storageRef.child("\(self.friendsArray[0])/ProfileInfo/")
+        let friendProfileRef = storageRef.child("\(self.friendsArray[indexPath.row])/ProfileInfo/")
         friendProfileRef.listAll(completion:
         { (storageListResult, error) in
             if let error = error
