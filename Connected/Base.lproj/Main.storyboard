@@ -763,10 +763,9 @@
                                         <rect key="frame" x="0.0" y="249.5" width="414" height="546"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="BIq-GX-lw8">
-                                                <rect key="frame" x="157" y="42" width="100" height="26.5"/>
+                                                <rect key="frame" x="0.0" y="42" width="414" height="26.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="100" identifier="widthConstraint" id="Zlw-zg-yhT"/>
                                                     <constraint firstAttribute="height" constant="26.5" id="fUm-TK-YAi"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
@@ -778,10 +777,9 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" keyboardDismissMode="interactive" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="JBW-Sf-5be">
-                                                <rect key="frame" x="157" y="76.5" width="100" height="16"/>
+                                                <rect key="frame" x="0.0" y="76.5" width="414" height="16"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="100" identifier="widthConstraint" id="Gbm-Fe-gsf"/>
                                                     <constraint firstAttribute="height" constant="16" id="V60-mc-9dd"/>
                                                 </constraints>
                                                 <color key="textColor" red="0.46666666666666667" green="0.44705882352941173" blue="0.44705882352941173" alpha="1" colorSpace="calibratedRGB"/>
@@ -1040,8 +1038,10 @@
                                             <constraint firstItem="JBW-Sf-5be" firstAttribute="centerX" secondItem="p1j-sD-pdr" secondAttribute="centerX" id="DG7-fm-81W"/>
                                             <constraint firstItem="JBW-Sf-5be" firstAttribute="top" secondItem="BIq-GX-lw8" secondAttribute="bottom" constant="8" symbolic="YES" id="L0K-LX-8E7"/>
                                             <constraint firstItem="akr-WA-Noz" firstAttribute="centerX" secondItem="p1j-sD-pdr" secondAttribute="centerX" id="RI6-5j-d2O"/>
+                                            <constraint firstItem="JBW-Sf-5be" firstAttribute="width" secondItem="p1j-sD-pdr" secondAttribute="width" id="TQZ-0g-Vu0"/>
                                             <constraint firstAttribute="bottom" secondItem="12M-pF-Tn9" secondAttribute="bottom" id="Y7P-Ey-q7T"/>
                                             <constraint firstItem="BIq-GX-lw8" firstAttribute="centerX" secondItem="p1j-sD-pdr" secondAttribute="centerX" id="c9P-eX-glS"/>
+                                            <constraint firstItem="BIq-GX-lw8" firstAttribute="width" secondItem="p1j-sD-pdr" secondAttribute="width" id="fIj-ok-9YK"/>
                                             <constraint firstItem="akr-WA-Noz" firstAttribute="top" secondItem="JBW-Sf-5be" secondAttribute="bottom" constant="12" id="seW-mA-oN1"/>
                                             <constraint firstItem="12M-pF-Tn9" firstAttribute="leading" secondItem="p1j-sD-pdr" secondAttribute="leading" id="tF1-fq-9GK"/>
                                             <constraint firstAttribute="trailing" secondItem="12M-pF-Tn9" secondAttribute="trailing" id="xtq-Wd-Kx5"/>

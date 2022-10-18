@@ -30,19 +30,17 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gV-Z7-95R">
-                        <rect key="frame" x="20" y="22" width="58" height="28"/>
+                        <rect key="frame" x="20" y="22" width="204" height="28"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="28" id="T7g-dA-zHl"/>
-                            <constraint firstAttribute="width" constant="58" id="fcj-S3-Poq"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6k-9c-acX">
-                        <rect key="frame" x="20" y="58" width="200" height="20"/>
+                        <rect key="frame" x="20" y="58" width="204" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="200" id="6ga-WM-AAa"/>
                             <constraint firstAttribute="height" constant="20" id="PEc-kJ-C4d"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -51,9 +49,11 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="ghn-Jr-aoa" firstAttribute="leading" secondItem="8gV-Z7-95R" secondAttribute="trailing" constant="20" id="141-NA-RDl"/>
                     <constraint firstAttribute="trailing" secondItem="ghn-Jr-aoa" secondAttribute="trailing" constant="20" id="6NB-9y-9UH"/>
                     <constraint firstItem="M6k-9c-acX" firstAttribute="top" secondItem="8gV-Z7-95R" secondAttribute="bottom" constant="8" id="MYV-G9-Vp5"/>
                     <constraint firstItem="8gV-Z7-95R" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="22" id="SJS-hw-g4D"/>
+                    <constraint firstItem="ghn-Jr-aoa" firstAttribute="leading" secondItem="M6k-9c-acX" secondAttribute="trailing" constant="20" id="Sk9-k8-qKv"/>
                     <constraint firstItem="8gV-Z7-95R" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="TAc-99-Pbt"/>
                     <constraint firstItem="M6k-9c-acX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="cfP-FD-nxg"/>
                     <constraint firstItem="ghn-Jr-aoa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="q7G-gv-HPC"/>

@@ -74,6 +74,7 @@ class FriendsViewController: UIViewController
         barButtonItem.tintColor = .black
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
         self.navigationController?.navigationBar.backgroundColor = .clear
+        self.tableView.reloadData()
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())
@@ -89,6 +90,13 @@ extension FriendsViewController: UITableViewDelegate
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileSheetViewController") as! ProfileSheetViewController
         vc.modalPresentationStyle = .pageSheet
         vc.transitioningDelegate = self
+        vc.onDismissBlock =
+        { success in
+            if success
+            {
+                self.tableView.reloadData()
+            }
+        }
         let dispatchGroup = DispatchGroup()
         if indexPath.section == 0
         {
@@ -171,6 +179,7 @@ extension FriendsViewController: UITableViewDataSource
                             do
                             {
                                 let result = try self.cacheStorage!.entry(forKey: items.name)
+                                print(result.object)
                                 if items.name.contains("profileImage")
                                 {
                                     DispatchQueue.main.async

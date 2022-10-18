@@ -11,6 +11,7 @@ import KFImageViewer
 import FirebaseStorage
 import FirebaseAuth
 import FirebaseFirestore
+import Cache
 
 class ProfileSheetViewController: UIViewController
 {
@@ -66,11 +67,24 @@ class ProfileSheetViewController: UIViewController
     
     @IBOutlet var editLabel: UILabel!
     
+    var onDismissBlock : ((Bool) -> Void)?
+    
     let storage = Storage.storage()
     
     let uuid = Auth.auth().currentUser?.uid
     
     let db = Firestore.firestore()
+    
+    var didChangePhoto = false
+    
+    let diskConfig = DiskConfig(name: "FriendCache")
+    
+    let memoryConfig = MemoryConfig(expiry: .never, countLimit: 10, totalCostLimit: 10)
+    
+    lazy var cacheStorage: Cache.Storage<String, Data>? =
+    {
+        return try? Cache.Storage(diskConfig: diskConfig, memoryConfig: memoryConfig, transformer: TransformerFactory.forData())
+    }()
     
     override func viewDidLoad()
     {
@@ -221,14 +235,66 @@ class ProfileSheetViewController: UIViewController
                     }
                 }
             }
-//            let metadata = StorageMetadata()
-//            metadata.contentType = "txt"
-//            let storageRef = self.storage.reference()
-//            let profileInfoRef = storageRef.child("\(self.uuid!)/ProfileInfo/backgroundImage.txt")
-//            let uploadTask = profileInfoRef.putData(profileInfoRef, metadata: metadata)
-//            { metadata, error in
-//
-//            }
+            if self.didChangePhoto
+            {
+                let metadata = StorageMetadata()
+                let storageRef = self.storage.reference()
+                let profileImageRef = storageRef.child("\(self.uuid!)/ProfileInfo/profileImage.png")
+                let profileData = self.profileImage.image?.pngData()
+                let uploadProfileTask = profileImageRef.putData(profileData!)
+                { metadata, error in
+                    if let error = error
+                    {
+                        print(error.localizedDescription)
+                    }
+                    else
+                    {
+                        profileImageRef.getData(maxSize: 3*1024*1024)
+                        { data, error in
+                            if let error = error
+                            {
+                                print(error.localizedDescription)
+                            }
+                            else
+                            {
+                                self.cacheStorage?.async.removeObject(forKey: "profileImage.png", completion:
+                                { _ in
+                                    print("cached profileimage")
+                                    self.cacheStorage?.async.setObject(data!, forKey: "profileImage.png", completion: {_ in})
+                                })
+                            }
+                        }
+                    }
+                }
+                let backgroundImageRef = storageRef.child("\(self.uuid!)/ProfileInfo/backgroundImage.png")
+                let backgroundData = self.profileBackgroundImage.image?.pngData()
+                let uploadBackgroundTask = backgroundImageRef.putData(backgroundData!)
+                { metadata, error in
+                    if let error = error
+                    {
+                        print(error.localizedDescription)
+                    }
+                    else
+                    {
+                        backgroundImageRef.getData(maxSize: 3*1024*1024)
+                        { data, error in
+                            if let error = error
+                            {
+                                print(error.localizedDescription)
+                            }
+                            else
+                            {
+                                self.cacheStorage?.async.removeObject(forKey: "backgroundImage.png", completion:
+                                { _ in
+                                    print("cached background image")
+                                    self.cacheStorage?.async.setObject(data!, forKey: "backgroundImage.png", completion: {_ in})
+                                })
+                            }
+                        }
+                    }
+                }
+                self.didChangePhoto.toggle()
+            }
         }
         self.editLabel.text = self.editState ? "저장하기" : "수정하기"
         self.toggleEdit(self.editState)
@@ -286,6 +352,11 @@ class ProfileSheetViewController: UIViewController
         imagePicker.allowsEditing = true
         UIApplication.topViewController()?.present(imagePicker, animated: true)
     }
+    
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        self.onDismissBlock!(true)
+    }
 }
 
 extension ProfileSheetViewController: UITextViewDelegate
@@ -304,7 +375,7 @@ extension ProfileSheetViewController: UITextViewDelegate
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count <= 30
+        return newText.count <= 20
     }
 }
 
@@ -317,10 +388,12 @@ extension ProfileSheetViewController: UIImagePickerControllerDelegate, UINavigat
             if picker.view.tag == 0
             {
                 self.profileBackgroundImage.image = image
+                self.didChangePhoto = true
             }
             else
             {
                 self.profileImage.image = image
+                self.didChangePhoto = true
             }
         }
         picker.dismiss(animated: true, completion: nil)
