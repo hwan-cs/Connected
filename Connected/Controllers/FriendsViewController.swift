@@ -53,6 +53,7 @@ class FriendsViewController: UIViewController
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
         self.tableView.register(UINib(nibName: K.myProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.myProfileCellID)
         self.tableView.register(UINib(nibName: K.friendProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.friendProfileCellID)
         Task.init

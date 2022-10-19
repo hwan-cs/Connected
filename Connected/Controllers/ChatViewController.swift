@@ -338,10 +338,10 @@ class ChatViewController: UIViewController
                     {
                         print("mic allowed")
                         self.waveFormView.backgroundColor = .clear
-                        self.waveFormView.frame = CGRect(origin: CGPoint(x: self.stackView.center.x-self.recordButton.frame.width, y: self.stackView.center.y - 200), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
+                        self.waveFormView.frame = CGRect(origin: CGPoint(x: self.stackView.center.x-self.recordButton.frame.width, y: self.stackView.center.y - self.stackView.frame.height/2 - 120), size: CGSize(width: (self.recordButton.frame.width*2), height: 120.0))
                         self.waveFormView.configuration = self.waveFormView.configuration.with(
-                            style: .striped(.init(color: K.mainColor, width: 3, spacing: 3)),
-                            position: .middle,
+                            style: .striped(.init(color: .systemBlue, width: 3, spacing: 3)),
+                            position: .bottom,
                             verticalScalingFactor: 3)
                         //stackView.addSubview(waveFormView)
                         self.view.addSubview(self.waveFormView)

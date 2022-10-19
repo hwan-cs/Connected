@@ -113,7 +113,7 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
                         guard let player = player else { return }
                         player.prepareToPlay()
                         player.delegate = self
-                        player.volume = 10.0
+                        player.volume = 50.0
                         player.enableRate = true
                         player.play()
                         timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
