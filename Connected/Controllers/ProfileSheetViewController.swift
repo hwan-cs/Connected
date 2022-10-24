@@ -162,7 +162,6 @@ class ProfileSheetViewController: UIViewController
     
     @objc func didTapProfilePhoto()
     {
-        print("tapped profile pic")
         let imageViewer = FullScreenSlideshowViewController()
         var ims : [ImageSource] = []
         ims.append(ImageSource(image: self.profileImage.image!))

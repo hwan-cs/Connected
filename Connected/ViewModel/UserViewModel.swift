@@ -56,7 +56,7 @@ class UserViewModel: ObservableObject
                     }
                     catch
                     {
-                        items.getData(maxSize: 1*1024*1024)
+                        items.getData(maxSize: 5*1024*1024)
                         { data, dError in
                             if let dError = dError
                             {

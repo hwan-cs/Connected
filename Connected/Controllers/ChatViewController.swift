@@ -654,14 +654,18 @@ extension ChatViewController: UITableViewDelegate
                         let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
                         let storageRef = self.storage.reference()
                         let myAudioRef = storageRef.child("\(self.recepientUID)/\(self.uuid!)/")
-                        let fileName = (talkingTo!["change"] as! String).components(separatedBy: self.uuid!+"/")[1]
-                        if !self.userDataArray.values.contains(where: { value in
-                            value == [false, fileName]
-                        })
+                        let foobar = (talkingTo!["change"] as! String)
+                        if foobar != ""
                         {
-                            myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 1*1024*1024)
-                            { data, error in
-                                self.userViewModel?.userDataArray[data!] = [false, fileName]
+                            let fileName = foobar.components(separatedBy: self.uuid!+"/")[1]
+                            if !self.userDataArray.values.contains(where: { value in
+                                value == [false, fileName]
+                            })
+                            {
+                                myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 5*1024*1024)
+                                { data, error in
+                                    self.userViewModel?.userDataArray[data!] = [false, fileName]
+                                }
                             }
                         }
                         if (talkingTo!["isSharingLocation"] as! Bool)
