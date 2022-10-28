@@ -19,6 +19,10 @@ class UserInfoViewModel: ObservableObject
     
     @Published var chatRoomArray: [String:[Any]] = [:]
     
+    @Published var friendRequestR: [String] = []
+    
+    @Published var friendRequestS: [String] = []
+    
     let db = Firestore.firestore()
     
     init(_ uid: String)
@@ -36,6 +40,14 @@ class UserInfoViewModel: ObservableObject
                 if let chatRoom = (data["chatRoom"] as? [String: [Any]])
                 {
                     self.chatRoomArray = chatRoom
+                }
+                if let friendRequestR = (data["friendRequestR"] as? [String])
+                {
+                    self.friendRequestR = friendRequestR
+                }
+                if let friendRequestS = (data["friendRequestS"] as? [String])
+                {
+                    self.friendRequestS = friendRequestS
                 }
             }
         }

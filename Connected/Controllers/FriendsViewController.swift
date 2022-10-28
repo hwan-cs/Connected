@@ -25,6 +25,10 @@ class FriendsViewController: UIViewController
     
     var friendsArray: [String] = []
     
+    var friendRequestR: [String] = []
+    
+    var friendRequestS: [String] = []
+    
     var sortedByValueDictionaryKey: [String] = []
     
     var sortedByValueDictionaryValue: [[Any?]] = [[]]
@@ -81,6 +85,42 @@ class FriendsViewController: UIViewController
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())
     {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
+    @objc func addFriend()
+    {
+        let alertController = UIAlertController(title: "비밀번호를 입력하세요", message: "^___^", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: { alert -> Void in
+            let textField = alertController.textFields![0] as UITextField
+            if textField.text != "" && textField.text != self.uuid!
+            {
+                Task.init
+                {
+                    if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["friendRequestS"] as? [String]
+                    {
+                        var temp = dict
+                        temp.append(textField.text!)
+                        try await self.db.collection("userInfo").document(self.uuid!).updateData(["friendRequestS" : temp])
+                        self.userInfoViewModel?.friendRequestS.append(textField.text!)
+                    }
+                    let doc = try await self.db.collection("users").whereField("username", isEqualTo: textField.text!).getDocuments()
+                    if let data = doc.documents.first?.data()
+                    {
+                        if let dict = try await self.db.collection("userInfo").document(data["uid"] as! String).getDocument().data()?["friendRequestR"] as? [String]
+                        {
+                            var temp = dict
+                            temp.append(self.uuid!)
+                            try await self.db.collection("userInfo").document(data["uid"] as! String).updateData(["friendRequestR" : temp])
+                        }
+                    }
+                }
+            }
+        }))
+        alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        alertController.addTextField(configurationHandler: {(textField : UITextField!) -> Void in
+            textField.placeholder = "아이디 입력"
+        })
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -308,9 +348,17 @@ extension FriendsViewController: UITableViewDataSource
         {
             return 1
         }
-        else
+        else if section == 1
         {
             return self.friendsArray.count
+        }
+        else if section == 2
+        {
+            return self.friendRequestS.count
+        }
+        else
+        {
+            return self.friendRequestR.count
         }
     }
     
@@ -320,12 +368,20 @@ extension FriendsViewController: UITableViewDataSource
         {
             return "Friends \(self.friendsArray.count)"
         }
+        else if section == 2
+        {
+            return "Friend Request Sent \(self.friendRequestS.count)"
+        }
+        else if section == 3
+        {
+            return "Friend Request Received \(self.friendRequestR.count)"
+        }
         return ""
     }
     
     func numberOfSections(in tableView: UITableView) -> Int
     {
-        return 2
+        return 4
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
