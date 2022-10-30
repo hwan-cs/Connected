@@ -67,6 +67,23 @@ class FriendsViewController: UIViewController
         self.userInfoViewModel = UserInfoViewModel(uuid!)
         self.setBindings()
         presentTransition = CustomTransition()
+        
+        self.db.collection("userInfo").document(self.uuid!).addSnapshotListener
+        { documentSnapshot, error in
+            guard documentSnapshot != nil
+            else
+            {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            Task.init
+            {
+                if let data = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()
+                {
+                    self.userInfoViewModel?.friendRequestR = data["friendRequestR"] as! [String]
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -74,7 +91,7 @@ class FriendsViewController: UIViewController
         self.navigationController?.navigationBar.topItem?.title = "친구"
         self.navigationController?.navigationBar.backgroundColor = K.mainColor
         self.safeAreaColorToMainColor()
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: "Add_Friend"), style: .plain, target: self, action: nil)
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "Add_Friend"), style: .plain, target: self, action: #selector(addFriend))
         barButtonItem.customView?.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
         barButtonItem.tintColor = .black
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
@@ -165,7 +182,7 @@ extension FriendsViewController: UITableViewDelegate
                 dispatchGroup.leave()
             }
         }
-        else
+        else if indexPath.section == 3
         {
             dispatchGroup.enter()
             let cell = tableView.cellForRow(at: indexPath) as! FriendProfileTableViewCell
@@ -205,7 +222,23 @@ extension FriendsViewController: UITableViewDataSource
         
         Task.init
         {
-            let userID = indexPath.section == 0 ? self.uuid! : self.friendsArray[indexPath.row]
+            var userID = ""
+            if indexPath.section == 0
+            {
+                userID = self.uuid!
+            }
+            else if indexPath.section == 1
+            {
+                userID = friendRequestR[indexPath.row]
+            }
+            else if indexPath.section == 2
+            {
+                userID = friendRequestS[indexPath.row]
+            }
+            else if indexPath.section == 3
+            {
+                userID = self.friendsArray[indexPath.row]
+            }
             let data = try await self.db.collection("users").document(userID).getDocument().data()
             if indexPath.section == 0
             {
@@ -272,7 +305,7 @@ extension FriendsViewController: UITableViewDataSource
                 myProfileCell.myProfileStatus.text = data!["statusMsg"] as? String
                 myProfileCell.userID = data!["username"] as? String
             }
-            else
+            else if indexPath.row == 3
             {
                 friendProfileCell.friendName.text = data!["name"] as? String
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
@@ -350,7 +383,7 @@ extension FriendsViewController: UITableViewDataSource
         }
         else if section == 1
         {
-            return self.friendsArray.count
+            return self.friendRequestR.count
         }
         else if section == 2
         {
@@ -358,7 +391,7 @@ extension FriendsViewController: UITableViewDataSource
         }
         else
         {
-            return self.friendRequestR.count
+            return self.friendsArray.count
         }
     }
     
@@ -366,7 +399,7 @@ extension FriendsViewController: UITableViewDataSource
     {
         if section == 1
         {
-            return "Friends \(self.friendsArray.count)"
+            return "Friend Request Received \(self.friendRequestR.count)"
         }
         else if section == 2
         {
@@ -374,7 +407,7 @@ extension FriendsViewController: UITableViewDataSource
         }
         else if section == 3
         {
-            return "Friend Request Received \(self.friendRequestR.count)"
+            return "Friends \(self.friendsArray.count)"
         }
         return ""
     }
