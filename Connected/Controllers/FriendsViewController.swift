@@ -81,9 +81,11 @@ class FriendsViewController: UIViewController
             }
             Task.init
             {
+                print("change")
                 if let data = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()
                 {
                     self.userInfoViewModel?.friendRequestR = data["friendRequestR"] as! [String]
+                    self.userInfoViewModel?.friendsArray = data["friends"] as! [String]
                 }
             }
         }
@@ -123,6 +125,11 @@ class FriendsViewController: UIViewController
                         if let data = doc.documents.first?.data()
                         {
                             let id = data["uid"] as! String
+                            if temp.contains(id)
+                            {
+                                print("already requested friend")
+                                return
+                            }
                             temp.append(id)
                             try await self.db.collection("userInfo").document(self.uuid!).updateData(["friendRequestS" : temp])
                             self.userInfoViewModel?.friendRequestS.append(id)
@@ -145,6 +152,14 @@ class FriendsViewController: UIViewController
             textField.placeholder = "아이디 입력"
         })
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func reloadTable()
+    {
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2)
+        {
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -365,8 +380,9 @@ extension FriendsViewController: UITableViewDataSource
                         }
                     }
                 })
+                friendRequestRCell.myID = self.uuid!
                 friendRequestRCell.friendRequestRFriendName.text = data!["name"] as? String
-                friendRequestRCell.userID = data!["username"] as? String
+                friendRequestRCell.userID = data!["uid"] as? String
             }
             //sent friend request
             else if indexPath.section == 2
@@ -420,15 +436,15 @@ extension FriendsViewController: UITableViewDataSource
                         }
                     }
                 })
+                friendRequestSCell.myID = self.uuid!
                 friendRequestSCell.friendRequestSFriendName.text = data!["name"] as? String
-                friendRequestSCell.userID = data!["username"] as? String
+                friendRequestSCell.userID = data!["uid"] as? String
             }
             else if indexPath.section == 3
             {
                 friendProfileCell.friendName.text = data!["name"] as? String
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
                 friendProfileCell.userID = data!["username"] as? String
-                let storageRef = self.storage.reference()
                 profileRef.listAll(completion:
                 { (storageListResult, error) in
                     if let error = error

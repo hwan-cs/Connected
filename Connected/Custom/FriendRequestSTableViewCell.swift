@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseAuth
 
 class FriendRequestSTableViewCell: UITableViewCell
 {
@@ -13,6 +15,10 @@ class FriendRequestSTableViewCell: UITableViewCell
     @IBOutlet var friendRequestSProfileImage: UIImageView!
     
     @IBOutlet var friendRequestSFriendName: UILabel!
+    
+    let db = Firestore.firestore()
+    
+    var myID: String?
     
     var userID: String?
     
@@ -25,8 +31,6 @@ class FriendRequestSTableViewCell: UITableViewCell
     override func setSelected(_ selected: Bool, animated: Bool)
     {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
-    
 }
