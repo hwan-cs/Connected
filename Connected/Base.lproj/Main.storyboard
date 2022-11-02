@@ -657,17 +657,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNe-LE-edR">
+                                <rect key="frame" x="0.0" y="144" width="414" height="2"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="g8a-db-fIu"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="jle-sX-5ks">
-                                <rect key="frame" x="0.0" y="144" width="414" height="669"/>
+                                <rect key="frame" x="0.0" y="146" width="414" height="667"/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ohK-0a-j0E"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="jle-sX-5ks" firstAttribute="leading" secondItem="ohK-0a-j0E" secondAttribute="leading" id="Hka-sR-vca"/>
-                            <constraint firstItem="jle-sX-5ks" firstAttribute="top" secondItem="ohK-0a-j0E" secondAttribute="top" id="LZO-tr-Z0z"/>
+                            <constraint firstItem="FNe-LE-edR" firstAttribute="leading" secondItem="ohK-0a-j0E" secondAttribute="leading" id="Qnw-ck-L5O"/>
+                            <constraint firstItem="jle-sX-5ks" firstAttribute="top" secondItem="FNe-LE-edR" secondAttribute="bottom" id="RQk-V7-ttg"/>
                             <constraint firstItem="jle-sX-5ks" firstAttribute="trailing" secondItem="ohK-0a-j0E" secondAttribute="trailing" id="V7T-6w-Kap"/>
+                            <constraint firstItem="ohK-0a-j0E" firstAttribute="trailing" secondItem="FNe-LE-edR" secondAttribute="trailing" id="ZNA-qw-tOr"/>
+                            <constraint firstItem="FNe-LE-edR" firstAttribute="top" secondItem="ohK-0a-j0E" secondAttribute="top" id="ZSS-Ag-yyD"/>
                             <constraint firstItem="jle-sX-5ks" firstAttribute="bottom" secondItem="ohK-0a-j0E" secondAttribute="bottom" id="aPd-Yq-1Uc"/>
+                            <constraint firstItem="jle-sX-5ks" firstAttribute="top" secondItem="FNe-LE-edR" secondAttribute="bottom" id="dAX-5i-912"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="친구" image="Friend_Active" selectedImage="Friend_Active" id="FY5-5H-WPp"/>
@@ -1219,9 +1230,6 @@
     <designables>
         <designable name="5YW-x8-RuY">
             <size key="intrinsicContentSize" width="-1" height="83"/>
-        </designable>
-        <designable name="WLJ-AF-fyD">
-            <size key="intrinsicContentSize" width="-1" height="30"/>
         </designable>
         <designable name="nH9-cE-Z4O">
             <size key="intrinsicContentSize" width="63" height="32"/>

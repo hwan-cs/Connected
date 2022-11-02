@@ -14,6 +14,7 @@ import FirebaseStorage
 import FirebaseFirestore
 import Combine
 import Cache
+import SwiftMessages
 
 class FriendsViewController: UIViewController
 {
@@ -57,6 +58,7 @@ class FriendsViewController: UIViewController
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.tableView.contentInsetAdjustmentBehavior = .never
         
         self.tableView.register(UINib(nibName: K.myProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.myProfileCellID)
         self.tableView.register(UINib(nibName: K.friendProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.friendProfileCellID)
@@ -86,6 +88,7 @@ class FriendsViewController: UIViewController
                 {
                     self.userInfoViewModel?.friendRequestR = data["friendRequestR"] as! [String]
                     self.userInfoViewModel?.friendsArray = data["friends"] as! [String]
+                    self.userInfoViewModel?.friendRequestS = data["friendRequestS"] as! [String]
                 }
             }
         }
@@ -111,6 +114,23 @@ class FriendsViewController: UIViewController
     
     @objc func addFriend()
     {
+        //init swiftmessages
+        let foobar = MessageView.viewFromNib(layout: .cardView)
+        foobar.configureTheme(.error)
+        let iconText = ["❓"].randomElement()!
+        foobar.configureContent(title: "오류가 발생 했습니다!", body: "아이디를 다시 확인 해주세요", iconText: iconText)
+        foobar.backgroundColor = .clear
+        foobar.button?.setTitle("확인", for: .normal)
+        foobar.buttonTapHandler =
+        { _ in
+            SwiftMessages.hide()
+        }
+        var fig = SwiftMessages.defaultConfig
+        fig.duration = .automatic
+        fig.shouldAutorotate = true
+        fig.interactiveHide = true
+        foobar.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        
         let alertController = UIAlertController(title: "추가할 친구의 ID를 입력하세요", message: "", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: { alert -> Void in
             let textField = alertController.textFields![0] as UITextField
@@ -119,15 +139,24 @@ class FriendsViewController: UIViewController
                 Task.init
                 {
                     let doc = try await self.db.collection("users").whereField("username", isEqualTo: textField.text!).getDocuments()
-                    if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["friendRequestS"] as? [String]
+                    if doc.count == 0
+                    {
+                        self.dismiss(animated: true)
+                        {
+                            SwiftMessages.show(config: fig, view: foobar)
+                        }
+                        return
+                    }
+                    if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["friendRequestS"] as? [String], let dict2 = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["friends"] as? [String]
                     {
                         var temp = dict
+                        var temp2 = dict2
                         if let data = doc.documents.first?.data()
                         {
                             let id = data["uid"] as! String
-                            if temp.contains(id)
+                            if temp.contains(id) || temp2.contains(id)
                             {
-                                print("already requested friend")
+                                SwiftMessages.show(config: fig, view: foobar)
                                 return
                             }
                             temp.append(id)
@@ -436,6 +465,7 @@ extension FriendsViewController: UITableViewDataSource
                         }
                     }
                 })
+                friendRequestSCell.isUserInteractionEnabled = false
                 friendRequestSCell.myID = self.uuid!
                 friendRequestSCell.friendRequestSFriendName.text = data!["name"] as? String
                 friendRequestSCell.userID = data!["uid"] as? String
