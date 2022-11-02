@@ -10,15 +10,73 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="70" id="KGk-i7-Jjw" customClass="FriendRequestRTableViewCell" customModule="Connected" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendRequestR" rowHeight="70" id="KGk-i7-Jjw" customClass="FriendRequestRTableViewCell" customModule="Connected" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add_Friend" translatesAutoresizingMaskIntoConstraints="NO" id="8Ec-sB-WS3">
+                        <rect key="frame" x="16" y="12" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="Ugk-zl-QXd"/>
+                            <constraint firstAttribute="height" constant="40" id="x3D-wy-TIo"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zEe-bz-fDG">
+                        <rect key="frame" x="64" y="12" width="41.333333333333343" height="40"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8E-Mc-X5X">
+                        <rect key="frame" x="251.33333333333334" y="12" width="52.666666666666657" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="JoH-eF-cep"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="filled" image="xmark" catalog="system">
+                            <color key="baseBackgroundColor" systemColor="systemRedColor"/>
+                        </buttonConfiguration>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLX-gF-K51">
+                        <rect key="frame" x="190.33333333333334" y="12" width="53" height="40"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="filled" image="checkmark" catalog="system"/>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="gLX-gF-K51" firstAttribute="top" secondItem="Y8E-Mc-X5X" secondAttribute="top" id="8pq-VE-Xg0"/>
+                    <constraint firstItem="zEe-bz-fDG" firstAttribute="leading" secondItem="8Ec-sB-WS3" secondAttribute="trailing" constant="8" symbolic="YES" id="CAP-5m-liG"/>
+                    <constraint firstItem="zEe-bz-fDG" firstAttribute="bottom" secondItem="8Ec-sB-WS3" secondAttribute="bottom" id="DtW-Qf-AA1"/>
+                    <constraint firstItem="zEe-bz-fDG" firstAttribute="top" secondItem="8Ec-sB-WS3" secondAttribute="top" id="OIq-dh-R8f"/>
+                    <constraint firstItem="gLX-gF-K51" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.165" id="WDc-kR-zBj"/>
+                    <constraint firstAttribute="trailing" secondItem="Y8E-Mc-X5X" secondAttribute="trailing" constant="16" id="bex-Ga-nZV"/>
+                    <constraint firstItem="8Ec-sB-WS3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="cEi-Hn-8Jz"/>
+                    <constraint firstItem="8Ec-sB-WS3" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="l1n-0u-6Yl"/>
+                    <constraint firstItem="Y8E-Mc-X5X" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.165" id="n3i-Xg-dVU"/>
+                    <constraint firstItem="Y8E-Mc-X5X" firstAttribute="leading" secondItem="gLX-gF-K51" secondAttribute="trailing" constant="8" id="oJT-2a-uFg"/>
+                    <constraint firstItem="Y8E-Mc-X5X" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="oWG-6A-Dzu"/>
+                    <constraint firstItem="gLX-gF-K51" firstAttribute="bottom" secondItem="Y8E-Mc-X5X" secondAttribute="bottom" id="rIb-Jm-DYf"/>
+                </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="acceptFriendRequestButton" destination="gLX-gF-K51" id="Uu3-Os-ylY"/>
+                <outlet property="declineFriendRequestButton" destination="Y8E-Mc-X5X" id="zj5-Ly-fG7"/>
+                <outlet property="friendRequestRFriendName" destination="zEe-bz-fDG" id="yJA-m3-t2m"/>
+                <outlet property="friendRequestRProfileImage" destination="8Ec-sB-WS3" id="e5e-TQ-gEA"/>
+            </connections>
             <point key="canvasLocation" x="73.84615384615384" y="41.232227488151658"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="Add_Friend" width="24" height="24"/>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

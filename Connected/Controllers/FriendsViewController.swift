@@ -60,6 +60,9 @@ class FriendsViewController: UIViewController
         
         self.tableView.register(UINib(nibName: K.myProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.myProfileCellID)
         self.tableView.register(UINib(nibName: K.friendProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.friendProfileCellID)
+        self.tableView.register(UINib(nibName: K.friendRequestRNibName, bundle: nil), forCellReuseIdentifier: K.friendRequestRCellID)
+        self.tableView.register(UINib(nibName: K.friendRequestSNibName, bundle: nil), forCellReuseIdentifier: K.friendRequestSCellID)
+        
         Task.init
         {
             try await self.db.collection("users").document(uuid!).updateData(["isOnline": true])
@@ -106,21 +109,25 @@ class FriendsViewController: UIViewController
     
     @objc func addFriend()
     {
-        let alertController = UIAlertController(title: "비밀번호를 입력하세요", message: "^___^", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "추가할 친구의 ID를 입력하세요", message: "", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: { alert -> Void in
             let textField = alertController.textFields![0] as UITextField
             if textField.text != "" && textField.text != self.uuid!
             {
                 Task.init
                 {
+                    let doc = try await self.db.collection("users").whereField("username", isEqualTo: textField.text!).getDocuments()
                     if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["friendRequestS"] as? [String]
                     {
                         var temp = dict
-                        temp.append(textField.text!)
-                        try await self.db.collection("userInfo").document(self.uuid!).updateData(["friendRequestS" : temp])
-                        self.userInfoViewModel?.friendRequestS.append(textField.text!)
+                        if let data = doc.documents.first?.data()
+                        {
+                            let id = data["uid"] as! String
+                            temp.append(id)
+                            try await self.db.collection("userInfo").document(self.uuid!).updateData(["friendRequestS" : temp])
+                            self.userInfoViewModel?.friendRequestS.append(id)
+                        }
                     }
-                    let doc = try await self.db.collection("users").whereField("username", isEqualTo: textField.text!).getDocuments()
                     if let data = doc.documents.first?.data()
                     {
                         if let dict = try await self.db.collection("userInfo").document(data["uid"] as! String).getDocument().data()?["friendRequestR"] as? [String]
@@ -219,7 +226,8 @@ extension FriendsViewController: UITableViewDataSource
     {
         let myProfileCell = tableView.dequeueReusableCell(withIdentifier: K.myProfileCellID) as! MyProfileTableViewCell
         let friendProfileCell = tableView.dequeueReusableCell(withIdentifier: K.friendProfileCellID) as! FriendProfileTableViewCell
-        
+        let friendRequestRCell = tableView.dequeueReusableCell(withIdentifier: K.friendRequestRCellID) as! FriendRequestRTableViewCell
+        let friendRequestSCell = tableView.dequeueReusableCell(withIdentifier: K.friendRequestSCellID) as! FriendRequestSTableViewCell
         Task.init
         {
             var userID = ""
@@ -240,11 +248,11 @@ extension FriendsViewController: UITableViewDataSource
                 userID = self.friendsArray[indexPath.row]
             }
             let data = try await self.db.collection("users").document(userID).getDocument().data()
+            let storageRef = self.storage.reference()
+            let profileRef = storageRef.child("\(userID)/ProfileInfo/")
             if indexPath.section == 0
             {
-                let storageRef = self.storage.reference()
-                let myProfileRef = storageRef.child("\(self.uuid!)/ProfileInfo/")
-                myProfileRef.listAll(completion:
+                profileRef.listAll(completion:
                 { (storageListResult, error) in
                     if let error = error
                     {
@@ -305,14 +313,123 @@ extension FriendsViewController: UITableViewDataSource
                 myProfileCell.myProfileStatus.text = data!["statusMsg"] as? String
                 myProfileCell.userID = data!["username"] as? String
             }
-            else if indexPath.row == 3
+            //received friends requests
+            else if indexPath.section == 1
+            {
+                profileRef.listAll(completion:
+                { (storageListResult, error) in
+                    if let error = error
+                    {
+                        print(error.localizedDescription)
+                    }
+                    else
+                    {
+                        for items in storageListResult!.items
+                        {
+                            do
+                            {
+                                let result = try self.cacheStorage!.entry(forKey: items.name)
+                                if items.name.contains("profileImage")
+                                {
+                                    DispatchQueue.main.async
+                                    {
+                                        print("profile \(result.object)")
+                                        friendRequestRCell.friendRequestRProfileImage.image = UIImage(data: result.object)
+                                        friendRequestRCell.friendRequestRProfileImage.contentMode = .scaleAspectFit
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                //maxsize of image file is 30MB
+                                items.getData(maxSize: 30*1024*1024)
+                                { data, dError in
+                                    if let dError = dError
+                                    {
+                                        print(dError.localizedDescription)
+                                    }
+                                    else
+                                    {
+                                        self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                        if items.name.contains("profileImage")
+                                        {
+                                            DispatchQueue.main.async
+                                            {
+                                                friendRequestRCell.friendRequestRProfileImage.image = UIImage(data: data!)
+                                                friendRequestRCell.friendRequestRProfileImage.contentMode = .scaleAspectFit
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+                friendRequestRCell.friendRequestRFriendName.text = data!["name"] as? String
+                friendRequestRCell.userID = data!["username"] as? String
+            }
+            //sent friend request
+            else if indexPath.section == 2
+            {
+                profileRef.listAll(completion:
+                { (storageListResult, error) in
+                    if let error = error
+                    {
+                        print(error.localizedDescription)
+                    }
+                    else
+                    {
+                        for items in storageListResult!.items
+                        {
+                            do
+                            {
+                                let result = try self.cacheStorage!.entry(forKey: items.name)
+                                if items.name.contains("profileImage")
+                                {
+                                    DispatchQueue.main.async
+                                    {
+                                        print("profile \(result.object)")
+                                        friendRequestSCell.friendRequestSProfileImage.image = UIImage(data: result.object)
+                                        friendRequestSCell.friendRequestSProfileImage.contentMode = .scaleAspectFit
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                //maxsize of image file is 30MB
+                                items.getData(maxSize: 30*1024*1024)
+                                { data, dError in
+                                    if let dError = dError
+                                    {
+                                        print(dError.localizedDescription)
+                                    }
+                                    else
+                                    {
+                                        self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                        if items.name.contains("profileImage")
+                                        {
+                                            DispatchQueue.main.async
+                                            {
+                                                friendRequestSCell.friendRequestSProfileImage.image = UIImage(data: data!)
+                                                friendRequestSCell.friendRequestSProfileImage.contentMode = .scaleAspectFit
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+                friendRequestSCell.friendRequestSFriendName.text = data!["name"] as? String
+                friendRequestSCell.userID = data!["username"] as? String
+            }
+            else if indexPath.section == 3
             {
                 friendProfileCell.friendName.text = data!["name"] as? String
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
                 friendProfileCell.userID = data!["username"] as? String
                 let storageRef = self.storage.reference()
-                let friendProfileRef = storageRef.child("\(self.friendsArray[indexPath.row])/ProfileInfo/")
-                friendProfileRef.listAll(completion:
+                profileRef.listAll(completion:
                 { (storageListResult, error) in
                     if let error = error
                     {
@@ -372,7 +489,21 @@ extension FriendsViewController: UITableViewDataSource
         }
         myProfileCell.selectionStyle = .none
         friendProfileCell.selectionStyle = .none
-        return indexPath.section == 0 ? myProfileCell : friendProfileCell
+        friendRequestSCell.selectionStyle = .none
+        friendRequestRCell.selectionStyle = .none
+        if indexPath.section == 0
+        {
+            return myProfileCell
+        }
+        else if indexPath.section == 1
+        {
+            return friendRequestRCell
+        }
+        else if indexPath.section == 2
+        {
+            return friendRequestSCell
+        }
+        return friendProfileCell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -399,15 +530,15 @@ extension FriendsViewController: UITableViewDataSource
     {
         if section == 1
         {
-            return "Friend Request Received \(self.friendRequestR.count)"
+            return "받은 친구 요청 \(self.friendRequestR.count)"
         }
         else if section == 2
         {
-            return "Friend Request Sent \(self.friendRequestS.count)"
+            return "보낸 친구 요청 \(self.friendRequestS.count)"
         }
         else if section == 3
         {
-            return "Friends \(self.friendsArray.count)"
+            return "친구 \(self.friendsArray.count)"
         }
         return ""
     }

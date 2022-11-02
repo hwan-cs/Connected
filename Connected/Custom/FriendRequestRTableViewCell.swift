@@ -10,6 +10,16 @@ import UIKit
 class FriendRequestRTableViewCell: UITableViewCell
 {
 
+    @IBOutlet var friendRequestRProfileImage: UIImageView!
+    
+    @IBOutlet var friendRequestRFriendName: UILabel!
+    
+    @IBOutlet var acceptFriendRequestButton: UIButton!
+    
+    @IBOutlet var declineFriendRequestButton: UIButton!
+    
+    var userID: String?
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()
