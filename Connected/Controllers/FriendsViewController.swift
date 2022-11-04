@@ -161,7 +161,6 @@ class FriendsViewController: UIViewController
                             }
                             temp.append(id)
                             try await self.db.collection("userInfo").document(self.uuid!).updateData(["friendRequestS" : temp])
-                            self.userInfoViewModel?.friendRequestS.append(id)
                         }
                     }
                     if let data = doc.documents.first?.data()
@@ -409,6 +408,7 @@ extension FriendsViewController: UITableViewDataSource
                         }
                     }
                 })
+                friendRequestRCell.friendRequestRProfileImage.isUserInteractionEnabled = false
                 friendRequestRCell.myID = self.uuid!
                 friendRequestRCell.friendRequestRFriendName.text = data!["name"] as? String
                 friendRequestRCell.userID = data!["uid"] as? String
@@ -433,7 +433,6 @@ extension FriendsViewController: UITableViewDataSource
                                 {
                                     DispatchQueue.main.async
                                     {
-                                        print("profile \(result.object)")
                                         friendRequestSCell.friendRequestSProfileImage.image = UIImage(data: result.object)
                                         friendRequestSCell.friendRequestSProfileImage.contentMode = .scaleAspectFit
                                     }

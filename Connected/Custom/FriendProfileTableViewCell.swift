@@ -23,6 +23,7 @@ class FriendProfileTableViewCell: UITableViewCell
     override func awakeFromNib()
     {
         super.awakeFromNib()
+        self.backgroundColor = .clear
         self.friendProfileImageView.layer.cornerRadius = 8.0
         // Initialization code
     }
@@ -30,7 +31,14 @@ class FriendProfileTableViewCell: UITableViewCell
     override func setSelected(_ selected: Bool, animated: Bool)
     {
         super.setSelected(selected, animated: animated)
-
+        if selected
+        {
+            self.accessoryType = .checkmark
+        }
+        else
+        {
+            self.accessoryType = .none
+        }
         // Configure the view for the selected state
     }
     

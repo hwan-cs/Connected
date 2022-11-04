@@ -103,7 +103,11 @@ class ChatRoomViewController: UIViewController
     
     @objc func onNewChatTap()
     {
-        print("new chat tapped")
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "NewChatNavigationController") as! UINavigationController
+        let nc = vc.children.first as! NewChatViewController
+        nc.friendsArray = self.friendsArray
+        vc.modalPresentationStyle = .pageSheet
+        self.present(vc, animated: true)
     }
 }
 
