@@ -163,8 +163,11 @@ class ChatViewController: UIViewController
             if let dict = try await self.db.collection("userInfo").document(uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
             {
                 var temp = dict
-                temp[self.recepientUID]![2] = 0
-                try await self.db.collection("userInfo").document(uuid!).updateData(["chatRoom" : temp])
+                if temp[self.recepientUID] != nil
+                {
+                    temp[self.recepientUID]![2] = 0
+                    try await self.db.collection("userInfo").document(uuid!).updateData(["chatRoom" : temp])
+                }
             }
             try await self.db.collection("users").document(uuid!).updateData(["isOnline": true])
             try await self.db.collection("users").document(uuid!).updateData(["talkingTo": self.recepientUID])

@@ -1191,11 +1191,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="친구 선택" id="R3e-Ld-47q">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="NuD-cG-yNV">
+                        <barButtonItem key="rightBarButtonItem" title="완료" id="NuD-cG-yNV">
                             <color key="tintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="didTapNewChatDone:" destination="l4D-62-5yZ" id="4kF-E9-tPj"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="doneButton" destination="NuD-cG-yNV" id="7Ti-Te-NCn"/>
                         <outlet property="searchBar" destination="zJh-Uh-DHS" id="xuq-uO-zIA"/>
                         <outlet property="tableView" destination="qXk-Lw-3uv" id="tgc-hk-ezz"/>
                     </connections>

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseFirestore
+import FirebaseAuth
 
 class NewChatViewController: UIViewController
 {
@@ -15,9 +16,15 @@ class NewChatViewController: UIViewController
     
     @IBOutlet var searchBar: UISearchBar!
     
+    @IBOutlet var doneButton: UIBarButtonItem!
+    
+    var onDismissBlock : ((Bool, String) -> Void)?
+    
     var friendsArray: [String] = []
     
     let db = Firestore.firestore()
+    
+    let uuid = Auth.auth().currentUser?.uid
     
     override func viewDidLoad()
     {
@@ -25,6 +32,15 @@ class NewChatViewController: UIViewController
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(UINib(nibName: K.friendProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.friendProfileCellID)
+        self.doneButton.tintColor = .lightGray
+    }
+    
+    @IBAction func didTapNewChatDone(_ sender: UIBarButtonItem)
+    {
+        self.dismiss(animated: true)
+        {
+            self.onDismissBlock!(true, self.friendsArray[self.tableView.indexPathForSelectedRow!.row])
+        }
     }
 }
 
@@ -45,7 +61,13 @@ extension NewChatViewController: UITableViewDataSource
             cell.friendStatusMsg.text = data!["statusMsg"] as? String
             cell.userID = data!["username"] as? String
         }
+        cell.selectionStyle = .none
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        self.doneButton.tintColor = K.mainColor
     }
     
     func numberOfSections(in tableView: UITableView) -> Int

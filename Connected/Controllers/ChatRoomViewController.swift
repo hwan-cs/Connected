@@ -106,6 +106,45 @@ class ChatRoomViewController: UIViewController
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "NewChatNavigationController") as! UINavigationController
         let nc = vc.children.first as! NewChatViewController
         nc.friendsArray = self.friendsArray
+        nc.onDismissBlock =
+        { success, rid in
+            if success
+            {
+                let formatter = DateFormatter()
+                formatter.timeZone = TimeZone.current
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                let now = formatter.string(from: Date.now)
+                self.userInfoViewModel?.chatRoomArray[rid] = ["", now, 0]
+                let cvc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+                cvc.recepientUID = rid
+                Task.init
+                {
+                    if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+                    {
+                        var temp = dict
+                        temp[rid] = ["",now,0]
+                        try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
+                    }
+                    else
+                    {
+                        try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : [rid: ["", now, 0]]])
+                    }
+                    if let rdict = try await self.db.collection("userInfo").document(rid).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+                    {
+                        var temp = rdict
+                        temp[rid] = ["",now,0]
+                        try await self.db.collection("userInfo").document(rid).updateData(["chatRoom" :temp])
+                    }
+                    else
+                    {
+                        try await self.db.collection("userInfo").document(rid).updateData(["chatRoom" : [self.uuid! : ["", now, 0]]])
+                    }
+                }
+                cvc.userViewModel = UserViewModel(self.uuid!, rid)
+                cvc.setBindings()
+                self.navigationController?.pushViewController(cvc, animated: true)
+            }
+        }
         vc.modalPresentationStyle = .pageSheet
         self.present(vc, animated: true)
     }
