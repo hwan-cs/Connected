@@ -106,6 +106,7 @@ class ChatRoomViewController: UIViewController
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "NewChatNavigationController") as! UINavigationController
         let nc = vc.children.first as! NewChatViewController
         nc.friendsArray = self.friendsArray
+        nc.chatArray = Array(self.chatRoomArray.keys)
         nc.onDismissBlock =
         { success, rid in
             if success

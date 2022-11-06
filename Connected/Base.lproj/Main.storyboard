@@ -1150,6 +1150,7 @@
                         <outlet property="editButton" destination="ZxM-qq-wBo" id="Mtm-jS-gdr"/>
                         <outlet property="editLabel" destination="Ckw-3J-VWi" id="J1l-j8-mcm"/>
                         <outlet property="editView" destination="62M-Mh-IO9" id="dXA-pl-TkJ"/>
+                        <outlet property="emailLabel" destination="p42-JL-ajg" id="k76-v3-8hr"/>
                         <outlet property="idLabel" destination="akr-WA-Noz" id="nEb-8m-jvm"/>
                         <outlet property="profileBackgroundImage" destination="SdH-Qh-7cq" id="qhm-N0-vq8"/>
                         <outlet property="profileImage" destination="hzM-mS-72F" id="MMe-Zn-yzA"/>
@@ -1296,9 +1297,6 @@
     <designables>
         <designable name="5YW-x8-RuY">
             <size key="intrinsicContentSize" width="-1" height="83"/>
-        </designable>
-        <designable name="WLJ-AF-fyD">
-            <size key="intrinsicContentSize" width="-1" height="30"/>
         </designable>
         <designable name="nH9-cE-Z4O">
             <size key="intrinsicContentSize" width="63" height="32"/>

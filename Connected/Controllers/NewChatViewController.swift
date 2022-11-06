@@ -18,9 +18,13 @@ class NewChatViewController: UIViewController
     
     @IBOutlet var doneButton: UIBarButtonItem!
     
+    var idx = -1
+    
     var onDismissBlock : ((Bool, String) -> Void)?
     
     var friendsArray: [String] = []
+    
+    var chatArray: [String] = []
     
     let db = Firestore.firestore()
     
@@ -33,6 +37,7 @@ class NewChatViewController: UIViewController
         self.tableView.dataSource = self
         self.tableView.register(UINib(nibName: K.friendProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.friendProfileCellID)
         self.doneButton.tintColor = .lightGray
+        self.tableView.allowsMultipleSelection = false
     }
     
     @IBAction func didTapNewChatDone(_ sender: UIBarButtonItem)
@@ -59,15 +64,37 @@ extension NewChatViewController: UITableViewDataSource
             let data = try await self.db.collection("users").document(self.friendsArray[indexPath.row]).getDocument().data()
             cell.friendName.text = data!["name"] as? String
             cell.friendStatusMsg.text = data!["statusMsg"] as? String
-            cell.userID = data!["username"] as? String
+            cell.userID = data!["uid"] as? String
+            if self.chatArray.contains(cell.userID!)
+            {
+                cell.isUserInteractionEnabled = false
+                cell.contentView.backgroundColor = .systemGray4
+            }
         }
         cell.selectionStyle = .none
         return cell
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        self.doneButton.tintColor = K.mainColor
+        if let cell = tableView.cellForRow(at: indexPath)
+        {
+            if cell.accessoryType == .checkmark
+            {
+                self.doneButton.tintColor = .lightGray
+                cell.accessoryType = .none
+                self.idx = -1
+            }
+            else
+            {
+                self.doneButton.tintColor = K.mainColor
+                tableView.cellForRow(at: IndexPath(row: self.idx, section: 0))?.accessoryType = .none
+                tableView.deselectRow(at: IndexPath(row: self.idx, section: 0), animated: true)
+                cell.accessoryType = .checkmark
+                self.idx = indexPath.row
+            }
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int

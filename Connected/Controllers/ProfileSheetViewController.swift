@@ -31,6 +31,10 @@ class ProfileSheetViewController: UIViewController
     
     var status: String?
     
+    var email: String?
+    
+    @IBOutlet var emailLabel: UILabel!
+    
     @IBOutlet var idLabel: UILabel!
     
     var id: String?
@@ -140,6 +144,7 @@ class ProfileSheetViewController: UIViewController
         self.changeGithubTextView.text = self.github!
         self.changeKakaoTextView.text = self.kakao!
         self.changeInstaTextView.text = self.insta!
+        self.emailLabel.text = self.email!
         
         self.toggleEdit(self.editState)
         if !self.isEditable!

@@ -181,14 +181,6 @@ class FriendsViewController: UIViewController
         })
         self.present(alertController, animated: true, completion: nil)
     }
-    
-    @objc func reloadTable()
-    {
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.2)
-        {
-            self.tableView.reloadData()
-        }
-    }
 }
 
 extension FriendsViewController: UITableViewDelegate
@@ -229,6 +221,7 @@ extension FriendsViewController: UITableViewDelegate
                 vc.github = data!["github"] as? String
                 vc.kakao = data!["kakao"] as? String
                 vc.insta = data!["insta"] as? String
+                vc.email = data!["email"] as? String
                 dispatchGroup.leave()
             }
         }
@@ -251,6 +244,7 @@ extension FriendsViewController: UITableViewDelegate
                 vc.github = data!["github"] as? String
                 vc.kakao = data!["kakao"] as? String
                 vc.insta = data!["insta"] as? String
+                vc.email = data!["email"] as? String
                 dispatchGroup.leave()
             }
         }

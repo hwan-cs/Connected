@@ -418,6 +418,7 @@ class ChatViewController: UIViewController
                                 if let unreadCount = dict[self.recepientUID]![2] as? Int
                                 {
                                     var temp = dict
+                                    temp[self.recepientUID]![0] = "waveform"
                                     temp[self.recepientUID]![2] = unreadCount + 1
                                     try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
                                 }
@@ -570,6 +571,7 @@ class ChatViewController: UIViewController
                             if let unreadCount = dict[self.recepientUID]![2] as? Int
                             {
                                 var temp = dict
+                                temp[self.recepientUID]![0] = self.growingTextView.text
                                 temp[self.recepientUID]![2] = unreadCount+1
                                 try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
                             }
@@ -752,6 +754,7 @@ extension ChatViewController: CLLocationManagerDelegate
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     {
+        //change so that update only if sharinglocation is true
         if let location = locations.first
         {
             self.db.collection("users").document(uuid!).updateData(["location": GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)])
