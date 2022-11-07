@@ -278,7 +278,10 @@ extension ChatViewController
     {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         {
-            self.view.frame.origin.y -= keyboardSize.height
+            if K.frameHeight == self.view.frame.origin.y
+            {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
         }
     }
 

@@ -116,6 +116,7 @@ class ChatViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        K.frameHeight = self.view.frame.origin.y
         self.chatVCHideKeyboard()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -276,6 +277,26 @@ class ChatViewController: UIViewController
 
     override func viewWillDisappear(_ animated: Bool)
     {
+        Task.init
+        {
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone.current
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            let now = formatter.string(from: Date.now)
+            let talkingTo = try await self.db.collection("users").document(self.uuid!).getDocument().data()
+            let rec = talkingTo!["talkingTo"] as? String
+            if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+            {
+                var temp = dict
+                if let dict = try await self.db.collection("userInfo").document(self.recepientUID).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+                {
+                    temp[self.recepientUID]![0] = dict[self.uuid!]![0]
+                    temp[self.recepientUID]![1] = dict[self.uuid!]![1]
+                    try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
+                }
+            }
+            try await self.db.collection("users").document(self.uuid!).updateData(["talkingTo": ""])
+        }
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
         
@@ -448,7 +469,6 @@ class ChatViewController: UIViewController
             AVNumberOfChannelsKey: 1,
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
-
         do
         {
             audioRecorder = try AVAudioRecorder(url: self.path!, settings: settings)
@@ -557,23 +577,28 @@ class ChatViewController: UIViewController
                     //update unreadcount for recipient
                     Task.init
                     {
+                        let formatter = DateFormatter()
+                        formatter.timeZone = TimeZone.current
+                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                        let now = formatter.string(from: Date.now)
                         let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
-                        if let rec = talkingTo!["talkingTo"] as? String
+                        let rec = talkingTo!["talkingTo"] as? String
+                        if rec == self.uuid!
                         {
-                            if rec == self.uuid!
-                            {
-                                try await self.db.collection("users").document(self.uuid!).updateData(["change": self.myBucketURL+(metadata?.path)!])
-                                return
-                            }
+                            try await self.db.collection("users").document(self.uuid!).updateData(["change": self.myBucketURL+(metadata?.path)!])
                         }
-                        if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+                        if let dict = try await self.db.collection("userInfo").document(self.recepientUID).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                         {
-                            if let unreadCount = dict[self.recepientUID]![2] as? Int
+                            if let unreadCount = dict[self.uuid!]![2] as? Int
                             {
                                 var temp = dict
-                                temp[self.recepientUID]![0] = self.growingTextView.text
-                                temp[self.recepientUID]![2] = unreadCount+1
-                                try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
+                                temp[self.uuid!]![0] = String(data: textToSend, encoding: .utf8)
+                                temp[self.uuid!]![1] = now
+                                if rec != self.uuid!
+                                {
+                                    temp[self.uuid!]![2] = unreadCount+1
+                                }
+                                try await self.db.collection("userInfo").document(self.recepientUID).updateData(["chatRoom" : temp])
                             }
                         }
                     }

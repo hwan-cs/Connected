@@ -133,7 +133,7 @@ class ChatRoomViewController: UIViewController
                     if let rdict = try await self.db.collection("userInfo").document(rid).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                     {
                         var temp = rdict
-                        temp[rid] = ["",now,0]
+                        temp[self.uuid!] = ["",now,0]
                         try await self.db.collection("userInfo").document(rid).updateData(["chatRoom" :temp])
                     }
                     else
@@ -195,6 +195,7 @@ extension ChatRoomViewController: UITableViewDataSource
             chatRoomCell.previewLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][0] as! String)
         }
         let storageRef = self.storage.reference()
+        print(self.friendsArray)
         let friendProfileRef = storageRef.child("\(self.friendsArray[indexPath.row])/ProfileInfo/")
         friendProfileRef.listAll(completion:
         { (storageListResult, error) in
