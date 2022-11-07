@@ -83,7 +83,6 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
         
         self.messageView.layer.borderWidth = 0.5
         self.messageView.layer.borderColor = UIColor.lightGray.cgColor
-
     }
 
     @IBAction func didTapPlayButton(_ sender: UIButton)
@@ -113,6 +112,7 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
                         self.playbackButton.isUserInteractionEnabled = true
                         player = try AVAudioPlayer(data: audio, fileTypeHint: AVFileType.m4a.rawValue)
                         guard let player = player else { return }
+                        K.allAudioPlayers.append(player)
                         player.prepareToPlay()
                         player.delegate = self
                         player.volume = 50.0

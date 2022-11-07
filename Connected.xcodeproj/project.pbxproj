@@ -38,6 +38,7 @@
 		1A7FBDC228F5D5B0001A37BF /* UITableView_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FBDC128F5D5AF001A37BF /* UITableView_Extensions.swift */; };
 		1A7FBDC428F6B1E7001A37BF /* ProfileSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FBDC328F6B1E7001A37BF /* ProfileSheetViewController.swift */; };
 		1AA8A0D62914251C00110A88 /* NewChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8A0D52914251B00110A88 /* NewChatViewController.swift */; };
+		1AAC727A291954FD00842AB7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC7279291954FC00842AB7 /* SettingsViewController.swift */; };
 		1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88628CB409F00B96A7C /* AppDelegate.swift */; };
 		1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88A28CB409F00B96A7C /* LoginViewController.swift */; };
 		1AACE88E28CB409F00B96A7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AACE88C28CB409F00B96A7C /* Main.storyboard */; };
@@ -107,6 +108,7 @@
 		1A7FBDC128F5D5AF001A37BF /* UITableView_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView_Extensions.swift; sourceTree = "<group>"; };
 		1A7FBDC328F6B1E7001A37BF /* ProfileSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSheetViewController.swift; sourceTree = "<group>"; };
 		1AA8A0D52914251B00110A88 /* NewChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatViewController.swift; sourceTree = "<group>"; };
+		1AAC7279291954FC00842AB7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1AACE88328CB409F00B96A7C /* Connected.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connected.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AACE88628CB409F00B96A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AACE88A28CB409F00B96A7C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				1A72071428EFF7A4008F8B82 /* FriendsViewController.swift */,
 				1A7FBDC328F6B1E7001A37BF /* ProfileSheetViewController.swift */,
 				1AA8A0D52914251B00110A88 /* NewChatViewController.swift */,
+				1AAC7279291954FC00842AB7 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */,
 				1A7FBDC228F5D5B0001A37BF /* UITableView_Extensions.swift in Sources */,
 				1ADA77C128DB5722006EC39B /* RecChatTableViewCell.swift in Sources */,
+				1AAC727A291954FD00842AB7 /* SettingsViewController.swift in Sources */,
 				1A72071528EFF7A4008F8B82 /* FriendsViewController.swift in Sources */,
 				1A48B3D328DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift in Sources */,
 				1AA8A0D62914251C00110A88 /* NewChatViewController.swift in Sources */,

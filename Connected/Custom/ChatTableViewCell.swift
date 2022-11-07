@@ -81,7 +81,6 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
         self.messageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
         self.messageView.layer.borderWidth = 0.5
         self.messageView.layer.borderColor = UIColor.lightGray.cgColor
-
     }
 
     @IBAction func didTapPlayButton(_ sender: UIButton)
@@ -111,6 +110,7 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
                         self.playbackButton.isUserInteractionEnabled = true
                         player = try AVAudioPlayer(data: audio, fileTypeHint: AVFileType.m4a.rawValue)
                         guard let player = player else { return }
+                        K.allAudioPlayers.append(player)
                         player.prepareToPlay()
                         player.delegate = self
                         player.volume = 50.0
@@ -174,7 +174,6 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
     override func setSelected(_ selected: Bool, animated: Bool)
     {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 }
@@ -185,7 +184,6 @@ extension ChatTableViewCell: AVAudioPlayerDelegate
     {
         if flag
         {
-            print("finished")
             player.stop()
             player.currentTime = 0
             self.second = 0

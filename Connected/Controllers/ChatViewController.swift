@@ -277,25 +277,32 @@ class ChatViewController: UIViewController
 
     override func viewWillDisappear(_ animated: Bool)
     {
-        Task.init
+        if K.didSendAnything
         {
-            let formatter = DateFormatter()
-            formatter.timeZone = TimeZone.current
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            let now = formatter.string(from: Date.now)
-            let talkingTo = try await self.db.collection("users").document(self.uuid!).getDocument().data()
-            let rec = talkingTo!["talkingTo"] as? String
-            if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+            Task.init
             {
-                var temp = dict
-                if let dict = try await self.db.collection("userInfo").document(self.recepientUID).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+                let formatter = DateFormatter()
+                formatter.timeZone = TimeZone.current
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                let now = formatter.string(from: Date.now)
+                let talkingTo = try await self.db.collection("users").document(self.uuid!).getDocument().data()
+                let rec = talkingTo!["talkingTo"] as? String
+                if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                 {
-                    temp[self.recepientUID]![0] = dict[self.uuid!]![0]
-                    temp[self.recepientUID]![1] = dict[self.uuid!]![1]
-                    try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
+                    var temp = dict
+                    if let dict = try await self.db.collection("userInfo").document(self.recepientUID).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+                    {
+                        temp[self.recepientUID]![0] = dict[self.uuid!]![0]
+                        temp[self.recepientUID]![1] = dict[self.uuid!]![1]
+                        try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
+                    }
                 }
+                try await self.db.collection("users").document(self.uuid!).updateData(["talkingTo": ""])
             }
-            try await self.db.collection("users").document(self.uuid!).updateData(["talkingTo": ""])
+        }
+        for avp in K.allAudioPlayers
+        {
+            avp.stop()
         }
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
@@ -366,7 +373,7 @@ class ChatViewController: UIViewController
                         self.waveFormView.configuration = self.waveFormView.configuration.with(
                             style: .striped(.init(color: .systemBlue, width: 3, spacing: 3)),
                             position: .bottom,
-                            verticalScalingFactor: 3)
+                            verticalScalingFactor: 6.5)
                         //stackView.addSubview(waveFormView)
                         self.view.addSubview(self.waveFormView)
                     }
@@ -426,22 +433,23 @@ class ChatViewController: UIViewController
                             let data = try Data(contentsOf: self.path!)
                             self.userViewModel?.userDataArray[data] = [true, metadata?.name!]
                             let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
-                            if let rec = talkingTo!["talkingTo"] as? String
+                            let rec = talkingTo!["talkingTo"] as? String
+                            if rec == self.uuid!
                             {
-                                if rec == self.uuid!
-                                {
-                                    try await self.db.collection("users").document(self.uuid!).updateData(["change": self.myBucketURL+(metadata?.path)!])
-                                    return
-                                }
+                                try await self.db.collection("users").document(self.uuid!).updateData(["change": self.myBucketURL+(metadata?.path)!])
                             }
-                            if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+                            if let dict = try await self.db.collection("userInfo").document(self.recepientUID).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                             {
-                                if let unreadCount = dict[self.recepientUID]![2] as? Int
+                                if let unreadCount = dict[self.uuid!]![2] as? Int
                                 {
                                     var temp = dict
-                                    temp[self.recepientUID]![0] = "waveform"
-                                    temp[self.recepientUID]![2] = unreadCount + 1
-                                    try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
+                                    temp[self.uuid!]![0] = "waveform"
+                                    temp[self.uuid!]![1] = now
+                                    if rec != self.uuid!
+                                    {
+                                        temp[self.uuid!]![2] = unreadCount+1
+                                    }
+                                    try await self.db.collection("userInfo").document(self.recepientUID).updateData(["chatRoom" : temp])
                                 }
                             }
                         }
