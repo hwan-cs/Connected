@@ -104,7 +104,6 @@ class FriendsViewController: UIViewController
         barButtonItem.tintColor = .black
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
         self.navigationController?.navigationBar.backgroundColor = .clear
-        self.tableView.reloadData()
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())
@@ -301,14 +300,14 @@ extension FriendsViewController: UITableViewDataSource
                         {
                             do
                             {
-                                let result = try self.cacheStorage!.entry(forKey: items.name)
+                                let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
                                 if items.name.contains("profileImage")
                                 {
                                     DispatchQueue.main.async
                                     {
-                                        print("profile \(result.object)")
                                         myProfileCell.myProfileImage.image = UIImage(data: result.object)
                                         myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                        K.myProfileImg = UIImage(data: result.object)
                                     }
                                 }
                                 else if items.name.contains("backgroundImage")
@@ -327,13 +326,14 @@ extension FriendsViewController: UITableViewDataSource
                                     }
                                     else
                                     {
-                                        self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in})
                                         if items.name.contains("profileImage")
                                         {
                                             DispatchQueue.main.async
                                             {
                                                 myProfileCell.myProfileImage.image = UIImage(data: data!)
                                                 myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                                K.myProfileImg = UIImage(data: data!)
                                             }
                                         }
                                         else if items.name.contains("backgroundImage")
@@ -346,9 +346,15 @@ extension FriendsViewController: UITableViewDataSource
                         }
                     }
                 })
-                myProfileCell.myProfileName.text = data!["name"] as? String
+                guard let name = data!["name"] as? String else { return }
+                guard let username = data!["username"] as? String else { return }
+                guard let email = data!["email"] as? String else { return }
+                myProfileCell.myProfileName.text = name
                 myProfileCell.myProfileStatus.text = data!["statusMsg"] as? String
-                myProfileCell.userID = data!["username"] as? String
+                myProfileCell.userID = username
+                K.myProfileName = name
+                K.myProfileUsername = username
+                K.myProfileEmail = email
             }
             //received friends requests
             else if indexPath.section == 1
@@ -365,7 +371,7 @@ extension FriendsViewController: UITableViewDataSource
                         {
                             do
                             {
-                                let result = try self.cacheStorage!.entry(forKey: items.name)
+                                let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
                                 if items.name.contains("profileImage")
                                 {
                                     DispatchQueue.main.async
@@ -387,7 +393,7 @@ extension FriendsViewController: UITableViewDataSource
                                     }
                                     else
                                     {
-                                        self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in})
                                         if items.name.contains("profileImage")
                                         {
                                             DispatchQueue.main.async
@@ -422,7 +428,7 @@ extension FriendsViewController: UITableViewDataSource
                         {
                             do
                             {
-                                let result = try self.cacheStorage!.entry(forKey: items.name)
+                                let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
                                 if items.name.contains("profileImage")
                                 {
                                     DispatchQueue.main.async
@@ -443,7 +449,7 @@ extension FriendsViewController: UITableViewDataSource
                                     }
                                     else
                                     {
-                                        self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in})
                                         if items.name.contains("profileImage")
                                         {
                                             DispatchQueue.main.async
@@ -480,7 +486,8 @@ extension FriendsViewController: UITableViewDataSource
                         {
                             do
                             {
-                                let result = try self.cacheStorage!.entry(forKey: items.name)
+                                print("\(userID)_\(items.name)")
+                                let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
                                 if items.name.contains("profileImage")
                                 {
                                     DispatchQueue.main.async
@@ -505,7 +512,7 @@ extension FriendsViewController: UITableViewDataSource
                                     }
                                     else
                                     {
-                                        self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in})
                                         if items.name.contains("profileImage")
                                         {
                                             DispatchQueue.main.async

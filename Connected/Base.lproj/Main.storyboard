@@ -799,7 +799,7 @@
                                 <rect key="frame" x="16" y="350" width="382" height="346"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i9e-SH-Q4s">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="69"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="86.5"/>
                                         <buttonConfiguration key="configuration" style="plain" image="Display" title="  화면">
                                             <backgroundConfiguration key="background" imageContentMode="right">
                                                 <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium" renderingMode="original"/>
@@ -809,9 +809,9 @@
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yac-UU-Veb" userLabel="테마">
-                                        <rect key="frame" x="0.0" y="69" width="382" height="69.5"/>
+                                        <rect key="frame" x="0.0" y="86.5" width="382" height="86.5"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="Theme" title="  테마">
+                                        <buttonConfiguration key="configuration" style="plain" image="character.bubble.fill.ko" catalog="system" title="  언어">
                                             <backgroundConfiguration key="background" imageContentMode="right">
                                                 <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium" renderingMode="original"/>
                                             </backgroundConfiguration>
@@ -820,7 +820,7 @@
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CV1-ss-qlO">
-                                        <rect key="frame" x="0.0" y="138.5" width="382" height="69"/>
+                                        <rect key="frame" x="0.0" y="173" width="382" height="86.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="Noti" title="  알림">
                                             <backgroundConfiguration key="background" imageContentMode="right">
@@ -830,19 +830,8 @@
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bEy-n5-qZG">
-                                        <rect key="frame" x="0.0" y="207.5" width="382" height="69.5"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="Call" title="  전화">
-                                            <backgroundConfiguration key="background" imageContentMode="right">
-                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium" renderingMode="original"/>
-                                            </backgroundConfiguration>
-                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="18"/>
-                                            <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </buttonConfiguration>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfo-DF-qhM">
-                                        <rect key="frame" x="0.0" y="277" width="382" height="69"/>
+                                        <rect key="frame" x="0.0" y="259.5" width="382" height="86.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="Etc" title="  기타">
                                             <backgroundConfiguration key="background" imageContentMode="right">
@@ -870,6 +859,12 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="설정" image="Setting_Inactive" selectedImage="Setting_Active" id="XzE-9Y-r1E"/>
                     <navigationItem key="navigationItem" title="설정" id="vZt-5Z-WfK"/>
+                    <connections>
+                        <outlet property="settingsProfileEmail" destination="7pe-jb-bAy" id="Qza-VH-Ltl"/>
+                        <outlet property="settingsProfileImg" destination="hPa-Dp-HVM" id="qUd-mr-C2g"/>
+                        <outlet property="settingsProfileName" destination="BoM-Ue-8u5" id="tb6-T4-oWB"/>
+                        <outlet property="settingsProfileUsername" destination="aUV-MR-0xq" id="284-NW-mIU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J35-OZ-Ll3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1425,7 +1420,6 @@
     </designables>
     <resources>
         <image name="Background_profile" width="360" height="239"/>
-        <image name="Call" width="24" height="24"/>
         <image name="Chat_Active" width="24" height="24"/>
         <image name="Chat_Inactive" width="24" height="24"/>
         <image name="Display" width="24" height="24"/>
@@ -1443,9 +1437,9 @@
         <image name="Noti" width="24" height="24"/>
         <image name="Setting_Active" width="24" height="24"/>
         <image name="Setting_Inactive" width="24" height="24"/>
-        <image name="Theme" width="24" height="24"/>
         <image name="Voice" width="56" height="56"/>
         <image name="arrow.right" catalog="system" width="128" height="95"/>
+        <image name="character.bubble.fill.ko" catalog="system" width="128" height="110"/>
         <image name="eye" catalog="system" width="128" height="79"/>
         <image name="location.fill" catalog="system" width="128" height="119"/>
         <image name="mic.fill" catalog="system" width="110" height="128"/>

@@ -210,6 +210,7 @@ class ProfileSheetViewController: UIViewController
                     if name != self.changeNameTextView.text
                     {
                         try await self.db.collection("users").document(self.uuid!).updateData(["name": self.changeNameTextView.text!])
+                        K.myProfileName = self.changeNameTextView.text!
                     }
                 }
                 if let statusMsg = data!["statusMsg"] as? String
@@ -247,6 +248,7 @@ class ProfileSheetViewController: UIViewController
                 let storageRef = self.storage.reference()
                 let profileImageRef = storageRef.child("\(self.uuid!)/ProfileInfo/profileImage.png")
                 let profileData = self.profileImage.image?.pngData()
+                K.myProfileImg = self.profileImage.image!
                 let uploadProfileTask = profileImageRef.putData(profileData!)
                 { metadata, error in
                     if let error = error
@@ -263,11 +265,9 @@ class ProfileSheetViewController: UIViewController
                             }
                             else
                             {
-                                self.cacheStorage?.async.removeObject(forKey: "profileImage.png", completion:
+                                self.cacheStorage?.async.removeObject(forKey: "\(self.uuid!)_profileImage.png", completion:
                                 { _ in
-                                    print("cached profileimage")
-                                    print(data!)
-                                    self.cacheStorage?.async.setObject(data!, forKey: "profileImage.png", completion: {_ in
+                                    self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_profileImage.png", completion: {_ in
                                         self.onDismissBlock!(true)})
                                 })
                             }
@@ -292,11 +292,11 @@ class ProfileSheetViewController: UIViewController
                             }
                             else
                             {
-                                self.cacheStorage?.async.removeObject(forKey: "backgroundImage.png", completion:
+                                self.cacheStorage?.async.removeObject(forKey: "\(self.uuid!)_backgroundImage.png", completion:
                                 { _ in
                                     print("cached background image")
                                     print(data!)
-                                    self.cacheStorage?.async.setObject(data!, forKey: "backgroundImage.png", completion: {_ in self.onDismissBlock!(true) })
+                                    self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_backgroundImage.png", completion: {_ in self.onDismissBlock!(true) })
                                 })
                             }
                         }
@@ -364,7 +364,7 @@ class ProfileSheetViewController: UIViewController
     
     override func viewWillDisappear(_ animated: Bool)
     {
-        self.onDismissBlock!(true)
+        self.didChangePhoto ? self.onDismissBlock!(false) : self.onDismissBlock!(true)
     }
 }
 
