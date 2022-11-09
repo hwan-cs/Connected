@@ -265,10 +265,7 @@ extension FriendsViewController: UITableViewDelegate
         let token = Messaging.messaging().fcmToken
         Task.init
         {
-            if try await self.db.collection("users").document(uuid!).getDocument().data()!["fcmToken"] == nil
-            {
-                try await self.db.collection("users").document(uuid!).updateData(["fcmToken": token])
-            }
+            try await self.db.collection("users").document(uuid!).updateData(["fcmToken": token])
         }
     }
 }

@@ -48,7 +48,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     lazy var containerView: UIView =
     {
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor(named: "BackgroundColor2")
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
         return view

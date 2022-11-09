@@ -40,4 +40,11 @@ class SettingsViewController: UIViewController
         self.settingsProfileEmail.text = K.myProfileEmail!
         self.settingsProfileUsername.text = K.myProfileUsername!
     }
+    
+    @IBAction func didTapAppearance(_ sender: UIButton)
+    {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "AppearanceVC") as! SettingAppearanceViewController
+        vc.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }

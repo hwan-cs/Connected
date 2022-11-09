@@ -29,7 +29,7 @@ extension ChatViewController
                 if self.userDataArray.count > 0
                 {
                     self.loadData()
-                    self.tableView.scrollToBottom(isAnimated: true)
+                    self.tableView.scrollToBottom(isAnimated: K.didInit)
                 }
             }.store(in: &disposableBag)
     }

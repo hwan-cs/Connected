@@ -113,6 +113,8 @@ class ChatViewController: UIViewController
     
     let uuid = Auth.auth().currentUser?.uid
     
+    var myName: String?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -158,6 +160,7 @@ class ChatViewController: UIViewController
         {
             let data = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
             self.navigationController?.navigationBar.topItem?.title = data!["name"] as? String
+            self.myName = data!["name"] as? String
             AppDelegate.receiverFCMToken = data!["fcmToken"] as? String
         }
         
@@ -306,6 +309,7 @@ class ChatViewController: UIViewController
         {
             avp.stop()
         }
+        K.didInit = false
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
         
@@ -619,7 +623,7 @@ class ChatViewController: UIViewController
                 }
             }
         }
-        self.sendMessageTouser(to: AppDelegate.receiverFCMToken!, title: "커넥티드", body: self.growingTextView.text!)
+        self.sendMessageTouser(to: AppDelegate.receiverFCMToken!, title: self.myName!, body: self.growingTextView.text!)
         self.growingTextView.text = ""
     }
     
