@@ -18,6 +18,7 @@ target 'Connected' do
     pod 'Firebase/Auth'
     pod 'Firebase/Firestore'
     pod 'Firebase/DynamicLinks'
+    pod 'FirebaseMessaging'
     pod 'FirebaseStorage'
     pod 'TransitionButton'
     pod 'GrowingTextView', '0.7.2'

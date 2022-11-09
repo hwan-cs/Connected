@@ -15,6 +15,9 @@ import FirebaseFirestore
 import Combine
 import Cache
 import SwiftMessages
+import FirebaseMessaging
+import UserNotifications
+import FirebaseInstallations
 
 class FriendsViewController: UIViewController
 {
@@ -64,6 +67,8 @@ class FriendsViewController: UIViewController
         self.tableView.register(UINib(nibName: K.friendProfileCellNibName, bundle: nil), forCellReuseIdentifier: K.friendProfileCellID)
         self.tableView.register(UINib(nibName: K.friendRequestRNibName, bundle: nil), forCellReuseIdentifier: K.friendRequestRCellID)
         self.tableView.register(UINib(nibName: K.friendRequestSNibName, bundle: nil), forCellReuseIdentifier: K.friendRequestSCellID)
+        
+        self.handleLogTokenTouch()
         
         Task.init
         {
@@ -252,6 +257,18 @@ extension FriendsViewController: UITableViewDelegate
             self.present(vc, animated: true, completion: { [weak self] in
                 self?.presentTransition = nil
             })
+        }
+    }
+    
+    func handleLogTokenTouch()
+    {
+        let token = Messaging.messaging().fcmToken
+        Task.init
+        {
+            if try await self.db.collection("users").document(uuid!).getDocument().data()!["fcmToken"] == nil
+            {
+                try await self.db.collection("users").document(uuid!).updateData(["fcmToken": token])
+            }
         }
     }
 }

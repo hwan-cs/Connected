@@ -156,7 +156,9 @@ class ChatViewController: UIViewController
         self.navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = K.mainColor
         Task.init
         {
-            self.navigationController?.navigationBar.topItem?.title = try await self.db.collection("users").document(self.recepientUID).getDocument().data()?["name"] as? String
+            let data = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+            self.navigationController?.navigationBar.topItem?.title = data!["name"] as? String
+            AppDelegate.receiverFCMToken = data!["fcmToken"] as? String
         }
         
         Task.init
@@ -617,6 +619,7 @@ class ChatViewController: UIViewController
                 }
             }
         }
+        self.sendMessageTouser(to: AppDelegate.receiverFCMToken!, title: "커넥티드", body: self.growingTextView.text!)
         self.growingTextView.text = ""
     }
     
@@ -630,15 +633,44 @@ class ChatViewController: UIViewController
         }
     }
     
-    func loadRecipientMap()
-    {
-        
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
         self.view.endEditing(true)
         return false
+    }
+    
+    func sendMessageTouser(to token: String, title: String, body: String)
+    {
+        print("sendMessageTouser()")
+        let urlString = "https://fcm.googleapis.com/fcm/send"
+        let url = NSURL(string: urlString)!
+        let paramString: [String : Any] = ["to" : token,
+                                           "notification" : ["title" : title, "body" : body],
+                                           "data" : ["user" : "test_id"]
+        ]
+        let request = NSMutableURLRequest(url: url as URL)
+        request.httpMethod = "POST"
+        request.httpBody = try? JSONSerialization.data(withJSONObject:paramString, options: [.prettyPrinted])
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("key=\(AppDelegate.legacyServerKey)", forHTTPHeaderField: "Authorization")
+        let task =  URLSession.shared.dataTask(with: request as URLRequest)
+        { (data, response, error) in
+            do
+            {
+                if let jsonData = data
+                {
+                    if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject]
+                    {
+                        print("Received data:\n\(jsonDataDict))")
+                    }
+                }
+            }
+            catch let err as NSError
+            {
+                print(err.debugDescription)
+            }
+        }
+        task.resume()
     }
 }
 
