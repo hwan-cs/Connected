@@ -46,8 +46,8 @@ class TextChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
         self.backgroundColor = .clear
         self.messageView.clipsToBounds = true
         self.messageView.layer.masksToBounds = false
-        self.contentView.layer.shadowRadius = 4
-        self.contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        self.contentView.layer.shadowRadius = 2
+        self.contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
         self.contentView.layer.shadowColor = UIColor.gray.cgColor
         self.contentView.layer.shadowOpacity = 0.2
         

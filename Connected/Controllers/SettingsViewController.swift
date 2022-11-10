@@ -47,4 +47,11 @@ class SettingsViewController: UIViewController
         vc.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    @IBAction func didTapLanguage(_ sender: UIButton)
+    {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LanguageVC") as! SettingLanguageViewController
+        vc.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }

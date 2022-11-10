@@ -147,7 +147,7 @@ class ChatViewController: UIViewController
         self.textView.removeFromSuperview()
         self.growingTextView.delegate = self
         self.growingTextView.translatesAutoresizingMaskIntoConstraints = false
-        self.growingTextView.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 8, right: 12)
+        self.growingTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
         self.growingTextView.font = UIFont.systemFont(ofSize: 16.0)
         self.tableView.estimatedRowHeight = 64
         
@@ -160,7 +160,6 @@ class ChatViewController: UIViewController
         {
             let data = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
             self.navigationController?.navigationBar.topItem?.title = data!["name"] as? String
-            self.myName = data!["name"] as? String
             AppDelegate.receiverFCMToken = data!["fcmToken"] as? String
         }
         
@@ -179,6 +178,7 @@ class ChatViewController: UIViewController
             try await self.db.collection("users").document(uuid!).updateData(["talkingTo": self.recepientUID])
             if let mData = try await self.db.collection("users").document(uuid!).getDocument().data()
             {
+                self.myName = mData["name"] as? String
                 if (mData["isSharingLocation"] as! Bool)
                 {
                     self.locationManager?.requestAlwaysAuthorization()
@@ -286,19 +286,15 @@ class ChatViewController: UIViewController
         {
             Task.init
             {
-                let formatter = DateFormatter()
-                formatter.timeZone = TimeZone.current
-                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                let now = formatter.string(from: Date.now)
                 let talkingTo = try await self.db.collection("users").document(self.uuid!).getDocument().data()
                 let rec = talkingTo!["talkingTo"] as? String
                 if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                 {
                     var temp = dict
-                    if let dict = try await self.db.collection("userInfo").document(self.recepientUID).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+                    if let rdict = try await self.db.collection("userInfo").document(self.recepientUID).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                     {
-                        temp[self.recepientUID]![0] = dict[self.uuid!]![0]
-                        temp[self.recepientUID]![1] = dict[self.uuid!]![1]
+                        temp[self.recepientUID]![0] = rdict[self.uuid!]![0]
+                        temp[self.recepientUID]![1] = rdict[self.uuid!]![1]
                         try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
                     }
                 }
@@ -310,6 +306,7 @@ class ChatViewController: UIViewController
             avp.stop()
         }
         K.didInit = false
+        K.didSendAnything = false
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
         
@@ -456,6 +453,7 @@ class ChatViewController: UIViewController
                                         temp[self.uuid!]![2] = unreadCount+1
                                     }
                                     try await self.db.collection("userInfo").document(self.recepientUID).updateData(["chatRoom" : temp])
+                                    K.didSendAnything = true
                                 }
                             }
                         }
@@ -470,6 +468,10 @@ class ChatViewController: UIViewController
         else
         {
             print("recording failed")
+        }
+        if AppDelegate.receiverFCMToken != nil
+        {
+            self.sendMessageTouser(to: AppDelegate.receiverFCMToken!, title: self.myName!, body: "녹음 메세지")
         }
     }
     
@@ -613,6 +615,7 @@ class ChatViewController: UIViewController
                                     temp[self.uuid!]![2] = unreadCount+1
                                 }
                                 try await self.db.collection("userInfo").document(self.recepientUID).updateData(["chatRoom" : temp])
+                                K.didSendAnything = true
                             }
                         }
                     }
@@ -623,7 +626,10 @@ class ChatViewController: UIViewController
                 }
             }
         }
-        self.sendMessageTouser(to: AppDelegate.receiverFCMToken!, title: self.myName!, body: self.growingTextView.text!)
+        if AppDelegate.receiverFCMToken != nil
+        {
+            self.sendMessageTouser(to: AppDelegate.receiverFCMToken!, title: self.myName!, body: self.growingTextView.text!)
+        }
         self.growingTextView.text = ""
     }
     

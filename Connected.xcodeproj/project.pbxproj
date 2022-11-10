@@ -40,6 +40,7 @@
 		1AA8A0D62914251C00110A88 /* NewChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8A0D52914251B00110A88 /* NewChatViewController.swift */; };
 		1AAC727A291954FD00842AB7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC7279291954FC00842AB7 /* SettingsViewController.swift */; };
 		1AAC727D291BFA3200842AB7 /* SettingAppearanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */; };
+		1AAC727F291D263F00842AB7 /* SettingLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC727E291D263E00842AB7 /* SettingLanguageViewController.swift */; };
 		1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88628CB409F00B96A7C /* AppDelegate.swift */; };
 		1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88A28CB409F00B96A7C /* LoginViewController.swift */; };
 		1AACE88E28CB409F00B96A7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AACE88C28CB409F00B96A7C /* Main.storyboard */; };
@@ -112,6 +113,7 @@
 		1AAC7279291954FC00842AB7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1AAC727B291BAE4100842AB7 /* ConnectedDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConnectedDebug.entitlements; sourceTree = "<group>"; };
 		1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAppearanceViewController.swift; sourceTree = "<group>"; };
+		1AAC727E291D263E00842AB7 /* SettingLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingLanguageViewController.swift; sourceTree = "<group>"; };
 		1AACE88328CB409F00B96A7C /* Connected.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connected.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AACE88628CB409F00B96A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AACE88A28CB409F00B96A7C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				1AA8A0D52914251B00110A88 /* NewChatViewController.swift */,
 				1AAC7279291954FC00842AB7 /* SettingsViewController.swift */,
 				1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */,
+				1AAC727E291D263E00842AB7 /* SettingLanguageViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				1A7FBDBF28F1B652001A37BF /* FriendProfileTableViewCell.swift in Sources */,
 				1A7FBDBC28F025B8001A37BF /* FriendsVC_Extensions.swift in Sources */,
 				1A7FBDB628EFFE7C001A37BF /* MyTabBarController.swift in Sources */,
+				1AAC727F291D263F00842AB7 /* SettingLanguageViewController.swift in Sources */,
 				1A41E69628E2D8C7006D0C9A /* CachingPlayerItem.swift in Sources */,
 				1AB6A01828CF057300A0D127 /* LoginSheetVC_Extensions.swift in Sources */,
 				1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */,

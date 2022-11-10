@@ -18,7 +18,7 @@ class SettingAppearanceViewController: UIViewController
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.safeAreaColorToMainColor()
-        self.tableView.backgroundColor = .systemGray4
+        self.tableView.backgroundColor = .lightGray
         self.tableView.layer.cornerRadius = 16.0
         self.tableView.layer.borderWidth = 1
         self.tableView.layer.borderColor = UIColor.lightGray.cgColor
@@ -45,7 +45,7 @@ extension SettingAppearanceViewController: UITableViewDataSource
 
         // create our NSTextAttachment
         let imageAttachment = NSTextAttachment()
-        imageAttachment.image = UIImage(systemName: "checkmark.circle.fill")
+        imageAttachment.image = UIImage(systemName: "checkmark.circle.fill")?.withTintColor(.tintColor)
 
         // wrap the attachment in its own attributed string so we can append it
         let imageString = NSAttributedString(attachment: imageAttachment)
