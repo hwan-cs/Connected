@@ -167,7 +167,7 @@
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="eye" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Py2-MT-7pu">
                                 <rect key="frame" x="346" y="174.5" width="30" height="28"/>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" name="GrayAndWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="Kfd-Ne-P2K"/>
                                     <constraint firstAttribute="height" constant="30" id="lC5-qn-55G"/>
@@ -227,10 +227,11 @@
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mjv-6W-pme" customClass="TweeAttributedTextField" customModule="TweeTextField">
                                                 <rect key="frame" x="30" y="90" width="354" height="52"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="TextfFieldBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="52" id="hzH-gK-Nj0"/>
                                                 </constraints>
+                                                <color key="textColor" name="BlackAndWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" textContentType="username"/>
                                                 <userDefinedRuntimeAttributes>
@@ -248,10 +249,11 @@
                                             </textField>
                                             <textField opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rCL-W8-o69" customClass="TweeAttributedTextField" customModule="TweeTextField">
                                                 <rect key="frame" x="30" y="182" width="354" height="52"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="TextfFieldBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="52" id="iGs-eX-dkV"/>
                                                 </constraints>
+                                                <color key="textColor" name="BlackAndWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="new-password"/>
                                                 <userDefinedRuntimeAttributes>
@@ -269,10 +271,11 @@
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b8k-2H-TgQ" customClass="TweeAttributedTextField" customModule="TweeTextField">
                                                 <rect key="frame" x="30" y="274" width="354" height="52"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="TextfFieldBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="52" id="NFc-br-Kqq"/>
                                                 </constraints>
+                                                <color key="textColor" name="BlackAndWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="new-password"/>
                                                 <userDefinedRuntimeAttributes>
@@ -290,7 +293,7 @@
                                             </textField>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="bAn-29-WQf">
                                                 <rect key="frame" x="346" y="194.5" width="30" height="26.5"/>
-                                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" name="GrayAndWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="30" id="fIX-zo-z8i"/>
                                                     <constraint firstAttribute="height" constant="30" id="j10-iI-KBT"/>
@@ -302,7 +305,7 @@
                                                     <constraint firstAttribute="width" constant="80" id="Mup-m1-qfw"/>
                                                     <constraint firstAttribute="height" constant="32" id="cMc-Kk-yBK"/>
                                                 </constraints>
-                                                <color key="tintColor" systemColor="systemGrayColor"/>
+                                                <color key="tintColor" name="GrayAndWhite"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="중복 확인">
                                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="15"/>
@@ -313,10 +316,11 @@
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BJx-Y1-id2" customClass="TweeAttributedTextField" customModule="TweeTextField">
                                                 <rect key="frame" x="30" y="366" width="354" height="52"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="TextfFieldBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="52" id="DBs-Uk-mu7"/>
                                                 </constraints>
+                                                <color key="textColor" name="BlackAndWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" textContentType="email"/>
                                                 <userDefinedRuntimeAttributes>
@@ -355,7 +359,7 @@
                                             </button>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xED-UQ-DXk">
                                                 <rect key="frame" x="346" y="286.5" width="30" height="26.5"/>
-                                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" name="GrayAndWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="30" id="SPZ-PD-XBi"/>
                                                     <constraint firstAttribute="height" constant="30" id="u11-ME-vMR"/>
@@ -363,10 +367,11 @@
                                             </imageView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vWR-oG-JDm" customClass="TweeAttributedTextField" customModule="TweeTextField">
                                                 <rect key="frame" x="30" y="458" width="354" height="52"/>
-                                                <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="TextfFieldBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="52" id="NpA-Tj-sJr"/>
                                                 </constraints>
+                                                <color key="textColor" name="BlackAndWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" textContentType="name"/>
                                                 <userDefinedRuntimeAttributes>
@@ -383,7 +388,7 @@
                                                 </connections>
                                             </textField>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" name="BackgroundColor2"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="ZUm-F3-lWm" secondAttribute="trailing" constant="30" id="5Ei-7d-l2P"/>
                                             <constraint firstItem="vWR-oG-JDm" firstAttribute="top" secondItem="BJx-Y1-id2" secondAttribute="bottom" constant="40" id="5TD-Ni-lrd"/>
@@ -419,6 +424,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" name="BackgroundColor2"/>
                                 <constraints>
                                     <constraint firstItem="G5s-ef-pg7" firstAttribute="bottom" secondItem="xzg-v9-zM2" secondAttribute="bottom" constant="250" id="4TV-Fd-DHd"/>
                                     <constraint firstItem="xzg-v9-zM2" firstAttribute="height" secondItem="tzI-Iu-ab5" secondAttribute="height" id="Brb-JW-5pA"/>
@@ -444,7 +450,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jHu-Dq-OkV"/>
-                        <color key="backgroundColor" red="0.94901960784313721" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="BackgroundColor"/>
                         <constraints>
                             <constraint firstItem="uhp-3M-RDf" firstAttribute="height" secondItem="JLq-wR-y6L" secondAttribute="height" id="3Rv-WT-EJ3"/>
                             <constraint firstAttribute="bottom" secondItem="JLq-wR-y6L" secondAttribute="bottom" id="8EU-O7-460"/>
@@ -485,7 +491,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ufU-6B-BoY">
                                 <rect key="frame" x="0.0" y="92" width="414" height="690"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="BackgroundColor3"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
@@ -525,7 +531,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="BackgroundColor2"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="vin-Ea-vc7" secondAttribute="bottom" id="7E4-oV-ZS0"/>
                                     <constraint firstItem="22d-SY-80F" firstAttribute="top" secondItem="c8L-x4-SgK" secondAttribute="top" id="BGH-YF-WA4"/>
@@ -569,7 +575,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="BackgroundColor2"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="72" id="J7C-fX-C37"/>
                                     <constraint firstAttribute="width" constant="414" id="NgZ-Oa-wyc"/>
@@ -578,11 +584,11 @@
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cbs-Hi-UZW">
                                 <rect key="frame" x="0.0" y="862" width="414" height="34"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="BackgroundColor2"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Hu2-ui-evE"/>
-                        <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="BackgroundColor3"/>
                         <constraints>
                             <constraint firstItem="ufU-6B-BoY" firstAttribute="trailing" secondItem="Hu2-ui-evE" secondAttribute="trailing" id="53w-QR-BZ7"/>
                             <constraint firstItem="Hu2-ui-evE" firstAttribute="trailing" secondItem="Cbs-Hi-UZW" secondAttribute="trailing" id="VyR-cu-nKV"/>
@@ -641,9 +647,24 @@
                 <navigationController storyboardIdentifier="CWCNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="aKd-V5-ghq" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="HWC-r9-5WQ"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Yzd-Gy-vr5">
                         <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="BackgroundColor3"/>
+                        <color key="barTintColor" name="BackgroundColor3"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" name="BlackAndWhite"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" name="BlackAndWhite"/>
+                        </textAttributes>
+                        <navigationBarAppearance key="standardAppearance">
+                            <color key="backgroundColor" name="BackgroundColor3"/>
+                        </navigationBarAppearance>
+                        <navigationBarAppearance key="scrollEdgeAppearance">
+                            <color key="backgroundColor" name="BackgroundColor3"/>
+                        </navigationBarAppearance>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -664,17 +685,18 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNe-LE-edR">
                                 <rect key="frame" x="0.0" y="144" width="414" height="2"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="BackgroundColor3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="g8a-db-fIu"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="jle-sX-5ks">
                                 <rect key="frame" x="0.0" y="146" width="414" height="667"/>
+                                <color key="backgroundColor" name="BackgroundColor3"/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ohK-0a-j0E"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="BackgroundColor3"/>
                         <constraints>
                             <constraint firstItem="jle-sX-5ks" firstAttribute="leading" secondItem="ohK-0a-j0E" secondAttribute="leading" id="Hka-sR-vca"/>
                             <constraint firstItem="FNe-LE-edR" firstAttribute="leading" secondItem="ohK-0a-j0E" secondAttribute="leading" id="Qnw-ck-L5O"/>
@@ -707,6 +729,7 @@
                         <subviews>
                             <searchBar contentMode="redraw" placeholder="검색" translatesAutoresizingMaskIntoConstraints="NO" id="W4O-Yz-oy3">
                                 <rect key="frame" x="0.0" y="144" width="414" height="56"/>
+                                <color key="backgroundColor" name="BackgroundColor3"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="f0X-GL-SrL" id="tqs-5Z-OW1"/>
@@ -714,11 +737,11 @@
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="XWB-eM-zN2">
                                 <rect key="frame" x="0.0" y="200" width="414" height="613"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="BackgroundColor3"/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="59j-f8-xlM"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="BackgroundColor3"/>
                         <constraints>
                             <constraint firstItem="XWB-eM-zN2" firstAttribute="top" secondItem="W4O-Yz-oy3" secondAttribute="bottom" id="42B-x8-ylv"/>
                             <constraint firstItem="W4O-Yz-oy3" firstAttribute="top" secondItem="59j-f8-xlM" secondAttribute="top" id="BrZ-DC-4fW"/>
@@ -1451,28 +1474,13 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5YW-x8-RuY">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="BackgroundColor2"/>
                         <color key="tintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="barTintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="selectedImageTintColor" red="0.023529411760000001" green="0.78039215689999997" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                 <integer key="value" value="20"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="barTopRadius">
-                                <real key="value" value="20"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="barBackColor">
-                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="circleRadius">
-                                <real key="value" value="35"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="circleBackColor">
-                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="marginBottom">
-                                <real key="value" value="20"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBar>
@@ -1549,8 +1557,14 @@
         <namedColor name="BackgroundColor2">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="BackgroundColor3">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="BlackAndWhite">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="GrayAndWhite">
+            <color red="0.55699998140335083" green="0.55699998140335083" blue="0.57599997520446777" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="TextFieldStrokeColor">
             <color red="0.8666666666666667" green="0.88627450980392153" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1563,9 +1577,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
