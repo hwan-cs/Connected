@@ -22,6 +22,8 @@
 		1A48B41828DD93D100FCEA88 /* ChatVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48B41728DD93D100FCEA88 /* ChatVC_Extensions.swift */; };
 		1A4A864C28E31B820078EAFC /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 1A4A864B28E31B820078EAFC /* Cache */; };
 		1A4E1E4928FC497100743552 /* Pods_Connected.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48F2E930CD9E1781D878261 /* Pods_Connected.framework */; };
+		1A61D0BD291D5B2700069A77 /* SettingNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A61D0BC291D5B2700069A77 /* SettingNotificationViewController.swift */; };
+		1A61D0BF291D5CAD00069A77 /* SettingEtcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A61D0BE291D5CAD00069A77 /* SettingEtcViewController.swift */; };
 		1A72070828EB62CB008F8B82 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72070728EB62CB008F8B82 /* Constants.swift */; };
 		1A72070B28ED7263008F8B82 /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72070928ED7263008F8B82 /* ChatRoomTableViewCell.swift */; };
 		1A72070C28ED7263008F8B82 /* ChatRoomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A72070A28ED7263008F8B82 /* ChatRoomTableViewCell.xib */; };
@@ -94,6 +96,8 @@
 		1A48B3D228DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPath_Extensions.swift; sourceTree = "<group>"; };
 		1A48B3D428DD7B1200FCEA88 /* UIView_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView_Extensions.swift; sourceTree = "<group>"; };
 		1A48B41728DD93D100FCEA88 /* ChatVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC_Extensions.swift; sourceTree = "<group>"; };
+		1A61D0BC291D5B2700069A77 /* SettingNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNotificationViewController.swift; sourceTree = "<group>"; };
+		1A61D0BE291D5CAD00069A77 /* SettingEtcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingEtcViewController.swift; sourceTree = "<group>"; };
 		1A72070728EB62CB008F8B82 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1A72070928ED7263008F8B82 /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
 		1A72070A28ED7263008F8B82 /* ChatRoomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatRoomTableViewCell.xib; sourceTree = "<group>"; };
@@ -263,6 +267,8 @@
 				1AAC7279291954FC00842AB7 /* SettingsViewController.swift */,
 				1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */,
 				1AAC727E291D263E00842AB7 /* SettingLanguageViewController.swift */,
+				1A61D0BC291D5B2700069A77 /* SettingNotificationViewController.swift */,
+				1A61D0BE291D5CAD00069A77 /* SettingEtcViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -511,6 +517,7 @@
 				1AB6A01A28D09A8900A0D127 /* SignupViewController.swift in Sources */,
 				1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */,
 				1A7FBDC428F6B1E7001A37BF /* ProfileSheetViewController.swift in Sources */,
+				1A61D0BF291D5CAD00069A77 /* SettingEtcViewController.swift in Sources */,
 				1A46A01B290BC7E10096A923 /* FriendRequestSTableViewCell.swift in Sources */,
 				1AACE8E928CE300A00B96A7C /* UITextField_Extensions.swift in Sources */,
 				1AB6A02128D0DEB000A0D127 /* CustomTransition.swift in Sources */,
@@ -520,6 +527,7 @@
 				1A7FBDB628EFFE7C001A37BF /* MyTabBarController.swift in Sources */,
 				1AAC727F291D263F00842AB7 /* SettingLanguageViewController.swift in Sources */,
 				1A41E69628E2D8C7006D0C9A /* CachingPlayerItem.swift in Sources */,
+				1A61D0BD291D5B2700069A77 /* SettingNotificationViewController.swift in Sources */,
 				1AB6A01828CF057300A0D127 /* LoginSheetVC_Extensions.swift in Sources */,
 				1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */,
 				1ADA77B528DB0985006EC39B /* UserViewModel.swift in Sources */,

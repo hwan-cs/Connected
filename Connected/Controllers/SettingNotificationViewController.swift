@@ -1,14 +1,14 @@
 //
-//  SettingAppearanceViewController.swift
+//  SettingNotificationViewController.swift
 //  Connected
 //
-//  Created by Jung Hwan Park on 2022/11/10.
+//  Created by Jung Hwan Park on 2022/11/11.
 //
 
 import Foundation
 import UIKit
 
-class SettingAppearanceViewController: UIViewController
+class SettingNotificationViewController: UIViewController
 {
     @IBOutlet var tableView: UITableView!
     
@@ -30,18 +30,18 @@ class SettingAppearanceViewController: UIViewController
     }
 }
 
-extension SettingAppearanceViewController: UITableViewDelegate
+extension SettingNotificationViewController: UITableViewDelegate
 {
     
 }
 
-extension SettingAppearanceViewController: UITableViewDataSource
+extension SettingNotificationViewController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        let image = indexPath.row == 0 ? UIImage(named: "LogoSmall_Light") : UIImage(named: "LogoSmall_Dark")
+        let image = indexPath.row == 0 ? UIImage(systemName: "bell.fill") : UIImage(systemName: "bell.slash.fill")
         
         var config = cell.defaultContentConfiguration()
         config.image = image
@@ -60,7 +60,7 @@ extension SettingAppearanceViewController: UITableViewDataSource
         fullString.append(NSAttributedString(string: ""))
 
         // draw the result in a label
-        config.text = indexPath.row == 0 ? "라이트 모드" : "다크 모드"
+        config.text = indexPath.row == 0 ? "알림 ON" : "알림 OFF"
         config.secondaryAttributedText = fullString
         cell.contentConfiguration = config
         

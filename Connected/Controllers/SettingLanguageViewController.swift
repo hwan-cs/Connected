@@ -22,6 +22,11 @@ class SettingLanguageViewController: UIViewController
         self.tableView.layer.cornerRadius = 16.0
         self.tableView.layer.borderWidth = 1
         self.tableView.layer.borderColor = UIColor.lightGray.cgColor
+        
+        let backButton = UIImage(named: "backButton")
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.backIndicatorImage = backButton?.withTintColor(.black)
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton?.withTintColor(.black)
     }
 }
 
