@@ -32,7 +32,7 @@ class SettingsViewController: UIViewController
         self.navigationController?.navigationBar.backgroundColor = K.mainColor
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         self.safeAreaColorToMainColor()
-        self.settingsProfileImg.image = K.myProfileImg!
+        self.settingsProfileImg.image = K.myProfileImg != nil ? K.myProfileImg : UIImage(named: "Friend_Inactive")
         self.settingsProfileImg.layer.cornerRadius = 16.0
         self.settingsProfileImg.layer.borderColor = UIColor.white.cgColor
         self.settingsProfileImg.layer.borderWidth = 1.0

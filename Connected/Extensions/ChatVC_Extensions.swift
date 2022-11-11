@@ -18,7 +18,7 @@ extension ChatViewController
         print("ChatVC - setBindings()")
         
         self.userViewModel!.$userDataArray
-            .debounce(for: 0.05, scheduler: RunLoop.main)
+            .debounce(for: 0.1, scheduler: RunLoop.main)
             .sink
             { (updatedArray:[Data:[AnyHashable]]) in
                 print("ChatVC - datarray count: \(updatedArray.count)")
@@ -36,6 +36,7 @@ extension ChatViewController
     
     func loadData()
     {
+        K.didInit = true
         var snapshot = self.userViewModel!.dataSource.snapshot()
         if !(self.userDataArray.count > 0)
         {

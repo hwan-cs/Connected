@@ -711,7 +711,6 @@ extension ChatViewController: UITableViewDelegate
         {
             if indexPath == lastVisibleIndexPath
             {
-                K.didInit = true
                 //If recipient is talking to me, add snapshot listener their firdoc
                 Task.init
                 {

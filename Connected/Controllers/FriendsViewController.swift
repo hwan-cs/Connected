@@ -500,7 +500,6 @@ extension FriendsViewController: UITableViewDataSource
                         {
                             do
                             {
-                                print("\(userID)_\(items.name)")
                                 let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
                                 if items.name.contains("profileImage")
                                 {

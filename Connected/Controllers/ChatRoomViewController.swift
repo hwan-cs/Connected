@@ -195,7 +195,6 @@ extension ChatRoomViewController: UITableViewDataSource
             chatRoomCell.previewLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][0] as! String)
         }
         let storageRef = self.storage.reference()
-        print(self.friendsArray)
         let friendProfileRef = storageRef.child("\(self.friendsArray[indexPath.row])/ProfileInfo/")
         friendProfileRef.listAll(completion:
         { (storageListResult, error) in
@@ -205,16 +204,19 @@ extension ChatRoomViewController: UITableViewDataSource
             }
             else
             {
+                
                 for items in storageListResult!.items
                 {
                     do
                     {
-                        let result = try self.cacheStorage!.entry(forKey: items.name)
-                        // The video is cached.
-                        DispatchQueue.main.async
+                        let result = try self.cacheStorage!.entry(forKey: "\(self.friendsArray[indexPath.row])_\(items.name)")
+                        if items.name.contains("profileImage")
                         {
-                            chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: result.object)
-                            chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
+                            DispatchQueue.main.async
+                            {
+                                chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: result.object)
+                                chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
+                            }
                         }
                     }
                     catch
@@ -228,9 +230,12 @@ extension ChatRoomViewController: UITableViewDataSource
                             }
                             else
                             {
-                                self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
-                                chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: data!)
-                                chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
+                                if items.name.contains("profileImage")
+                                {
+                                    self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_\(items.name)", completion: {_ in})
+                                    chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: data!)
+                                    chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
+                                }
                             }
                         }
                     }

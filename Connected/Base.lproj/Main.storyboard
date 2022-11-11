@@ -1609,8 +1609,20 @@
                     <view key="view" contentMode="scaleToFill" id="oJe-6C-9QD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="PvE-QM-n85">
+                                <rect key="frame" x="0.0" y="92" width="414" height="770"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="aBf-UD-6N4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="PvE-QM-n85" firstAttribute="top" secondItem="aBf-UD-6N4" secondAttribute="top" id="aEi-QI-X3g"/>
+                            <constraint firstItem="PvE-QM-n85" firstAttribute="bottom" secondItem="aBf-UD-6N4" secondAttribute="bottom" id="dJj-Ub-HoF"/>
+                            <constraint firstItem="PvE-QM-n85" firstAttribute="leading" secondItem="aBf-UD-6N4" secondAttribute="leading" id="eOO-6f-HgZ"/>
+                            <constraint firstItem="PvE-QM-n85" firstAttribute="trailing" secondItem="aBf-UD-6N4" secondAttribute="trailing" id="xju-8l-LJp"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="친구 선택" id="R3e-Ld-47q">
                         <barButtonItem key="rightBarButtonItem" title="완료" id="NuD-cG-yNV">
@@ -1623,12 +1635,12 @@
                     <connections>
                         <outlet property="doneButton" destination="NuD-cG-yNV" id="7Ti-Te-NCn"/>
                         <outlet property="searchBar" destination="zJh-Uh-DHS" id="xuq-uO-zIA"/>
-                        <outlet property="tableView" destination="qXk-Lw-3uv" id="tgc-hk-ezz"/>
+                        <outlet property="tableView" destination="PvE-QM-n85" id="pqB-sv-1BT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMB-Yi-hA6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8341" y="844"/>
+            <point key="canvasLocation" x="8340.579710144928" y="843.75"/>
         </scene>
         <!--기타-->
         <scene sceneID="Ise-cP-epJ">
