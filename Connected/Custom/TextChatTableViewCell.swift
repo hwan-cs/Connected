@@ -19,12 +19,18 @@ class TextChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
     
     @IBOutlet var timeLabel_2: UILabel!
     
+    let formatter = DateFormatter()
+    
     var txtName: String!
     {
         didSet
         {
             let time = self.txtName.components(separatedBy: "T")
-            self.timeLabel.text = time[0]
+            formatter.dateFormat = "yyyy-MM-dd"
+            let date = formatter.date(from: time[0])
+            formatter.dateFormat = "MM월 dd일"
+            formatter.locale = Locale(identifier: "kr")
+            self.timeLabel.text = formatter.string(from: date!)
             self.timeLabel_2.text = String(time[1].prefix(5))
         }
     }

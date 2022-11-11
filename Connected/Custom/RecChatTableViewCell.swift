@@ -30,12 +30,18 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
     
     var audio: Data?
     
+    let formatter = DateFormatter()
+    
     var audioName: String!
     {
         didSet
         {
             let time = self.audioName.components(separatedBy: "T")
-            self.timeLabel.text = time[0]
+            formatter.dateFormat = "yyyy-MM-dd"
+            let date = formatter.date(from: time[0])
+            formatter.dateFormat = "MM월 dd일"
+            formatter.locale = Locale(identifier: "kr")
+            self.timeLabel.text = formatter.string(from: date!)
             self.readLabel.text = String(time[1].prefix(5))
         }
     }

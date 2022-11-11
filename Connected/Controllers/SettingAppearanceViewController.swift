@@ -24,9 +24,9 @@ class SettingAppearanceViewController: UIViewController
         self.tableView.layer.borderColor = UIColor.lightGray.cgColor
         
         let backButton = UIImage(named: "backButton")
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.backIndicatorImage = backButton?.withTintColor(.black)
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton?.withTintColor(.black)
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "BlackAndWhite")!
+        self.navigationController?.navigationBar.backIndicatorImage = backButton?.withTintColor(UIColor(named: "BlackAndWhite")!)
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton?.withTintColor(UIColor(named: "BlackAndWhite")!)
     }
 }
 

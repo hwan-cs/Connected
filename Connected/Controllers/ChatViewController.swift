@@ -275,7 +275,7 @@ class ChatViewController: UIViewController
     {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         let backButton = UIImage(named: "backButton")
-        self.navigationController?.navigationBar.tintColor = K.mainColor
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "BlackAndWhite")!
         self.navigationController?.navigationBar.backIndicatorImage = backButton?.withTintColor(.black)
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton?.withTintColor(.black)
     }

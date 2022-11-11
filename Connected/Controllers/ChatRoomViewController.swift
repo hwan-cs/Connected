@@ -179,7 +179,7 @@ extension ChatRoomViewController: UITableViewDataSource
             chatRoomCell.nameLabel.text = (try await self.db.collection("users").document(self.sortedByValueDictionaryKey[indexPath.row]).getDocument().data()!["name"] as! String)
             if let isOnline = (try await self.db.collection("users").document(self.sortedByValueDictionaryKey[indexPath.row]).getDocument().data()?["isOnline"] as? Bool)
             {
-                chatRoomCell.onlineLabel.backgroundColor = isOnline ? K.mainColor : .lightGray
+                chatRoomCell.onlineLabel.backgroundColor = isOnline ? .systemGreen : .lightGray
             }
         }
         if (self.sortedByValueDictionaryValue[indexPath.row][0] as! String) == "waveform"
