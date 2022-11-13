@@ -146,7 +146,6 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                 let data = doc.data()
                 if let username = data["username"] as? String
                 {
-                    print(username)
                     if username == self.idTextField.text!
                     {
                         return true

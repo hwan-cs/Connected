@@ -11,15 +11,21 @@ extension FriendsViewController
 {
     func setBindings()
     {
-        self.userInfoViewModel!.$friendsArray
+        self.userInfoViewModel!.$friendsNameArray
             .debounce(for: 0.1, scheduler: RunLoop.main)
             .sink
             { (updatedArray:[String]) in
-                self.friendsArray = updatedArray
+                self.friendsNameArray = updatedArray.sorted()
                 DispatchQueue.main.async
                 {
                     self.tableView.reloadData()
                 }
+            }.store(in: &disposableBag)
+        
+        self.userInfoViewModel!.$friendsArray
+            .sink
+            { (updatedArray:[String]) in
+                self.friendsArray = updatedArray
             }.store(in: &disposableBag)
         
         self.userInfoViewModel!.$friendRequestR

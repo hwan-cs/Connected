@@ -29,6 +29,8 @@ class FriendsViewController: UIViewController
     
     var friendsArray: [String] = []
     
+    var friendsNameArray: [String] = []
+    
     var friendRequestR: [String] = []
     
     var friendRequestS: [String] = []
@@ -88,11 +90,9 @@ class FriendsViewController: UIViewController
             }
             Task.init
             {
-                print("change")
                 if let data = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()
                 {
                     self.userInfoViewModel?.friendRequestR = data["friendRequestR"] as! [String]
-                    self.userInfoViewModel?.friendsArray = data["friends"] as! [String]
                     self.userInfoViewModel?.friendRequestS = data["friendRequestS"] as! [String]
                 }
             }
@@ -360,15 +360,9 @@ extension FriendsViewController: UITableViewDataSource
                         }
                     }
                 })
-                guard let name = data!["name"] as? String else { return }
-                guard let username = data!["username"] as? String else { return }
-                guard let email = data!["email"] as? String else { return }
-                myProfileCell.myProfileName.text = name
+                myProfileCell.myProfileName.text = K.myProfileName
                 myProfileCell.myProfileStatus.text = data!["statusMsg"] as? String
-                myProfileCell.userID = username
-                K.myProfileName = name
-                K.myProfileUsername = username
-                K.myProfileEmail = email
+                myProfileCell.userID = K.myProfileUsername
             }
             //received friends requests
             else if indexPath.section == 1
@@ -485,7 +479,7 @@ extension FriendsViewController: UITableViewDataSource
             }
             else if indexPath.section == 3
             {
-                friendProfileCell.friendName.text = data!["name"] as? String
+                friendProfileCell.friendName.text = self.friendsNameArray[indexPath.row]
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
                 friendProfileCell.userID = data!["username"] as? String
                 profileRef.listAll(completion:
@@ -581,7 +575,7 @@ extension FriendsViewController: UITableViewDataSource
         }
         else
         {
-            return self.friendsArray.count
+            return self.friendsNameArray.count
         }
     }
     
@@ -597,7 +591,7 @@ extension FriendsViewController: UITableViewDataSource
         }
         else if section == 3
         {
-            return "친구 \(self.friendsArray.count)"
+            return "친구 \(self.friendsNameArray.count)"
         }
         return ""
     }

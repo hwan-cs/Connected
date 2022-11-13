@@ -23,6 +23,8 @@ class UserInfoViewModel: ObservableObject
     
     @Published var friendRequestS: [String] = []
     
+    @Published var friendsNameArray: [String] = []
+    
     let db = Firestore.firestore()
     
     init(_ uid: String)
@@ -35,7 +37,11 @@ class UserInfoViewModel: ObservableObject
                 if let friends = (data["friends"] as? [String])
                 {
                     self.friendsArray = friends
-                    print(friends)
+                    for id in self.friendsArray
+                    {
+                        let name = try await self.db.collection("users").document(id).getDocument().data()!["name"] as? String
+                        self.friendsNameArray.append(name!)
+                    }
                 }
                 if let chatRoom = (data["chatRoom"] as? [String: [Any]])
                 {
