@@ -207,6 +207,8 @@ extension ChatRoomViewController: UITableViewDataSource
             {
                 if storageListResult?.items.count == 0
                 {
+                    chatRoomCell.friendChatRoomProfileImage.image = UIImage(named: "Friend_Inactive")
+                    chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
                     return
                 }
                 for items in storageListResult!.items
@@ -236,7 +238,7 @@ extension ChatRoomViewController: UITableViewDataSource
                             {
                                 if items.name.contains("profileImage")
                                 {
-                                    self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_\(items.name)", completion: {_ in})
+                                    self.cacheStorage?.async.setObject(data!, forKey: "\(self.friends[indexPath.row].0)_\(items.name)", completion: {_ in})
                                     chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: data!)
                                     chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
                                 }

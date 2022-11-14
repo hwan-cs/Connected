@@ -99,6 +99,20 @@ class FriendsViewController: UIViewController
                 }
             }
         }
+        
+        self.db.collection("users").document(self.uuid!).addSnapshotListener
+        { documentSnapshot, error in
+            guard documentSnapshot != nil
+            else
+            {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            Task.init
+            {
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -330,6 +344,10 @@ extension FriendsViewController: UITableViewDataSource
                     }
                     else
                     {
+                        if storageListResult?.items.count == 0
+                        {
+                            K.myProfileImg = UIImage(named: "Friend_Inactive")
+                        }
                         for items in storageListResult!.items
                         {
                             do
@@ -340,7 +358,7 @@ extension FriendsViewController: UITableViewDataSource
                                     DispatchQueue.main.async
                                     {
                                         myProfileCell.myProfileImage.image = UIImage(data: result.object)
-                                        myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                        myProfileCell.myProfileImage.contentMode = .scaleAspectFill
                                         K.myProfileImg = UIImage(data: result.object)
                                     }
                                 }
@@ -366,7 +384,7 @@ extension FriendsViewController: UITableViewDataSource
                                             DispatchQueue.main.async
                                             {
                                                 myProfileCell.myProfileImage.image = UIImage(data: data!)
-                                                myProfileCell.myProfileImage.contentMode = .scaleAspectFit
+                                                myProfileCell.myProfileImage.contentMode = .scaleAspectFill
                                                 K.myProfileImg = UIImage(data: data!)
                                             }
                                         }
@@ -406,7 +424,7 @@ extension FriendsViewController: UITableViewDataSource
                                     {
                                         print("profile \(result.object)")
                                         friendRequestRCell.friendRequestRProfileImage.image = UIImage(data: result.object)
-                                        friendRequestRCell.friendRequestRProfileImage.contentMode = .scaleAspectFit
+                                        friendRequestRCell.friendRequestRProfileImage.contentMode = .scaleAspectFill
                                     }
                                 }
                             }
@@ -427,7 +445,7 @@ extension FriendsViewController: UITableViewDataSource
                                             DispatchQueue.main.async
                                             {
                                                 friendRequestRCell.friendRequestRProfileImage.image = UIImage(data: data!)
-                                                friendRequestRCell.friendRequestRProfileImage.contentMode = .scaleAspectFit
+                                                friendRequestRCell.friendRequestRProfileImage.contentMode = .scaleAspectFill
                                             }
                                         }
                                     }
@@ -462,7 +480,7 @@ extension FriendsViewController: UITableViewDataSource
                                     DispatchQueue.main.async
                                     {
                                         friendRequestSCell.friendRequestSProfileImage.image = UIImage(data: result.object)
-                                        friendRequestSCell.friendRequestSProfileImage.contentMode = .scaleAspectFit
+                                        friendRequestSCell.friendRequestSProfileImage.contentMode = .scaleAspectFill
                                     }
                                 }
                             }
@@ -483,7 +501,7 @@ extension FriendsViewController: UITableViewDataSource
                                             DispatchQueue.main.async
                                             {
                                                 friendRequestSCell.friendRequestSProfileImage.image = UIImage(data: data!)
-                                                friendRequestSCell.friendRequestSProfileImage.contentMode = .scaleAspectFit
+                                                friendRequestSCell.friendRequestSProfileImage.contentMode = .scaleAspectFill
                                             }
                                         }
                                     }
@@ -521,7 +539,7 @@ extension FriendsViewController: UITableViewDataSource
                                     DispatchQueue.main.async
                                     {
                                         friendProfileCell.friendProfileImageView.image = UIImage(data: result.object)
-                                        friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFit
+                                        friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFill
                                     }
                                 }
                                 else if items.name.contains("backgroundImage")
@@ -546,7 +564,7 @@ extension FriendsViewController: UITableViewDataSource
                                             DispatchQueue.main.async
                                             {
                                                 friendProfileCell.friendProfileImageView.image = UIImage(data: data!)
-                                                friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFit
+                                                friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFill
                                             }
                                         }
                                         else if items.name.contains("backgroundImage")

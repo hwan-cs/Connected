@@ -44,7 +44,30 @@ extension ChatRoomViewController
                     {
                         dispatchGroup.notify(queue: .main)
                         {
-                            print(self.friends)
+                            for el in self.friends
+                            {
+                                self.db.collection("users").document(el.0).addSnapshotListener
+                                { documentSnapshot, error in
+                                    guard documentSnapshot != nil
+                                    else
+                                    {
+                                        print("Error fetching document: \(error)")
+                                        return
+                                    }
+                                    Task.init
+                                    {
+                                        let data = documentSnapshot?.data()!
+                                        let online = data!["isOnline"] as! Bool
+                                        let cell = self.tableView.cellForRow(at: IndexPath(row: self.friends.firstIndex(where: { a,b in
+                                            a == el.0
+                                        })!, section: 0)) as! ChatRoomTableViewCell
+                                        cell.onlineLabel.backgroundColor = online ? .systemGray : .gray
+                                        self.tableView.reloadRows(at: [IndexPath(row: self.friends.firstIndex(where: { a,b in
+                                            a == el.0
+                                        })!, section: 0)], with: .automatic)
+                                    }
+                                }
+                            }
                             self.tableView.reloadData()
                         }
                     }

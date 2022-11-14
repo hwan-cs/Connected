@@ -638,7 +638,7 @@
         <!--Navigation Controller-->
         <scene sceneID="K3T-nn-HQO">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WUE-6d-Dka" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="InitialNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="WUE-6d-Dka" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="znK-wq-3d0">
                         <rect key="frame" x="0.0" y="48" width="414" height="44"/>
@@ -921,9 +921,11 @@
                         <outlet property="settingsProfileImg" destination="hPa-Dp-HVM" id="qUd-mr-C2g"/>
                         <outlet property="settingsProfileName" destination="BoM-Ue-8u5" id="tb6-T4-oWB"/>
                         <outlet property="settingsProfileUsername" destination="aUV-MR-0xq" id="284-NW-mIU"/>
+                        <segue destination="dZ2-a5-SGS" kind="unwind" identifier="unwindToInitialVC" unwindAction="prepareForUnwindWithSegue:" id="EWj-DJ-Gho"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J35-OZ-Ll3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="dZ2-a5-SGS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="5611.594202898551" y="843.75"/>
         </scene>
@@ -1200,7 +1202,6 @@
                                                 <color key="backgroundColor" name="BackgroundColor2"/>
                                                 <constraints>
                                                     <constraint firstItem="glz-Cw-tYx" firstAttribute="top" secondItem="XkX-Q9-hZJ" secondAttribute="top" id="2Wv-bI-m8j"/>
-                                                    <constraint firstAttribute="bottom" secondItem="glz-Cw-tYx" secondAttribute="bottom" id="7WW-bR-wQd"/>
                                                     <constraint firstItem="glz-Cw-tYx" firstAttribute="width" secondItem="TwG-HW-9oj" secondAttribute="width" multiplier="0.903382" id="9fC-4y-pdk"/>
                                                     <constraint firstAttribute="trailing" secondItem="glz-Cw-tYx" secondAttribute="trailing" constant="20" symbolic="YES" id="BRn-LK-0Pc"/>
                                                     <constraint firstItem="glz-Cw-tYx" firstAttribute="leading" secondItem="12M-pF-Tn9" secondAttribute="leading" constant="20" symbolic="YES" id="GvQ-df-hbi"/>

@@ -90,10 +90,15 @@ class ProfileSheetViewController: UIViewController
         return try? Cache.Storage(diskConfig: diskConfig, memoryConfig: memoryConfig, transformer: TransformerFactory.forData())
     }()
     
+    var frameSize: CGFloat?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         self.hideKeyboard()
+        self.frameSize = self.view.frame.origin.y
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         self.profileImage.layer.cornerRadius = 16.0
         
         self.profileBackgroundImage.isUserInteractionEnabled = true
@@ -153,6 +158,22 @@ class ProfileSheetViewController: UIViewController
         }
         self.editButton.imageView?.contentMode = .scaleAspectFit
         self.editButton.contentMode = .scaleAspectFit
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification)
+    {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        {
+            if self.frameSize == self.view.frame.origin.y
+            {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification)
+    {
+        self.view.frame.origin.y = 0
     }
     
     @objc func didTapProfileBackgroundPhoto()
@@ -384,7 +405,12 @@ extension ProfileSheetViewController: UITextViewDelegate
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count <= 20 && text != "\n"
+        if text == "\n"
+        {
+            textView.resignFirstResponder()
+            return false
+        }
+        return newText.count <= 20
     }
 }
 

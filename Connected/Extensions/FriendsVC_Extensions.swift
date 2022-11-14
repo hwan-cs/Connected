@@ -28,6 +28,30 @@ extension FriendsViewController
                     self.friends = pair.sorted { $0.1 < $1.1 }
                     DispatchQueue.main.async
                     {
+                        for el in self.friends
+                        {
+                            self.db.collection("users").document(el.0).addSnapshotListener
+                            { documentSnapshot, error in
+                                guard documentSnapshot != nil
+                                else
+                                {
+                                    print("Error fetching document: \(error)")
+                                    return
+                                }
+                                Task.init
+                                {
+                                    let data = documentSnapshot?.data()!
+                                    let cell = self.tableView.cellForRow(at: IndexPath(row: self.friends.firstIndex(where: { a,b in
+                                        a == el.0
+                                    })!, section: 3)) as! FriendProfileTableViewCell
+                                    cell.friendStatusMsg.text = data!["statusMsg"] as? String
+                                    cell.friendName.text = data!["name"] as? String
+                                    self.tableView.reloadRows(at: [IndexPath(row: self.friends.firstIndex(where: { a,b in
+                                        a == el.0
+                                    })!, section: 3)], with: .automatic)
+                                }
+                            }
+                        }
                         self.tableView.reloadSections(IndexSet(integer: 3), with: .automatic)
                     }
                 }
