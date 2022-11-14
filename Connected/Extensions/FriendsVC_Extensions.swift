@@ -26,10 +26,9 @@ extension FriendsViewController
                     self.friendsNameArray = foo
                     let pair = Array(zip(self.friendsArray, self.friendsNameArray))
                     self.friends = pair.sorted { $0.1 < $1.1 }
-                    print(self.friends)
                     DispatchQueue.main.async
                     {
-                        self.tableView.reloadData()
+                        self.tableView.reloadSections(IndexSet(integer: 3), with: .automatic)
                     }
                 }
             }.store(in: &disposableBag)
@@ -41,7 +40,7 @@ extension FriendsViewController
                 self.friendRequestR = updatedArray
                 DispatchQueue.main.async
                 {
-                    self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
                 }
             }.store(in: &disposableBag)
         
@@ -52,7 +51,7 @@ extension FriendsViewController
                 self.friendRequestS = updatedArray
                 DispatchQueue.main.async
                 {
-                    self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
                 }
             }.store(in: &disposableBag)
     }

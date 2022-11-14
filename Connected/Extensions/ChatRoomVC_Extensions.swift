@@ -34,19 +34,16 @@ extension ChatRoomViewController
                     for id in self.sortedByValueDictionaryKey
                     {
                         dispatchGroup.enter()
-                        print("enter")
                         let name = try await self.db.collection("users").document(id).getDocument().data()!["name"] as? String
                         self.friends.append((id, name!))
-                        print("leave")
                         dispatchGroup.leave()
                     }
-                    self.sortedByValueDictionaryValue = updatedArray.sorted(by: { ($0.value[1] as! String) > ($1.value[1] as! String)}).map({$0.value})
+                    ChatRoomViewController.sortedByValueDictionaryValue = updatedArray.sorted(by: { ($0.value[1] as! String) > ($1.value[1] as! String)}).map({$0.value})
                     
                     if updatedArray.count > 0
                     {
                         dispatchGroup.notify(queue: .main)
                         {
-                            print("reloading data")
                             print(self.friends)
                             self.tableView.reloadData()
                         }

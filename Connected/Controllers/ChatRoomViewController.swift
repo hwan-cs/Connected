@@ -32,7 +32,7 @@ class ChatRoomViewController: UIViewController
     
     var sortedByValueDictionaryKey: [String] = []
     
-    var sortedByValueDictionaryValue: [[Any?]] = [[]]
+    static var sortedByValueDictionaryValue: [[Any?]] = [[]]
     
     let uuid = Auth.auth().currentUser?.uid
     
@@ -159,6 +159,7 @@ extension ChatRoomViewController: UITableViewDelegate
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
         vc.recepientUID = (self.sortedByValueDictionaryKey[indexPath.row])
         vc.userViewModel = UserViewModel(self.uuid!, self.sortedByValueDictionaryKey[indexPath.row])
+        vc.idx = indexPath.row
         vc.setBindings()
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -182,7 +183,7 @@ extension ChatRoomViewController: UITableViewDataSource
                 chatRoomCell.onlineLabel.backgroundColor = isOnline ? .systemGreen : .lightGray
             }
         }
-        if (self.sortedByValueDictionaryValue[indexPath.row][0] as! String) == "waveform"
+        if (ChatRoomViewController.sortedByValueDictionaryValue[indexPath.row][0] as! String) == "waveform"
         {
             let attString = NSMutableAttributedString(string:"")
             let imageAttachment = NSTextAttachment()
@@ -192,7 +193,7 @@ extension ChatRoomViewController: UITableViewDataSource
         }
         else
         {
-            chatRoomCell.previewLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][0] as! String)
+            chatRoomCell.previewLabel.text = (ChatRoomViewController.sortedByValueDictionaryValue[indexPath.row][0] as! String)
         }
         let storageRef = self.storage.reference()
         let friendProfileRef = storageRef.child("\(self.sortedByValueDictionaryKey[indexPath.row])/ProfileInfo/")
@@ -248,13 +249,13 @@ extension ChatRoomViewController: UITableViewDataSource
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        if let date = formatter.date(from: (self.sortedByValueDictionaryValue[indexPath.row][1] as! String))
+        if let date = formatter.date(from: (ChatRoomViewController.sortedByValueDictionaryValue[indexPath.row][1] as! String))
         {
             let relativeFormatter = RelativeDateTimeFormatter()
             relativeFormatter.unitsStyle = .full
             chatRoomCell.timeLabel.text = relativeFormatter.localizedString(for: date, relativeTo: Date.now)
         }
-        if let unreadCount = (self.sortedByValueDictionaryValue[indexPath.row][2] as? NSNumber)
+        if let unreadCount = (ChatRoomViewController.sortedByValueDictionaryValue[indexPath.row][2] as? NSNumber)
         {
             if unreadCount.stringValue == "0"
             {

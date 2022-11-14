@@ -29,14 +29,13 @@ extension ChatViewController
                 if self.userDataArray.count > 0
                 {
                     self.loadData()
-                    self.tableView.scrollToBottom(isAnimated: K.didInit)
+                    self.tableView.scrollToBottom(isAnimated: self.listener != nil)
                 }
             }.store(in: &disposableBag)
     }
     
     func loadData()
     {
-        K.didInit = true
         var snapshot = self.userViewModel!.dataSource.snapshot()
         if !(self.userDataArray.count > 0)
         {

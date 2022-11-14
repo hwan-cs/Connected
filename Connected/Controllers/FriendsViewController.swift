@@ -202,7 +202,25 @@ extension FriendsViewController: UITableViewDelegate
             {
                 DispatchQueue.main.async
                 {
-                    self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+                    var foo = [String]()
+                    Task.init
+                    {
+                        for id in self.friendsArray
+                        {
+                            let name = try await self.db.collection("users").document(id).getDocument().data()!["name"] as? String
+                            foo.append(name!)
+                        }
+                        if self.friendsNameArray != foo
+                        {
+                            self.friendsNameArray = foo
+                            let pair = Array(zip(self.friendsArray, self.friendsNameArray))
+                            self.friends = pair.sorted { $0.1 < $1.1 }
+                            DispatchQueue.main.async
+                            {
+                                self.tableView.reloadSections(IndexSet(integer: 3), with: .none)
+                            }
+                        }
+                    }
                     self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
                 }
             }
@@ -481,7 +499,6 @@ extension FriendsViewController: UITableViewDataSource
             }
             else if indexPath.section == 3
             {
-                print(userID)
                 friendProfileCell.friendName.text = self.friends[indexPath.row].1
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
                 friendProfileCell.userID = data!["username"] as? String

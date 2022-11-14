@@ -71,6 +71,8 @@ class ChatViewController: UIViewController
     
     var listener: ListenerRegistration?
     
+    var userInfoListener: ListenerRegistration?
+    
     let myBucketURL =  "gs://connected-3ed2d.appspot.com/"
     
     var sortedByValueDictionaryKey: [Data] = []
@@ -115,6 +117,10 @@ class ChatViewController: UIViewController
     
     var myName: String?
     
+    var idx: Int?
+    
+    var sharingLocation = false
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -155,6 +161,8 @@ class ChatViewController: UIViewController
         locationManager?.delegate = self
         locationManager?.requestAlwaysAuthorization()
         
+        self.sharingLocation = ChatRoomViewController.sortedByValueDictionaryValue[self.idx!][3] as! Bool
+        
         self.navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = K.mainColor
         Task.init
         {
@@ -174,12 +182,11 @@ class ChatViewController: UIViewController
                     try await self.db.collection("userInfo").document(uuid!).updateData(["chatRoom" : temp])
                 }
             }
-            try await self.db.collection("users").document(uuid!).updateData(["isOnline": true])
             try await self.db.collection("users").document(uuid!).updateData(["talkingTo": self.recepientUID])
             if let mData = try await self.db.collection("users").document(uuid!).getDocument().data()
             {
                 self.myName = mData["name"] as? String
-                if (mData["isSharingLocation"] as! Bool)
+                if (self.sharingLocation)
                 {
                     self.locationManager?.requestAlwaysAuthorization()
                     mapView.delegate = self
@@ -193,16 +200,19 @@ class ChatViewController: UIViewController
                     self.locationButotn.tintColor = .gray
                 }
             }
-            if let data = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+            if let data = try await self.db.collection("userInfo").document(self.recepientUID).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
             {
-                self.isSharingLocation = data["isSharingLocation"] as! Bool
+                self.isSharingLocation = data[self.uuid!]![3] as! Bool
                 if self.isSharingLocation
                 {
                     self.initRecMapView()
-                    if let location = data["location"] as? GeoPoint
+                    if let user = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
                     {
-                        let camera = GMSCameraPosition.camera(withLatitude: (location.latitude), longitude: (location.longitude), zoom: 17.0)
-                        recMapView.camera = camera
+                        if let location = user["location"] as? GeoPoint
+                        {
+                            let camera = GMSCameraPosition.camera(withLatitude: (location.latitude), longitude: (location.longitude), zoom: 17.0)
+                            recMapView.camera = camera
+                        }
                     }
                 }
             }
@@ -523,10 +533,6 @@ class ChatViewController: UIViewController
             }
             self.backgroundView.removeFromSuperview()
             self.view.layoutIfNeeded()
-            Task.init
-            {
-                try await self.db.collection("users").document(uuid!).updateData(["isSharingLocation": false])
-            }
         }
         else
         {
@@ -548,7 +554,15 @@ class ChatViewController: UIViewController
             self.view.layoutIfNeeded()
             self.loadMap()
         }
-
+        Task.init
+        {
+            if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
+            {
+                var temp = dict
+                temp[self.recepientUID]![3] = self.locationButotn.tintColor == .gray
+                try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
+            }
+        }
     }
     
     @IBAction func onBackToMicButtonTap(_ sender: UIButton)
@@ -703,8 +717,7 @@ extension ChatViewController: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
-//        cell.setTemplateWithSubviews(!K.didInit)
-        if K.didInit
+        if listener != nil
         {
             return
         }
@@ -712,6 +725,7 @@ extension ChatViewController: UITableViewDelegate
         {
             if indexPath == lastVisibleIndexPath
             {
+                print(self.recepientUID)
                 //If recipient is talking to me, add snapshot listener their firdoc
                 listener = self.db.collection("users").document(self.recepientUID).addSnapshotListener(
                 { documentSnapshot, error in
@@ -723,7 +737,7 @@ extension ChatViewController: UITableViewDelegate
                     }
                     Task.init
                     {
-                        let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
+                        let talkingTo = documentSnapshot?.data()
                         let storageRef = self.storage.reference()
                         let myAudioRef = storageRef.child("\(self.recepientUID)/\(self.uuid!)/")
                         let foobar = (talkingTo!["change"] as! String)
@@ -740,35 +754,55 @@ extension ChatViewController: UITableViewDelegate
                                 }
                             }
                         }
-                        if (talkingTo!["isSharingLocation"] as! Bool)
+                        let marker = GMSMarker()
+                        let loc = talkingTo!["location"] as! GeoPoint
+                        marker.position = CLLocationCoordinate2D(latitude: loc.latitude, longitude: loc.longitude)
+                        if self.markers.count > 0
                         {
-                            if !self.recBackgroundView.isDescendant(of: self.view)
-                            {
-                                self.initRecMapView()
-                            }
-                            let marker = GMSMarker()
-                            let loc = talkingTo!["location"] as! GeoPoint
-                            marker.position = CLLocationCoordinate2D(latitude: loc.latitude, longitude: loc.longitude)
-                            if self.markers.count > 0
-                            {
-                                self.markers[0].map = nil
-                                self.markers.remove(at: 0)
-                                self.markers.append(marker)
-                            }
-                            else
-                            {
-                                self.markers.append(marker)
-                            }
-                            marker.map = self.recMapView
-                            let camera = GMSCameraPosition.camera(withLatitude: (loc.latitude), longitude: (loc.longitude), zoom: 17.0)
-                            self.recMapView.camera = camera
+                            self.markers[0].map = nil
+                            self.markers.remove(at: 0)
+                            self.markers.append(marker)
                         }
                         else
                         {
-                            self.recBackgroundView.removeFromSuperview()
+                            self.markers.append(marker)
                         }
+                        marker.map = self.recMapView
+                        let camera = GMSCameraPosition.camera(withLatitude: (loc.latitude), longitude: (loc.longitude), zoom: 17.0)
+                        self.recMapView.camera = camera
                     }
                 })
+                
+                userInfoListener = self.db.collection("userInfo").document(self.recepientUID).addSnapshotListener(
+                    { documentSnapshot, error in
+                        guard documentSnapshot != nil
+                        else
+                        {
+                            print("Error fetching document: \(error!)")
+                            return
+                        }
+                        Task.init
+                        {
+                            if let data = documentSnapshot?.data()
+                            {
+                                if let chatRooms = data["chatRoom"] as? [String:[AnyHashable]]
+                                {
+                                    print(chatRooms)
+                                    if (chatRooms[self.uuid!]![3] as! Bool)
+                                    {
+                                        if !self.recBackgroundView.isDescendant(of: self.view)
+                                        {
+                                            self.initRecMapView()
+                                        }
+                                    }
+                                    else
+                                    {
+                                        self.recBackgroundView.removeFromSuperview()
+                                    }
+                                }
+                            }
+                        }
+                    })
             }
         }
     }
