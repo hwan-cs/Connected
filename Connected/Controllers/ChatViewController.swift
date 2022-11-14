@@ -307,6 +307,7 @@ class ChatViewController: UIViewController
         }
         K.didInit = false
         K.didSendAnything = false
+        self.listener = nil
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
         
@@ -712,14 +713,6 @@ extension ChatViewController: UITableViewDelegate
             if indexPath == lastVisibleIndexPath
             {
                 //If recipient is talking to me, add snapshot listener their firdoc
-                Task.init
-                {
-                    let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
-                    if !(talkingTo!["talkingTo"] as? String == uuid && K.didInit)
-                    {
-                        return
-                    }
-                }
                 listener = self.db.collection("users").document(self.recepientUID).addSnapshotListener(
                 { documentSnapshot, error in
                     guard documentSnapshot != nil

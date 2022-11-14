@@ -24,6 +24,10 @@ class ChatRoomViewController: UIViewController
     
     var friendsArray: [String] = []
     
+    var friendsNameArray: [String] = []
+    
+    var friends: [(String, String)] = []
+    
     var chatRoomArray: [String:[Any]] = [:]
     
     var sortedByValueDictionaryKey: [String] = []
@@ -47,6 +51,8 @@ class ChatRoomViewController: UIViewController
         return try? Cache.Storage(diskConfig: diskConfig, memoryConfig: memoryConfig, transformer: TransformerFactory.forData())
     }()
     
+    @IBOutlet var searchBar: UISearchBar!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -54,6 +60,7 @@ class ChatRoomViewController: UIViewController
         self.tableView.register(UINib(nibName: K.chatRoomCellNibName, bundle: nil), forCellReuseIdentifier: K.chatRoomCellID)
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.searchBar.delegate = self
         self.userInfoViewModel = UserInfoViewModel(uuid!)
         self.setBindings()
         
@@ -72,13 +79,6 @@ class ChatRoomViewController: UIViewController
                     if let chatRooms = data["chatRoom"] as? [String:[Any]]
                     {
                         self.userInfoViewModel?.chatRoomArray = chatRooms
-                        if self.chatRoomArray.count > 0  && self.friendsArray.count > 0
-                        {
-                            DispatchQueue.main.async
-                            {
-                                self.tableView.reloadData()
-                            }
-                        }
                     }
                 }
             }
@@ -176,7 +176,7 @@ extension ChatRoomViewController: UITableViewDataSource
         let chatRoomCell = tableView.dequeueReusableCell(withIdentifier: K.chatRoomCellID, for: indexPath) as! ChatRoomTableViewCell
         Task.init
         {
-            chatRoomCell.nameLabel.text = (try await self.db.collection("users").document(self.sortedByValueDictionaryKey[indexPath.row]).getDocument().data()!["name"] as! String)
+            chatRoomCell.nameLabel.text = self.friends[indexPath.row].1
             if let isOnline = (try await self.db.collection("users").document(self.sortedByValueDictionaryKey[indexPath.row]).getDocument().data()?["isOnline"] as? Bool)
             {
                 chatRoomCell.onlineLabel.backgroundColor = isOnline ? .systemGreen : .lightGray
@@ -195,7 +195,7 @@ extension ChatRoomViewController: UITableViewDataSource
             chatRoomCell.previewLabel.text = (self.sortedByValueDictionaryValue[indexPath.row][0] as! String)
         }
         let storageRef = self.storage.reference()
-        let friendProfileRef = storageRef.child("\(self.friendsArray[indexPath.row])/ProfileInfo/")
+        let friendProfileRef = storageRef.child("\(self.sortedByValueDictionaryKey[indexPath.row])/ProfileInfo/")
         friendProfileRef.listAll(completion:
         { (storageListResult, error) in
             if let error = error
@@ -204,12 +204,15 @@ extension ChatRoomViewController: UITableViewDataSource
             }
             else
             {
-                
+                if storageListResult?.items.count == 0
+                {
+                    return
+                }
                 for items in storageListResult!.items
                 {
                     do
                     {
-                        let result = try self.cacheStorage!.entry(forKey: "\(self.friendsArray[indexPath.row])_\(items.name)")
+                        let result = try self.cacheStorage!.entry(forKey: "\(self.friends[indexPath.row].0)_\(items.name)")
                         if items.name.contains("profileImage")
                         {
                             DispatchQueue.main.async
@@ -275,5 +278,25 @@ extension ChatRoomViewController: UITableViewDataSource
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
 
+    }
+}
+
+extension ChatRoomViewController: UISearchBarDelegate
+{
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar)
+    {
+        searchBar.showsCancelButton = true
+        self.tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+    {
+        self.dismissKeyboard()
+        
+        guard let text = searchBar.text?.lowercased() else { return }
+        
+        guard let searchTerm = searchBar.text, searchTerm.isEmpty == false else { return }
+        
+//        self.chatRoomArray = self.chatRoomArray.filter {  }
     }
 }

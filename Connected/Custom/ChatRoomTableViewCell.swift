@@ -35,4 +35,9 @@ class ChatRoomTableViewCell: UITableViewCell
         // Configure the view for the selected state
     }
     
+    override func prepareForReuse()
+    {
+        super.prepareForReuse()
+        self.friendChatRoomProfileImage.image = UIImage(named: "Friend_Inactive")
+    }
 }

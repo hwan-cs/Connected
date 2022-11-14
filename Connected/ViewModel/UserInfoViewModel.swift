@@ -37,11 +37,6 @@ class UserInfoViewModel: ObservableObject
                 if let friends = (data["friends"] as? [String])
                 {
                     self.friendsArray = friends
-                    for id in self.friendsArray
-                    {
-                        let name = try await self.db.collection("users").document(id).getDocument().data()!["name"] as? String
-                        self.friendsNameArray.append(name!)
-                    }
                 }
                 if let chatRoom = (data["chatRoom"] as? [String: [Any]])
                 {

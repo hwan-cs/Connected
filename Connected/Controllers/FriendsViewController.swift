@@ -31,6 +31,8 @@ class FriendsViewController: UIViewController
     
     var friendsNameArray: [String] = []
     
+    var friends: [(String, String)] = []
+    
     var friendRequestR: [String] = []
     
     var friendRequestS: [String] = []
@@ -244,7 +246,7 @@ extension FriendsViewController: UITableViewDelegate
             vc.isEditable = false
             Task.init
             {
-                let data = try await self.db.collection("users").document(self.friendsArray[indexPath.row]).getDocument().data()
+                let data = try await self.db.collection("users").document(self.friends[indexPath.row].0).getDocument().data()
                 vc.github = data!["github"] as? String
                 vc.kakao = data!["kakao"] as? String
                 vc.insta = data!["insta"] as? String
@@ -295,7 +297,7 @@ extension FriendsViewController: UITableViewDataSource
             }
             else if indexPath.section == 3
             {
-                userID = self.friendsArray[indexPath.row]
+                userID = self.friends[indexPath.row].0
             }
             let data = try await self.db.collection("users").document(userID).getDocument().data()
             let storageRef = self.storage.reference()
@@ -479,7 +481,8 @@ extension FriendsViewController: UITableViewDataSource
             }
             else if indexPath.section == 3
             {
-                friendProfileCell.friendName.text = self.friendsNameArray[indexPath.row]
+                print(userID)
+                friendProfileCell.friendName.text = self.friends[indexPath.row].1
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
                 friendProfileCell.userID = data!["username"] as? String
                 profileRef.listAll(completion:
@@ -492,6 +495,7 @@ extension FriendsViewController: UITableViewDataSource
                     {
                         for items in storageListResult!.items
                         {
+                            print(items.name)
                             do
                             {
                                 let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
@@ -524,7 +528,7 @@ extension FriendsViewController: UITableViewDataSource
                                         {
                                             DispatchQueue.main.async
                                             {
-                                                friendProfileCell.friendProfileImageView.image = UIImage(data:  data!)
+                                                friendProfileCell.friendProfileImageView.image = UIImage(data: data!)
                                                 friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFit
                                             }
                                         }
@@ -575,7 +579,7 @@ extension FriendsViewController: UITableViewDataSource
         }
         else
         {
-            return self.friendsNameArray.count
+            return self.friends.count
         }
     }
     
@@ -591,7 +595,7 @@ extension FriendsViewController: UITableViewDataSource
         }
         else if section == 3
         {
-            return "친구 \(self.friendsNameArray.count)"
+            return "친구 \(self.friends.count)"
         }
         return ""
     }
