@@ -150,7 +150,7 @@ class ProfileSheetViewController: UIViewController
         self.changeKakaoTextView.text = self.kakao!
         self.changeInstaTextView.text = self.insta!
         self.emailLabel.text = self.email!
-        
+        //
         self.toggleEdit(self.editState)
         if !self.isEditable!
         {
@@ -266,6 +266,18 @@ class ProfileSheetViewController: UIViewController
             if self.didChangePhoto
             {
                 let metadata = StorageMetadata()
+                Task.init
+                {
+                    if let f = try await self.db.collection("users").document(self.uuid!).getDocument().data()?["flag"] as? Bool
+                    {
+                        let temp = !f
+                        try await self.db.collection("users").document(self.uuid!).updateData(["flag": temp])
+                    }
+                    else
+                    {
+                        try await self.db.collection("users").document(self.uuid!).updateData(["flag": true])
+                    }
+                }
                 let storageRef = self.storage.reference()
                 let profileImageRef = storageRef.child("\(self.uuid!)/ProfileInfo/profileImage.png")
                 let profileData = self.profileImage.image?.pngData()
@@ -289,7 +301,8 @@ class ProfileSheetViewController: UIViewController
                                 self.cacheStorage?.async.removeObject(forKey: "\(self.uuid!)_profileImage.png", completion:
                                 { _ in
                                     self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_profileImage.png", completion: {_ in
-                                        self.onDismissBlock!(true)})
+                                        self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
+                                    })
                                 })
                             }
                         }
@@ -315,9 +328,10 @@ class ProfileSheetViewController: UIViewController
                             {
                                 self.cacheStorage?.async.removeObject(forKey: "\(self.uuid!)_backgroundImage.png", completion:
                                 { _ in
-                                    print("cached background image")
                                     print(data!)
-                                    self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_backgroundImage.png", completion: {_ in self.onDismissBlock!(true) })
+                                    self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_backgroundImage.png", completion: {_ in
+                                    self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
+                                    self.onDismissBlock!(true) })
                                 })
                             }
                         }

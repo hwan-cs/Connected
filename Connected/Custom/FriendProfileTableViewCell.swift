@@ -33,4 +33,9 @@ class FriendProfileTableViewCell: UITableViewCell
         // Configure the view for the selected state
     }
     
+    override func prepareForReuse()
+    {
+        super.prepareForReuse()
+        self.friendProfileImageView.image = UIImage(named: "Friend_Inactive")
+    }
 }
