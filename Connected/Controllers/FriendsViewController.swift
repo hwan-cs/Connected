@@ -18,6 +18,7 @@ import SwiftMessages
 import FirebaseMessaging
 import UserNotifications
 import FirebaseInstallations
+import ESPullToRefresh
 
 class FriendsViewController: UIViewController
 {
@@ -113,6 +114,12 @@ class FriendsViewController: UIViewController
             {
                 self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
             }
+        }
+        
+        self.tableView.es.addPullToRefresh
+        {
+            self.tableView.reloadSections(IndexSet(integer: 3), with: .automatic)
+            self.tableView.es.stopPullToRefresh()
         }
     }
     
@@ -517,6 +524,7 @@ extension FriendsViewController: UITableViewDataSource
             else if indexPath.section == 3
             {
                 friendProfileCell.friendName.text = self.friends[indexPath.row].1
+                print(self.friends[indexPath.row].1)
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
                 friendProfileCell.userID = data!["username"] as? String
                 profileRef.listAll(completion:
@@ -534,7 +542,6 @@ extension FriendsViewController: UITableViewDataSource
                                 let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
                                 if items.name.contains("profileImage")
                                 {
-                                    print("CACHING")
                                     DispatchQueue.main.async
                                     {
                                         friendProfileCell.friendProfileImageView.image = UIImage(data: result.object)
@@ -543,7 +550,6 @@ extension FriendsViewController: UITableViewDataSource
                                 }
                                 else if items.name.contains("backgroundImage")
                                 {
-                                    print("CACHING")
                                     friendProfileCell.myBackgroundImage = UIImage(data: result.object)
                                 }
                             }

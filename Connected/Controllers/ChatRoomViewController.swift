@@ -12,6 +12,7 @@ import FirebaseStorage
 import FirebaseFirestore
 import FirebaseAuth
 import Firebase
+import ESPullToRefresh
 import Cache
 
 class ChatRoomViewController: UIViewController
@@ -83,6 +84,12 @@ class ChatRoomViewController: UIViewController
                 }
             }
         })
+        
+        self.tableView.es.addPullToRefresh
+        {
+            self.tableView.reloadData()
+            self.tableView.es.stopPullToRefresh()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool)

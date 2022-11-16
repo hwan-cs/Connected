@@ -29,26 +29,6 @@ extension FriendsViewController
                     self.friendsNameArray = foo
                     let pair = Array(zip(self.friendsArray, self.friendsNameArray))
                     self.friends = pair.sorted { $0.1 < $1.1 }
-                    var idx = 0 
-                    for el in self.friends
-                    {
-//                        self.db.collection("users").document(el.0).addSnapshotListener
-//                        { documentSnapshot, error in
-//                            guard documentSnapshot != nil
-//                            else
-//                            {
-//                                print("Error fetching document: \(error)")
-//                                return
-//                            }
-//                            guard self.tableView.cellForRow(at: IndexPath(row: self.friends.firstIndex(where: { a,b in
-//                                a == el.0
-//                            })!, section: 3)) is FriendProfileTableViewCell else { return }
-//                            self.tableView.reloadRows(at: [IndexPath(row: self.friends.firstIndex(where: { a,b in
-//                                a == el.0
-//                            })!, section: 3)], with: .none)
-//                        }
-//                        self.tableView.reloadData()
-                    }
                     self.tableView.reloadSections(IndexSet(integer: 3), with: .none)
                 }
             }.store(in: &disposableBag)
