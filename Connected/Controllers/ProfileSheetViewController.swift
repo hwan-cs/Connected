@@ -79,7 +79,9 @@ class ProfileSheetViewController: UIViewController
     
     let db = Firestore.firestore()
     
-    var didChangePhoto = false
+    var didChangeProfilePhoto = false
+    
+    var didChangeBackgroundPhoto = false
     
     let diskConfig = DiskConfig(name: "FriendCache")
     
@@ -216,7 +218,6 @@ class ProfileSheetViewController: UIViewController
     @IBAction func didTapEditButton(_ sender: UIButton)
     {
         self.editState.toggle()
-        print(self.editState)
         sender.tintColor = self.editState ? .tintColor : .blue
         let imgToDisplay = self.editState ? UIImage(named: "floppy_disk") : UIImage(named: "Edit")
         sender.imageView?.image = imgToDisplay
@@ -263,25 +264,39 @@ class ProfileSheetViewController: UIViewController
                     }
                 }
             }
-            if self.didChangePhoto
+            
+            let metadata = StorageMetadata()
+            let storageRef = self.storage.reference()
+            let profileRef = storageRef.child("\(self.uuid!)/ProfileInfo/")
+            let profileUUID = UUID().uuidString
+            let backgroundUUID = UUID().uuidString
+            if self.didChangeProfilePhoto
             {
-                let metadata = StorageMetadata()
-                Task.init
-                {
-                    if let f = try await self.db.collection("users").document(self.uuid!).getDocument().data()?["flag"] as? Bool
+                let profileImageRef = storageRef.child("\(self.uuid!)/ProfileInfo/profileImage_\(profileUUID).png")
+                let profileData = self.profileImage.image?.pngData()
+                K.myProfileImg = self.profileImage.image!
+                profileRef.listAll(completion:
+                { (storageListResult, error) in
+                    if let error = error
                     {
-                        let temp = !f
-                        try await self.db.collection("users").document(self.uuid!).updateData(["flag": temp])
+                        print(error.localizedDescription)
                     }
                     else
                     {
-                        try await self.db.collection("users").document(self.uuid!).updateData(["flag": true])
+                        for items in storageListResult!.items
+                        {
+                            if items.name.contains("profileImage")
+                            {
+                                print("deleting profile image")
+                                items.delete
+                                { error in
+                                    print("Could not delete \(error?.localizedDescription)")
+                                }
+                                break
+                            }
+                        }
                     }
-                }
-                let storageRef = self.storage.reference()
-                let profileImageRef = storageRef.child("\(self.uuid!)/ProfileInfo/profileImage.png")
-                let profileData = self.profileImage.image?.pngData()
-                K.myProfileImg = self.profileImage.image!
+                })
                 let uploadProfileTask = profileImageRef.putData(profileData!)
                 { metadata, error in
                     if let error = error
@@ -298,18 +313,41 @@ class ProfileSheetViewController: UIViewController
                             }
                             else
                             {
-                                self.cacheStorage?.async.removeObject(forKey: "\(self.uuid!)_profileImage.png", completion:
-                                { _ in
-                                    self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_profileImage.png", completion: {_ in
-                                        self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
-                                    })
+                                self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_profileImage_\(profileUUID).png", completion: {_ in
+                                    self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
                                 })
                             }
                         }
                     }
                 }
-                let backgroundImageRef = storageRef.child("\(self.uuid!)/ProfileInfo/backgroundImage.png")
+                self.didChangeProfilePhoto.toggle()
+            }
+            if self.didChangeBackgroundPhoto
+            {
+                let backgroundImageRef = storageRef.child("\(self.uuid!)/ProfileInfo/backgroundImage_\(backgroundUUID).png")
                 let backgroundData = self.profileBackgroundImage.image?.pngData()
+                backgroundImageRef.listAll(completion:
+                { (storageListResult, error) in
+                    if let error = error
+                    {
+                        print(error.localizedDescription)
+                    }
+                    else
+                    {
+                        for items in storageListResult!.items
+                        {
+                            if items.name.contains("backgroundImage")
+                            {
+                                print("deleting background image")
+                                items.delete
+                                { error in
+                                    print("Could not delete \(error?.localizedDescription)")
+                                }
+                                break
+                            }
+                        }
+                    }
+                })
                 let uploadBackgroundTask = backgroundImageRef.putData(backgroundData!)
                 { metadata, error in
                     if let error = error
@@ -326,18 +364,14 @@ class ProfileSheetViewController: UIViewController
                             }
                             else
                             {
-                                self.cacheStorage?.async.removeObject(forKey: "\(self.uuid!)_backgroundImage.png", completion:
-                                { _ in
-                                    print(data!)
-                                    self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_backgroundImage.png", completion: {_ in
-                                    self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
-                                    self.onDismissBlock!(true) })
-                                })
+                                self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_backgroundImage_\(backgroundUUID).png", completion: {_ in
+                                self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
+                                self.onDismissBlock!(true) })
                             }
                         }
                     }
                 }
-                self.didChangePhoto.toggle()
+                self.didChangeBackgroundPhoto.toggle()
             }
         }
         self.editLabel.text = self.editState ? "저장하기" : "수정하기"
@@ -399,7 +433,7 @@ class ProfileSheetViewController: UIViewController
     
     override func viewWillDisappear(_ animated: Bool)
     {
-        self.didChangePhoto ? self.onDismissBlock!(false) : self.onDismissBlock!(true)
+        self.didChangeProfilePhoto || self.didChangeBackgroundPhoto ? self.onDismissBlock!(false) : self.onDismissBlock!(true)
     }
 }
 
@@ -437,12 +471,12 @@ extension ProfileSheetViewController: UIImagePickerControllerDelegate, UINavigat
             if picker.view.tag == 0
             {
                 self.profileBackgroundImage.image = image
-                self.didChangePhoto = true
+                self.didChangeBackgroundPhoto = true
             }
             else
             {
                 self.profileImage.image = image
-                self.didChangePhoto = true
+                self.didChangeProfilePhoto = true
             }
         }
         picker.dismiss(animated: true, completion: nil)

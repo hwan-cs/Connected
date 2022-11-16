@@ -516,7 +516,6 @@ extension FriendsViewController: UITableViewDataSource
             }
             else if indexPath.section == 3
             {
-                print("SHOULD BE 4 times")
                 friendProfileCell.friendName.text = self.friends[indexPath.row].1
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
                 friendProfileCell.userID = data!["username"] as? String
@@ -530,29 +529,48 @@ extension FriendsViewController: UITableViewDataSource
                     {
                         for items in storageListResult!.items
                         {
-                            //maxsize of image file is 30MB
-                            items.getData(maxSize: 30*1024*1024)
-                            { data, dError in
-                                if let dError = dError
+                            do
+                            {
+                                let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
+                                if items.name.contains("profileImage")
                                 {
-                                    print(dError.localizedDescription)
-                                }
-                                else
-                                {
-                                    self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in
-                                        self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
-                                    })
-                                    if items.name.contains("profileImage")
+                                    print("CACHING")
+                                    DispatchQueue.main.async
                                     {
-                                        DispatchQueue.main.async
-                                        {
-                                            friendProfileCell.friendProfileImageView.image = UIImage(data: data!)
-                                            friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFill
-                                        }
+                                        friendProfileCell.friendProfileImageView.image = UIImage(data: result.object)
+                                        friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFill
                                     }
-                                    else if items.name.contains("backgroundImage")
+                                }
+                                else if items.name.contains("backgroundImage")
+                                {
+                                    print("CACHING")
+                                    friendProfileCell.myBackgroundImage = UIImage(data: result.object)
+                                }
+                            }
+                            catch
+                            {
+                                //maxsize of image file is 30MB
+                                items.getData(maxSize: 30*1024*1024)
+                                { data, dError in
+                                    if let dError = dError
                                     {
-                                        friendProfileCell.myBackgroundImage = UIImage(data: data!)
+                                        print(dError.localizedDescription)
+                                    }
+                                    else
+                                    {
+                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in})
+                                        if items.name.contains("profileImage")
+                                        {
+                                            DispatchQueue.main.async
+                                            {
+                                                friendProfileCell.friendProfileImageView.image = UIImage(data: data!)
+                                                friendProfileCell.friendProfileImageView.contentMode = .scaleAspectFill
+                                            }
+                                        }
+                                        else if items.name.contains("backgroundImage")
+                                        {
+                                            friendProfileCell.myBackgroundImage = UIImage(data: data!)
+                                        }
                                     }
                                 }
                             }

@@ -32,66 +32,24 @@ extension FriendsViewController
                     var idx = 0 
                     for el in self.friends
                     {
-                        self.db.collection("users").document(el.0).addSnapshotListener
-                        { documentSnapshot, error in
-                            guard documentSnapshot != nil
-                            else
-                            {
-                                print("Error fetching document: \(error)")
-                                return
-                            }
-                            Task.init
-                            {
-                                let data = documentSnapshot?.data()!
-                                guard let cell = self.tableView.cellForRow(at: IndexPath(row: self.friends.firstIndex(where: { a,b in
-                                    a == el.0
-                                })!, section: 3)) as? FriendProfileTableViewCell else { return }
-                                cell.friendStatusMsg.text = data!["statusMsg"] as? String
-                                cell.friendName.text = data!["name"] as? String
-                                let storageRef = self.storage.reference()
-                                let profileRef = storageRef.child("\(el.0)/ProfileInfo/")
-                                profileRef.listAll(completion:
-                                { (storageListResult, error) in
-                                    if let error = error
-                                    {
-                                        print(error.localizedDescription)
-                                    }
-                                    else
-                                    {
-                                        for items in storageListResult!.items
-                                        {
-                                            do
-                                            {
-                                                let result = try self.cacheStorage!.entry(forKey: "\(el.0)_\(items.name)")
-                                                if items.name.contains("profileImage")
-                                                {
-                                                    DispatchQueue.main.async
-                                                    {
-                                                        cell.friendProfileImageView.image = UIImage(data: result.object)
-                                                        cell.friendProfileImageView.contentMode = .scaleAspectFill
-                                                    }
-                                                }
-                                                else if items.name.contains("backgroundImage")
-                                                {
-                                                    cell.myBackgroundImage = UIImage(data: result.object)
-                                                }
-                                            }
-                                            catch
-                                            {
-                                                print("no in cachestorage")
-                                            }
-                                        }
-                                    }
-                                })
-                            }
-                            print("dd")
-                            self.tableView.reloadRows(at: [IndexPath(row: self.friends.firstIndex(where: { a,b in
-                                a == el.0
-                            })!, section: 3)], with: .none)
-                        }
-                        self.tableView.reloadData()
+//                        self.db.collection("users").document(el.0).addSnapshotListener
+//                        { documentSnapshot, error in
+//                            guard documentSnapshot != nil
+//                            else
+//                            {
+//                                print("Error fetching document: \(error)")
+//                                return
+//                            }
+//                            guard self.tableView.cellForRow(at: IndexPath(row: self.friends.firstIndex(where: { a,b in
+//                                a == el.0
+//                            })!, section: 3)) is FriendProfileTableViewCell else { return }
+//                            self.tableView.reloadRows(at: [IndexPath(row: self.friends.firstIndex(where: { a,b in
+//                                a == el.0
+//                            })!, section: 3)], with: .none)
+//                        }
+//                        self.tableView.reloadData()
                     }
-//                    self.tableView.reloadSections(IndexSet(integer: 3), with: .none)
+                    self.tableView.reloadSections(IndexSet(integer: 3), with: .none)
                 }
             }.store(in: &disposableBag)
         
