@@ -126,13 +126,12 @@ class FriendsViewController: UIViewController
     override func viewWillAppear(_ animated: Bool)
     {
         self.navigationController?.navigationBar.topItem?.title = "친구"
-        self.navigationController?.navigationBar.backgroundColor = K.mainColor
         self.safeAreaColorToMainColor()
         let barButtonItem = UIBarButtonItem(image: UIImage(named: "Add_Friend"), style: .plain, target: self, action: #selector(addFriend))
         barButtonItem.customView?.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
         barButtonItem.tintColor = .black
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
-        self.navigationController?.navigationBar.backgroundColor = .clear
+        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())
@@ -386,7 +385,7 @@ extension FriendsViewController: UITableViewDataSource
                                     }
                                     else
                                     {
-                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in})
+                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", expiry: .date(Calendar.current.date(byAdding: .day, value: 10, to: Date.now)!), completion: {_ in})
                                         if items.name.contains("profileImage")
                                         {
                                             DispatchQueue.main.async
@@ -447,7 +446,7 @@ extension FriendsViewController: UITableViewDataSource
                                     }
                                     else
                                     {
-                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in})
+                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", expiry: .date(Calendar.current.date(byAdding: .day, value: 10, to: Date.now)!), completion: {_ in})
                                         if items.name.contains("profileImage")
                                         {
                                             DispatchQueue.main.async
@@ -502,7 +501,7 @@ extension FriendsViewController: UITableViewDataSource
                                     }
                                     else
                                     {
-                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in})
+                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", expiry: .date(Calendar.current.date(byAdding: .day, value: 10, to: Date.now)!), completion: {_ in})
                                         if items.name.contains("profileImage")
                                         {
                                             DispatchQueue.main.async
@@ -564,7 +563,7 @@ extension FriendsViewController: UITableViewDataSource
                                     }
                                     else
                                     {
-                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", completion: {_ in})
+                                        self.cacheStorage?.async.setObject(data!, forKey: "\(userID)_\(items.name)", expiry: .date(Calendar.current.date(byAdding: .day, value: 10, to: Date.now)!), completion: {_ in})
                                         if items.name.contains("profileImage")
                                         {
                                             DispatchQueue.main.async

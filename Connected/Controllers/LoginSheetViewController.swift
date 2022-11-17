@@ -94,6 +94,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
 
     override func viewDidAppear(_ animated: Bool)
     {
+        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
         animatePresentContainer()
     }
     

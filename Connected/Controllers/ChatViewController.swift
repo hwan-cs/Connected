@@ -285,9 +285,10 @@ class ChatViewController: UIViewController
     {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         let backButton = UIImage(named: "backButton")
-        self.navigationController?.navigationBar.tintColor = UIColor(named: "BlackAndWhite")!
-        self.navigationController?.navigationBar.backIndicatorImage = backButton?.withTintColor(.black)
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton?.withTintColor(.black)
+//        self.navigationController?.navigationBar.tintColor = UIColor(named: "BlackAndWhite")!
+        self.navigationController?.navigationBar.backIndicatorImage = backButton?.withTintColor(UIColor(named: "BlackAndWhite")!)
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton?.withTintColor(UIColor(named: "BlackAndWhite")!)
+        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
     }
 
     override func viewWillDisappear(_ animated: Bool)

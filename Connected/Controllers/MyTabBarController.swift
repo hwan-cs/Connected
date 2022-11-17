@@ -21,4 +21,9 @@ class MyTabBarController: UITabBarController
         rollingPitTabBar.layer.shadowOpacity = 0.2
         rollingPitTabBar.layer.shadowRadius = 20.0
     }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
+    }
 }

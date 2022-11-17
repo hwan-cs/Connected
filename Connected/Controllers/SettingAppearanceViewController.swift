@@ -12,6 +12,8 @@ class SettingAppearanceViewController: UIViewController
 {
     @IBOutlet var tableView: UITableView!
     
+    var onDismissBlock : ((Bool) -> Void)?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -27,6 +29,11 @@ class SettingAppearanceViewController: UIViewController
         self.navigationController?.navigationBar.tintColor = UIColor(named: "BlackAndWhite")!
         self.navigationController?.navigationBar.backIndicatorImage = backButton?.withTintColor(UIColor(named: "BlackAndWhite")!)
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton?.withTintColor(UIColor(named: "BlackAndWhite")!)
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
     }
 }
 
@@ -50,21 +57,85 @@ extension SettingAppearanceViewController: UITableViewDataSource
 
         // create our NSTextAttachment
         let imageAttachment = NSTextAttachment()
-        imageAttachment.image = UIImage(systemName: "checkmark.circle.fill")?.withTintColor(.tintColor)
-
+        imageAttachment.image = UIImage(systemName: "checkmark.circle.fill")?.withTintColor(UIColor(named: "BlackAndWhite")!)
         // wrap the attachment in its own attributed string so we can append it
         let imageString = NSAttributedString(attachment: imageAttachment)
-
-        // add the NSTextAttachment wrapper to our full string, then add some more text.
         fullString.append(imageString)
         fullString.append(NSAttributedString(string: ""))
 
         // draw the result in a label
         config.text = indexPath.row == 0 ? "라이트 모드" : "다크 모드"
-        config.secondaryAttributedText = fullString
+        if UserDefaults.standard.bool(forKey: "didAlterSettings")
+        {
+            if UserDefaults.standard.bool(forKey: "darkmode")
+            {
+                config.secondaryAttributedText = indexPath.row == 0 ? nil : fullString
+            }
+            else
+            {
+                config.secondaryAttributedText = indexPath.row == 0 ? fullString : nil
+            }
+        }
+        else
+        {
+            config.secondaryAttributedText = indexPath.row == 0 ? nil : fullString
+        }
         cell.contentConfiguration = config
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        let cell = tableView.cellForRow(at: indexPath)
+        var config = cell?.defaultContentConfiguration()
+        if config?.secondaryAttributedText != nil
+        {
+            return
+        }
+        if !UserDefaults.standard.bool(forKey: "didAlterSettings")
+        {
+            UserDefaults.standard.set(true, forKey: "didAlterSettings")
+        }
+        let image = indexPath.row == 0 ? UIImage(named: "LogoSmall_Light") : UIImage(named: "LogoSmall_Dark")
+        config?.image = image
+        
+        let fullString = NSMutableAttributedString(string: "")
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = UIImage(systemName: "checkmark.circle.fill")?.withTintColor(UIColor(named: "BlackAndWhite")!)
+
+        let imageString = NSAttributedString(attachment: imageAttachment)
+        fullString.append(imageString)
+        fullString.append(NSAttributedString(string: ""))
+        
+        var bar = 0
+        //when light mode isnt on
+        if indexPath.row == 0
+        {
+            UserDefaults.standard.set(false, forKey: "darkmode")
+            config?.text = "라이트 모드"
+            self.view.overrideUserInterfaceStyle = .light
+            self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 0.020, green: 0.780, blue: 0.510, alpha: 1.0)
+            config?.secondaryAttributedText = fullString
+            cell!.contentConfiguration = config
+            self.onDismissBlock!(true)
+            bar = 1
+        }
+        else
+        {
+            UserDefaults.standard.set(true, forKey: "darkmode")
+            config?.text = "다크 모드"
+            self.view.overrideUserInterfaceStyle = .dark
+            self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 0.165, green: 0.325, blue: 0.267, alpha: 1.0)
+            config?.secondaryAttributedText = fullString
+            cell!.contentConfiguration = config
+            self.onDismissBlock!(true)
+        }
+        let foo = tableView.cellForRow(at: IndexPath(row: bar, section: 0))
+        config?.image = bar == 0 ? UIImage(named: "LogoSmall_Light") : UIImage(named: "LogoSmall_Dark")
+        config?.text = bar == 1 ? "다크 모드" : "라이트 모드"
+        config?.secondaryAttributedText = NSMutableAttributedString(string: "")
+        foo?.contentConfiguration = config
     }
     
     func numberOfSections(in tableView: UITableView) -> Int

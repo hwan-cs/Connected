@@ -20,7 +20,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -32,10 +32,10 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dca-8O-woX">
-                                <rect key="frame" x="223" y="366.5" width="171" height="66"/>
+                                <rect key="frame" x="200.5" y="366.5" width="193.5" height="77"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aal-wl-hbS">
-                                        <rect key="frame" x="0.0" y="0.0" width="171" height="33"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="193.5" height="38.5"/>
                                         <string key="text">Connection 
 </string>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
@@ -43,7 +43,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="through voice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jB7-yY-nzD">
-                                        <rect key="frame" x="0.0" y="33" width="171" height="33"/>
+                                        <rect key="frame" x="0.0" y="38.5" width="193.5" height="38.5"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="28"/>
                                         <color key="textColor" name="BlackAndWhite"/>
                                         <nil key="highlightedColor"/>
@@ -602,6 +602,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Hu2-ui-evE"/>
                         <color key="backgroundColor" name="BackgroundColor3"/>
+                        <color key="tintColor" name="MainColor"/>
                         <constraints>
                             <constraint firstItem="ufU-6B-BoY" firstAttribute="trailing" secondItem="Hu2-ui-evE" secondAttribute="trailing" id="53w-QR-BZ7"/>
                             <constraint firstItem="Hu2-ui-evE" firstAttribute="trailing" secondItem="Cbs-Hi-UZW" secondAttribute="trailing" id="VyR-cu-nKV"/>
@@ -617,7 +618,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="김길동" largeTitleDisplayMode="always" id="HcY-b3-vh9">
-                        <barButtonItem key="backBarButtonItem" title="뒤로가기" id="eKn-i9-R10"/>
+                        <barButtonItem key="backBarButtonItem" title="뒤로가기" id="eKn-i9-R10">
+                            <color key="tintColor" name="BlackAndWhite"/>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="backToMicButton" destination="22d-SY-80F" id="q3L-VF-jau"/>
@@ -660,11 +663,12 @@
                 <navigationController storyboardIdentifier="CWCNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="aKd-V5-ghq" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="HWC-r9-5WQ"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Yzd-Gy-vr5">
                         <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" name="BackgroundColor3"/>
+                        <color key="tintColor" name="BlackAndWhite"/>
                         <color key="barTintColor" name="BackgroundColor3"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" name="BlackAndWhite"/>
@@ -844,7 +848,7 @@
                                         <color key="tintColor" name="BlackAndWhite"/>
                                         <buttonConfiguration key="configuration" style="plain" image="Display" title="  화면">
                                             <backgroundConfiguration key="background" imageContentMode="right">
-                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium" renderingMode="original"/>
+                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium"/>
                                             </backgroundConfiguration>
                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="18"/>
                                             <color key="baseForegroundColor" name="BlackAndWhite"/>
@@ -855,11 +859,11 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yac-UU-Veb" userLabel="테마">
                                         <rect key="frame" x="0.0" y="86.5" width="382" height="86.5"/>
-                                        <color key="tintColor" name="BlackAndWhite"/>
+                                        <color key="tintColor" name="GrayAndWhite"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="character.bubble.fill" catalog="system" title="  언어">
                                             <backgroundConfiguration key="background" imageContentMode="right">
-                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium" renderingMode="original"/>
+                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium"/>
                                             </backgroundConfiguration>
                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="18"/>
                                             <color key="baseForegroundColor" name="BlackAndWhite"/>
@@ -874,7 +878,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="Noti" title="  알림">
                                             <backgroundConfiguration key="background" imageContentMode="right">
-                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium" renderingMode="original"/>
+                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium"/>
                                             </backgroundConfiguration>
                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="18"/>
                                             <color key="baseForegroundColor" name="BlackAndWhite"/>
@@ -889,7 +893,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="Etc" title="  기타">
                                             <backgroundConfiguration key="background" imageContentMode="right">
-                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium" renderingMode="original"/>
+                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium"/>
                                             </backgroundConfiguration>
                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="18"/>
                                             <color key="baseForegroundColor" name="BlackAndWhite"/>
@@ -917,6 +921,7 @@
                     <tabBarItem key="tabBarItem" title="설정" image="Setting_Inactive" selectedImage="Setting_Active" id="XzE-9Y-r1E"/>
                     <navigationItem key="navigationItem" title="설정" id="vZt-5Z-WfK"/>
                     <connections>
+                        <outlet property="appearance" destination="i9e-SH-Q4s" id="3Zi-KJ-Zek"/>
                         <outlet property="settingsProfileEmail" destination="7pe-jb-bAy" id="Qza-VH-Ltl"/>
                         <outlet property="settingsProfileImg" destination="hPa-Dp-HVM" id="qUd-mr-C2g"/>
                         <outlet property="settingsProfileName" destination="BoM-Ue-8u5" id="tb6-T4-oWB"/>
@@ -1775,9 +1780,26 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="RCZ-MO-kwb">
                         <rect key="frame" x="0.0" y="48" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="BlackAndWhite"/>
+                        <color key="barTintColor" name="MainColor"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
+                        <navigationBarAppearance key="scrollEdgeAppearance">
+                            <color key="backgroundColor" name="MainColor"/>
+                            <textAttributes key="largeTitleTextAttributes">
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </textAttributes>
+                            <barButtonItemAppearance key="buttonAppearance">
+                                <barButtonItemStateAppearance key="normal"/>
+                                <barButtonItemStateAppearance key="highlighted"/>
+                                <barButtonItemStateAppearance key="disabled"/>
+                                <barButtonItemStateAppearance key="focused"/>
+                            </barButtonItemAppearance>
+                        </navigationBarAppearance>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -1838,6 +1860,9 @@
         </scene>
     </scenes>
     <designables>
+        <designable name="WLJ-AF-fyD">
+            <size key="intrinsicContentSize" width="-1" height="30"/>
+        </designable>
         <designable name="nH9-cE-Z4O">
             <size key="intrinsicContentSize" width="63" height="32"/>
         </designable>

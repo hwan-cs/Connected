@@ -58,6 +58,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
         application.registerForRemoteNotifications()
 
+        if UserDefaults.standard.bool(forKey: "didAlterSettings")
+        {
+            if UserDefaults.standard.bool(forKey: "darkmode")
+            {
+                window!.overrideUserInterfaceStyle = .dark
+            }
+            else
+            {
+                window!.overrideUserInterfaceStyle = .light
+            }
+        }
+        else
+        {
+            window!.overrideUserInterfaceStyle = .dark
+        }
         
         return true
     }

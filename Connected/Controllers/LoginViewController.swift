@@ -32,6 +32,11 @@ class LoginViewController: UIViewController
         })
     }
     
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
         self.view.endEditing(true)

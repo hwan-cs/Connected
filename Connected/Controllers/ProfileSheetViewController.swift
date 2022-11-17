@@ -200,6 +200,7 @@ class ProfileSheetViewController: UIViewController
     
     override func viewWillAppear(_ animated: Bool)
     {
+        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
         DispatchQueue.main.async
         {
             if let bg = self.profileBg
@@ -313,7 +314,7 @@ class ProfileSheetViewController: UIViewController
                             }
                             else
                             {
-                                self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_profileImage_\(profileUUID).png", completion: {_ in
+                                self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_profileImage_\(profileUUID).png", expiry: .date(Calendar.current.date(byAdding: .day, value: 10, to: Date.now)!), completion: {_ in
                                     self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
                                 })
                             }
@@ -364,9 +365,10 @@ class ProfileSheetViewController: UIViewController
                             }
                             else
                             {
-                                self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_backgroundImage_\(backgroundUUID).png", completion: {_ in
-                                self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
-                                self.onDismissBlock!(true) })
+                                self.cacheStorage?.async.setObject(data!, forKey: "\(self.uuid!)_backgroundImage_\(backgroundUUID).png", expiry: .date(Calendar.current.date(byAdding: .day, value: 10, to: Date.now)!), completion: {_ in
+                                    self.cacheStorage = try? Cache.Storage(diskConfig: self.diskConfig, memoryConfig: self.memoryConfig, transformer: TransformerFactory.forData())
+                                })
+                                self.onDismissBlock!(true)
                             }
                         }
                     }
