@@ -31,10 +31,10 @@ class SettingsViewController: UIViewController
     override func viewWillAppear(_ animated: Bool)
     {
         print("Settign will appear")
-        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
         self.navigationController?.navigationBar.topItem?.title = "설정"
         self.navigationController?.navigationBar.backgroundColor = K.mainColor
-        let barButtonItem = UIBarButtonItem(title: "로그아웃", style: .done, target: self, action: #selector(logOut))
+        let barButtonItem = UIBarButtonItem(title: "logout".localizeString(string: "ko"), style: .done, target: self, action: #selector(logOut))
         barButtonItem.tintColor = UIColor(named: "BlackAndWhite")
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
         self.navigationController?.navigationBar.backgroundColor = .clear
@@ -78,7 +78,7 @@ class SettingsViewController: UIViewController
             success in
             if success
             {
-                self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
+                self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
             }
         }
         self.navigationController?.pushViewController(vc, animated: true)

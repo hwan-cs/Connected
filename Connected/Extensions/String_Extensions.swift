@@ -32,4 +32,11 @@ extension String
         let nameRegex = "^[\\p{L}'-][\\p{L}' -]{1,25}$"
         return NSPredicate(format: "SELF MATCHES %@", nameRegex).evaluate(with: self)
     }
+    
+    func localizeString(string: String) -> String
+    {
+        let path = Bundle.main.path(forResource: string, ofType: "lproj")
+        let bundle = Bundle(path: path!)
+        return NSLocalizedString(self, tableName: "EngLoc", bundle: bundle!, value: "", comment: "")
+    }
 }

@@ -1,0 +1,13 @@
+/* 
+  EngLoc.strings
+  Connected
+
+  Created by Jung Hwan Park on 2022/11/18.
+  
+*/
+
+"logout" = "로그아웃";
+"espulltorefresh" = "당겨서 새로고침";
+"esreleasetorefresh" = "놓아서 새로고침";
+"esloadingdescription" = "로딩 중...";
+"goback" = "뒤로가기";

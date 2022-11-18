@@ -33,7 +33,7 @@ class SettingAppearanceViewController: UIViewController
     
     override func viewWillAppear(_ animated: Bool)
     {
-        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
     }
 }
 
@@ -116,6 +116,7 @@ extension SettingAppearanceViewController: UITableViewDataSource
             config?.text = "라이트 모드"
             self.view.overrideUserInterfaceStyle = .light
             self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 0.020, green: 0.780, blue: 0.510, alpha: 1.0)
+            K.darkmode = false
             config?.secondaryAttributedText = fullString
             cell!.contentConfiguration = config
             self.onDismissBlock!(true)
@@ -127,6 +128,7 @@ extension SettingAppearanceViewController: UITableViewDataSource
             config?.text = "다크 모드"
             self.view.overrideUserInterfaceStyle = .dark
             self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 0.165, green: 0.325, blue: 0.267, alpha: 1.0)
+            K.darkmode = true
             config?.secondaryAttributedText = fullString
             cell!.contentConfiguration = config
             self.onDismissBlock!(true)

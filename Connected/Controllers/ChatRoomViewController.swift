@@ -101,7 +101,7 @@ class ChatRoomViewController: UIViewController
         barButtonItem.tintColor = .black
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
         self.navigationController?.navigationBar.backgroundColor = .clear
-        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
     }
     
     override func viewWillDisappear(_ animated: Bool)

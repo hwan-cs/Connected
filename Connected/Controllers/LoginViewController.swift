@@ -34,7 +34,7 @@ class LoginViewController: UIViewController
     
     override func viewWillAppear(_ animated: Bool)
     {
-        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool

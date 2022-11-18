@@ -131,7 +131,7 @@ class FriendsViewController: UIViewController
         barButtonItem.customView?.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
         barButtonItem.tintColor = .black
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
-        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())
@@ -523,7 +523,6 @@ extension FriendsViewController: UITableViewDataSource
             else if indexPath.section == 3
             {
                 friendProfileCell.friendName.text = self.friends[indexPath.row].1
-                print(self.friends[indexPath.row].1)
                 friendProfileCell.friendStatusMsg.text = data!["statusMsg"] as? String
                 friendProfileCell.userID = data!["username"] as? String
                 profileRef.listAll(completion:
@@ -539,6 +538,7 @@ extension FriendsViewController: UITableViewDataSource
                             do
                             {
                                 let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
+                                print("CACHED")
                                 if items.name.contains("profileImage")
                                 {
                                     DispatchQueue.main.async

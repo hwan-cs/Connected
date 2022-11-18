@@ -1,0 +1,210 @@
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "0Xe-Zi-Uqt"; */
+"0Xe-Zi-Uqt.text" = "Title";
+
+/* Class = "UILabel"; text = "회원가입"; ObjectID = "1gQ-8X-GXS"; */
+"1gQ-8X-GXS.text" = "Sign up";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "22d-SY-80F"; */
+"22d-SY-80F.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "2rB-qG-iIb"; */
+"2rB-qG-iIb.text" = "Detail";
+
+/* Class = "UILabel"; text = "라이트 모드"; ObjectID = "3nT-0g-FOb"; */
+"3nT-0g-FOb.text" = "Light mode";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "5Z4-4K-qlR"; */
+"5Z4-4K-qlR.text" = "Detail";
+
+/* Class = "UINavigationItem"; title = "채팅"; ObjectID = "5li-U5-rDa"; */
+"5li-U5-rDa.title" = "Chat";
+
+/* Class = "UILabel"; text = "hwan333@konkuk.ac.kr"; ObjectID = "7pe-jb-bAy"; */
+"7pe-jb-bAy.text" = "hwan333@konkuk.ac.kr";
+
+/* Class = "UINavigationItem"; title = "기타"; ObjectID = "9Ye-8L-ZMF"; */
+"9Ye-8L-ZMF.title" = "Etc";
+
+/* Class = "UILabel"; text = "Connection \n"; ObjectID = "Aal-wl-hbS"; */
+"Aal-wl-hbS.text" = "Connection \n";
+
+/* Class = "UILabel"; text = "홍길동"; ObjectID = "BoM-Ue-8u5"; */
+"BoM-Ue-8u5.text" = "Michael";
+
+/* Class = "UILabel"; text = "라이트 모드"; ObjectID = "C6c-3b-lJg"; */
+"C6c-3b-lJg.text" = "Light mode";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "C75-4K-hPd"; */
+"C75-4K-hPd.text" = "Title";
+
+/* Class = "UIButton"; configuration.title = " 배경사진을 바꾸려면 클릭하세요"; ObjectID = "CEd-vN-jpl"; */
+"CEd-vN-jpl.configuration.title" = " Tap to change background photo";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "CEd-vN-jpl"; */
+"CEd-vN-jpl.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "  알림"; ObjectID = "CV1-ss-qlO"; */
+"CV1-ss-qlO.configuration.title" = "  Notifications";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "CV1-ss-qlO"; */
+"CV1-ss-qlO.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "수정하기"; ObjectID = "Ckw-3J-VWi"; */
+"Ckw-3J-VWi.text" = "Edit";
+
+/* Class = "UILabel"; text = "인스타그램"; ObjectID = "EYC-gj-byq"; */
+"EYC-gj-byq.text" = "Instagram";
+
+/* Class = "UITabBarItem"; title = "친구"; ObjectID = "FY5-5H-WPp"; */
+"FY5-5H-WPp.title" = "Friends";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Fxa-aF-l1y"; */
+"Fxa-aF-l1y.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "hwan-cs"; ObjectID = "H4E-Ry-L9P"; */
+"H4E-Ry-L9P.text" = "hwan-cs";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "HDg-BU-3ti"; */
+"HDg-BU-3ti.text" = "Detail";
+
+/* Class = "UINavigationItem"; title = "김길동"; ObjectID = "HcY-b3-vh9"; */
+"HcY-b3-vh9.title" = "Michael";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "INa-OD-bJ1"; */
+"INa-OD-bJ1.text" = "Detail";
+
+/* Class = "UINavigationItem"; title = "언어"; ObjectID = "JLc-83-xdV"; */
+"JLc-83-xdV.title" = "Language";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "Kcb-0s-qTT"; */
+"Kcb-0s-qTT.text" = "Detail";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "Loh-Md-7iw"; */
+"Loh-Md-7iw.text" = "Detail";
+
+/* Class = "UITabBarItem"; title = "채팅"; ObjectID = "NO5-tx-3s6"; */
+"NO5-tx-3s6.title" = "Chat";
+
+/* Class = "UIBarButtonItem"; title = "완료"; ObjectID = "NuD-cG-yNV"; */
+"NuD-cG-yNV.title" = "Done";
+
+/* Class = "UINavigationItem"; title = "친구 선택"; ObjectID = "R3e-Ld-47q"; */
+"R3e-Ld-47q.title" = "Select friend";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "RWG-QT-g1z"; */
+"RWG-QT-g1z.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "회원가입"; ObjectID = "SIJ-bN-1wF"; */
+"SIJ-bN-1wF.configuration.title" = "Sign up";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "SIJ-bN-1wF"; */
+"SIJ-bN-1wF.normalTitle" = "Button";
+
+/* Class = "UISearchBar"; placeholder = "검색"; ObjectID = "W4O-Yz-oy3"; */
+"W4O-Yz-oy3.placeholder" = "Search";
+
+/* Class = "UILabel"; text = "더욱 나은 앱을 위한 모든 피드백과 제안사항을 완영합니다 😊connected@gmail.com으로 이메일을 보내시거나 아래 연락처로 연락을 남겨주세요. 의견을 최대한 고려하여 추후 업데이트에 반영하겠습니다!"; ObjectID = "X2K-ED-6oV"; */
+"X2K-ED-6oV.text" = "I would love to hear your feedback or any suggestions for new features 😊 Send me an email at connected@gmail.com or connect with me via my personal email below. I'll try my best to include your idea in a future update!";
+
+/* Class = "UILabel"; text = "라이트 모드"; ObjectID = "XGX-nO-GV8"; */
+"XGX-nO-GV8.text" = "Light mode";
+
+/* Class = "UITabBarItem"; title = "설정"; ObjectID = "XzE-9Y-r1E"; */
+"XzE-9Y-r1E.title" = "Setting";
+
+/* Class = "UINavigationItem"; title = "알림"; ObjectID = "Z3r-sh-n0O"; */
+"Z3r-sh-n0O.title" = "Notification";
+
+/* Class = "UIButton"; configuration.title = "회원가입"; ObjectID = "ZUm-F3-lWm"; */
+"ZUm-F3-lWm.configuration.title" = "Sign up";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "ZUm-F3-lWm"; */
+"ZUm-F3-lWm.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "ZxM-qq-wBo"; */
+"ZxM-qq-wBo.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "19juhpark"; ObjectID = "aUV-MR-0xq"; */
+"aUV-MR-0xq.text" = "19juhpark";
+
+/* Class = "UILabel"; text = "커넥티드는 한국 유일 음성 기반 SNS 입니다! 편리한 음성 녹음 기능과 배속 기능, 실시간 위치 공유 기능 등을 제공 합니다. "; ObjectID = "b1S-TD-Jhn"; */
+"b1S-TD-Jhn.text" = "Connected is South Korea's one and only audio-based Messenger app. We provide easy-to-use voice recording, plaback speek change, live locatio sharing, as well as other features.";
+
+/* Class = "UIButton"; configuration.title = "  기타"; ObjectID = "cfo-DF-qhM"; */
+"cfo-DF-qhM.configuration.title" = "  Etc";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "cfo-DF-qhM"; */
+"cfo-DF-qhM.normalTitle" = "Button";
+
+/* Class = "UIBarButtonItem"; title = "뒤로가기"; ObjectID = "eKn-i9-R10"; */
+"eKn-i9-R10.title" = "Back";
+
+/* Class = "UILabel"; text = "연락처"; ObjectID = "gbv-aG-5hu"; */
+"gbv-aG-5hu.text" = "Contacts";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "hmw-JV-oCH"; */
+"hmw-JV-oCH.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "  화면"; ObjectID = "i9e-SH-Q4s"; */
+"i9e-SH-Q4s.configuration.title" = "  Appearance";
+
+/* Class = "UILabel"; text = "through voice"; ObjectID = "jB7-yY-nzD"; */
+"jB7-yY-nzD.text" = "through voice";
+
+/* Class = "UILabel"; text = "커넥티드에 대해"; ObjectID = "jEj-ne-kiQ"; */
+"jEj-ne-kiQ.text" = "About Connected";
+
+/* Class = "UILabel"; text = "깃허브"; ObjectID = "jeO-0z-Fcp"; */
+"jeO-0z-Fcp.text" = "Github";
+
+/* Class = "UIButton"; configuration.title = "로그인"; ObjectID = "nH9-cE-Z4O"; */
+"nH9-cE-Z4O.configuration.title" = "Login";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "nH9-cE-Z4O"; */
+"nH9-cE-Z4O.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "hwan333@konkuk.ac.kr"; ObjectID = "oUs-gT-i8B"; */
+"oUs-gT-i8B.text" = "hwan333@konkuk.ac.kr";
+
+/* Class = "UILabel"; text = "이메일"; ObjectID = "oe5-9f-BE2"; */
+"oe5-9f-BE2.text" = "Email";
+
+/* Class = "UILabel"; text = "hwan333@konkuk.ac.kr"; ObjectID = "p42-JL-ajg"; */
+"p42-JL-ajg.text" = "hwan333@konkuk.ac.kr";
+
+/* Class = "UINavigationItem"; title = "친구"; ObjectID = "qOz-OV-gfV"; */
+"qOz-OV-gfV.title" = "Friends";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "sKb-Sx-Lcx"; */
+"sKb-Sx-Lcx.text" = "Title";
+
+/* Class = "UILabel"; text = "제안사항이나 피드백이 있으신가요?"; ObjectID = "t77-nu-TRu"; */
+"t77-nu-TRu.text" = "Do you have feedback or any suggestions?";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "u8X-1g-Fpd"; */
+"u8X-1g-Fpd.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "중복 확인"; ObjectID = "uYP-vw-MX1"; */
+"uYP-vw-MX1.configuration.title" = "Validity";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "uYP-vw-MX1"; */
+"uYP-vw-MX1.normalTitle" = "Button";
+
+/* Class = "UINavigationItem"; title = "설정"; ObjectID = "vZt-5Z-WfK"; */
+"vZt-5Z-WfK.title" = "Setting";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "vin-Ea-vc7"; */
+"vin-Ea-vc7.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "카카오톡"; ObjectID = "y17-Qh-GN6"; */
+"y17-Qh-GN6.text" = "Kakaotalk";
+
+/* Class = "UIButton"; configuration.title = "  언어"; ObjectID = "yac-UU-Veb"; */
+"yac-UU-Veb.configuration.title" = "  Language";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "yac-UU-Veb"; */
+"yac-UU-Veb.normalTitle" = "Button";
+
+/* Class = "UINavigationItem"; title = "화면"; ObjectID = "ycQ-Ei-isa"; */
+"ycQ-Ei-isa.title" = "Appearance";

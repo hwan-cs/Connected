@@ -200,7 +200,7 @@ class ProfileSheetViewController: UIViewController
     
     override func viewWillAppear(_ animated: Bool)
     {
-        self.view.overrideUserInterfaceStyle = UserDefaults.standard.bool(forKey: "darkmode") ? .dark : .light
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
         DispatchQueue.main.async
         {
             if let bg = self.profileBg

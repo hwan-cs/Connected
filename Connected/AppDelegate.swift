@@ -63,15 +63,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate
             if UserDefaults.standard.bool(forKey: "darkmode")
             {
                 window!.overrideUserInterfaceStyle = .dark
+                K.darkmode = true
             }
             else
             {
                 window!.overrideUserInterfaceStyle = .light
+                K.darkmode = false
             }
         }
         else
         {
             window!.overrideUserInterfaceStyle = .dark
+            K.darkmode = true
         }
         
         return true
