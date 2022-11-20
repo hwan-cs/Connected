@@ -145,7 +145,7 @@ class ChatViewController: UIViewController
         stackView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.minMaxBtn.titleLabel?.textAlignment = .left
+        self.minMaxBtn.contentHorizontalAlignment = .leading
         
         recordButton.addTarget(self, action: #selector(startPulse), for: .touchDown)
         recordButton.addTarget(self, action: #selector(stopPulse), for: [.touchUpInside, .touchUpOutside])
@@ -833,7 +833,7 @@ extension ChatViewController: GrowingTextViewDelegate
     {
         if textView.text.count > 0
         {
-            self.sendButton.tintColor = K.mainColor
+            self.sendButton.tintColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
         }
         else
         {
@@ -875,7 +875,7 @@ extension ChatViewController: GMSMapViewDelegate
 {
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker)
     {
-        
+        1
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool

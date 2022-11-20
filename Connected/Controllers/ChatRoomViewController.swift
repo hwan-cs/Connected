@@ -54,6 +54,8 @@ class ChatRoomViewController: UIViewController
     
     @IBOutlet var searchBar: UISearchBar!
     
+    var isFiltering = false
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -300,17 +302,41 @@ extension ChatRoomViewController: UISearchBarDelegate
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar)
     {
         searchBar.showsCancelButton = true
-        self.tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
     {
         self.dismissKeyboard()
-        
+                
         guard let text = searchBar.text?.lowercased() else { return }
         
         guard let searchTerm = searchBar.text, searchTerm.isEmpty == false else { return }
         
-//        self.chatRoomArray = self.chatRoomArray.filter {  }
+        K.searchFriends = self.friends
+        K.searchChatRoomArray = self.chatRoomArray
+        K.searchSortedByValueDictionaryValue = ChatRoomViewController.sortedByValueDictionaryValue
+        K.searchSortedByValueDictionaryKey = self.sortedByValueDictionaryKey
+        
+        self.friends = self.friends.filter { $1.localizedCaseInsensitiveContains(text) }
+        let foo = self.friends.compactMap({ a,b in a })
+        
+        self.chatRoomArray = self.chatRoomArray.filter { foo.contains($0.key) }
+        
+        self.sortedByValueDictionaryKey = self.chatRoomArray.sorted(by: { ($0.value[1] as! String)  > ($1.value[1] as! String)}).map({$0.key})
+        ChatRoomViewController.sortedByValueDictionaryValue = self.chatRoomArray.sorted(by: { ($0.value[1] as! String) > ($1.value[1] as! String)}).map({$0.value})
+
+        self.tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
+    {
+        self.searchBar.text = ""
+        self.searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        self.friends = K.searchFriends
+        self.chatRoomArray = K.searchChatRoomArray
+        self.sortedByValueDictionaryKey = K.searchSortedByValueDictionaryKey
+        ChatRoomViewController.sortedByValueDictionaryValue = K.searchSortedByValueDictionaryValue
+        self.tableView.reloadData()
     }
 }
