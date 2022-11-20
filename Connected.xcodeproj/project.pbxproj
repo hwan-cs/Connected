@@ -43,7 +43,6 @@
 		1AA8A0D62914251C00110A88 /* NewChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8A0D52914251B00110A88 /* NewChatViewController.swift */; };
 		1AAC727A291954FD00842AB7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC7279291954FC00842AB7 /* SettingsViewController.swift */; };
 		1AAC727D291BFA3200842AB7 /* SettingAppearanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */; };
-		1AAC727F291D263F00842AB7 /* SettingLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC727E291D263E00842AB7 /* SettingLanguageViewController.swift */; };
 		1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88628CB409F00B96A7C /* AppDelegate.swift */; };
 		1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACE88A28CB409F00B96A7C /* LoginViewController.swift */; };
 		1AACE88E28CB409F00B96A7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AACE88C28CB409F00B96A7C /* Main.storyboard */; };
@@ -88,11 +87,11 @@
 		1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextChatTableViewCell.xib; sourceTree = "<group>"; };
 		1A2442A328E6054900E4A0DD /* RecTextChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecTextChatTableViewCell.swift; sourceTree = "<group>"; };
 		1A2442A428E6054900E4A0DD /* RecTextChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecTextChatTableViewCell.xib; sourceTree = "<group>"; };
-		1A2A9516292747FB0041BF9E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		1A2A9517292747FB0041BF9E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		1A2A9519292748560041BF9E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		1A2A951D29274B470041BF9E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/EngLoc.strings; sourceTree = "<group>"; };
 		1A2A951F29274B5D0041BF9E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/EngLoc.strings; sourceTree = "<group>"; };
+		1A2A9520292A79A40041BF9E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		1A2A9521292A79A80041BF9E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_Extensions.swift; sourceTree = "<group>"; };
 		1A41E69528E2D8C6006D0C9A /* CachingPlayerItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachingPlayerItem.swift; sourceTree = "<group>"; };
 		1A46A015290BC7BD0096A923 /* FriendRequestRTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestRTableViewCell.swift; sourceTree = "<group>"; };
@@ -123,7 +122,6 @@
 		1AAC7279291954FC00842AB7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1AAC727B291BAE4100842AB7 /* ConnectedDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConnectedDebug.entitlements; sourceTree = "<group>"; };
 		1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAppearanceViewController.swift; sourceTree = "<group>"; };
-		1AAC727E291D263E00842AB7 /* SettingLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingLanguageViewController.swift; sourceTree = "<group>"; };
 		1AACE88328CB409F00B96A7C /* Connected.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connected.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AACE88628CB409F00B96A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AACE88A28CB409F00B96A7C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -282,7 +280,6 @@
 				1AA8A0D52914251B00110A88 /* NewChatViewController.swift */,
 				1AAC7279291954FC00842AB7 /* SettingsViewController.swift */,
 				1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */,
-				1AAC727E291D263E00842AB7 /* SettingLanguageViewController.swift */,
 				1A61D0BE291D5CAD00069A77 /* SettingEtcViewController.swift */,
 			);
 			path = Controllers;
@@ -543,7 +540,6 @@
 				1A7FBDBF28F1B652001A37BF /* FriendProfileTableViewCell.swift in Sources */,
 				1A7FBDBC28F025B8001A37BF /* FriendsVC_Extensions.swift in Sources */,
 				1A7FBDB628EFFE7C001A37BF /* MyTabBarController.swift in Sources */,
-				1AAC727F291D263F00842AB7 /* SettingLanguageViewController.swift in Sources */,
 				1A41E69628E2D8C7006D0C9A /* CachingPlayerItem.swift in Sources */,
 				1AB6A01828CF057300A0D127 /* LoginSheetVC_Extensions.swift in Sources */,
 				1AACE88B28CB409F00B96A7C /* LoginViewController.swift in Sources */,
@@ -579,8 +575,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				1AACE88D28CB409F00B96A7C /* Base */,
-				1A2A9516292747FB0041BF9E /* ko */,
-				1A2A9519292748560041BF9E /* en */,
+				1A2A9520292A79A40041BF9E /* en */,
+				1A2A9521292A79A80041BF9E /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

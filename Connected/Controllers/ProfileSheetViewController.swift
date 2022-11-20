@@ -223,7 +223,9 @@ class ProfileSheetViewController: UIViewController
         let imgToDisplay = self.editState ? UIImage(named: "floppy_disk") : UIImage(named: "Edit")
         sender.imageView?.image = imgToDisplay
         sender.setImage(imgToDisplay, for: .normal)
-        if self.editLabel.text == "저장하기"
+        let save = K.lang == "ko" ? "저장하기" : "Save"
+        let edit = K.lang == "ko" ? "수정하기" : "Edit"
+        if self.editLabel.text == save
         {
             Task.init
             {
@@ -376,7 +378,7 @@ class ProfileSheetViewController: UIViewController
                 self.didChangeBackgroundPhoto.toggle()
             }
         }
-        self.editLabel.text = self.editState ? "저장하기" : "수정하기"
+        self.editLabel.text = self.editState ? save : edit
         self.toggleEdit(self.editState)
     }
     
@@ -404,7 +406,7 @@ class ProfileSheetViewController: UIViewController
         if flag
         {
             let saveButton = UIButton()
-            saveButton.setTitle("저장하기", for: .normal)
+            saveButton.setTitle(K.lang == "ko" ? "저장하기" : "Save", for: .normal)
             self.stackView.addSubview(saveButton)
         }
         

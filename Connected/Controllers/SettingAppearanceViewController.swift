@@ -14,6 +14,8 @@ class SettingAppearanceViewController: UIViewController
     
     var onDismissBlock : ((Bool) -> Void)?
     
+    let options = K.lang == "ko" ? ["라이트 모드", "다크 모드"] : ["Light mode", "Dark mode"]
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -64,7 +66,7 @@ extension SettingAppearanceViewController: UITableViewDataSource
         fullString.append(NSAttributedString(string: ""))
 
         // draw the result in a label
-        config.text = indexPath.row == 0 ? "라이트 모드" : "다크 모드"
+        config.text = options[indexPath.row]
         if UserDefaults.standard.bool(forKey: "didAlterSettings")
         {
             if UserDefaults.standard.bool(forKey: "darkmode")
@@ -113,7 +115,7 @@ extension SettingAppearanceViewController: UITableViewDataSource
         if indexPath.row == 0
         {
             UserDefaults.standard.set(false, forKey: "darkmode")
-            config?.text = "라이트 모드"
+            config?.text = self.options[indexPath.row]
             self.view.overrideUserInterfaceStyle = .light
             self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 0.020, green: 0.780, blue: 0.510, alpha: 1.0)
             K.darkmode = false
@@ -125,7 +127,7 @@ extension SettingAppearanceViewController: UITableViewDataSource
         else
         {
             UserDefaults.standard.set(true, forKey: "darkmode")
-            config?.text = "다크 모드"
+            config?.text = self.options[indexPath.row]
             self.view.overrideUserInterfaceStyle = .dark
             self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 0.165, green: 0.325, blue: 0.267, alpha: 1.0)
             K.darkmode = true
@@ -135,7 +137,7 @@ extension SettingAppearanceViewController: UITableViewDataSource
         }
         let foo = tableView.cellForRow(at: IndexPath(row: bar, section: 0))
         config?.image = bar == 0 ? UIImage(named: "LogoSmall_Light") : UIImage(named: "LogoSmall_Dark")
-        config?.text = bar == 1 ? "다크 모드" : "라이트 모드"
+        config?.text = self.options[bar]
         config?.secondaryAttributedText = NSMutableAttributedString(string: "")
         foo?.contentConfiguration = config
     }

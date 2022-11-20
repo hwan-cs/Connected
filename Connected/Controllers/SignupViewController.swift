@@ -82,6 +82,15 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         signUpButton.isUserInteractionEnabled = false
     }
     
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.idTextField.tweePlaceholder = K.lang == "ko" ? "아이디" : "ID"
+        self.passwordTextField[0].tweePlaceholder = K.lang == "ko" ? "비밀번호" : "Password"
+        self.passwordTextField[1].tweePlaceholder = K.lang == "ko" ? "비밀번호 재입력" : "Re-enter password"
+        self.emailTextField.tweePlaceholder = K.lang == "ko" ? "이메일" : "Email"
+        self.nameTextField.tweePlaceholder = K.lang == "ko" ? "이름" : "Name"
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
         scrollView.bounces = scrollView.contentOffset.y > 100

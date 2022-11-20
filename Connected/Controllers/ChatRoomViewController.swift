@@ -94,7 +94,7 @@ class ChatRoomViewController: UIViewController
     
     override func viewWillAppear(_ animated: Bool)
     {
-        self.navigationController?.navigationBar.topItem?.title = "채팅"
+        self.navigationController?.navigationBar.topItem?.title = K.lang == "ko" ? "채팅" : "Chat"
         self.navigationController?.navigationBar.backgroundColor = K.mainColor
         self.safeAreaColorToMainColor()
         let barButtonItem = UIBarButtonItem(image: UIImage(named: "NewChat"), style: .plain, target: self, action: #selector(onNewChatTap))

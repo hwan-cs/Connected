@@ -91,7 +91,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             self.view.layoutIfNeeded()
         }
     }
-
+    
     override func viewDidAppear(_ animated: Bool)
     {
         self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
@@ -225,6 +225,8 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     override func viewWillAppear(_ animated: Bool)
     {
+        self.usernameTextField.tweePlaceholder = K.lang == "ko" ? "이메일" : "Email"
+        self.passwordTextField.tweePlaceholder = K.lang == "ko" ? "비밀번호" : "Password"
         self.checkUserLogin()
         if K.didSignupNewUser
         {

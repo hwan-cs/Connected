@@ -87,7 +87,7 @@ extension ChatViewController
         self.backgroundViewTopAnchorConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .top, relatedBy: .equal, toItem: self.tableView, attribute: .top, multiplier: 1.0, constant: 8.0)
         self.backgroundViewTopAnchorConstraint?.isActive = true
 
-        minMaxBtn.setTitle("축소", for: .normal)
+        minMaxBtn.setTitle(K.lang == "ko" ? "축소" : "Minimize", for: .normal)
         minMaxBtn.tag = 0
         minMaxBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         minMaxBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -95,7 +95,7 @@ extension ChatViewController
         NSLayoutConstraint.activate([
             minMaxBtn.heightAnchor.constraint(equalToConstant: 20.0),
             minMaxBtn.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: 12.0),
-            minMaxBtn.widthAnchor.constraint(equalToConstant: 25.0),
+            minMaxBtn.widthAnchor.constraint(equalToConstant: 70.0),
             minMaxBtn.topAnchor.constraint(equalTo: self.backgroundView.topAnchor, constant: 10),
         ])
         minMaxBtn.addTarget(self, action: #selector(minimizeMapView(_ :)), for: .touchUpInside)
@@ -127,7 +127,7 @@ extension ChatViewController
         self.recBackgroundViewTopAnchorConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .top, relatedBy: .equal, toItem: self.tableView, attribute: .top, multiplier: 1.0, constant: cons)
         self.recBackgroundViewTopAnchorConstraint?.isActive = true
 
-        recMinMaxBtn.setTitle("축소", for: .normal)
+        recMinMaxBtn.setTitle(K.lang == "ko" ? "축소" : "Minimize", for: .normal)
         recMinMaxBtn.tag = 1
         recMinMaxBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         recMinMaxBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -135,7 +135,7 @@ extension ChatViewController
         NSLayoutConstraint.activate([
             recMinMaxBtn.heightAnchor.constraint(equalToConstant: 20.0),
             recMinMaxBtn.leadingAnchor.constraint(equalTo: self.recBackgroundView.leadingAnchor, constant: 12.0),
-            recMinMaxBtn.widthAnchor.constraint(equalToConstant: 25.0),
+            recMinMaxBtn.widthAnchor.constraint(equalToConstant: 70.0),
             recMinMaxBtn.topAnchor.constraint(equalTo: self.recBackgroundView.topAnchor, constant: 10),
         ])
         recMinMaxBtn.addTarget(self, action: #selector(minimizeMapView(_ :)), for: .touchUpInside)
@@ -154,7 +154,7 @@ extension ChatViewController
     {
         if sender.tag == 0
         {
-            self.minMaxBtn.setTitle("확대", for: .normal)
+            self.minMaxBtn.setTitle(K.lang == "ko" ? "확대" : "Maximize", for: .normal)
             self.mapView.removeFromSuperview()
             self.backgroundViewHeightConstraint!.isActive = false
             self.backgroundViewTrailingConstraint!.isActive = false
@@ -170,7 +170,7 @@ extension ChatViewController
                 mapViewFrame.size.width = 0
                 self.mapView.frame = mapViewFrame
                 self.backgroundViewHeightConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 50.0)
-                self.backgroundViewTrailingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 88.0)
+                self.backgroundViewTrailingConstraint = NSLayoutConstraint(item: self.backgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100.0)
                 self.backgroundViewHeightConstraint!.isActive = true
                 self.backgroundViewTrailingConstraint!.isActive = true
             }
@@ -179,7 +179,7 @@ extension ChatViewController
         }
         else
         {
-            self.recMinMaxBtn.setTitle("확대", for: .normal)
+            self.recMinMaxBtn.setTitle(K.lang == "ko" ? "확대" : "Maximize", for: .normal)
             self.recMapView.removeFromSuperview()
             self.recBackgroundViewHeightConstraint!.isActive = false
             self.recBackgroundViewTrailingConstraint!.isActive = false
@@ -195,7 +195,7 @@ extension ChatViewController
                 mapViewFrame.size.width = 0
                 self.recMapView.frame = mapViewFrame
                 self.recBackgroundViewHeightConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 50.0)
-                self.recBackgroundViewTrailingConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 88.0)
+                self.recBackgroundViewTrailingConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100.0)
                 self.recBackgroundViewHeightConstraint!.isActive = true
                 self.recBackgroundViewTrailingConstraint!.isActive = true
             }
@@ -208,7 +208,7 @@ extension ChatViewController
     {
         if sender.tag == 0
         {
-            self.minMaxBtn.setTitle("축소", for: .normal)
+            self.minMaxBtn.setTitle(K.lang == "ko" ? "축소" : "Minimize", for: .normal)
             self.backgroundView.addSubview(self.mapView)
             self.backgroundViewHeightConstraint!.isActive = false
             self.backgroundViewTrailingConstraint!.isActive = false
@@ -241,7 +241,7 @@ extension ChatViewController
         }
         else
         {
-            self.recMinMaxBtn.setTitle("축소", for: .normal)
+            self.recMinMaxBtn.setTitle(K.lang == "ko" ? "축소" : "Minimize", for: .normal)
             self.recBackgroundView.addSubview(self.recMapView)
             self.recBackgroundViewHeightConstraint!.isActive = false
             self.recBackgroundViewTrailingConstraint!.isActive = false

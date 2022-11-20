@@ -85,7 +85,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         {
             K.lang = Locale.current.languageCode! == "ko" ? "ko" : "en"
         }
-        
         return true
     }
     

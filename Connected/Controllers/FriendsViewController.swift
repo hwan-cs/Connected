@@ -125,7 +125,7 @@ class FriendsViewController: UIViewController
     
     override func viewWillAppear(_ animated: Bool)
     {
-        self.navigationController?.navigationBar.topItem?.title = "친구"
+        self.navigationController?.navigationBar.topItem?.title = K.lang == "ko" ? "친구" : "Friends"
         self.safeAreaColorToMainColor()
         let barButtonItem = UIBarButtonItem(image: UIImage(named: "Add_Friend"), style: .plain, target: self, action: #selector(addFriend))
         barButtonItem.customView?.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
@@ -145,7 +145,9 @@ class FriendsViewController: UIViewController
         let foobar = MessageView.viewFromNib(layout: .cardView)
         foobar.configureTheme(.error)
         let iconText = ["❓"].randomElement()!
-        foobar.configureContent(title: "오류가 발생 했습니다!", body: "아이디를 다시 확인 해주세요", iconText: iconText)
+        let mvTitle = K.lang == "ko" ? "오류가 발생 했습니다!" : "Error has occured!"
+        let mvBody = K.lang == "ko" ? "아이디를 다시 확인 해주세요" : "Please check ID again"
+        foobar.configureContent(title: mvTitle, body: mvBody, iconText: iconText)
         foobar.backgroundColor = .clear
         foobar.button?.setTitle("확인", for: .normal)
         foobar.buttonTapHandler =
@@ -158,8 +160,8 @@ class FriendsViewController: UIViewController
         fig.interactiveHide = true
         foobar.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
         
-        let alertController = UIAlertController(title: "추가할 친구의 ID를 입력하세요", message: "", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: { alert -> Void in
+        let alertController = UIAlertController(title: K.lang == "ko" ? "추가할 친구의 ID를 입력하세요" : "Friend's ID", message: "", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: K.lang == "ko" ? "확인" : "Ok", style: .default, handler: { alert -> Void in
             let textField = alertController.textFields![0] as UITextField
             if textField.text != "" && textField.text != self.uuid!
             {
@@ -202,9 +204,9 @@ class FriendsViewController: UIViewController
                 }
             }
         }))
-        alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: K.lang == "ko" ? "취소" : "Cancel", style: .cancel, handler: nil))
         alertController.addTextField(configurationHandler: {(textField : UITextField!) -> Void in
-            textField.placeholder = "아이디 입력"
+            textField.placeholder = K.lang == "ko" ? "아이디 입력" : "Enter ID"
         })
         self.present(alertController, animated: true, completion: nil)
     }
@@ -257,7 +259,7 @@ extension FriendsViewController: UITableViewDelegate
                 vc.profileBg = bg
             }
             vc.name = cell.myProfileName.text ?? "홍길동"
-            vc.status = cell.myProfileStatus.text ?? "Hello World!"
+            vc.status = cell.myProfileStatus.text ?? ""
             vc.id = cell.userID!
             vc.isEditable = true
             Task.init
@@ -280,7 +282,7 @@ extension FriendsViewController: UITableViewDelegate
                 vc.profileBg = bg
             }
             vc.name = cell.friendName.text ?? "홍길동"
-            vc.status = cell.friendStatusMsg.text ?? "Hello World!"
+            vc.status = cell.friendStatusMsg.text ?? ""
             vc.id = cell.userID!
             vc.isEditable = false
             Task.init
@@ -627,15 +629,15 @@ extension FriendsViewController: UITableViewDataSource
     {
         if section == 1
         {
-            return "받은 친구 요청 \(self.friendRequestR.count)"
+            return K.lang == "ko" ? "받은 친구 요청 \(self.friendRequestR.count)" : "Received friend requests \(self.friendRequestR.count)"
         }
         else if section == 2
         {
-            return "보낸 친구 요청 \(self.friendRequestS.count)"
+            return K.lang == "ko" ? "보낸 친구 요청 \(self.friendRequestS.count)" : "Sent friend requests \(self.friendRequestS.count)"
         }
         else if section == 3
         {
-            return "친구 \(self.friends.count)"
+            return K.lang == "ko" ? "친구 \(self.friends.count)" : "Friends \(self.friends.count)"
         }
         return ""
     }

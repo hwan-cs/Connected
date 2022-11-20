@@ -145,6 +145,8 @@ class ChatViewController: UIViewController
         stackView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
+        self.minMaxBtn.titleLabel?.textAlignment = .left
+        
         recordButton.addTarget(self, action: #selector(startPulse), for: .touchDown)
         recordButton.addTarget(self, action: #selector(stopPulse), for: [.touchUpInside, .touchUpOutside])
         

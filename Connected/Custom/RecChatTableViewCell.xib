@@ -80,9 +80,8 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7BG-uY-mgh">
-                        <rect key="frame" x="212" y="10" width="42" height="28"/>
+                        <rect key="frame" x="212" y="10" width="28.666666666666657" height="28"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="42" id="8x1-gn-J3D"/>
                             <constraint firstAttribute="height" constant="28" id="OF2-Pf-CWy"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -90,10 +89,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YA4-bc-XnY">
-                        <rect key="frame" x="212" y="40" width="42" height="14"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="42" id="hox-aZ-mfV"/>
-                        </constraints>
+                        <rect key="frame" x="212" y="40" width="28.666666666666657" height="14"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" red="0.44705882349999998" green="0.47058823529999999" blue="0.49803921569999998" alpha="0.29803921570000003" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
