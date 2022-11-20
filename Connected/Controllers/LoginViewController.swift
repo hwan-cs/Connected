@@ -17,7 +17,7 @@ class LoginViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.topItem?.backButtonTitle = "뒤로가기"
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = K.lang == "ko" ? "뒤로가기" : "Back"
         self.navigationController?.navigationBar.tintColor = K.mainColor
         presentTransition = CustomTransition()
     }

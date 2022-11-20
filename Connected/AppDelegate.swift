@@ -77,6 +77,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate
             K.darkmode = true
         }
         
+        if #available(iOS 16, *)
+        {
+            K.lang = Locale.current.language.languageCode!.identifier == "ko" ? "ko" : "en"
+        }
+        else
+        {
+            K.lang = Locale.current.languageCode! == "ko" ? "ko" : "en"
+        }
+        
         return true
     }
     

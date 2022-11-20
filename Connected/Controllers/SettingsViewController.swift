@@ -91,13 +91,6 @@ class SettingsViewController: UIViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func didTapNotification(_ sender: UIButton)
-    {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SettingNotificationVC") as! SettingNotificationViewController
-        vc.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
     @IBAction func didTapEtc(_ sender: UIButton)
     {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SettingEtcVC") as! SettingEtcViewController

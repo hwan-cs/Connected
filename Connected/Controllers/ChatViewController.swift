@@ -161,7 +161,10 @@ class ChatViewController: UIViewController
         locationManager?.delegate = self
         locationManager?.requestAlwaysAuthorization()
         
-        self.sharingLocation = ChatRoomViewController.sortedByValueDictionaryValue[self.idx!][3] as! Bool
+        if idx != nil
+        {
+            self.sharingLocation = ChatRoomViewController.sortedByValueDictionaryValue[self.idx!][3] as! Bool
+        }
         
         self.navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = K.mainColor
         Task.init
@@ -202,6 +205,8 @@ class ChatViewController: UIViewController
             }
             if let data = try await self.db.collection("userInfo").document(self.recepientUID).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
             {
+                print(data)
+                print(self.uuid!)
                 self.isSharingLocation = data[self.uuid!]![3] as! Bool
                 if self.isSharingLocation
                 {

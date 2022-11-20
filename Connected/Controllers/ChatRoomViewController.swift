@@ -123,7 +123,7 @@ class ChatRoomViewController: UIViewController
                 formatter.timeZone = TimeZone.current
                 formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
                 let now = formatter.string(from: Date.now)
-                self.userInfoViewModel?.chatRoomArray[rid] = ["", now, 0]
+                self.userInfoViewModel?.chatRoomArray[rid] = ["", now, 0, false]
                 let cvc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
                 cvc.recepientUID = rid
                 Task.init
@@ -131,27 +131,30 @@ class ChatRoomViewController: UIViewController
                     if let dict = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                     {
                         var temp = dict
-                        temp[rid] = ["",now,0]
+                        temp[rid] = ["",now,0, false]
                         try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
                     }
                     else
                     {
-                        try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : [rid: ["", now, 0]]])
+                        try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : [rid: ["", now, 0, false]]])
                     }
                     if let rdict = try await self.db.collection("userInfo").document(rid).getDocument().data()?["chatRoom"] as? [String:[AnyHashable]]
                     {
                         var temp = rdict
-                        temp[self.uuid!] = ["",now,0]
+                        temp[self.uuid!] = ["",now,0, false]
+                        print("if")
                         try await self.db.collection("userInfo").document(rid).updateData(["chatRoom" :temp])
                     }
                     else
                     {
-                        try await self.db.collection("userInfo").document(rid).updateData(["chatRoom" : [self.uuid! : ["", now, 0]]])
+                        print("else")
+                        try await self.db.collection("userInfo").document(rid).updateData(["chatRoom" : [self.uuid! : ["", now, 0, false]]])
                     }
+                    cvc.userViewModel = UserViewModel(self.uuid!, rid)
+                    cvc.isSharingLocation = false
+                    cvc.setBindings()
+                    self.navigationController?.pushViewController(cvc, animated: true)
                 }
-                cvc.userViewModel = UserViewModel(self.uuid!, rid)
-                cvc.setBindings()
-                self.navigationController?.pushViewController(cvc, animated: true)
             }
         }
         vc.modalPresentationStyle = .pageSheet

@@ -114,14 +114,14 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                 activityView.stopAnimating()
                 idTextField.infoTextColor = .red
                 idTextField.layer.borderColor = UIColor.red.cgColor
-                idTextField.showInfo("중복된 아이디 입니다!", animated: true)
+                idTextField.showInfo(K.lang == "ko" ? "중복된 아이디 입니다!" : "Duplicate ID!", animated: true)
             }
             else
             {
                 activityView.stopAnimating()
                 idTextField.infoTextColor = K.mainColor
                 idTextField.layer.borderColor = K.mainColor.cgColor
-                idTextField.showInfo("사용 가능한 아이디 입니다!", animated: true)
+                idTextField.showInfo(K.lang == "ko" ? "사용 가능한 아이디 입니다!" : "Valid ID!", animated: true)
 //                remove poptip
             }
         }
@@ -132,7 +132,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         do
         {
             idTextField.infoTextColor = .gray
-            idTextField.showInfo("확인 중...", animated: true)
+            idTextField.showInfo(K.lang == "ko" ? "확인 중..." : "Checking...", animated: true)
             scrollView.addSubview(activityView)
             activityView.leadingAnchor.constraint(equalTo: idTextField.infoLabel.leadingAnchor, constant: idTextField.infoLabel.intrinsicContentSize.width+4).isActive = true
             activityView.topAnchor.constraint(equalTo: idTextField.infoLabel.topAnchor).isActive = true
@@ -174,7 +174,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                 checkDuplicateButton.tintColor = K.mainColor
                 checkDuplicateButton.isUserInteractionEnabled = true
                 idTextField.infoTextColor = K.mainColor
-                idTextField.showInfo("형식에 맞는 아이디 입니다")
+                idTextField.showInfo(K.lang == "ko" ? "형식에 맞는 아이디 입니다" : "Valid username")
                 self.infoButton.removeFromSuperview()
             }
             else
@@ -188,7 +188,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                     NSTextTab(textAlignment: .right, location: CGFloat(idTextField.infoLabel.frame.width-30), options: [:]),
                 ]
                 let attrString = NSMutableAttributedString(
-                    string: "형식에 맞지 않습니다\t형식이 뭔가요? ",
+                    string: K.lang == "ko" ? "형식에 맞지 않습니다\t형식이 뭔가요? " : "Not a valid username\tWhat's a valid username?",
                     attributes: [NSAttributedString.Key.paragraphStyle: paragraph]
                 )
                 attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.gray], range: NSRange(location: 12, length: 8))
@@ -216,11 +216,14 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         }
         if sender.tag == 0
         {
-            infoPopTip.show(text: "영어와 숫자를 포함한 5~20 길이의 글자. (.), (_), (-)가 맨 처음에 있으면 안되며 해당 특수문자는 연속으로 나타나지 않습니다 (예: __conn, conn.., 등)", direction: .auto, maxWidth: 200, in: self.scrollView, from: sender.frame)
+            let txt = K.lang == "ko" ? "영어와 숫자를 포함한 5~20 길이의 글자. (.), (_), (-)가 맨 처음에 있으면 안되며 해당 특수문자는 연속으로 나타나지 않습니다 (예: __conn, conn.., 등)" :
+            "Alphanumeric 5~20 letters. Cannot contain (.), (_), or (-) in the first index and said characters cannot show up consecutively (eg. __conn, conn..)"
+            infoPopTip.show(text: txt, direction: .auto, maxWidth: 200, in: self.scrollView, from: sender.frame)
         }
         else if sender.tag == 1
         {
-            infoPopTip.show(text: "비밀번호는 대문자, 소문자, 숫자와 특수문자를 포함한 8글자 이상이어야 합니다 (예: Conn13!)", direction: .auto, maxWidth: 200, in: self.scrollView, from: sender.frame)
+            let txt = K.lang == "ko" ? "비밀번호는 대문자, 소문자, 숫자와 특수문자를 포함한 8글자 이상이어야 합니다 (예: Conn13!@)" : "Password is alphanumeric 8 letters consisting of at least 1 capital letter and 1 special character (eg. Conn13!@)"
+            infoPopTip.show(text: txt, direction: .auto, maxWidth: 200, in: self.scrollView, from: sender.frame)
         }
     }
     
@@ -236,7 +239,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                     passwordTextField[1].showInfo("✅")
                 }
                 sender.infoTextColor = K.mainColor
-                sender.showInfo("사용 가능한 비밀번호 입니다")
+                sender.showInfo(K.lang == "ko" ? "사용 가능한 비밀번호 입니다" : "Valid password")
                 self.pwInfoButton.removeFromSuperview()
             }
             else
@@ -247,7 +250,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
                     NSTextTab(textAlignment: .right, location: CGFloat(passwordTextField[0].infoLabel.frame.width-30), options: [:]),
                 ]
                 let attrString = NSMutableAttributedString(
-                    string: "비밀번호가 형식에 맞지 않습니다\t형식이 뭔가요? ",
+                    string: K.lang == "ko" ? "비밀번호가 형식에 맞지 않습니다\t형식이 뭔가요? " : "Not a valid password\tWhat's a valid password?",
                     attributes: [NSAttributedString.Key.paragraphStyle: paragraph]
                 )
                 attrString.addAttributes([NSAttributedString.Key.foregroundColor : UIColor.gray], range: NSRange(location: 17, length: 9))
@@ -272,7 +275,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
             if userInput != passwordInput
             {
                 sender.infoTextColor = .red
-                sender.showInfo("비밀번호가 일치하지 않습니다")
+                sender.showInfo(K.lang == "ko" ? "비밀번호가 일치하지 않습니다" : "Password does not match")
             }
             else
             {
@@ -325,7 +328,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
             if !userInput.isValidEmail
             {
                 sender.infoLabel.textColor = .red
-                sender.showInfo("이메일 형식에 맞지 않습니다")
+                sender.showInfo(K.lang == "ko" ? "이메일 형식에 맞지 않습니다" : "Not a valid email address")
             }
             else
             {
@@ -341,7 +344,7 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
             if !userInput.isValidName
             {
                 sender.infoLabel.textColor = .red
-                sender.showInfo("이름 형식에 맞지 않습니다")
+                sender.showInfo(K.lang == "ko" ? "이름 형식에 맞지 않습니다" : "Not a valid name")
             }
             else
             {

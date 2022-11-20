@@ -231,7 +231,9 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             let foobar = MessageView.viewFromNib(layout: .cardView)
             foobar.configureTheme(.success)
             let iconText = ["🥳", "🤩", "🤗", "😸"].randomElement()!
-            foobar.configureContent(title: "회원가입 성공!", body: "\(K.newUserEmail)로 인증 이메일이 보내졌습니다. 이메일에 인증 링크를 눌러 주세요", iconText: iconText)
+            let title = K.lang == "ko" ? "회원가입 성공!" : "Signed up successfully!"
+            let body = K.lang == "ko" ? "\(K.newUserEmail)로 인증 이메일이 보내졌습니다. 이메일에 인증 링크를 눌러 주세요" : "Verification email sent to \(K.newUserEmail). Please check your email inbox"
+            foobar.configureContent(title: title, body: body, iconText: iconText)
             foobar.backgroundColor = K.mainColor
             foobar.button?.setTitle("확인", for: .normal)
             foobar.buttonTapHandler =
@@ -258,7 +260,8 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             {
                 print("nil")
                 self.passwordTextField.hideInfo(animated: false)
-                self.passwordTextField.showInfo("로그아웃 되었습니다! 다시 로그인 해주세요", animated: true)
+                let infoText = K.lang == "ko" ? "로그아웃 되었습니다! 다시 로그인 해주세요" : "Logged out! Please log back in"
+                self.passwordTextField.showInfo(infoText, animated: true)
                 do
                 {
                     try Auth.auth().signOut()
@@ -307,7 +310,8 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                         }
                     }
                     passwordTextField.hideInfo(animated: false)
-                    passwordTextField.showInfo("존재하지 않는 사용자 입니다! 회원가입을 먼저 진행 해주세요", animated: true)
+                    let infoText = K.lang == "ko" ? "존재하지 않는 사용자 입니다! 회원가입을 먼저 진행 해주세요" : "User doesn't exist! Please sign up first"
+                    passwordTextField.showInfo(infoText, animated: true)
                     sender.isUserInteractionEnabled = true
                     sender.backgroundColor = K.mainColor
                     sender.stopAnimation(animationStyle: .normal)
@@ -320,17 +324,16 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                 }
                 catch
                 {
-                    print("nope")
                     sender.isUserInteractionEnabled = true
                     sender.backgroundColor = K.mainColor
                     sender.stopAnimation(animationStyle: .normal)
-                    let alert = UIAlertController(title: "", message: "비밀번호가 틀렸습니다!", preferredStyle: .alert)
+                    let msg = K.lang == "ko" ? "비밀번호가 틀렸습니다!" : "Wrong password!"
+                    let alert = UIAlertController(title: "", message: msg, preferredStyle: .alert)
                     self.present(alert, animated: true, completion: nil)
 
-                    // change to desired number of seconds (in this case 5 seconds)
                     let when = DispatchTime.now() + 1.5
-                    DispatchQueue.main.asyncAfter(deadline: when){
-                      // your code with delay
+                    DispatchQueue.main.asyncAfter(deadline: when)
+                    {
                       alert.dismiss(animated: true, completion: nil)
                     }
                     return
@@ -390,8 +393,10 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                         let iconText = ["🧐","🤨","🤔","🙃","😩","😬","😲","😧"].randomElement()!
                         foobar.titleLabel?.numberOfLines = 0
                         foobar.bodyLabel?.numberOfLines = 0
-                        foobar.configureContent(title: "이메일 인증이 완료되지 않았습니다!", body: "\(currentUser.email!)로 보내진 인증 링크를 열어주세요", iconText: iconText)
-                        foobar.button?.setTitle("확인", for: .normal)
+                        let title = K.lang == "ko" ? "이메일 인증이 완료되지 않았습니다!" : "Email verification is not complete"
+                        let body = K.lang == "ko" ? "\(currentUser.email!)로 보내진 인증 링크를 열어주세요" : "Please open the verification link sent to \(currentUser.email!)"
+                        foobar.configureContent(title: title, body: body, iconText: iconText)
+                        foobar.button?.setTitle(K.lang == "ko" ? "확인" : "Ok", for: .normal)
                         foobar.buttonTapHandler =
                         { _ in
                             SwiftMessages.hide()
@@ -408,7 +413,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                         questionButton.tintColor = .systemGray
                         questionButton.setImage(UIImage(systemName: "questionmark.circle.fill"), for: .normal)
                         self.passwordTextField.hideInfo(animated: false)
-                        self.passwordTextField.showInfo("이메일을 받지 못했나요? ")
+                        self.passwordTextField.showInfo(K.lang == "ko" ? "이메일을 받지 못했나요? " : "Didn't receive an email")
                         if !self.view.subviews.contains(questionButton)
                         {
                             self.view.addSubview(questionButton)
@@ -440,7 +445,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         {
             questionPopTip.hide()
         }
-        questionPopTip.show(text: "스팸함을 확인 해보세요!", direction: .auto, maxWidth: 150, in: self.view, from: sender.frame)
+        questionPopTip.show(text: K.lang == "ko" ? "스팸함을 확인 해보세요!" : "Check your Spam inbox!", direction: .auto, maxWidth: 150, in: self.view, from: sender.frame)
     }
     
     @objc func sendEmail()
@@ -506,7 +511,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         ]
         
         let attrString = NSMutableAttributedString(
-            string: "\(K.seconds)초 후 재전송 할 수 있습니다",
+            string: K.lang == "ko" ? "\(K.seconds)초 후 재전송 할 수 있습니다" : "Can send again after \(K.seconds) second(s)",
             attributes: attr
         )
         resendEmail.setAttributedTitle(attrString, for: .normal)
@@ -537,7 +542,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         ]
         
         let attrString = NSMutableAttributedString(
-            string: "이메일 재전송",
+            string: K.lang == "ko" ? "이메일 재전송" : "Resend email",
             attributes: attr
         )
         resendEmail.addTarget(self, action: #selector(self.sendEmail), for: .touchUpInside)
