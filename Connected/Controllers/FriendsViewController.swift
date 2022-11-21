@@ -42,9 +42,9 @@ class FriendsViewController: UIViewController
     
     var sortedByValueDictionaryValue: [[Any?]] = [[]]
     
-    let uuid = Auth.auth().currentUser?.uid
+    var uuid: String?
     
-    let db = Firestore.firestore()
+    var db = Firestore.firestore()
     
     let diskConfig = DiskConfig(name: "FriendCache")
     
@@ -64,6 +64,7 @@ class FriendsViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.uuid = Auth.auth().currentUser?.uid
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.contentInsetAdjustmentBehavior = .never
@@ -112,6 +113,9 @@ class FriendsViewController: UIViewController
             }
             Task.init
             {
+                K.myProfileName = documentSnapshot?.data()!["name"] as! String
+                K.myProfileEmail = documentSnapshot?.data()!["email"] as! String
+                K.myProfileUsername = documentSnapshot?.data()!["username"] as! String
                 self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
             }
         }

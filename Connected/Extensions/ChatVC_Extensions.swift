@@ -29,7 +29,7 @@ extension ChatViewController
                 if self.userDataArray.count > 0
                 {
                     self.loadData()
-                    self.tableView.scrollToBottom(isAnimated: self.listener != nil)
+                    self.tableView.scrollToBottom(isAnimated: (self.listener != nil && self.userInfoListener != nil))
                 }
             }.store(in: &disposableBag)
     }
@@ -74,6 +74,8 @@ extension ChatViewController
     func initMapView()
     {
         backgroundView.backgroundColor = K.mainColor
+        backgroundView.layer.borderColor = UIColor.white.cgColor
+        backgroundView.layer.borderWidth = 1.0
         backgroundView.layer.cornerRadius = 20
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(backgroundView)
@@ -116,6 +118,8 @@ extension ChatViewController
         recBackgroundView.backgroundColor = .lightGray
         recBackgroundView.layer.cornerRadius = 20
         recBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        recBackgroundView.layer.borderColor = UIColor.white.cgColor
+        recBackgroundView.layer.borderWidth = 1.0
         self.view.addSubview(recBackgroundView)
         self.recBackgroundViewHeightConstraint = NSLayoutConstraint(item: self.recBackgroundView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 150.0)
         self.recBackgroundViewHeightConstraint!.isActive = true

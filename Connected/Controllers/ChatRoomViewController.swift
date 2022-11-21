@@ -200,7 +200,7 @@ extension ChatRoomViewController: UITableViewDataSource
         {
             let attString = NSMutableAttributedString(string:"")
             let imageAttachment = NSTextAttachment()
-            imageAttachment.image = UIImage(systemName: "waveform")
+            imageAttachment.image = UIImage(systemName: "waveform")?.withTintColor(UIColor(named: "BlackAndWhite")!)
             attString.append(NSAttributedString(attachment: imageAttachment))
             chatRoomCell.previewLabel.attributedText = attString
         }

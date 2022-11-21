@@ -129,7 +129,7 @@ class ChatViewController: UIViewController
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         tableView.delegate = self
-        tableView.tableHeaderView?.backgroundColor = UIColor(named: "BackgroundColor2")
+        tableView.tableHeaderView?.backgroundColor = .blue
         tableView.register(UINib(nibName: K.myChatCellNibName, bundle: nil), forCellReuseIdentifier: K.myChatCellID)
         tableView.register(UINib(nibName: K.yourChatCellNibName, bundle: nil), forCellReuseIdentifier: K.yourChatCellID)
         tableView.register(UINib(nibName: K.myTextCellNibName, bundle: nil), forCellReuseIdentifier: K.myTextCellID)
@@ -291,11 +291,11 @@ class ChatViewController: UIViewController
     override func viewWillAppear(_ animated: Bool)
     {
         self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
         let backButton = UIImage(named: "backButton")
 //        self.navigationController?.navigationBar.tintColor = UIColor(named: "BlackAndWhite")!
         self.navigationController?.navigationBar.backIndicatorImage = backButton?.withTintColor(UIColor(named: "BlackAndWhite")!)
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButton?.withTintColor(UIColor(named: "BlackAndWhite")!)
-        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
     }
 
     override func viewWillDisappear(_ animated: Bool)
@@ -326,6 +326,7 @@ class ChatViewController: UIViewController
         K.didInit = false
         K.didSendAnything = false
         self.listener = nil
+        self.userInfoListener = nil
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
         
@@ -597,6 +598,7 @@ class ChatViewController: UIViewController
         let formatted = formatter.string(from: now)
         let textRef = storageRef.child("\(self.uuid!)/\(self.recepientUID)/\(formatted).txt")
         guard let textToSend = self.growingTextView.text.data(using: .utf8) else { return }
+        self.userViewModel?.userDataArray[textToSend] = [true, "\(formatted).txt"]
         let uploadTask = textRef.putData(textToSend, metadata: metadata)
         { metadata, error in
             if let error = error
@@ -607,7 +609,6 @@ class ChatViewController: UIViewController
             {
                 do
                 {
-                    self.userViewModel?.userDataArray[textToSend] = [true, metadata?.name]
                     var foo = self.growingTextView.text!
                     if foo == "waveform"
                     {

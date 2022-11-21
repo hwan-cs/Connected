@@ -118,7 +118,9 @@ extension SettingAppearanceViewController: UITableViewDataSource
             config?.text = self.options[indexPath.row]
             self.view.overrideUserInterfaceStyle = .light
             self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 0.020, green: 0.780, blue: 0.510, alpha: 1.0)
+            self.navigationController?.view.tintColor = .white
             K.darkmode = false
+            self.navigationController?.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
             config?.secondaryAttributedText = fullString
             cell!.contentConfiguration = config
             self.onDismissBlock!(true)
@@ -130,7 +132,9 @@ extension SettingAppearanceViewController: UITableViewDataSource
             config?.text = self.options[indexPath.row]
             self.view.overrideUserInterfaceStyle = .dark
             self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 0.165, green: 0.325, blue: 0.267, alpha: 1.0)
+            self.navigationController?.view.tintColor = .white
             K.darkmode = true
+            self.navigationController?.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
             config?.secondaryAttributedText = fullString
             cell!.contentConfiguration = config
             self.onDismissBlock!(true)

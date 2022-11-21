@@ -11,6 +11,7 @@ import AuthenticationServices
 import Firebase
 import FirebaseDynamicLinks
 import IQKeyboardManagerSwift
+import FirebaseAuth
 import GoogleMaps
 import GooglePlaces
 import UserNotifications
@@ -27,6 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     
     let gcmMessageIDKey = "gcm.message_id"
 
+    override init()
+    {
+        FirebaseApp.configure()
+    }
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
         // Override point for customization after application launch.
@@ -34,7 +40,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         GMSServices.provideAPIKey(K.GoogleMapsAPIKey)
         GMSPlacesClient.provideAPIKey(K.GoogleMapsAPIKey)
         IQKeyboardManager.shared.enableAutoToolbar = false
-        FirebaseApp.configure()
+        
+        if Auth.auth().currentUser == nil
+        {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "InitialNavigationController") as! UINavigationController
+            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            windowScene?.windows.first?.rootViewController = vc
+            windowScene?.windows.first?.makeKeyAndVisible()
+        }
         
         Messaging.messaging().delegate = self
         

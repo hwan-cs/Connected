@@ -236,7 +236,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             let title = K.lang == "ko" ? "회원가입 성공!" : "Signed up successfully!"
             let body = K.lang == "ko" ? "\(K.newUserEmail)로 인증 이메일이 보내졌습니다. 이메일에 인증 링크를 눌러 주세요" : "Verification email sent to \(K.newUserEmail). Please check your email inbox"
             foobar.configureContent(title: title, body: body, iconText: iconText)
-            foobar.backgroundColor = K.mainColor
+            foobar.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
             foobar.button?.setTitle("확인", for: .normal)
             foobar.buttonTapHandler =
             { _ in
@@ -292,8 +292,10 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         if !(usernameTextField.text?.isValidEmail ?? true) && !(passwordTextField.text?.isValidPassword ?? true)
         {
             sender.isUserInteractionEnabled = true
-            sender.backgroundColor = K.mainColor
+            sender.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
             sender.stopAnimation(animationStyle: .normal)
+            sender.cornerRadius = 14
+            sender.setTitle(K.lang == "ko" ? "로그인" : "Login", for: .normal)
             return
         }
         else
@@ -315,8 +317,10 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                     let infoText = K.lang == "ko" ? "존재하지 않는 사용자 입니다! 회원가입을 먼저 진행 해주세요" : "User doesn't exist! Please sign up first"
                     passwordTextField.showInfo(infoText, animated: true)
                     sender.isUserInteractionEnabled = true
-                    sender.backgroundColor = K.mainColor
+                    sender.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
                     sender.stopAnimation(animationStyle: .normal)
+                    sender.cornerRadius = 14
+                    sender.setTitle(K.lang == "ko" ? "로그인" : "Login", for: .normal)
                     return
                 }
                 do
@@ -327,8 +331,10 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                 catch
                 {
                     sender.isUserInteractionEnabled = true
-                    sender.backgroundColor = K.mainColor
+                    sender.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
                     sender.stopAnimation(animationStyle: .normal)
+                    sender.cornerRadius = 14
+                    sender.setTitle(K.lang == "ko" ? "로그인" : "Login", for: .normal)
                     let msg = K.lang == "ko" ? "비밀번호가 틀렸습니다!" : "Wrong password!"
                     let alert = UIAlertController(title: "", message: msg, preferredStyle: .alert)
                     self.present(alert, animated: true, completion: nil)
@@ -384,6 +390,8 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                                                 windowScene?.windows.first?.rootViewController = vc
                                                 windowScene?.windows.first?.makeKeyAndVisible()
                                             }
+                                            sender.cornerRadius = 14
+                                            sender.setTitle(K.lang == "ko" ? "로그인" : "Login", for: .normal)
                                         }
                                     }
                                 }
@@ -431,8 +439,10 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                         }
                         self.makeResendEmailButton()
                         sender.isUserInteractionEnabled = true
-                        sender.backgroundColor = K.mainColor
+                        sender.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
                         sender.stopAnimation(animationStyle: .normal)
+                        sender.cornerRadius = 14
+                        sender.setTitle(K.lang == "ko" ? "로그인" : "Login", for: .normal)
                     }
                 }
             }

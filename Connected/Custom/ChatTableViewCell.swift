@@ -67,7 +67,7 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
     
     var rate = 1.0
     
-    var second = 0
+    var second = 0.0
     
     override func awakeFromNib()
     {
@@ -106,13 +106,13 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
                     if let player = player
                     {
                         player.play()
-                        self.playbackButton.backgroundColor = UIColor(red: 0.82, green: 0.98, blue: 0.92, alpha: 1.00)
+                        self.playbackButton.backgroundColor = UIColor(red: 0.251, green: 0.278, blue: 0.310, alpha: 1.00)
                         self.playbackButton.isUserInteractionEnabled = true
                         timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
                     }
                     else
                     {
-                        self.playbackButton.backgroundColor = UIColor(red: 0.82, green: 0.98, blue: 0.92, alpha: 1.00)
+                        self.playbackButton.backgroundColor = UIColor(red: 0.251, green: 0.278, blue: 0.310, alpha: 1.00)
                         self.playbackButton.isUserInteractionEnabled = true
                         player = try AVAudioPlayer(data: audio, fileTypeHint: AVFileType.m4a.rawValue)
                         guard let player = player else { return }
@@ -144,7 +144,7 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
     @objc func updateProgess()
     {
         let fullRect = self.waveFormImageView.bounds
-        let newWidth = Double(fullRect.size.width) * Double(self.second)/10.0/(self.player!.duration/self.rate)
+        let newWidth = Double(fullRect.size.width) * ((self.second/10.0)/self.player!.duration)
         let maskLayer = CAShapeLayer()
         let maskRect = CGRect(x: 0.0, y: 0.0, width: newWidth, height: Double(fullRect.size.height))
 
@@ -152,7 +152,7 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
         maskLayer.path = path
 
         self.waveFormImageView.layer.mask = maskLayer
-        self.second += 1
+        self.second += self.rate
     }
     
     @IBAction func onPlaybackButtonTap(_ sender: UIButton)

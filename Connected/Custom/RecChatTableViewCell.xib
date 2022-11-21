@@ -85,13 +85,13 @@
                             <constraint firstAttribute="height" constant="28" id="OF2-Pf-CWy"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" red="0.44705882352941173" green="0.47058823529411764" blue="0.49803921568627452" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.44705882352941173" green="0.47058823529411764" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YA4-bc-XnY">
                         <rect key="frame" x="212" y="40" width="28.666666666666657" height="14"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" red="0.44705882349999998" green="0.47058823529999999" blue="0.49803921569999998" alpha="0.29803921570000003" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.44705882349999998" green="0.47058823529999999" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>

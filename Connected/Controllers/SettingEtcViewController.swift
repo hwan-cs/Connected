@@ -24,4 +24,9 @@ class SettingEtcViewController: UIViewController
         self.etcView.layer.borderColor = UIColor.lightGray.cgColor
         self.etcView.layer.borderWidth = 1
     }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
+    }
 }

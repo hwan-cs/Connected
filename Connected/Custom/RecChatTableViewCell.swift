@@ -67,7 +67,7 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
     
     var rate = 1.0
     
-    var second = 0
+    var second = 0.0
     
     override func awakeFromNib()
     {
@@ -107,14 +107,14 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
                 {
                     if let player = player
                     {
-                        self.playbackButton.backgroundColor = UIColor(red: 0.82, green: 0.98, blue: 0.92, alpha: 1.00)
+                        self.playbackButton.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
                         self.playbackButton.isUserInteractionEnabled = true
                         player.play()
                         timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
                     }
                     else
                     {
-                        self.playbackButton.backgroundColor = UIColor(red: 0.82, green: 0.98, blue: 0.92, alpha: 1.00)
+                        self.playbackButton.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
                         self.playbackButton.isUserInteractionEnabled = true
                         player = try AVAudioPlayer(data: audio, fileTypeHint: AVFileType.m4a.rawValue)
                         guard let player = player else { return }
@@ -122,6 +122,7 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
                         player.prepareToPlay()
                         player.delegate = self
                         player.volume = 50.0
+                        player.enableRate = true
                         player.play()
                         timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.1), target: self, selector: #selector(self.updateProgess), userInfo: nil, repeats: true)
                     }
@@ -137,7 +138,7 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
             player?.pause()
             self.playButton.setImage(UIImage(named: "Play.svg"), for: .normal)
             timer?.invalidate()
-            self.playbackButton.backgroundColor = .lightGray
+            self.playbackButton.tintColor = .lightGray
             self.playbackButton.isUserInteractionEnabled = false
         }
     }
@@ -145,7 +146,7 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
     @objc func updateProgess()
     {
         let fullRect = self.waveFormImageView.bounds
-        let newWidth = Double(fullRect.size.width) * Double(self.second)/10.0/(self.player!.duration/self.rate)
+        let newWidth = Double(fullRect.size.width) * ((self.second/10.0)/self.player!.duration)
         let maskLayer = CAShapeLayer()
         let maskRect = CGRect(x: 0.0, y: 0.0, width: newWidth, height: Double(fullRect.size.height))
 
@@ -153,7 +154,7 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
         maskLayer.path = path
 
         self.waveFormImageView.layer.mask = maskLayer
-        self.second += 1
+        self.second += self.rate
     }
     
     @IBAction func onPlaybackButtonTap(_ sender: UIButton)
