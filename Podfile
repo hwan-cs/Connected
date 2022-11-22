@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+#platform :ios, '9.0'
 
 target 'Connected' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -29,4 +29,5 @@ target 'Connected' do
     pod 'UIView-Shimmer', '~> 1.0'
     pod 'KFImageViewer', '~> 1.0.0'
     pod "ESPullToRefresh"
+    pod 'SwiftEntryKit', '2.0.0'
 end

@@ -784,6 +784,7 @@ PODS:
     - PromiseKit/CorePromise
   - PromisesObjC (2.1.1)
   - STPopup (1.8.7)
+  - SwiftEntryKit (2.0.0)
   - SwiftMessages (9.0.6):
     - SwiftMessages/App (= 9.0.6)
   - SwiftMessages/App (9.0.6)
@@ -810,6 +811,7 @@ DEPENDENCIES:
   - LoadingShimmer
   - PromiseKit (~> 6.8)
   - STPopup
+  - SwiftEntryKit (= 2.0.0)
   - SwiftMessages
   - TransitionButton
   - TweeTextField
@@ -855,6 +857,7 @@ SPEC REPOS:
     - PromiseKit
     - PromisesObjC
     - STPopup
+    - SwiftEntryKit
     - SwiftMessages
     - TransitionButton
     - TweeTextField
@@ -899,12 +902,13 @@ SPEC CHECKSUMS:
   PromiseKit: 49d70c53d5d20e346beaea4b276b5dd2ab446bb4
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   STPopup: a9045557bc48a0df51fbb7bf0544447c5fe84d34
+  SwiftEntryKit: 61b5fa36f34a97dd8013e48a7345bc4c4720be9a
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
   TransitionButton: 36283346e17c64775a1b3bc3a7a72940a367de1f
   TweeTextField: 726de695eead9784f7ed02e22f6944bfcfcca07a
   UIView-Shimmer: ff0a32c73d67c7dbdea3d9e530538b10d18aea56
   VBRRollingPit: 62a79cc663aeea6a196878b3a907056617f96b6a
 
-PODFILE CHECKSUM: e62941bf0559695c0a202be02b780569642d13b1
+PODFILE CHECKSUM: 10d440f0175123e59130213e508dcf9a59e3d214
 
 COCOAPODS: 1.11.3

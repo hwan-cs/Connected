@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import DSWaveformImage
+import SwiftEntryKit
 
 //MARK: - ViewModel 관련
 extension ChatViewController
@@ -294,4 +295,166 @@ extension ChatViewController
         self.view.frame.origin.y = 0
     }
     
+    func setupPopupPresets()
+    {
+        var presets: [PresetDescription] = []
+        var attributes: EKAttributes
+        var description: PresetDescription
+        var descriptionString: String
+        var descriptionThumb: String
+
+        // Preset V
+        attributes = .centerFloat
+        attributes.displayMode = .inferred
+        attributes.windowLevel = .alerts
+        attributes.displayDuration = .infinity
+        attributes.hapticFeedbackType = .success
+        attributes.screenInteraction = .absorbTouches
+        attributes.entryInteraction = .absorbTouches
+        attributes.scroll = .disabled
+        attributes.screenBackground = .color(color: EKColor(light: K.dimmedLightBackground, dark: K.dimmedDarkBackground))
+        attributes.entryBackground = .color(color: .white)
+        attributes.entranceAnimation = .init(
+            scale: .init(
+                from: 0.9,
+                to: 1,
+                duration: 0.4,
+                spring: .init(damping: 1, initialVelocity: 0)
+            ),
+            fade: .init(
+                from: 0,
+                to: 1,
+                duration: 0.3
+            )
+        )
+        attributes.exitAnimation = .init(
+            fade: .init(
+                from: 1,
+                to: 0,
+                duration: 0.2
+            )
+        )
+        attributes.shadow = .active(
+            with: .init(
+                color: .black,
+                opacity: 0.3,
+                radius: 5
+            )
+        )
+        attributes.positionConstraints.maxSize = .init(
+            width: .constant(value: UIScreen.main.bounds.minEdge),
+            height: .intrinsic
+        )
+        descriptionString = "실시간 위치 공유"
+        descriptionThumb = "loc.circle"
+        description = .init(
+            with: attributes, title: "Center Alert View",
+            description: descriptionString,
+            thumb: descriptionThumb
+        )
+        presets.append(description)
+        self.showAlertView(attributes: attributes)
+    }
+    
+    func showAlertView(attributes: EKAttributes)
+    {
+        let title = EKProperty.LabelContent(
+            text: "실시간 위치 공유",
+            style: .init(
+                font: UIFont.systemFont(ofSize: 15.0, weight: .medium),
+                color: .black,
+                alignment: .center,
+                displayMode: .inferred
+            )
+        )
+        let text =
+        """
+        실시간 위치 공유를 허용 하시겠습니다? \n
+        설정에서 "위치 허용"을 안하셨다면 해주세요! \n
+        설정 -> 커넥티드 -> 위치 -> 앱을 사용하는 동안 ✅\n
+        """
+        let description = EKProperty.LabelContent(
+            text: text,
+            style: .init(
+                font: UIFont.systemFont(ofSize: 13.0),
+                color: .black,
+                alignment: .center,
+                displayMode: .inferred
+            )
+        )
+        let image = EKProperty.ImageContent(
+            imageName: "loc.circle",
+            displayMode: .inferred,
+            size: CGSize(width: 25, height: 25),
+            contentMode: .scaleAspectFit,
+            tint: EKColor(K.mainColor)
+        )
+        let simpleMessage = EKSimpleMessage(
+            image: image,
+            title: title,
+            description: description
+        )
+        let buttonFont = UIFont.systemFont(ofSize: 16.0)
+        let closeButtonLabelStyle = EKProperty.LabelStyle(
+            font: buttonFont,
+            color: EKColor(.systemGray4),
+            displayMode: .inferred
+        )
+        let closeButtonLabel = EKProperty.LabelContent(
+            text: "나중에",
+            style: closeButtonLabelStyle
+        )
+        let closeButton = EKProperty.ButtonContent(
+            label: closeButtonLabel,
+            backgroundColor: .clear,
+            highlightedBackgroundColor: EKColor(.systemGray4).with(alpha: 0.05),
+            displayMode: .inferred) {
+                SwiftEntryKit.dismiss()
+        }
+//        let laterButtonLabelStyle = EKProperty.LabelStyle(
+//            font: buttonFont,
+//            color: EKColor(.systemTeal),
+//            displayMode: .inferred
+//        )
+//        let laterButtonLabel = EKProperty.LabelContent(
+//            text: "MAYBE LATER",
+//            style: laterButtonLabelStyle
+//        )
+//        let laterButton = EKProperty.ButtonContent(
+//            label: laterButtonLabel,
+//            backgroundColor: .clear,
+//            highlightedBackgroundColor: EKColor(.systemTeal).with(alpha: 0.05),
+//            displayMode: .inferred) {
+//                SwiftEntryKit.dismiss()
+//        }
+        let okButtonLabelStyle = EKProperty.LabelStyle(
+            font: buttonFont,
+            color: EKColor(.systemTeal),
+            displayMode: .inferred
+        )
+        let okButtonLabel = EKProperty.LabelContent(
+            text: "공유하기",
+            style: okButtonLabelStyle
+        )
+        let okButton = EKProperty.ButtonContent(
+            label: okButtonLabel,
+            backgroundColor: .clear,
+            highlightedBackgroundColor: EKColor(.systemTeal).with(alpha: 0.05),
+            displayMode: .inferred) {
+                SwiftEntryKit.dismiss()
+        }
+        // Generate the content
+        let buttonsBarContent = EKProperty.ButtonBarContent(
+            with: okButton, closeButton,
+            separatorColor: EKColor(.lightGray),
+            displayMode: .inferred,
+            expandAnimatedly: true
+        )
+        let alertMessage = EKAlertMessage(
+            simpleMessage: simpleMessage,
+            buttonBarContent: buttonsBarContent
+        )
+        let contentView = EKAlertMessageView(with: alertMessage)
+        SwiftEntryKit.display(entry: contentView, using: attributes)
+    }
 }

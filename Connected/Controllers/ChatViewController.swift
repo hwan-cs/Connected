@@ -20,6 +20,7 @@ import CoreLocation
 import GoogleMaps
 import GooglePlaces
 import UIView_Shimmer
+import SwiftEntryKit
 
 class ChatViewController: UIViewController
 {
@@ -531,6 +532,7 @@ class ChatViewController: UIViewController
     
     @IBAction func onLocationButtonTap(_ sender: UIButton)
     {
+        self.setupPopupPresets()
         if self.locationButotn.tintColor == .gray
         {
             self.locationButotn.tintColor = K.mainColor
