@@ -293,7 +293,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         {
             sender.isUserInteractionEnabled = true
             sender.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
-            sender.stopAnimation(animationStyle: .normal)
+            sender.stopAnimation(animationStyle: .shake)
             sender.cornerRadius = 14
             sender.setTitle(K.lang == "ko" ? "로그인" : "Login", for: .normal)
             return
@@ -318,7 +318,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                     passwordTextField.showInfo(infoText, animated: true)
                     sender.isUserInteractionEnabled = true
                     sender.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
-                    sender.stopAnimation(animationStyle: .normal)
+                    sender.stopAnimation(animationStyle: .shake)
                     sender.cornerRadius = 14
                     sender.setTitle(K.lang == "ko" ? "로그인" : "Login", for: .normal)
                     return
@@ -332,7 +332,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                 {
                     sender.isUserInteractionEnabled = true
                     sender.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
-                    sender.stopAnimation(animationStyle: .normal)
+                    sender.stopAnimation(animationStyle: .shake)
                     sender.cornerRadius = 14
                     sender.setTitle(K.lang == "ko" ? "로그인" : "Login", for: .normal)
                     let msg = K.lang == "ko" ? "비밀번호가 틀렸습니다!" : "Wrong password!"
@@ -440,7 +440,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                         self.makeResendEmailButton()
                         sender.isUserInteractionEnabled = true
                         sender.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
-                        sender.stopAnimation(animationStyle: .normal)
+                        sender.stopAnimation(animationStyle: .shake)
                         sender.cornerRadius = 14
                         sender.setTitle(K.lang == "ko" ? "로그인" : "Login", for: .normal)
                     }

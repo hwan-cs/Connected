@@ -7,11 +7,11 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>갤러리에서 사진을 선택할 수 있도록 허용 해주세요</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location when in usage</string>
+	<string>실시간 위치 공유 기능을 사용하기 위해 위치 접근이 필요 합니다!</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Location always usage</string>
+	<string>실시간 위치 공유 기능을 사용하기 위해 위치 접근이 필요 합니다!</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Location always and when in usage</string>
+	<string>실시간 위치 공유 기능을 사용하기 위해 위치 접근이 필요 합니다!</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Bold.ttf</string>

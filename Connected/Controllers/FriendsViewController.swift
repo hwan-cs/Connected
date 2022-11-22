@@ -131,9 +131,13 @@ class FriendsViewController: UIViewController
     {
         self.navigationController?.navigationBar.topItem?.title = K.lang == "ko" ? "친구" : "Friends"
         self.safeAreaColorToMainColor()
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: "Add_Friend"), style: .plain, target: self, action: #selector(addFriend))
-        barButtonItem.customView?.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "Add_Friend")?.withTintColor(UIColor(named: "BlackAndWhite")!), style: .plain, target: self, action: #selector(addFriend))
+        barButtonItem.customView?.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         barButtonItem.tintColor = .black
+        let currWidth = barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 100)
+        currWidth?.isActive = true
+        let currHeight = barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 100)
+        currHeight?.isActive = true
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
         self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
     }

@@ -532,7 +532,28 @@ class ChatViewController: UIViewController
     
     @IBAction func onLocationButtonTap(_ sender: UIButton)
     {
-        self.setupPopupPresets()
+        if self.locationButotn.tintColor != .gray
+        {
+            self.setupPopupPresets
+            { success in
+                if !success
+                {
+                    return
+                }
+                else
+                {
+                    self.shareLiveLocation()
+                }
+            }
+        }
+        else
+        {
+            self.shareLiveLocation()
+        }
+    }
+    
+    func shareLiveLocation()
+    {
         if self.locationButotn.tintColor == .gray
         {
             self.locationButotn.tintColor = K.mainColor

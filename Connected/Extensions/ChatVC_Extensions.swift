@@ -14,6 +14,127 @@ import SwiftEntryKit
 //MARK: - ViewModel 관련
 extension ChatViewController
 {
+    var bottomAlertAttributes: EKAttributes
+    {
+        var attributes = EKAttributes.bottomFloat
+        attributes.hapticFeedbackType = .success
+        attributes.displayDuration = .infinity
+        attributes.entryBackground = .color(color: .standardBackground)
+        attributes.screenBackground = .color(color: EKColor(K.dimmedLightBackground))
+        attributes.shadow = .active(
+            with: .init(
+                color: .black,
+                opacity: 0.3,
+                radius: 8
+            )
+        )
+        attributes.screenInteraction = .dismiss
+        attributes.entryInteraction = .absorbTouches
+        attributes.scroll = .enabled(
+            swipeable: true,
+            pullbackAnimation: .jolt
+        )
+        attributes.roundCorners = .all(radius: 25)
+        attributes.entranceAnimation = .init(
+            translate: .init(
+                duration: 0.7,
+                spring: .init(damping: 1, initialVelocity: 0)
+            ),
+            scale: .init(
+                from: 1.05,
+                to: 1,
+                duration: 0.4,
+                spring: .init(damping: 1, initialVelocity: 0)
+            )
+        )
+        attributes.exitAnimation = .init(
+            translate: .init(duration: 0.2)
+        )
+        attributes.popBehavior = .animated(
+            animation: .init(
+                translate: .init(duration: 0.2)
+            )
+        )
+        attributes.positionConstraints.verticalOffset = 10
+        attributes.positionConstraints.size = .init(
+            width: .offset(value: 20),
+            height: .intrinsic
+        )
+        attributes.positionConstraints.maxSize = .init(
+            width: .constant(value: UIScreen.main.bounds.minEdge),
+            height: .intrinsic
+        )
+        attributes.statusBar = .dark
+        return attributes
+    }
+    
+    private func showPopupMessage(attributes: EKAttributes,
+                                  title: String,
+                                  titleColor: EKColor,
+                                  description: String,
+                                  descriptionColor: EKColor,
+                                  buttonTitleColor: EKColor,
+                                  buttonBackgroundColor: EKColor,
+                                  image: UIImage? = nil) {
+        
+        var themeImage: EKPopUpMessage.ThemeImage?
+        
+        if let image = image {
+            themeImage = EKPopUpMessage.ThemeImage(
+                image: EKProperty.ImageContent(
+                    image: image,
+                    displayMode: .inferred,
+                    size: CGSize(width: 60, height: 60),
+                    tint: titleColor,
+                    contentMode: .scaleAspectFit
+                )
+            )
+        }
+        let title = EKProperty.LabelContent(
+            text: title,
+            style: .init(
+                font: UIFont.systemFont(ofSize: 16.0),
+                color: titleColor,
+                alignment: .center,
+                displayMode: .inferred
+            ),
+            accessibilityIdentifier: "title"
+        )
+        let description = EKProperty.LabelContent(
+            text: description,
+            style: .init(
+                font: UIFont.systemFont(ofSize: 16.0, weight: .medium),
+                color: descriptionColor,
+                alignment: .center,
+                displayMode: .inferred
+            ),
+            accessibilityIdentifier: "description"
+        )
+        let button = EKProperty.ButtonContent(
+            label: .init(
+                text: "OK",
+                style: .init(
+                    font: UIFont.systemFont(ofSize: 16.0, weight: .medium),
+                    color: buttonTitleColor,
+                    displayMode: .inferred
+                )
+            ),
+            backgroundColor: buttonBackgroundColor,
+            highlightedBackgroundColor: buttonTitleColor.with(alpha: 0.05),
+            displayMode: .inferred,
+            accessibilityIdentifier: "button"
+        )
+        let message = EKPopUpMessage(
+            themeImage: themeImage,
+            title: title,
+            description: description,
+            button: button) {
+                SwiftEntryKit.dismiss()
+        }
+        let contentView = EKPopUpMessageView(with: message)
+        SwiftEntryKit.display(entry: contentView, using: attributes)
+    }
+    
     func setBindings()
     {
         print("ChatVC - setBindings()")
@@ -295,7 +416,7 @@ extension ChatViewController
         self.view.frame.origin.y = 0
     }
     
-    func setupPopupPresets()
+    func setupPopupPresets(completionHandler: @escaping (Bool) -> Void)
     {
         var presets: [PresetDescription] = []
         var attributes: EKAttributes
@@ -314,6 +435,7 @@ extension ChatViewController
         attributes.scroll = .disabled
         attributes.screenBackground = .color(color: EKColor(light: K.dimmedLightBackground, dark: K.dimmedDarkBackground))
         attributes.entryBackground = .color(color: .white)
+        attributes.roundCorners = .all(radius: 16.0)
         attributes.entranceAnimation = .init(
             scale: .init(
                 from: 0.9,
@@ -345,7 +467,7 @@ extension ChatViewController
             width: .constant(value: UIScreen.main.bounds.minEdge),
             height: .intrinsic
         )
-        descriptionString = "실시간 위치 공유"
+        descriptionString = K.lang == "ko" ? "실시간 위치 공유" : "Live location sharing"
         descriptionThumb = "loc.circle"
         description = .init(
             with: attributes, title: "Center Alert View",
@@ -354,12 +476,19 @@ extension ChatViewController
         )
         presets.append(description)
         self.showAlertView(attributes: attributes)
+        { success in
+            if success
+            {
+                completionHandler(true)
+            }
+            completionHandler(false)
+        }
     }
     
-    func showAlertView(attributes: EKAttributes)
+    func showAlertView(attributes: EKAttributes, completionHandler: @escaping (Bool) -> Void)
     {
         let title = EKProperty.LabelContent(
-            text: "실시간 위치 공유",
+            text: K.lang == "ko" ? "실시간 위치 공유" : "Live location sharing",
             style: .init(
                 font: UIFont.systemFont(ofSize: 15.0, weight: .medium),
                 color: .black,
@@ -367,11 +496,17 @@ extension ChatViewController
                 displayMode: .inferred
             )
         )
-        let text =
+        let text = K.lang == "ko" ?
         """
         실시간 위치 공유를 허용 하시겠습니다? \n
         설정에서 "위치 허용"을 안하셨다면 해주세요! \n
         설정 -> 커넥티드 -> 위치 -> 앱을 사용하는 동안 ✅\n
+        """
+        :
+        """
+        Allow live location sharing? \n
+        If you haven't allowed location in Settings, please do so! \n
+        Settings -> Connected -> Location -> When in use ✅\n
         """
         let description = EKProperty.LabelContent(
             text: text,
@@ -401,48 +536,51 @@ extension ChatViewController
             displayMode: .inferred
         )
         let closeButtonLabel = EKProperty.LabelContent(
-            text: "나중에",
+            text: K.lang == "ko" ? "나중에" : "Maybe later",
             style: closeButtonLabelStyle
         )
         let closeButton = EKProperty.ButtonContent(
             label: closeButtonLabel,
             backgroundColor: .clear,
             highlightedBackgroundColor: EKColor(.systemGray4).with(alpha: 0.05),
-            displayMode: .inferred) {
+            displayMode: .inferred)
+            {
                 SwiftEntryKit.dismiss()
-        }
-//        let laterButtonLabelStyle = EKProperty.LabelStyle(
-//            font: buttonFont,
-//            color: EKColor(.systemTeal),
-//            displayMode: .inferred
-//        )
-//        let laterButtonLabel = EKProperty.LabelContent(
-//            text: "MAYBE LATER",
-//            style: laterButtonLabelStyle
-//        )
-//        let laterButton = EKProperty.ButtonContent(
-//            label: laterButtonLabel,
-//            backgroundColor: .clear,
-//            highlightedBackgroundColor: EKColor(.systemTeal).with(alpha: 0.05),
-//            displayMode: .inferred) {
-//                SwiftEntryKit.dismiss()
-//        }
+                completionHandler(false)
+            }
         let okButtonLabelStyle = EKProperty.LabelStyle(
             font: buttonFont,
             color: EKColor(.systemTeal),
             displayMode: .inferred
         )
         let okButtonLabel = EKProperty.LabelContent(
-            text: "공유하기",
+            text: K.lang == "ko" ? "공유하기" : "Share",
             style: okButtonLabelStyle
         )
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
             backgroundColor: .clear,
             highlightedBackgroundColor: EKColor(.systemTeal).with(alpha: 0.05),
-            displayMode: .inferred) {
-                SwiftEntryKit.dismiss()
-        }
+            displayMode: .inferred,
+            accessibilityIdentifier: "ok-button"){ [unowned self] in
+            var attributes = self.bottomAlertAttributes
+            attributes.entryBackground = .color(color: EKColor(.systemTeal))
+            attributes.entranceAnimation = .init(translate: .init(duration: 0.65, spring: .init(damping: 0.8, initialVelocity: 0)))
+                let image = UIImage(systemName: "checkmark.circle.fill")
+                let title = ""
+                let description = K.lang == "ko" ? "실시간 위치를 공유 중입니다." : "Sharing live location"
+                self.showPopupMessage(
+                    attributes: attributes,
+                    title: title,
+                    titleColor: .white,
+                    description: description,
+                    descriptionColor: .white,
+                    buttonTitleColor: .init(.gray),
+                    buttonBackgroundColor: .white,
+                    image: image
+                )
+                completionHandler(true)
+            }
         // Generate the content
         let buttonsBarContent = EKProperty.ButtonBarContent(
             with: okButton, closeButton,

@@ -99,7 +99,7 @@ class ChatRoomViewController: UIViewController
         self.navigationController?.navigationBar.topItem?.title = K.lang == "ko" ? "채팅" : "Chat"
         self.navigationController?.navigationBar.backgroundColor = K.mainColor
         self.safeAreaColorToMainColor()
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: "NewChat"), style: .plain, target: self, action: #selector(onNewChatTap))
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "NewChat")?.withTintColor(UIColor(named: "BlackAndWhite")!), style: .plain, target: self, action: #selector(onNewChatTap))
         barButtonItem.tintColor = .black
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
         self.navigationController?.navigationBar.backgroundColor = .clear
