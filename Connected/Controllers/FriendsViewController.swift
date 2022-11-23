@@ -548,7 +548,6 @@ extension FriendsViewController: UITableViewDataSource
                             do
                             {
                                 let result = try self.cacheStorage!.entry(forKey: "\(userID)_\(items.name)")
-                                print("CACHED")
                                 if items.name.contains("profileImage")
                                 {
                                     DispatchQueue.main.async

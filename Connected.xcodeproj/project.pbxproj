@@ -32,6 +32,7 @@
 		1A72071128ED8204008F8B82 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72071028ED8204008F8B82 /* UserInfoViewModel.swift */; };
 		1A72071328EDCEF9008F8B82 /* ChatRoomVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72071228EDCEF9008F8B82 /* ChatRoomVC_Extensions.swift */; };
 		1A72071528EFF7A4008F8B82 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72071428EFF7A4008F8B82 /* FriendsViewController.swift */; };
+		1A7E868E292E448C00EED7B5 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E868D292E448C00EED7B5 /* SpeechRecognizer.swift */; };
 		1A7FBDB628EFFE7C001A37BF /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FBDB528EFFE7C001A37BF /* MyTabBarController.swift */; };
 		1A7FBDB928F005DC001A37BF /* MyProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FBDB728F005DC001A37BF /* MyProfileTableViewCell.swift */; };
 		1A7FBDBA28F005DC001A37BF /* MyProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7FBDB828F005DC001A37BF /* MyProfileTableViewCell.xib */; };
@@ -110,6 +111,7 @@
 		1A72071028ED8204008F8B82 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		1A72071228EDCEF9008F8B82 /* ChatRoomVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomVC_Extensions.swift; sourceTree = "<group>"; };
 		1A72071428EFF7A4008F8B82 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		1A7E868D292E448C00EED7B5 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		1A7FBDB528EFFE7C001A37BF /* MyTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabBarController.swift; sourceTree = "<group>"; };
 		1A7FBDB728F005DC001A37BF /* MyProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileTableViewCell.swift; sourceTree = "<group>"; };
 		1A7FBDB828F005DC001A37BF /* MyProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyProfileTableViewCell.xib; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				1A61D0C52924D25E00069A77 /* DescriptiveData.swift */,
+				1A7E868D292E448C00EED7B5 /* SpeechRecognizer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				1A72071128ED8204008F8B82 /* UserInfoViewModel.swift in Sources */,
 				1ADA77B828DB099D006EC39B /* ChatTableViewCell.swift in Sources */,
 				1AAF931128DF5E7C007FDCBB /* PulseAnimation.swift in Sources */,
+				1A7E868E292E448C00EED7B5 /* SpeechRecognizer.swift in Sources */,
 				1AACE88728CB409F00B96A7C /* AppDelegate.swift in Sources */,
 				1ADA77BB28DB09B3006EC39B /* ChatViewController.swift in Sources */,
 				1A46A017290BC7BD0096A923 /* FriendRequestRTableViewCell.swift in Sources */,
@@ -722,8 +726,13 @@
 				DEVELOPMENT_TEAM = 6DXT245L5T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Connected/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location always and when in usage";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location always usage";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in usage";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 권한이 필요합니다!";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = HELLO;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리에서 사진을 선택할 수 있도록 허용 해주세요";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Allow speech recognition?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -755,8 +764,13 @@
 				DEVELOPMENT_TEAM = 6DXT245L5T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Connected/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location always and when in usage";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location always usage";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in usage";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 권한이 필요합니다!";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = HELLO;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리에서 사진을 선택할 수 있도록 허용 해주세요";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Allow speech recognition?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

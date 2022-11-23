@@ -10,11 +10,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyChatCell" rowHeight="57" id="KGk-i7-Jjw" customClass="ChatTableViewCell" customModule="Connected" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="260" height="64"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyChatCell" rowHeight="61" id="KGk-i7-Jjw" customClass="ChatTableViewCell" customModule="Connected" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="260" height="68"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="260" height="64"/>
+            <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="260" height="68"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ap1-Ed-My4">
@@ -79,13 +79,13 @@
                             <constraint firstItem="d1v-jc-2ZH" firstAttribute="leading" secondItem="Tc8-UP-sJP" secondAttribute="trailing" constant="6" id="vrF-zm-7sr"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eeN-4d-6Ph">
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eeN-4d-6Ph">
                         <rect key="frame" x="21.333333333333329" y="40" width="28.666666666666671" height="14"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" red="0.44705882349999998" green="0.47058823529999999" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tr7-u2-1fK">
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tr7-u2-1fK">
                         <rect key="frame" x="21.333333333333329" y="10" width="28.666666666666671" height="28"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="28" id="wG6-hA-3xk"/>
@@ -117,7 +117,7 @@
                 <outlet property="timeLabel" destination="tr7-u2-1fK" id="3Wn-3x-BHu"/>
                 <outlet property="waveFormImageView" destination="d1v-jc-2ZH" id="UWb-we-UM7"/>
             </connections>
-            <point key="canvasLocation" x="135.38461538461539" y="22.748815165876778"/>
+            <point key="canvasLocation" x="135.38461538461539" y="24.170616113744074"/>
         </tableViewCell>
     </objects>
     <resources>

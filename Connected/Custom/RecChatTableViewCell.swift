@@ -10,6 +10,8 @@ import DSWaveformImage
 import AVFoundation
 import Cache
 import UIView_Shimmer
+import AMPopTip
+import Speech
 
 class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
 {
@@ -39,12 +41,21 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
             let time = self.audioName.components(separatedBy: "T")
             formatter.dateFormat = "yyyy-MM-dd"
             let date = formatter.date(from: time[0])
+            self.date = formatter.string(from: date!)
             formatter.dateFormat = K.lang == "ko" ? "MM월 dd일" : "MMMM dd"
             formatter.locale = Locale(identifier: K.lang)
             self.timeLabel.text = formatter.string(from: date!)
             self.readLabel.text = String(time[1].prefix(5))
+            formatter.dateFormat = "HH:mm:ssZ"
+            self.time = formatter.string(from: formatter.date(from: time[1].components(separatedBy: ".")[0])!)
         }
     }
+    
+    var date: String?
+    
+    var time: String?
+    
+    let infoPopTip = PopTip()
     
     var shimmeringAnimatedItems: [UIView]
     {
@@ -69,14 +80,26 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
     
     var second = 0.0
     
+    var task : SFSpeechRecognitionTask?
+    
+    let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: K.lang))!
+    
+    var request: SFSpeechURLRecognitionRequest?
+    
+    var filePath: URL?
+    
+    var onErrorBlock: ((SRError) -> Void)?
+    
+    var transcription = PopTip()
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()
         self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear
-        self.messageView.clipsToBounds = true
         self.messageView.layer.masksToBounds = false
         self.waveFormImageView.contentMode = .scaleAspectFit
+        self.waveFormImageView.isUserInteractionEnabled = true
         self.playbackButton.backgroundColor = .lightGray
         self.playbackButton.isUserInteractionEnabled = false
         self.contentView.layer.shadowRadius = 2
@@ -89,6 +112,109 @@ class RecChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
         
         self.messageView.layer.borderWidth = 0.5
         self.messageView.layer.borderColor = UIColor.lightGray.cgColor
+        
+        self.infoPopTip.bubbleColor = UIColor.gray
+        self.infoPopTip.shouldDismissOnTap = true
+        self.timeLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapTimeLabel(tapGestureRecognizer:))))
+        self.readLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapDateLabel(tapGestureRecognizer:))))
+        self.waveFormImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapWaveformImage(tapGestureRecognizer:))))
+    }
+    
+    @objc func didTapTimeLabel(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let lbl = tapGestureRecognizer.view as! UILabel
+        if infoPopTip.isVisible
+        {
+            infoPopTip.hide()
+        }
+        infoPopTip.show(text: self.date!, direction: .right, maxWidth: 200, in: self.contentView, from: lbl.frame)
+    }
+    
+    @objc func didTapDateLabel(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let lbl = tapGestureRecognizer.view as! UILabel
+        if infoPopTip.isVisible
+        {
+            infoPopTip.hide()
+        }
+        infoPopTip.show(text: self.time!, direction: .right, maxWidth: 200, in: self.contentView, from: lbl.frame)
+    }
+    
+    @objc func didTapWaveformImage(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        self.requestPermission()
+        self.startSpeechRecognition
+        { result in
+            self.transcription.bubbleColor = .gray
+            self.transcription.shouldDismissOnTap = true
+            self.transcription.show(text: result, direction: .up, maxWidth: 200, in: self.contentView, from: self.messageView.frame)
+        }
+    }
+    
+    func requestPermission()
+    {
+        SFSpeechRecognizer.requestAuthorization
+        { authState in
+            OperationQueue.main.addOperation
+            {
+                if authState == .authorized
+                {
+                    self.loadAudio()
+                }
+                else if authState == .denied
+                {
+                    self.onErrorBlock!(.denied)
+                }
+                else if authState == .notDetermined
+                {
+                    self.onErrorBlock!(.notDetermined)
+                }
+                else if authState == .restricted
+                {
+                    self.onErrorBlock!(.restricted)
+                }
+            }
+        }
+    }
+    
+    func startSpeechRecognition(completionHandler: @escaping (String) -> Void)
+    {
+        guard let path = self.filePath else { return }
+        self.request = SFSpeechURLRecognitionRequest(url: path)
+        self.request!.shouldReportPartialResults = true
+        self.speechRecognizer.defaultTaskHint = .dictation
+        if (self.speechRecognizer.isAvailable)
+        {
+            task = self.speechRecognizer.recognitionTask(with: self.request!, resultHandler:
+            { result, error in
+                guard error == nil else
+                {
+                    print("Error: \(error!)")
+                    return
+                }
+                print("doing")
+                guard let result = result else { print("fail");  return }
+                print("result: \(result.bestTranscription.formattedString)")
+                completionHandler(result.bestTranscription.formattedString)
+            })
+        }
+        else
+        {
+            print("Device doesn't support speech recognition")
+        }
+    }
+    
+    func loadAudio()
+    {
+        self.filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(self.audioName ?? "nil").m4a", conformingTo: .audio)
+        do
+        {
+            try self.audio!.write(to: filePath!)
+        }
+        catch
+        {
+            print(error.localizedDescription)
+        }
     }
 
     @IBAction func didTapPlayButton(_ sender: UIButton)

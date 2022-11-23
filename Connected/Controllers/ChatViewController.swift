@@ -265,7 +265,7 @@ class ChatViewController: UIViewController
                 {
                     let color = isMe ? .white : K.mainColor
                     let image = try await self.waveformImageDrawer.waveformImage(fromAudioAt: url, with: .init(
-                        size: myCell.waveFormImageView.bounds.size,
+                        size: isMe ? myCell.waveFormImageView.bounds.size : yourCell.waveFormImageView.bounds.size,
                         style: .striped(.init(color: color, width: 3, spacing: 3)),
                         position: .middle,
                         verticalScalingFactor: 1))
@@ -275,6 +275,19 @@ class ChatViewController: UIViewController
                         myCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
                         myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
                         myCell.selectionStyle = .none
+                        self.tableView.bringSubviewToFront(myCell)
+                        myCell.onErrorBlock =
+                        { srerror in
+                            switch srerror
+                            {
+                            case .denied:
+                                self.alertView("User denied permission")
+                            case .restricted:
+                                self.alertView("Restricted from using speech recognition")
+                            case .notDetermined:
+                                self.alertView("Speech recognition not available in user's device")
+                            }
+                        }
                     }
                     else
                     {
@@ -282,11 +295,35 @@ class ChatViewController: UIViewController
                         yourCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
                         yourCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
                         yourCell.selectionStyle = .none
+                        self.tableView.bringSubviewToFront(yourCell)
+                        yourCell.onErrorBlock =
+                        { srerror in
+                            switch srerror
+                            {
+                            case .denied:
+                                self.alertView("User denied permission")
+                            case .restricted:
+                                self.alertView("Restricted from using speech recognition")
+                            case .notDetermined:
+                                self.alertView("Speech recognition not available in user's device")
+                            }
+                        }
                     }
                 }
             }
             return isMe ? myCell : yourCell
         })
+    }
+    
+    
+    func alertView(_ message: String)
+    {
+        let controller = UIAlertController.init(title: "ERROR", message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "OK", style: .default, handler:
+        { _ in
+            controller.dismiss(animated: true, completion: nil)
+        }))
+        self.present(controller, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool)
