@@ -121,6 +121,9 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
         
         self.infoPopTip.bubbleColor = UIColor.gray
         self.infoPopTip.shouldDismissOnTap = true
+        self.transcription.shouldDismissOnTap = true
+        self.transcription.shouldDismissOnTapOutside = true
+        self.transcription.entranceAnimation = .none
         self.timeLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapTimeLabel(tapGestureRecognizer:))))
         self.readLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapDateLabel(tapGestureRecognizer:))))
         self.waveFormImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapWaveformImage(tapGestureRecognizer:))))
@@ -138,12 +141,19 @@ class ChatTableViewCell: UITableViewCell, ShimmeringViewProtocol
     
     @objc func didTapWaveformImage(tapGestureRecognizer: UITapGestureRecognizer)
     {
+        self.superview?.bringSubviewToFront(self)
+        if self.transcription.isVisible
+        {
+            self.transcription.hide()
+            return
+        }
         self.requestPermission()
         self.startSpeechRecognition
         { result in
             self.transcription.bubbleColor = .gray
+
             self.transcription.shouldDismissOnTap = true
-            self.transcription.show(text: result, direction: .up, maxWidth: 200
+            self.transcription.show(text: result, direction: .up, maxWidth: 150
                                     , in: self.contentView, from: self.messageView.frame)
         }
     }

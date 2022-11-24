@@ -45,7 +45,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7F3-Fg-apH" customClass="WaveformImageView" customModule="DSWaveformImage">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7F3-Fg-apH" customClass="WaveformImageView" customModule="DSWaveformImage">
                                 <rect key="frame" x="48" y="12" width="94" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="94" id="1a8-kA-l6n"/>
