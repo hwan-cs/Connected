@@ -726,6 +726,7 @@
 				DEVELOPMENT_TEAM = 6DXT245L5T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Connected/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Connected - 커넥티드";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location always and when in usage";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location always usage";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in usage";
@@ -764,6 +765,8 @@
 				DEVELOPMENT_TEAM = 6DXT245L5T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Connected/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Connected - 커넥티드";
+				"INFOPLIST_KEY_CFBundleDisplayName[sdk=iphoneos*]" = "Connected - 커넥티드";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location always and when in usage";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location always usage";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in usage";

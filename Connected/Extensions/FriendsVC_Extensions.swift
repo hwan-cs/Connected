@@ -40,7 +40,7 @@ extension FriendsViewController
                 self.friendRequestR = updatedArray
                 DispatchQueue.main.async
                 {
-                    self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+                    self.tableView.reloadData()
                 }
             }.store(in: &disposableBag)
         
@@ -51,7 +51,7 @@ extension FriendsViewController
                 self.friendRequestS = updatedArray
                 DispatchQueue.main.async
                 {
-                    self.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
+                    self.tableView.reloadData()
                 }
             }.store(in: &disposableBag)
     }

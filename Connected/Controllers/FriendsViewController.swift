@@ -526,6 +526,7 @@ extension FriendsViewController: UITableViewDataSource
                         }
                     }
                 })
+                friendRequestSCell.isUserInteractionEnabled = false
                 friendRequestSCell.myID = self.uuid!
                 friendRequestSCell.friendRequestSFriendName.text = data!["name"] as? String
                 friendRequestSCell.userID = data!["uid"] as? String

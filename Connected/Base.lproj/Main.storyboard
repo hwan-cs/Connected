@@ -20,7 +20,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -401,9 +401,9 @@
                                             <constraint firstAttribute="trailing" secondItem="rCL-W8-o69" secondAttribute="trailing" constant="30" id="dn9-SA-WIZ"/>
                                             <constraint firstItem="vWR-oG-JDm" firstAttribute="leading" secondItem="xzg-v9-zM2" secondAttribute="leading" constant="30" id="eZN-aU-Bk2"/>
                                             <constraint firstItem="mjv-6W-pme" firstAttribute="trailing" secondItem="bAn-29-WQf" secondAttribute="trailing" constant="8" id="iEa-Yh-RU5"/>
+                                            <constraint firstItem="ZUm-F3-lWm" firstAttribute="top" secondItem="vWR-oG-JDm" secondAttribute="bottom" constant="97" id="iW7-of-Y3Z"/>
                                             <constraint firstAttribute="trailing" secondItem="mjv-6W-pme" secondAttribute="trailing" constant="30" id="kmE-TA-BlV"/>
                                             <constraint firstItem="bAn-29-WQf" firstAttribute="centerY" secondItem="rCL-W8-o69" secondAttribute="centerY" id="m0V-GM-YQ1"/>
-                                            <constraint firstAttribute="bottom" secondItem="ZUm-F3-lWm" secondAttribute="bottom" constant="65" id="rLO-rZ-hAh"/>
                                             <constraint firstItem="b8k-2H-TgQ" firstAttribute="trailing" secondItem="xED-UQ-DXk" secondAttribute="trailing" constant="8" id="skb-yK-2wq"/>
                                             <constraint firstItem="uYP-vw-MX1" firstAttribute="centerY" secondItem="mjv-6W-pme" secondAttribute="centerY" id="tl6-5E-ifp"/>
                                             <constraint firstItem="mjv-6W-pme" firstAttribute="top" secondItem="1gQ-8X-GXS" secondAttribute="bottom" constant="42" id="uQp-dL-9mY"/>
@@ -1786,7 +1786,7 @@
             <color red="0.55699998140335083" green="0.55699998140335083" blue="0.57599997520446777" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="MainColor">
-            <color red="0.019607843137254902" green="0.7803921568627451" blue="0.50980392156862742" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.019999999552965164" green="0.77999997138977051" blue="0.50999999046325684" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="TextFieldStrokeColor">
             <color red="0.8666666666666667" green="0.88627450980392153" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

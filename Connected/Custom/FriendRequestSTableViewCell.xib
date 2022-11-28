@@ -39,7 +39,7 @@
                         </state>
                     </button>
                 </subviews>
-                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" name="BackgroundColor3"/>
                 <constraints>
                     <constraint firstItem="cNe-aB-yUq" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="DV3-fd-4nc"/>
                     <constraint firstItem="2t3-4Q-vRX" firstAttribute="leading" secondItem="cNe-aB-yUq" secondAttribute="trailing" constant="8" id="RFT-31-5E7"/>
@@ -62,6 +62,9 @@
     <resources>
         <image name="Add_Friend" width="24" height="24"/>
         <image name="Etc" width="24" height="24"/>
+        <namedColor name="BackgroundColor3">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="GrayAndWhite">
             <color red="0.55699998140335083" green="0.55699998140335083" blue="0.57599997520446777" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
