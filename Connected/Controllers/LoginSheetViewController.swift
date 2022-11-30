@@ -194,7 +194,6 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SignupViewController") as! SignupViewController
         self.dismiss(animated: true)
         {
-            self.timer.invalidate()
             UIApplication.topViewController()?.navigationController?.pushViewController(vc, animated: true)
         }
     }
