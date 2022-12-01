@@ -79,6 +79,7 @@
 		1ADA77C128DB5722006EC39B /* RecChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */; };
 		1ADA77C228DB5722006EC39B /* RecChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */; };
 		1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */; };
+		1AEC6A312938C4EC00EC5CC7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AEC6A302938C4EC00EC5CC7 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -159,6 +160,7 @@
 		1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecChatTableViewCell.swift; sourceTree = "<group>"; };
 		1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecChatTableViewCell.xib; sourceTree = "<group>"; };
 		1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupVC_Extensions.swift; sourceTree = "<group>"; };
+		1AEC6A302938C4EC00EC5CC7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8AA12650B1F3ED57E08103C7 /* Pods-Connected.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.release.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.release.xcconfig"; sourceTree = "<group>"; };
 		E48F2E930CD9E1781D878261 /* Pods_Connected.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connected.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -210,6 +212,7 @@
 			children = (
 				1AAC727B291BAE4100842AB7 /* ConnectedDebug.entitlements */,
 				1AB6A02228D22D5800A0D127 /* Connected.entitlements */,
+				1AEC6A302938C4EC00EC5CC7 /* GoogleService-Info.plist */,
 				1ABF82D228DDDF1300433095 /* localAudio.m4a */,
 				1A61D0C72924D27300069A77 /* Model */,
 				1ADA77B328DB0979006EC39B /* ViewModel */,
@@ -434,6 +437,7 @@
 				1AACE8DD28CE0AAA00B96A7C /* OpenSans-SemiBold.ttf in Resources */,
 				1AACE8E528CE0AAA00B96A7C /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				1AACE89028CB40A300B96A7C /* Assets.xcassets in Resources */,
+				1AEC6A312938C4EC00EC5CC7 /* GoogleService-Info.plist in Resources */,
 				1A46A01C290BC7E10096A923 /* FriendRequestSTableViewCell.xib in Resources */,
 				1AACE8DA28CE0AAA00B96A7C /* OpenSans-BoldItalic.ttf in Resources */,
 				1AACE8DB28CE0AAA00B96A7C /* OpenSans-Medium.ttf in Resources */,
