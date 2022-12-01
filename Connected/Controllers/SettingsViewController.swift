@@ -30,7 +30,6 @@ class SettingsViewController: UIViewController
     
     override func viewWillAppear(_ animated: Bool)
     {
-        print("Settign will appear")
         self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
         self.navigationController?.navigationBar.topItem?.title = K.lang == "ko" ? "설정" : "Setting"
         self.navigationController?.navigationBar.backgroundColor = K.mainColor
