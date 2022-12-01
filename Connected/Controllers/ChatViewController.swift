@@ -809,7 +809,7 @@ extension ChatViewController: UITableViewDelegate
                         let storageRef = self.storage.reference()
                         let myAudioRef = storageRef.child("\(self.recepientUID)/\(self.uuid!)/")
                         let foobar = (talkingTo!["change"] as! String)
-                        if foobar != ""
+                        if foobar.contains(self.uuid!)
                         {
                             let fileName = foobar.components(separatedBy: self.uuid!+"/")[1]
                             if !self.userDataArray.values.contains(where: { value in

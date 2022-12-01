@@ -88,27 +88,6 @@ class FriendsViewController: UIViewController
         self.setBindings()
         presentTransition = CustomTransition()
         
-        self.tableView.es.addPullToRefresh
-        {
-            self.tableView.reloadSections(IndexSet(integer: 3), with: .automatic)
-            self.tableView.es.stopPullToRefresh()
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool)
-    {
-        self.navigationController?.navigationBar.topItem?.title = K.lang == "ko" ? "친구" : "Friends"
-        self.safeAreaColorToMainColor()
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: "Add_Friend")?.withTintColor(UIColor(named: "BlackAndWhite")!), style: .plain, target: self, action: #selector(addFriend))
-        barButtonItem.customView?.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        barButtonItem.tintColor = .black
-        let currWidth = barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 100)
-        currWidth?.isActive = true
-        let currHeight = barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 100)
-        currHeight?.isActive = true
-        self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
-        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
-        
         userInfoListener = self.db.collection("userInfo").document(self.uuid!).addSnapshotListener
         { documentSnapshot, error in
             guard documentSnapshot != nil
@@ -121,15 +100,15 @@ class FriendsViewController: UIViewController
             {
                 if let data = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()
                 {
-                    if self.userInfoViewModel?.friendRequestR != data["friendRequestR"] as! [String]
+                    if self.userInfoViewModel?.friendRequestR != data["friendRequestR"] as? [String]
                     {
                         self.userInfoViewModel?.friendRequestR = data["friendRequestR"] as! [String]
                     }
-                    if self.userInfoViewModel?.friendRequestS != data["friendRequestS"] as! [String]
+                    if self.userInfoViewModel?.friendRequestS != data["friendRequestS"] as? [String]
                     {
                         self.userInfoViewModel?.friendRequestS = data["friendRequestS"] as! [String]
                     }
-                    if self.userInfoViewModel?.friendsArray != data["friends"] as! [String]
+                    if self.userInfoViewModel?.friendsArray != data["friends"] as? [String]
                     {
                         self.userInfoViewModel?.friendsArray = data["friends"] as! [String]
                     }
@@ -154,14 +133,29 @@ class FriendsViewController: UIViewController
             }
         }
         
+        self.tableView.es.addPullToRefresh
+        {
+            self.tableView.reloadSections(IndexSet(integer: 3), with: .automatic)
+            self.tableView.es.stopPullToRefresh()
+        }
     }
     
-    override func viewWillDisappear(_ animated: Bool)
+    override func viewWillAppear(_ animated: Bool)
     {
-        self.userInfoListener = nil
-        self.usersListener = nil
-        self.userInfoViewModel = nil
+        self.navigationController?.navigationBar.topItem?.title = K.lang == "ko" ? "친구" : "Friends"
+        self.safeAreaColorToMainColor()
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "Add_Friend")?.withTintColor(UIColor(named: "BlackAndWhite")!), style: .plain, target: self, action: #selector(addFriend))
+        barButtonItem.customView?.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        barButtonItem.tintColor = .black
+        let currWidth = barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 100)
+        currWidth?.isActive = true
+        let currHeight = barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 100)
+        currHeight?.isActive = true
+        self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
+        
     }
+    
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())
     {
