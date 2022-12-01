@@ -235,7 +235,6 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
             let title = K.lang == "ko" ? "회원가입 성공!" : "Signed up successfully!"
             let body = K.lang == "ko" ? "\(K.newUserEmail)로 인증 이메일이 보내졌습니다. 이메일에 인증 링크를 눌러 주세요" : "Verification email sent to \(K.newUserEmail). Please check your email inbox"
             foobar.configureContent(title: title, body: body, iconText: iconText)
-            foobar.backgroundColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
             foobar.button?.setTitle("확인", for: .normal)
             foobar.buttonTapHandler =
             { _ in

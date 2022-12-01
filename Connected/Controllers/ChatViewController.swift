@@ -74,7 +74,7 @@ class ChatViewController: UIViewController
     
     var userInfoListener: ListenerRegistration?
     
-    let myBucketURL =  "gs://connected-3ed2d.appspot.com/"
+    let myBucketURL =  "gs://connected-prod-6cc61.appspot.com/"
     
     var sortedByValueDictionaryKey: [Data] = []
     

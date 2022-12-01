@@ -67,6 +67,24 @@ class ChatRoomViewController: UIViewController
         self.userInfoViewModel = UserInfoViewModel(uuid!)
         self.setBindings()
         
+        self.tableView.es.addPullToRefresh
+        {
+            self.tableView.reloadData()
+            self.tableView.es.stopPullToRefresh()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.navigationController?.navigationBar.topItem?.title = K.lang == "ko" ? "채팅" : "Chat"
+        self.navigationController?.navigationBar.backgroundColor = K.mainColor
+        self.safeAreaColorToMainColor()
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "NewChat")?.withTintColor(UIColor(named: "BlackAndWhite")!), style: .plain, target: self, action: #selector(onNewChatTap))
+        barButtonItem.tintColor = .black
+        self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
+        self.navigationController?.navigationBar.backgroundColor = .clear
+        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
+        
         listener = self.db.collection("userInfo").document(self.uuid!).addSnapshotListener(
         { documentSnapshot, error in
             guard documentSnapshot != nil
@@ -86,28 +104,13 @@ class ChatRoomViewController: UIViewController
                 }
             }
         })
-        
-        self.tableView.es.addPullToRefresh
-        {
-            self.tableView.reloadData()
-            self.tableView.es.stopPullToRefresh()
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool)
-    {
-        self.navigationController?.navigationBar.topItem?.title = K.lang == "ko" ? "채팅" : "Chat"
-        self.navigationController?.navigationBar.backgroundColor = K.mainColor
-        self.safeAreaColorToMainColor()
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: "NewChat")?.withTintColor(UIColor(named: "BlackAndWhite")!), style: .plain, target: self, action: #selector(onNewChatTap))
-        barButtonItem.tintColor = .black
-        self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
-        self.navigationController?.navigationBar.backgroundColor = .clear
-        self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
     }
     
     override func viewWillDisappear(_ animated: Bool)
     {
+        self.listener = nil
+        self.userInfoViewModel = nil
+        print("NIL")
 //        self.tabBarController?.navigationItem.rightBarButtonItem = nil
     }
     

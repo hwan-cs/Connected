@@ -61,6 +61,10 @@ class FriendsViewController: UIViewController
     
     var backgroundImageToPass: UIImage?
     
+    var userInfoListener: ListenerRegistration?
+    
+    var usersListener: ListenerRegistration?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -84,42 +88,6 @@ class FriendsViewController: UIViewController
         self.setBindings()
         presentTransition = CustomTransition()
         
-        self.db.collection("userInfo").document(self.uuid!).addSnapshotListener
-        { documentSnapshot, error in
-            guard documentSnapshot != nil
-            else
-            {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            Task.init
-            {
-                if let data = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()
-                {
-                    self.userInfoViewModel?.friendRequestR = data["friendRequestR"] as! [String]
-                    self.userInfoViewModel?.friendRequestS = data["friendRequestS"] as! [String]
-                    self.userInfoViewModel?.friendsArray = data["friends"] as! [String]
-                }
-            }
-        }
-        
-        self.db.collection("users").document(self.uuid!).addSnapshotListener
-        { documentSnapshot, error in
-            guard documentSnapshot != nil
-            else
-            {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            Task.init
-            {
-                K.myProfileName = documentSnapshot?.data()!["name"] as! String
-                K.myProfileEmail = documentSnapshot?.data()!["email"] as! String
-                K.myProfileUsername = documentSnapshot?.data()!["username"] as! String
-                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
-            }
-        }
-        
         self.tableView.es.addPullToRefresh
         {
             self.tableView.reloadSections(IndexSet(integer: 3), with: .automatic)
@@ -140,6 +108,59 @@ class FriendsViewController: UIViewController
         currHeight?.isActive = true
         self.tabBarController?.navigationItem.rightBarButtonItem = barButtonItem
         self.view.overrideUserInterfaceStyle = K.darkmode ? .dark : .light
+        
+        userInfoListener = self.db.collection("userInfo").document(self.uuid!).addSnapshotListener
+        { documentSnapshot, error in
+            guard documentSnapshot != nil
+            else
+            {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            Task.init
+            {
+                if let data = try await self.db.collection("userInfo").document(self.uuid!).getDocument().data()
+                {
+                    if self.userInfoViewModel?.friendRequestR != data["friendRequestR"] as! [String]
+                    {
+                        self.userInfoViewModel?.friendRequestR = data["friendRequestR"] as! [String]
+                    }
+                    if self.userInfoViewModel?.friendRequestS != data["friendRequestS"] as! [String]
+                    {
+                        self.userInfoViewModel?.friendRequestS = data["friendRequestS"] as! [String]
+                    }
+                    if self.userInfoViewModel?.friendsArray != data["friends"] as! [String]
+                    {
+                        self.userInfoViewModel?.friendsArray = data["friends"] as! [String]
+                    }
+                }
+            }
+        }
+        
+        usersListener = self.db.collection("users").document(self.uuid!).addSnapshotListener
+        { documentSnapshot, error in
+            guard documentSnapshot != nil
+            else
+            {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            Task.init
+            {
+                K.myProfileName = documentSnapshot?.data()!["name"] as? String
+                K.myProfileEmail = documentSnapshot?.data()!["email"] as? String
+                K.myProfileUsername = documentSnapshot?.data()!["username"] as? String
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+            }
+        }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        self.userInfoListener = nil
+        self.usersListener = nil
+        self.userInfoViewModel = nil
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ())
