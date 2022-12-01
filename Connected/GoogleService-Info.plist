@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>686142733826-t45mr2vr377bh5gonm2pg8tktpmhq3ru.apps.googleusercontent.com</string>
+	<string>611857672974-m9l3huv1g79l8s0e5j14870mv1brppf4.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.686142733826-t45mr2vr377bh5gonm2pg8tktpmhq3ru</string>
+	<string>com.googleusercontent.apps.611857672974-m9l3huv1g79l8s0e5j14870mv1brppf4</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCiafUosYO3SN517QzPrFktPjlbmbDmgrM</string>
+	<string>AIzaSyAfszCIkwRBSPhSOHVe8wL-hGZkjcquA2A</string>
 	<key>GCM_SENDER_ID</key>
-	<string>686142733826</string>
+	<string>611857672974</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>konkuk.jhpark.Connected</string>
 	<key>PROJECT_ID</key>
-	<string>connected-3ed2d</string>
+	<string>connected-prod-1147a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>connected-3ed2d.appspot.com</string>
+	<string>connected-prod-1147a.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:686142733826:ios:e272b0cd7bf484e0be311b</string>
+	<string>1:611857672974:ios:b66d6767afd186fb5b055f</string>
 </dict>
 </plist>
