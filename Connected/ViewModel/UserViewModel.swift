@@ -19,7 +19,7 @@ class UserViewModel: ObservableObject
     
     var userName: String?
     
-    @Published var userDataArray: [Data:[AnyHashable]] = [:]
+    @Published var userDataArray = [(UniqueMessage,UniqueMessageIdentifier)]()
     
     let waveformImageDrawer = WaveformImageDrawer()
     
@@ -32,7 +32,7 @@ class UserViewModel: ObservableObject
         return try? Cache.Storage(diskConfig: diskConfig, memoryConfig: memoryConfig, transformer: TransformerFactory.forData())
     }()
     
-    var dataSource: UITableViewDiffableDataSource<Data, [AnyHashable]>!
+    var dataSource: UITableViewDiffableDataSource<UniqueMessage.ID, UniqueMessageIdentifier.ID>!
     
     init(_ uid: String, _ suid: String)
     {
@@ -51,8 +51,7 @@ class UserViewModel: ObservableObject
                     do
                     {
                         let result = try self.cacheStorage!.entry(forKey: items.name)
-                        // The video is cached.
-                        self.userDataArray[result.object] = [true, items.name]
+                        self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: items.name)))
                     }
                     catch
                     {
@@ -65,7 +64,7 @@ class UserViewModel: ObservableObject
                             else
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
-                                self.userDataArray[data!] = [true, items.name]
+                                self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data!), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: items.name)))
                             }
                         }
                     }
@@ -87,8 +86,7 @@ class UserViewModel: ObservableObject
                     do
                     {
                         let result = try self.cacheStorage!.entry(forKey: items.name)
-                        // The video is cached.
-                        self.userDataArray[result.object] = [false, items.name]
+                        self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: items.name)))
                     }
                     catch
                     {
@@ -101,7 +99,7 @@ class UserViewModel: ObservableObject
                             else
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
-                                self.userDataArray[data!] = [false, items.name]
+                                self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data!), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: items.name)))
                             }
                         }
                     }

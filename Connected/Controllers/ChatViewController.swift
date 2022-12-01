@@ -48,7 +48,7 @@ class ChatViewController: UIViewController
     
     var disposableBag = Set<AnyCancellable>()
     
-    var userDataArray: [Data:[AnyHashable]] = [:]
+    var userDataArray = [(UniqueMessage, UniqueMessageIdentifier)]()
     
     let waveformImageDrawer = WaveformImageDrawer()
     
@@ -72,13 +72,11 @@ class ChatViewController: UIViewController
     
     var listener: ListenerRegistration?
     
-    var userInfoListener: ListenerRegistration?
-    
     let myBucketURL =  "gs://connected-prod-6cc61.appspot.com/"
     
-    var sortedByValueDictionaryKey: [Data] = []
+    var sortedByValueDictionaryKey: [UniqueMessage] = []
     
-    var sortedByValueDictionaryValue: [[AnyHashable]] = [[]]
+    var sortedByValueDictionaryValue: [UniqueMessageIdentifier] = []
     
     var locationManager: CLLocationManager?
     
@@ -122,6 +120,8 @@ class ChatViewController: UIViewController
     
     var sharingLocation = false
     
+    var change = ""
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -160,10 +160,6 @@ class ChatViewController: UIViewController
         self.growingTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
         self.growingTextView.font = UIFont.systemFont(ofSize: 16.0)
         self.tableView.estimatedRowHeight = 64
-        
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.requestAlwaysAuthorization()
         
         if idx != nil
         {
@@ -229,10 +225,10 @@ class ChatViewController: UIViewController
     
     func setupDataSource()
     {
-        self.userViewModel?.dataSource = UITableViewDiffableDataSource<Data, [AnyHashable]>(tableView: tableView, cellProvider:
+        self.userViewModel?.dataSource = UITableViewDiffableDataSource<UniqueMessage.ID, UniqueMessageIdentifier.ID>(tableView: tableView, cellProvider:
         { tableView, indexPath, itemIdentifier in
-            let isMe = self.sortedByValueDictionaryValue[indexPath.row][0] as! Bool
-            let dataName = self.sortedByValueDictionaryValue[indexPath.row][1] as! String
+            let isMe = self.sortedByValueDictionaryValue[indexPath.row].isMe!
+            let dataName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
             
             let myCell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
             let yourCell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
@@ -241,19 +237,19 @@ class ChatViewController: UIViewController
 
             if dataName.contains(".txt") && isMe
             {
-                myTextCell.myChatTextLabel.text = String(data: self.sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
+                myTextCell.myChatTextLabel.text = String(data: self.sortedByValueDictionaryKey[indexPath.row].data!, encoding: .utf8)
                 myTextCell.messageView.sizeToFit()
                 myTextCell.messageView.layoutIfNeeded()
-                myTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
+                myTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
                 myTextCell.selectionStyle = .none
                 return myTextCell
             }
             else if dataName.contains(".txt") && !isMe
             {
-                yourTextCell.myChatTextLabel.text = String(data: self.sortedByValueDictionaryKey[indexPath.row], encoding: .utf8)!
+                yourTextCell.myChatTextLabel.text = String(data: self.sortedByValueDictionaryKey[indexPath.row].data!, encoding: .utf8)
                 yourTextCell.messageView.sizeToFit()
                 yourTextCell.messageView.layoutIfNeeded()
-                yourTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
+                yourTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
                 yourTextCell.selectionStyle = .none
                 return yourTextCell
             }
@@ -271,8 +267,8 @@ class ChatViewController: UIViewController
                     if isMe
                     {
                         myCell.waveFormImageView.image = image
-                        myCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
-                        myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
+                        myCell.audio = self.sortedByValueDictionaryKey[indexPath.row].data!
+                        myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
                         myCell.selectionStyle = .none
                         self.tableView.bringSubviewToFront(myCell)
                         myCell.onErrorBlock =
@@ -291,8 +287,8 @@ class ChatViewController: UIViewController
                     else
                     {
                         yourCell.waveFormImageView.image = image
-                        yourCell.audio = self.sortedByValueDictionaryKey[indexPath.row]
-                        yourCell.audioName = self.sortedByValueDictionaryValue[indexPath.row][1] as? String
+                        yourCell.audio = self.sortedByValueDictionaryKey[indexPath.row].data!
+                        yourCell.audioName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
                         yourCell.selectionStyle = .none
                         self.tableView.bringSubviewToFront(yourCell)
                         yourCell.onErrorBlock =
@@ -363,7 +359,6 @@ class ChatViewController: UIViewController
         K.didInit = false
         K.didSendAnything = false
         self.listener = nil
-        self.userInfoListener = nil
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
         
@@ -491,7 +486,7 @@ class ChatViewController: UIViewController
                         Task.init
                         {
                             let data = try Data(contentsOf: self.path!)
-                            self.userViewModel?.userDataArray[data] = [true, metadata?.name!]
+                            self.userViewModel?.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: metadata?.name)))
                             let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
                             let rec = talkingTo!["talkingTo"] as? String
                             if rec == self.uuid!
@@ -568,12 +563,17 @@ class ChatViewController: UIViewController
     
     @IBAction func onLocationButtonTap(_ sender: UIButton)
     {
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.requestAlwaysAuthorization()
+        
         if self.locationButotn.tintColor != .gray
         {
             self.setupPopupPresets
             { success in
                 if !success
                 {
+                    self.locationManager = nil
                     return
                 }
                 else
@@ -585,6 +585,7 @@ class ChatViewController: UIViewController
         else
         {
             self.shareLiveLocation()
+            self.locationManager = nil
         }
     }
     
@@ -657,7 +658,7 @@ class ChatViewController: UIViewController
         let formatted = formatter.string(from: now)
         let textRef = storageRef.child("\(self.uuid!)/\(self.recepientUID)/\(formatted).txt")
         guard let textToSend = self.growingTextView.text.data(using: .utf8) else { return }
-        self.userViewModel?.userDataArray[textToSend] = [true, "\(formatted).txt"]
+        self.userViewModel?.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: textToSend), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: "\(formatted).txt")))
         let uploadTask = textRef.putData(textToSend, metadata: metadata)
         { metadata, error in
             if let error = error
@@ -774,7 +775,7 @@ extension ChatViewController: UITableViewDelegate
         let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("localAudio_\(index+1).m4a", conformingTo: .audio)
         do
         {
-            try self.sortedByValueDictionaryKey[index].write(to: filePath)
+            try self.sortedByValueDictionaryKey[index].data!.write(to: filePath)
             completionHandler(filePath)
         }
         catch
@@ -809,18 +810,21 @@ extension ChatViewController: UITableViewDelegate
                         let storageRef = self.storage.reference()
                         let myAudioRef = storageRef.child("\(self.recepientUID)/\(self.uuid!)/")
                         let foobar = (talkingTo!["change"] as! String)
-                        if foobar.contains(self.uuid!)
+                        if self.change == ""
                         {
-                            let fileName = foobar.components(separatedBy: self.uuid!+"/")[1]
-                            if !self.userDataArray.values.contains(where: { value in
-                                value == [false, fileName]
-                            })
+                            self.change = foobar
+                        }
+                        else if self.change != foobar
+                        {
+                            if foobar.contains(self.uuid!) && (talkingTo!["talkingTo"] as! String) == self.uuid!
                             {
+                                let fileName = foobar.components(separatedBy: self.uuid!+"/")[1]
                                 myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 5*1024*1024)
                                 { data, error in
-                                    self.userViewModel?.userDataArray[data!] = [false, fileName]
+                                    self.userViewModel?.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: fileName)))
                                 }
                             }
+                            self.change = foobar
                         }
                         let marker = GMSMarker()
                         let loc = talkingTo!["location"] as! GeoPoint
@@ -841,7 +845,7 @@ extension ChatViewController: UITableViewDelegate
                     }
                 })
                 
-                userInfoListener = self.db.collection("userInfo").document(self.recepientUID).addSnapshotListener(
+                self.db.collection("userInfo").document(self.recepientUID).addSnapshotListener(
                     { documentSnapshot, error in
                         guard documentSnapshot != nil
                         else

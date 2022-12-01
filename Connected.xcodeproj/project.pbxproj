@@ -80,6 +80,8 @@
 		1ADA77C228DB5722006EC39B /* RecChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */; };
 		1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */; };
 		1AEC6A332938C5A600EC5CC7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AEC6A322938C5A600EC5CC7 /* GoogleService-Info.plist */; };
+		1AEC6A3729391CF500EC5CC7 /* UniqueMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEC6A3629391CF500EC5CC7 /* UniqueMessage.swift */; };
+		1AEC6A392939209900EC5CC7 /* UniqueMessageIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEC6A382939209900EC5CC7 /* UniqueMessageIdentifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -161,6 +163,8 @@
 		1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecChatTableViewCell.xib; sourceTree = "<group>"; };
 		1ADDB26D28D71FFF00329EA4 /* SignupVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupVC_Extensions.swift; sourceTree = "<group>"; };
 		1AEC6A322938C5A600EC5CC7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1AEC6A3629391CF500EC5CC7 /* UniqueMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueMessage.swift; sourceTree = "<group>"; };
+		1AEC6A382939209900EC5CC7 /* UniqueMessageIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueMessageIdentifier.swift; sourceTree = "<group>"; };
 		8AA12650B1F3ED57E08103C7 /* Pods-Connected.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connected.release.xcconfig"; path = "Target Support Files/Pods-Connected/Pods-Connected.release.xcconfig"; sourceTree = "<group>"; };
 		E48F2E930CD9E1781D878261 /* Pods_Connected.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connected.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -185,6 +189,8 @@
 			children = (
 				1A61D0C52924D25E00069A77 /* DescriptiveData.swift */,
 				1A7E868D292E448C00EED7B5 /* SpeechRecognizer.swift */,
+				1AEC6A3629391CF500EC5CC7 /* UniqueMessage.swift */,
+				1AEC6A382939209900EC5CC7 /* UniqueMessageIdentifier.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -529,9 +535,11 @@
 				1A48B3D328DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift in Sources */,
 				1AA8A0D62914251C00110A88 /* NewChatViewController.swift in Sources */,
 				1AACE8EB28CE312700B96A7C /* UIViewController_Extensions.swift in Sources */,
+				1AEC6A3729391CF500EC5CC7 /* UniqueMessage.swift in Sources */,
 				1A7FBDB928F005DC001A37BF /* MyProfileTableViewCell.swift in Sources */,
 				1A72070828EB62CB008F8B82 /* Constants.swift in Sources */,
 				1AB6A01A28D09A8900A0D127 /* SignupViewController.swift in Sources */,
+				1AEC6A392939209900EC5CC7 /* UniqueMessageIdentifier.swift in Sources */,
 				1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */,
 				1A7FBDC428F6B1E7001A37BF /* ProfileSheetViewController.swift in Sources */,
 				1A61D0BF291D5CAD00069A77 /* SettingEtcViewController.swift in Sources */,
@@ -728,6 +736,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Connected/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Connected - 커넥티드";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location always and when in usage";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location always usage";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in usage";
@@ -768,6 +777,7 @@
 				INFOPLIST_FILE = Connected/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Connected - 커넥티드";
 				"INFOPLIST_KEY_CFBundleDisplayName[sdk=iphoneos*]" = "Connected - 커넥티드";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location always and when in usage";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location always usage";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in usage";

@@ -142,16 +142,16 @@ extension ChatViewController
         self.userViewModel!.$userDataArray
             .debounce(for: 0.1, scheduler: RunLoop.main)
             .sink
-            { (updatedArray:[Data:[AnyHashable]]) in
+            { (updatedArray:[(UniqueMessage, UniqueMessageIdentifier)]) in
                 print("ChatVC - datarray count: \(updatedArray.count)")
                 self.userDataArray = updatedArray
                 //sort dictionary by name
-                self.sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.key})
-                self.sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.value[1] as! String).components(separatedBy: ".")[0] < ($1.value[1] as! String).components(separatedBy: ".")[0]}).map({$0.value})
+                self.sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.1.fileName!).components(separatedBy: ".")[0] < ($1.1.fileName!).components(separatedBy: ".")[0]}).map({$0.0})
+                self.sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.1.fileName!).components(separatedBy: ".")[0] < ($1.1.fileName!).components(separatedBy: ".")[0]}).map({$0.1})
                 if self.userDataArray.count > 0
                 {
                     self.loadData()
-                    self.tableView.scrollToBottom(isAnimated: (self.listener != nil && self.userInfoListener != nil))
+                    self.tableView.scrollToBottom(isAnimated: (self.listener != nil))
                 }
             }.store(in: &disposableBag)
     }
@@ -164,8 +164,18 @@ extension ChatViewController
             return
         }
         snapshot.deleteAllItems()
-        snapshot.appendSections(self.sortedByValueDictionaryKey)
-        snapshot.appendItems(self.sortedByValueDictionaryValue)
+        var keyArr = [String]()
+        for i in self.sortedByValueDictionaryKey
+        {
+            keyArr.append(i.id)
+        }
+        snapshot.appendSections(keyArr)
+        var valArr = [String]()
+        for j in self.sortedByValueDictionaryValue
+        {
+            valArr.append(j.id)
+        }
+        snapshot.appendItems(valArr)
         self.userViewModel!.dataSource.apply(snapshot, animatingDifferences: false)
     }
     
