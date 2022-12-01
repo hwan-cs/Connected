@@ -2,6 +2,7 @@ Constants.swift
 /Users/19juhpark/Desktop/SwiftProjects/Connected/Connected/Utility/Constants.swift
 /Users/19juhpark/Desktop/SwiftProjects/Connected/Connected/GoogleService-Info
 GoogleService-Info.plist
+Connected/GoogleService-Info.plist
 Connected.entitlements
 ConnectedDebug.entitlements
 localAudio.m4a
