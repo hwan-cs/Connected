@@ -1,9 +1,0 @@
-version: "Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)"
-options: "5d2dacfd93e4ba403e3df6b05ab42e42bb9eeaf88412c34df698a14fcff23dde"
-build_start_time: [1665929668, 704959869]
-build_end_time: [1665929668, 798563957]
-inputs:
-  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/EasyTipView/Sources/EasyTipView/EasyTipView 3.swift": !private [1664279905, 0]
-  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/EasyTipView/Sources/EasyTipView/EasyTipView.swift": !private [1665399323, 31791210]
-  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/EasyTipView/Sources/EasyTipView/UIKitExtensions 2.swift": !private [1664279905, 0]
-  "/Users/19juhpark/Desktop/SwiftProjects/Connected/Pods/EasyTipView/Sources/EasyTipView/UIKitExtensions.swift": !private [1665399323, 32395839]
