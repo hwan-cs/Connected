@@ -109,6 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         Task.init
         {
             try await db.collection("users").document(uuid!).updateData(["isOnline": false])
+            try await db.collection("users").document(uuid!).updateData(["talkingTo": ""])
         }
         print("background")
     }
@@ -120,6 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         Task.init
         {
             try await db.collection("users").document(uuid!).updateData(["isOnline": false])
+            try await db.collection("users").document(uuid!).updateData(["talkingTo": ""])
         }
         print("closing")
     }

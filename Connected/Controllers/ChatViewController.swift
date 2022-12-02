@@ -122,6 +122,8 @@ class ChatViewController: UIViewController
     
     var change = ""
     
+    var msgUUID = UUID().uuidString
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -349,8 +351,11 @@ class ChatViewController: UIViewController
                         try await self.db.collection("userInfo").document(self.uuid!).updateData(["chatRoom" : temp])
                     }
                 }
-                try await self.db.collection("users").document(self.uuid!).updateData(["talkingTo": ""])
             }
+        }
+        Task.init
+        {
+            try await self.db.collection("users").document(self.uuid!).updateData(["talkingTo": ""])
         }
         for avp in K.allAudioPlayers
         {
@@ -691,6 +696,8 @@ class ChatViewController: UIViewController
                         {
                             if let unreadCount = dict[self.uuid!]![2] as? Int
                             {
+                                print("Should see below")
+                                print(unreadCount)
                                 var temp = dict
                                 temp[self.uuid!]![0] = String(data: textToSend, encoding: .utf8)
                                 temp[self.uuid!]![1] = now
@@ -698,6 +705,7 @@ class ChatViewController: UIViewController
                                 {
                                     temp[self.uuid!]![2] = unreadCount+1
                                 }
+                                print(temp)
                                 try await self.db.collection("userInfo").document(self.recepientUID).updateData(["chatRoom" : temp])
                                 K.didSendAnything = true
                             }
@@ -812,19 +820,20 @@ extension ChatViewController: UITableViewDelegate
                         let foobar = (talkingTo!["change"] as! String)
                         if self.change == ""
                         {
-                            self.change = foobar
+                            self.change = foobar + self.msgUUID
                         }
-                        else if self.change != foobar
+                        else if self.change != foobar + self.msgUUID
                         {
                             if foobar.contains(self.uuid!) && (talkingTo!["talkingTo"] as! String) == self.uuid!
                             {
                                 let fileName = foobar.components(separatedBy: self.uuid!+"/")[1]
                                 myAudioRef.storage.reference(forURL: talkingTo!["change"] as! String).getData(maxSize: 5*1024*1024)
                                 { data, error in
-                                    self.userViewModel?.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: fileName)))
+                                    self.userViewModel?.userDataArray.append((UniqueMessage(id: self.msgUUID, data: data), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: fileName)))
                                 }
                             }
-                            self.change = foobar
+                            self.msgUUID = UUID().uuidString
+                            self.change = foobar + self.msgUUID
                         }
                         let marker = GMSMarker()
                         let loc = talkingTo!["location"] as! GeoPoint

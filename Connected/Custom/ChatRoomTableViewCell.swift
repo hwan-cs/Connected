@@ -38,6 +38,5 @@ class ChatRoomTableViewCell: UITableViewCell
     override func prepareForReuse()
     {
         super.prepareForReuse()
-        self.friendChatRoomProfileImage.image = UIImage(named: "Friend_Inactive")
     }
 }

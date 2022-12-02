@@ -104,8 +104,8 @@
 /* Class = "UISearchBar"; placeholder = "검색"; ObjectID = "W4O-Yz-oy3"; */
 "W4O-Yz-oy3.placeholder" = "검색";
 
-/* Class = "UILabel"; text = "더욱 나은 앱을 위한 모든 피드백과 제안사항을 완영합니다 😊connected@gmail.com으로 이메일을 보내시거나 아래 연락처로 연락을 남겨주세요. 의견을 최대한 고려하여 추후 업데이트에 반영하겠습니다!"; ObjectID = "X2K-ED-6oV"; */
-"X2K-ED-6oV.text" = "더욱 나은 앱을 위한 모든 피드백과 제안사항을 완영합니다 😊connected@gmail.com으로 이메일을 보내시거나 아래 연락처로 연락을 남겨주세요. 의견을 최대한 고려하여 추후 업데이트에 반영하겠습니다!";
+/* Class = "UILabel"; text = "더욱 나은 앱을 위한 모든 피드백과 제안사항을 완영합니다 😊connected.help.37@gmail.com으로 이메일을 보내시거나 아래 연락처로 연락을 남겨주세요. 의견을 최대한 고려하여 추후 업데이트에 반영하겠습니다!"; ObjectID = "X2K-ED-6oV"; */
+"X2K-ED-6oV.text" = "더욱 나은 앱을 위한 모든 피드백과 제안사항을 완영합니다 😊connected.help.37@gmail.com으로 이메일을 보내시거나 아래 연락처로 연락을 남겨주세요. 의견을 최대한 고려하여 추후 업데이트에 반영하겠습니다!";
 
 /* Class = "UILabel"; text = "라이트 모드"; ObjectID = "XGX-nO-GV8"; */
 "XGX-nO-GV8.text" = "라이트 모드";

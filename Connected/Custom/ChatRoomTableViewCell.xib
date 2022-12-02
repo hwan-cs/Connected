@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="360" height="80"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Friend_Inactive" translatesAutoresizingMaskIntoConstraints="NO" id="VmV-EZ-Jgg">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VmV-EZ-Jgg">
                         <rect key="frame" x="20" y="16" width="48" height="48"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -124,7 +124,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Friend_Inactive" width="24" height="24"/>
         <namedColor name="BackgroundColor3">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -73,7 +73,7 @@ class ChatRoomViewController: UIViewController
             self.tableView.es.stopPullToRefresh()
         }
         
-        listener = self.db.collection("userInfo").document(self.uuid!).addSnapshotListener(
+        self.db.collection("userInfo").document(self.uuid!).addSnapshotListener(
         { documentSnapshot, error in
             guard documentSnapshot != nil
             else
@@ -231,10 +231,15 @@ extension ChatRoomViewController: UITableViewDataSource
                         let result = try self.cacheStorage!.entry(forKey: "\(self.friends[indexPath.row].0)_\(items.name)")
                         if items.name.contains("profileImage")
                         {
+                            let iv = chatRoomCell.friendChatRoomProfileImage
+                            iv?.image = UIImage(data: result.object)
                             DispatchQueue.main.async
                             {
-                                chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: result.object)
-                                chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
+                                if chatRoomCell.friendChatRoomProfileImage.image?.pngData() != iv?.image?.pngData()
+                                {
+                                    chatRoomCell.friendChatRoomProfileImage.image = UIImage(data: result.object)
+                                    chatRoomCell.friendChatRoomProfileImage.contentMode = .scaleAspectFill
+                                }
                             }
                         }
                     }
