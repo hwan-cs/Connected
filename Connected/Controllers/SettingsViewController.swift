@@ -52,7 +52,6 @@ class SettingsViewController: UIViewController
         do
         {
             try Auth.auth().signOut()
-            print("signed out")
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "InitialNavigationController") as! UINavigationController
             let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
             windowScene?.windows.first?.rootViewController = vc
@@ -73,7 +72,8 @@ class SettingsViewController: UIViewController
     {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "AppearanceVC") as! SettingAppearanceViewController
         vc.modalPresentationStyle = .fullScreen
-        vc.onDismissBlock = {
+        vc.onDismissBlock =
+        {
             success in
             if success
             {

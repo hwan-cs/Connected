@@ -13,6 +13,7 @@
 		1A2442A628E6054900E4A0DD /* RecTextChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A2442A428E6054900E4A0DD /* RecTextChatTableViewCell.xib */; };
 		1A2A951C29274B470041BF9E /* EngLoc.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A2A951E29274B470041BF9E /* EngLoc.strings */; };
 		1A2D1A7B28D4D2300075AB3B /* String_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */; };
+		1A38E3E6293DF6700057C252 /* SettingAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38E3E5293DF6700057C252 /* SettingAccountViewController.swift */; };
 		1A41E69628E2D8C7006D0C9A /* CachingPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41E69528E2D8C6006D0C9A /* CachingPlayerItem.swift */; };
 		1A46A017290BC7BD0096A923 /* FriendRequestRTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46A015290BC7BD0096A923 /* FriendRequestRTableViewCell.swift */; };
 		1A46A018290BC7BD0096A923 /* FriendRequestRTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A46A016290BC7BD0096A923 /* FriendRequestRTableViewCell.xib */; };
@@ -96,6 +97,7 @@
 		1A2A9520292A79A40041BF9E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		1A2A9521292A79A80041BF9E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		1A2D1A7A28D4D22F0075AB3B /* String_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_Extensions.swift; sourceTree = "<group>"; };
+		1A38E3E5293DF6700057C252 /* SettingAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAccountViewController.swift; sourceTree = "<group>"; };
 		1A41E69528E2D8C6006D0C9A /* CachingPlayerItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachingPlayerItem.swift; sourceTree = "<group>"; };
 		1A46A015290BC7BD0096A923 /* FriendRequestRTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestRTableViewCell.swift; sourceTree = "<group>"; };
 		1A46A016290BC7BD0096A923 /* FriendRequestRTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendRequestRTableViewCell.xib; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				1AAC7279291954FC00842AB7 /* SettingsViewController.swift */,
 				1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */,
 				1A61D0BE291D5CAD00069A77 /* SettingEtcViewController.swift */,
+				1A38E3E5293DF6700057C252 /* SettingAccountViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */,
 				1A7FBDC428F6B1E7001A37BF /* ProfileSheetViewController.swift in Sources */,
 				1A61D0BF291D5CAD00069A77 /* SettingEtcViewController.swift in Sources */,
+				1A38E3E6293DF6700057C252 /* SettingAccountViewController.swift in Sources */,
 				1A61D0C62924D26200069A77 /* DescriptiveData.swift in Sources */,
 				1A46A01B290BC7E10096A923 /* FriendRequestSTableViewCell.swift in Sources */,
 				1AACE8E928CE300A00B96A7C /* UITextField_Extensions.swift in Sources */,

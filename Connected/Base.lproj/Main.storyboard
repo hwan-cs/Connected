@@ -1735,9 +1735,6 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="WLJ-AF-fyD">
-            <size key="intrinsicContentSize" width="-1" height="30"/>
-        </designable>
         <designable name="nH9-cE-Z4O">
             <size key="intrinsicContentSize" width="63" height="32"/>
         </designable>
