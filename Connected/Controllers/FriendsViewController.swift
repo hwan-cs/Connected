@@ -126,10 +126,14 @@ class FriendsViewController: UIViewController
             }
             Task.init
             {
-                K.myProfileName = documentSnapshot?.data()!["name"] as? String
-                K.myProfileEmail = documentSnapshot?.data()!["email"] as? String
-                K.myProfileUsername = documentSnapshot?.data()!["username"] as? String
-                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                if let data = documentSnapshot?.data()
+                {
+                    K.myProfileName = data["name"] as? String
+                    K.myProfileEmail = data["email"] as? String
+                    K.myProfileUsername = data["username"] as? String
+                    K.myProfilePassword = data["password"] as? String
+                    self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                }
             }
         }
         

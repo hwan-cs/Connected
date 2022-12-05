@@ -20,7 +20,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -835,7 +835,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="FaN-cA-w2x">
-                                <rect key="frame" x="16" y="350" width="382" height="179"/>
+                                <rect key="frame" x="16" y="350" width="382" height="269"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i9e-SH-Q4s">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="89.5"/>
@@ -851,8 +851,22 @@
                                             <action selector="didTapAppearance:" destination="jbV-cb-oQF" eventType="touchUpInside" id="t5K-Bw-oDB"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfo-DF-qhM">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ft-aF-u9M">
                                         <rect key="frame" x="0.0" y="89.5" width="382" height="89.5"/>
+                                        <color key="tintColor" name="BlackAndWhite"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="person.crop.circle" catalog="system" title="  계정">
+                                            <backgroundConfiguration key="background" imageContentMode="right">
+                                                <imageReference key="image" image="arrow.right" catalog="system" symbolScale="medium"/>
+                                            </backgroundConfiguration>
+                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="18"/>
+                                            <color key="baseForegroundColor" name="BlackAndWhite"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="didTapAccount:" destination="jbV-cb-oQF" eventType="touchUpInside" id="yJW-3z-Qjf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfo-DF-qhM">
+                                        <rect key="frame" x="0.0" y="179" width="382" height="90"/>
                                         <color key="tintColor" name="BlackAndWhite"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="Etc" title="  기타">
@@ -878,7 +892,7 @@
                             <constraint firstItem="vVx-eB-OWs" firstAttribute="trailing" secondItem="FaN-cA-w2x" secondAttribute="trailing" constant="16" id="ZRG-Fr-6bn"/>
                             <constraint firstItem="vVx-eB-OWs" firstAttribute="trailing" secondItem="PoJ-nS-d63" secondAttribute="trailing" constant="16" id="epS-gf-Gui"/>
                             <constraint firstItem="PoJ-nS-d63" firstAttribute="top" secondItem="vVx-eB-OWs" secondAttribute="top" constant="24" id="feY-4u-7uY"/>
-                            <constraint firstItem="FaN-cA-w2x" firstAttribute="height" secondItem="Lu9-fs-Rs3" secondAttribute="height" multiplier="0.2" id="r4x-d6-NBY"/>
+                            <constraint firstItem="FaN-cA-w2x" firstAttribute="height" secondItem="Lu9-fs-Rs3" secondAttribute="height" multiplier="0.3" id="r4x-d6-NBY"/>
                             <constraint firstItem="PoJ-nS-d63" firstAttribute="leading" secondItem="vVx-eB-OWs" secondAttribute="leading" constant="16" id="v4h-dp-L3g"/>
                         </constraints>
                     </view>
@@ -1395,94 +1409,41 @@
             </objects>
             <point key="canvasLocation" x="7429" y="133"/>
         </scene>
-        <!--언어-->
+        <!--계정-->
         <scene sceneID="1fK-TH-VUv">
             <objects>
-                <viewController storyboardIdentifier="LanguageVC" id="ynM-nk-swM" customClass="SettingLanguageViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingAccountVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ynM-nk-swM" customClass="SettingAccountViewController" customModule="Connected" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tfH-hW-dEP">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="AdL-OT-UPo">
-                                <rect key="frame" x="20" y="112" width="374" height="128"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="C6c-3b-lJg" detailTextLabel="Loh-Md-7iw" imageView="uGr-bM-svt" style="IBUITableViewCellStyleValue1" id="KJt-x3-apN">
-                                        <rect key="frame" x="0.0" y="50" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KJt-x3-apN" id="4gi-Lr-0N3">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="라이트 모드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="C6c-3b-lJg">
-                                                    <rect key="frame" x="59" y="15" width="55.5" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Loh-Md-7iw">
-                                                    <rect key="frame" x="319" y="14" width="35" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="13"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="character.bubble.fill.ko" catalog="system" id="uGr-bM-svt">
-                                                    <rect key="frame" x="20.75" y="12" width="22.5" height="19.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="sKb-Sx-Lcx" detailTextLabel="Kcb-0s-qTT" imageView="Zu1-RF-cV1" style="IBUITableViewCellStyleValue1" id="d1b-oo-O6L">
-                                        <rect key="frame" x="0.0" y="93.5" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d1b-oo-O6L" id="IaM-3b-d9b">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sKb-Sx-Lcx">
-                                                    <rect key="frame" x="79" y="15" width="25" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kcb-0s-qTT">
-                                                    <rect key="frame" x="321" y="15" width="33" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="LogoSmall_Dark" id="Zu1-RF-cV1">
-                                                    <rect key="frame" x="20" y="0.0" width="44" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eUk-bb-aWX">
+                                <rect key="frame" x="20" y="72" width="374" height="60"/>
+                                <color key="tintColor" red="0.87058823529999996" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="계정 삭제"/>
+                                <connections>
+                                    <action selector="didTapDeleteAcc:" destination="ynM-nk-swM" eventType="touchUpInside" id="5Y1-Cp-PZ2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="WkY-SK-PXf"/>
                         <color key="backgroundColor" name="BackgroundColor3"/>
                         <constraints>
-                            <constraint firstItem="WkY-SK-PXf" firstAttribute="trailing" secondItem="AdL-OT-UPo" secondAttribute="trailing" constant="20" id="MXx-jw-ON1"/>
-                            <constraint firstItem="AdL-OT-UPo" firstAttribute="leading" secondItem="WkY-SK-PXf" secondAttribute="leading" constant="20" id="fPM-HN-3lr"/>
-                            <constraint firstItem="AdL-OT-UPo" firstAttribute="height" secondItem="tfH-hW-dEP" secondAttribute="height" multiplier="0.142857" id="kk1-f8-1WR"/>
-                            <constraint firstItem="AdL-OT-UPo" firstAttribute="top" secondItem="WkY-SK-PXf" secondAttribute="top" constant="64" id="qAC-7Z-OEx"/>
+                            <constraint firstItem="eUk-bb-aWX" firstAttribute="leading" secondItem="WkY-SK-PXf" secondAttribute="leading" constant="20" id="5tR-8z-xUy"/>
+                            <constraint firstItem="WkY-SK-PXf" firstAttribute="trailing" secondItem="eUk-bb-aWX" secondAttribute="trailing" constant="20" id="H1P-UR-e2b"/>
+                            <constraint firstItem="eUk-bb-aWX" firstAttribute="height" secondItem="tfH-hW-dEP" secondAttribute="height" multiplier="0.0669643" id="fj8-aK-YbB"/>
+                            <constraint firstItem="eUk-bb-aWX" firstAttribute="top" secondItem="WkY-SK-PXf" secondAttribute="top" constant="24" id="sVU-lV-dUS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="언어" id="JLc-83-xdV"/>
+                    <navigationItem key="navigationItem" title="계정" id="xND-Fm-1oc"/>
                     <connections>
-                        <outlet property="tableView" destination="AdL-OT-UPo" id="KbJ-zC-O7c"/>
+                        <outlet property="deleteAccountBtn" destination="eUk-bb-aWX" id="Eeb-7Y-0C8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fr7-HB-wo0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8341" y="133"/>
+            <point key="canvasLocation" x="8340.579710144928" y="132.58928571428572"/>
         </scene>
         <!--친구 선택-->
         <scene sceneID="eYU-Zj-xG6">
@@ -1761,11 +1722,11 @@
         <image name="Voice" width="56" height="56"/>
         <image name="arrow.right" catalog="system" width="128" height="95"/>
         <image name="arrow.up.message.fill" catalog="system" width="128" height="114"/>
-        <image name="character.bubble.fill.ko" catalog="system" width="128" height="110"/>
         <image name="eye" catalog="system" width="128" height="79"/>
         <image name="location.fill" catalog="system" width="128" height="119"/>
         <image name="mic.fill" catalog="system" width="110" height="128"/>
         <image name="pencil.circle" catalog="system" width="128" height="123"/>
+        <image name="person.crop.circle" catalog="system" width="128" height="123"/>
         <image name="text.bubble.fill" catalog="system" width="128" height="110"/>
         <namedColor name="BackgroundColor">
             <color red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

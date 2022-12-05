@@ -56,8 +56,8 @@ extension ChatRoomViewController
                                     }
                                     Task.init
                                     {
-                                        let data = documentSnapshot?.data()!
-                                        let online = data!["isOnline"] as! Bool
+                                        guard let data = documentSnapshot?.data() else { return }
+                                        let online = data["isOnline"] as! Bool
                                         UIView.performWithoutAnimation
                                         {
                                             if let cell = self.tableView.cellForRow(at: IndexPath(row: self.friends.firstIndex(where: { a,b in

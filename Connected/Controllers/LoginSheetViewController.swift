@@ -380,6 +380,7 @@ class LoginSheetViewController: UIViewController, UITextFieldDelegate, UITextVie
                                             K.myProfileName = data["name"] as? String
                                             K.myProfileUsername = data["username"] as? String
                                             K.myProfileEmail = data["email"] as? String
+                                            K.myProfilePassword = data["password"] as? String
                                             self.timer.invalidate()
                                             sender.stopAnimation(animationStyle: .expand)
                                             {

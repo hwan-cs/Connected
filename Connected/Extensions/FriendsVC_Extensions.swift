@@ -29,7 +29,7 @@ extension FriendsViewController
                     self.friendsNameArray = foo
                     let pair = Array(zip(self.friendsArray, self.friendsNameArray))
                     self.friends = pair.sorted { $0.1 < $1.1 }
-                    self.tableView.reloadSections(IndexSet(integer: 3), with: .none)
+                    self.tableView.reloadData()
                 }
             }.store(in: &disposableBag)
         
