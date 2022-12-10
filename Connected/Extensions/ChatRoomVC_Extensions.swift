@@ -65,9 +65,13 @@ extension ChatRoomViewController
                                             })!, section: 0)) as? ChatRoomTableViewCell
                                             {
                                                 cell.onlineLabel.backgroundColor = online ? .systemGray : .gray
-                                                self.tableView.reloadRows(at: [IndexPath(row: self.friends.firstIndex(where: { a,b in
-                                                    a == el.0
-                                                })!, section: 0)], with: .none)
+//                                                self.tableView.reloadRows(at: [IndexPath(row: self.friends.firstIndex(where: { a,b in
+//                                                    a == el.0
+//                                                })!, section: 0)], with: .none)
+                                                UIView.performWithoutAnimation
+                                                {
+                                                    self.tableView.reloadData()
+                                                }
                                             }
                                         }
                                     }

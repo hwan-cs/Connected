@@ -741,13 +741,14 @@
 				INFOPLIST_FILE = Connected/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Connected - 커넥티드";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location always and when in usage";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location always usage";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in usage";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 권한이 필요합니다!";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = HELLO;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리에서 사진을 선택할 수 있도록 허용 해주세요";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Allow speech recognition?";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Turning on location services allows us to share your live location with other Connected users";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Turning on location services allows us to share your live location with other Connected users";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Turning on location services allows us to share your live location with other Connected users";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Turning on location services allows us to share your live location with other Connected users";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Turn on your microphone to send audio messages to other Connected users";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow access to photo library to change your profile and background images";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow access to photo library to change your profile and background images";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Allow usage of speech recognition to transcribe audio messages to text";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -757,7 +758,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = konkuk.jhpark.Connected;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -782,13 +783,14 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Connected - 커넥티드";
 				"INFOPLIST_KEY_CFBundleDisplayName[sdk=iphoneos*]" = "Connected - 커넥티드";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location always and when in usage";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location always usage";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in usage";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 권한이 필요합니다!";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = HELLO;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리에서 사진을 선택할 수 있도록 허용 해주세요";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Allow speech recognition?";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Turning on location services allows us to share your live location with other Connected users";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Turning on location services allows us to share your live location with other Connected users";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Turning on location services allows us to share your live location with other Connected users";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Turning on location services allows us to share your live location with other Connected users";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Turn on your microphone to send audio messages to other Connected users";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow access to photo library to change your profile and background images";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow access to photo library to change your profile and background images";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Allow usage of speech recognition to transcribe audio messages to text";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -798,7 +800,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = konkuk.jhpark.Connected;
 				PRODUCT_NAME = "$(TARGET_NAME)";

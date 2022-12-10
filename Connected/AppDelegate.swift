@@ -72,23 +72,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
         application.registerForRemoteNotifications()
 
-        if UserDefaults.standard.bool(forKey: "didAlterSettings")
-        {
-            if UserDefaults.standard.bool(forKey: "darkmode")
-            {
-                window!.overrideUserInterfaceStyle = .dark
-                K.darkmode = true
-            }
-            else
-            {
-                window!.overrideUserInterfaceStyle = .light
-                K.darkmode = false
-            }
-        }
-        else
+        if UserDefaults.standard.bool(forKey: "darkmode")
         {
             window!.overrideUserInterfaceStyle = .dark
             K.darkmode = true
+        }
+        else
+        {
+            window!.overrideUserInterfaceStyle = .light
+            K.darkmode = false
         }
         
         if #available(iOS 16, *)
@@ -148,9 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         {
             print("Message ID: \(messageID)")
         }
-
-      // Print full message.
-      print(userInfo)
+        print("didReceiveRemoteNotification: \(userInfo) ")
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
@@ -188,6 +178,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         // With swizzling disabled you must set the APNs token here.
         Messaging.messaging().apnsToken = deviceToken
     }
+}
+
+
+extension AppDelegate: UNUserNotificationCenterDelegate
+{
+  // Receive displayed notifications for iOS 10 devices.
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              willPresent notification: UNNotification) async
+    -> UNNotificationPresentationOptions {
+    let userInfo = notification.request.content.userInfo
+
+    // With swizzling disabled you must let Messaging know about the message, for Analytics
+    // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+    // ...
+
+    // Print full message.
+    print(userInfo)
+
+    // Change this to your preferred presentation option
+    return [[.alert, .sound]]
+  }
+
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              didReceive response: UNNotificationResponse) async {
+    let userInfo = response.notification.request.content.userInfo
+
+    // ...
+
+    // With swizzling disabled you must let Messaging know about the message, for Analytics
+    // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+    // Print full message.
+    print(userInfo)
+  }
 }
 
 extension AppDelegate : MessagingDelegate

@@ -128,10 +128,9 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
             else
             {
                 activityView.stopAnimating()
-                idTextField.infoTextColor = K.mainColor
-                idTextField.layer.borderColor = K.mainColor.cgColor
+                idTextField.infoTextColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
+                idTextField.layer.borderColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00).cgColor
                 idTextField.showInfo(K.lang == "ko" ? "사용 가능한 아이디 입니다!" : "Valid ID!", animated: true)
-//                remove poptip
             }
         }
     }
@@ -179,8 +178,8 @@ class SignupViewController: UIViewController, UIScrollViewDelegate, UITextFieldD
         {
             if userInput.isValidUsername
             {
-                checkDuplicateButton.titleLabel?.textColor = K.mainColor
-                checkDuplicateButton.tintColor = K.mainColor
+                checkDuplicateButton.titleLabel?.textColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
+                checkDuplicateButton.tintColor = UIColor(red: 0.02, green: 0.78, blue: 0.51, alpha: 1.00)
                 checkDuplicateButton.isUserInteractionEnabled = true
                 idTextField.infoTextColor = K.mainColor
                 idTextField.showInfo(K.lang == "ko" ? "형식에 맞는 아이디 입니다" : "Valid username")
