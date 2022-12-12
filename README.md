@@ -28,7 +28,7 @@
 - 라이트 모드, 다크 모드 지원
 - 계정 삭제
 
-## APIS Used ⚙️
+## APIs Used ⚙️
 
 - Firebase/Auth
 - Firebase/Firestore
@@ -59,3 +59,10 @@
  - Storyboard UI
  - Programmatic UI
  - Clean code
+
+
+Version 1.0.1 (Latest)
+
+- Fixed a bug where push notifications were not working
+
+- Default appearance is now Light Mode
