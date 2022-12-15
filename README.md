@@ -56,6 +56,14 @@
  - MVVM with Combine
  - Asynchronous Programming
  - Cache
+ - PushNotification
+ - LLocationManager
+ - GeoLocation
+ - AVFoundation
+ - AVPlayer
+ - Escaping Closure
+ - KFImageViewer
+ - UserDefaults
  - Storyboard UI
  - Programmatic UI
  - Clean code
