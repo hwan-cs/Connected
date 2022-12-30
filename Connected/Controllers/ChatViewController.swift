@@ -20,6 +20,7 @@ import CoreLocation
 import GoogleMaps
 import GooglePlaces
 import UIView_Shimmer
+import RealmSwift
 import SwiftEntryKit
 
 class ChatViewController: UIViewController
@@ -229,8 +230,8 @@ class ChatViewController: UIViewController
     {
         self.userViewModel?.dataSource = UITableViewDiffableDataSource<UniqueMessage.ID, UniqueMessageIdentifier.ID>(tableView: tableView, cellProvider:
         { tableView, indexPath, itemIdentifier in
-            let isMe = self.sortedByValueDictionaryValue[indexPath.row].isMe!
-            let dataName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
+            let isMe = self.sortedByValueDictionaryValue[indexPath.row].isMe
+            let dataName = self.sortedByValueDictionaryValue[indexPath.row].fileName
             
             let myCell = tableView.dequeueReusableCell(withIdentifier: K.myChatCellID, for: indexPath) as! ChatTableViewCell
             let yourCell = tableView.dequeueReusableCell(withIdentifier:  K.yourChatCellID, for: indexPath) as!  RecChatTableViewCell
@@ -242,7 +243,7 @@ class ChatViewController: UIViewController
                 myTextCell.myChatTextLabel.text = String(data: self.sortedByValueDictionaryKey[indexPath.row].data!, encoding: .utf8)
                 myTextCell.messageView.sizeToFit()
                 myTextCell.messageView.layoutIfNeeded()
-                myTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
+                myTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row].fileName
                 myTextCell.selectionStyle = .none
                 return myTextCell
             }
@@ -251,7 +252,7 @@ class ChatViewController: UIViewController
                 yourTextCell.myChatTextLabel.text = String(data: self.sortedByValueDictionaryKey[indexPath.row].data!, encoding: .utf8)
                 yourTextCell.messageView.sizeToFit()
                 yourTextCell.messageView.layoutIfNeeded()
-                yourTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
+                yourTextCell.txtName = self.sortedByValueDictionaryValue[indexPath.row].fileName
                 yourTextCell.selectionStyle = .none
                 return yourTextCell
             }
@@ -270,7 +271,7 @@ class ChatViewController: UIViewController
                     {
                         myCell.waveFormImageView.image = image
                         myCell.audio = self.sortedByValueDictionaryKey[indexPath.row].data!
-                        myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
+                        myCell.audioName = self.sortedByValueDictionaryValue[indexPath.row].fileName
                         myCell.selectionStyle = .none
                         self.tableView.bringSubviewToFront(myCell)
                         myCell.onErrorBlock =
@@ -290,7 +291,7 @@ class ChatViewController: UIViewController
                     {
                         yourCell.waveFormImageView.image = image
                         yourCell.audio = self.sortedByValueDictionaryKey[indexPath.row].data!
-                        yourCell.audioName = self.sortedByValueDictionaryValue[indexPath.row].fileName!
+                        yourCell.audioName = self.sortedByValueDictionaryValue[indexPath.row].fileName
                         yourCell.selectionStyle = .none
                         self.tableView.bringSubviewToFront(yourCell)
                         yourCell.onErrorBlock =
@@ -491,7 +492,7 @@ class ChatViewController: UIViewController
                         Task.init
                         {
                             let data = try Data(contentsOf: self.path!)
-                            self.userViewModel?.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: metadata?.name)))
+                            self.userViewModel?.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: (metadata?.name)!)))
                             let talkingTo = try await self.db.collection("users").document(self.recepientUID).getDocument().data()
                             let rec = talkingTo!["talkingTo"] as? String
                             if rec == self.uuid!

@@ -6,9 +6,16 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct UniqueMessage: Codable, Identifiable, Equatable
+class UniqueMessage: Object, Codable, Identifiable
 {
-    var id = UUID().uuidString
-    var data: Data?
+    @Persisted dynamic var id = UUID().uuidString
+    @Persisted dynamic var data: Data?
+    
+    init(id: String = UUID().uuidString, data: Data? = nil)
+    {
+        self.id = id
+        self.data = data
+    }
 }

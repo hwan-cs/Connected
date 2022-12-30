@@ -24,6 +24,8 @@
 		1A48B41828DD93D100FCEA88 /* ChatVC_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48B41728DD93D100FCEA88 /* ChatVC_Extensions.swift */; };
 		1A4A864C28E31B820078EAFC /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 1A4A864B28E31B820078EAFC /* Cache */; };
 		1A4E1E4928FC497100743552 /* Pods_Connected.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48F2E930CD9E1781D878261 /* Pods_Connected.framework */; };
+		1A558DAC295F167500069425 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A558DAB295F167500069425 /* Chat.swift */; };
+		1A558DAE295F170100069425 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A558DAD295F170100069425 /* User.swift */; };
 		1A61D0BF291D5CAD00069A77 /* SettingEtcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A61D0BE291D5CAD00069A77 /* SettingEtcViewController.swift */; };
 		1A61D0C62924D26200069A77 /* DescriptiveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A61D0C52924D25E00069A77 /* DescriptiveData.swift */; };
 		1A72070828EB62CB008F8B82 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72070728EB62CB008F8B82 /* Constants.swift */; };
@@ -106,6 +108,8 @@
 		1A48B3D228DD7ADE00FCEA88 /* UIBezierPath_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPath_Extensions.swift; sourceTree = "<group>"; };
 		1A48B3D428DD7B1200FCEA88 /* UIView_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView_Extensions.swift; sourceTree = "<group>"; };
 		1A48B41728DD93D100FCEA88 /* ChatVC_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC_Extensions.swift; sourceTree = "<group>"; };
+		1A558DAB295F167500069425 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		1A558DAD295F170100069425 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1A61D0BE291D5CAD00069A77 /* SettingEtcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingEtcViewController.swift; sourceTree = "<group>"; };
 		1A61D0C52924D25E00069A77 /* DescriptiveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveData.swift; sourceTree = "<group>"; };
 		1A72070728EB62CB008F8B82 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -193,6 +197,8 @@
 				1A7E868D292E448C00EED7B5 /* SpeechRecognizer.swift */,
 				1AEC6A3629391CF500EC5CC7 /* UniqueMessage.swift */,
 				1AEC6A382939209900EC5CC7 /* UniqueMessageIdentifier.swift */,
+				1A558DAB295F167500069425 /* Chat.swift */,
+				1A558DAD295F170100069425 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -370,8 +376,8 @@
 				1AACE87F28CB409F00B96A7C /* Sources */,
 				1AACE88028CB409F00B96A7C /* Frameworks */,
 				1AACE88128CB409F00B96A7C /* Resources */,
-				45A7AB544C5CD3F07C65014D /* [CP] Embed Pods Frameworks */,
-				B238B2B5A34FDED0CF168707 /* [CP] Copy Pods Resources */,
+				5C9485F249AC3F38C97409EC /* [CP] Embed Pods Frameworks */,
+				88568389471841235602870E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -464,7 +470,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		45A7AB544C5CD3F07C65014D /* [CP] Embed Pods Frameworks */ = {
+		5C9485F249AC3F38C97409EC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -479,6 +485,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		88568389471841235602870E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A61FB702B9FE4D05932C674E /* [CP] Check Pods Manifest.lock */ = {
@@ -503,23 +526,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B238B2B5A34FDED0CF168707 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Connected/Pods-Connected-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -529,6 +535,7 @@
 			files = (
 				1AAC727D291BFA3200842AB7 /* SettingAppearanceViewController.swift in Sources */,
 				1A2D1A7B28D4D2300075AB3B /* String_Extensions.swift in Sources */,
+				1A558DAE295F170100069425 /* User.swift in Sources */,
 				1A2442A128E5E61200E4A0DD /* TextChatTableViewCell.swift in Sources */,
 				1ADDB26E28D71FFF00329EA4 /* SignupVC_Extensions.swift in Sources */,
 				1A7FBDC228F5D5B0001A37BF /* UITableView_Extensions.swift in Sources */,
@@ -544,6 +551,7 @@
 				1AB6A01A28D09A8900A0D127 /* SignupViewController.swift in Sources */,
 				1AEC6A392939209900EC5CC7 /* UniqueMessageIdentifier.swift in Sources */,
 				1AB6A01C28D0D80600A0D127 /* UIApplication_Extensions.swift in Sources */,
+				1A558DAC295F167500069425 /* Chat.swift in Sources */,
 				1A7FBDC428F6B1E7001A37BF /* ProfileSheetViewController.swift in Sources */,
 				1A61D0BF291D5CAD00069A77 /* SettingEtcViewController.swift in Sources */,
 				1A38E3E6293DF6700057C252 /* SettingAccountViewController.swift in Sources */,

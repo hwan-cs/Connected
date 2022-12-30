@@ -9,84 +9,42 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>47</integer>
+			<integer>3</integer>
 		</dict>
 		<key>SimpleStorage (Playground) 2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>48</integer>
-		</dict>
-		<key>SimpleStorage (Playground) 3.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>49</integer>
-		</dict>
-		<key>SimpleStorage (Playground) 4.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>50</integer>
-		</dict>
-		<key>SimpleStorage (Playground) 5.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>51</integer>
+			<integer>4</integer>
 		</dict>
 		<key>SimpleStorage (Playground).xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>46</integer>
+			<integer>2</integer>
 		</dict>
 		<key>Storage (Playground) 1.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>44</integer>
+			<integer>6</integer>
 		</dict>
 		<key>Storage (Playground) 2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>45</integer>
-		</dict>
-		<key>Storage (Playground) 3.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>52</integer>
-		</dict>
-		<key>Storage (Playground) 4.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>53</integer>
-		</dict>
-		<key>Storage (Playground) 5.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>54</integer>
+			<integer>7</integer>
 		</dict>
 		<key>Storage (Playground).xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>43</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 </dict>

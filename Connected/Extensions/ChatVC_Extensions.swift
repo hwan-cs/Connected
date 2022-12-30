@@ -146,8 +146,8 @@ extension ChatViewController
                 print("ChatVC - datarray count: \(updatedArray.count)")
                 self.userDataArray = updatedArray
                 //sort dictionary by name
-                self.sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.1.fileName!).components(separatedBy: ".")[0] < ($1.1.fileName!).components(separatedBy: ".")[0]}).map({$0.0})
-                self.sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.1.fileName!).components(separatedBy: ".")[0] < ($1.1.fileName!).components(separatedBy: ".")[0]}).map({$0.1})
+                self.sortedByValueDictionaryKey = self.userDataArray.sorted(by: { ($0.1.fileName).components(separatedBy: ".")[0] < ($1.1.fileName).components(separatedBy: ".")[0]}).map({$0.0})
+                self.sortedByValueDictionaryValue = self.userDataArray.sorted(by: { ($0.1.fileName).components(separatedBy: ".")[0] < ($1.1.fileName).components(separatedBy: ".")[0]}).map({$0.1})
                 if self.userDataArray.count > 0
                 {
                     self.loadData()

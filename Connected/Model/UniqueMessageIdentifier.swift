@@ -6,10 +6,18 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct UniqueMessageIdentifier: Codable, Identifiable, Equatable
+class UniqueMessageIdentifier: Object, Codable, Identifiable
 {
-    var id = UUID().uuidString
-    var isMe: Bool?
-    var fileName: String?
+    @Persisted var id = UUID().uuidString
+    @Persisted dynamic var isMe: Bool = true
+    @Persisted dynamic var fileName: String = ""
+    
+    init(id: String = UUID().uuidString, isMe: Bool, fileName: String)
+    {
+        self.id = id
+        self.isMe = isMe
+        self.fileName = fileName
+    }
 }

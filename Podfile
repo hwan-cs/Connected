@@ -30,4 +30,5 @@ target 'Connected' do
     pod 'KFImageViewer', '~> 1.0.0'
     pod "ESPullToRefresh"
     pod 'SwiftEntryKit', '2.0.0'
+    pod 'RealmSwift'
 end

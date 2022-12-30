@@ -12,6 +12,7 @@ import AudioToolbox
 import DSWaveformImage
 import AVFoundation
 import Cache
+import RealmSwift
 
 class UserViewModel: ObservableObject
 {
@@ -34,10 +35,16 @@ class UserViewModel: ObservableObject
     
     var dataSource: UITableViewDiffableDataSource<UniqueMessage.ID, UniqueMessageIdentifier.ID>!
     
+    let realm = try! Realm()
+    
+    @ObservedResults(Chat.self) var chat
+    
     init(_ uid: String, _ suid: String)
     {
+        let initChat = try! Chat(user: User(_id: ObjectId(string: uid)), otherUser: User(_id: ObjectId(string: suid)))
         let storageRef = self.storage.reference()
         let myAudioRef = storageRef.child("\(uid)/\(suid)/")
+        
         myAudioRef.listAll(completion:
         { (storageListResult, error) in
             if let error = error
@@ -51,6 +58,7 @@ class UserViewModel: ObservableObject
                     do
                     {
                         let result = try self.cacheStorage!.entry(forKey: items.name)
+                        initChat.messages.append(items.name)
                         self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: items.name)))
                     }
                     catch
@@ -64,6 +72,7 @@ class UserViewModel: ObservableObject
                             else
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                initChat.messages.append(items.name)
                                 self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data!), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: items.name)))
                             }
                         }
@@ -86,6 +95,7 @@ class UserViewModel: ObservableObject
                     do
                     {
                         let result = try self.cacheStorage!.entry(forKey: items.name)
+                        initChat.messages.append(items.name)
                         self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: items.name)))
                     }
                     catch
@@ -99,6 +109,7 @@ class UserViewModel: ObservableObject
                             else
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                initChat.messages.append(items.name)
                                 self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data!), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: items.name)))
                             }
                         }
