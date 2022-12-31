@@ -190,6 +190,99 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A558DB129607EE000069425 /* LoginVC */ = {
+			isa = PBXGroup;
+			children = (
+				1AACE88A28CB409F00B96A7C /* LoginViewController.swift */,
+				1AACE8F128CE3CF400B96A7C /* LoginSheetViewController.swift */,
+			);
+			path = LoginVC;
+			sourceTree = "<group>";
+		};
+		1A558DB229607EEA00069425 /* SignupVC */ = {
+			isa = PBXGroup;
+			children = (
+				1AB6A01928D09A8900A0D127 /* SignupViewController.swift */,
+			);
+			path = SignupVC;
+			sourceTree = "<group>";
+		};
+		1A558DB329607EF400069425 /* ChatVC */ = {
+			isa = PBXGroup;
+			children = (
+				1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */,
+				1AA8A0D52914251B00110A88 /* NewChatViewController.swift */,
+				1A72070E28ED7508008F8B82 /* ChatRoomViewController.swift */,
+			);
+			path = ChatVC;
+			sourceTree = "<group>";
+		};
+		1A558DB429607F0000069425 /* FriendsVC */ = {
+			isa = PBXGroup;
+			children = (
+				1A72071428EFF7A4008F8B82 /* FriendsViewController.swift */,
+				1A7FBDC328F6B1E7001A37BF /* ProfileSheetViewController.swift */,
+			);
+			path = FriendsVC;
+			sourceTree = "<group>";
+		};
+		1A558DB529607F2200069425 /* SettingVC */ = {
+			isa = PBXGroup;
+			children = (
+				1AAC7279291954FC00842AB7 /* SettingsViewController.swift */,
+				1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */,
+				1A61D0BE291D5CAD00069A77 /* SettingEtcViewController.swift */,
+				1A38E3E5293DF6700057C252 /* SettingAccountViewController.swift */,
+			);
+			path = SettingVC;
+			sourceTree = "<group>";
+		};
+		1A558DB629607F3800069425 /* FriendCells */ = {
+			isa = PBXGroup;
+			children = (
+				1A46A015290BC7BD0096A923 /* FriendRequestRTableViewCell.swift */,
+				1A46A016290BC7BD0096A923 /* FriendRequestRTableViewCell.xib */,
+				1A46A019290BC7E10096A923 /* FriendRequestSTableViewCell.swift */,
+				1A46A01A290BC7E10096A923 /* FriendRequestSTableViewCell.xib */,
+			);
+			path = FriendCells;
+			sourceTree = "<group>";
+		};
+		1A558DB729607F5000069425 /* ProfileCells */ = {
+			isa = PBXGroup;
+			children = (
+				1A7FBDB728F005DC001A37BF /* MyProfileTableViewCell.swift */,
+				1A7FBDB828F005DC001A37BF /* MyProfileTableViewCell.xib */,
+				1A7FBDBD28F1B652001A37BF /* FriendProfileTableViewCell.swift */,
+				1A7FBDBE28F1B652001A37BF /* FriendProfileTableViewCell.xib */,
+			);
+			path = ProfileCells;
+			sourceTree = "<group>";
+		};
+		1A558DB829607F6700069425 /* ChatRoomCells */ = {
+			isa = PBXGroup;
+			children = (
+				1A72070928ED7263008F8B82 /* ChatRoomTableViewCell.swift */,
+				1A72070A28ED7263008F8B82 /* ChatRoomTableViewCell.xib */,
+			);
+			path = ChatRoomCells;
+			sourceTree = "<group>";
+		};
+		1A558DB929607F7D00069425 /* ChatCells */ = {
+			isa = PBXGroup;
+			children = (
+				1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */,
+				1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */,
+				1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */,
+				1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */,
+				1A24429F28E5E61200E4A0DD /* TextChatTableViewCell.swift */,
+				1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */,
+				1A2442A328E6054900E4A0DD /* RecTextChatTableViewCell.swift */,
+				1A2442A428E6054900E4A0DD /* RecTextChatTableViewCell.xib */,
+			);
+			path = ChatCells;
+			sourceTree = "<group>";
+		};
 		1A61D0C72924D27300069A77 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +327,7 @@
 				1AB6A01F28D0DEA600A0D127 /* Custom */,
 				1AACE8E628CE2FE600B96A7C /* Extensions */,
 				1AACE8E728CE2FEA00B96A7C /* Controllers */,
+				1A7FBDB528EFFE7C001A37BF /* MyTabBarController.swift */,
 				1AACE88628CB409F00B96A7C /* AppDelegate.swift */,
 				1AACE88C28CB409F00B96A7C /* Main.storyboard */,
 				1A2A951E29274B470041BF9E /* EngLoc.strings */,
@@ -286,19 +380,11 @@
 		1AACE8E728CE2FEA00B96A7C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1AACE88A28CB409F00B96A7C /* LoginViewController.swift */,
-				1AACE8F128CE3CF400B96A7C /* LoginSheetViewController.swift */,
-				1AB6A01928D09A8900A0D127 /* SignupViewController.swift */,
-				1ADA77BA28DB09B3006EC39B /* ChatViewController.swift */,
-				1A72070E28ED7508008F8B82 /* ChatRoomViewController.swift */,
-				1A7FBDB528EFFE7C001A37BF /* MyTabBarController.swift */,
-				1A72071428EFF7A4008F8B82 /* FriendsViewController.swift */,
-				1A7FBDC328F6B1E7001A37BF /* ProfileSheetViewController.swift */,
-				1AA8A0D52914251B00110A88 /* NewChatViewController.swift */,
-				1AAC7279291954FC00842AB7 /* SettingsViewController.swift */,
-				1AAC727C291BFA3200842AB7 /* SettingAppearanceViewController.swift */,
-				1A61D0BE291D5CAD00069A77 /* SettingEtcViewController.swift */,
-				1A38E3E5293DF6700057C252 /* SettingAccountViewController.swift */,
+				1A558DB129607EE000069425 /* LoginVC */,
+				1A558DB229607EEA00069425 /* SignupVC */,
+				1A558DB329607EF400069425 /* ChatVC */,
+				1A558DB429607F0000069425 /* FriendsVC */,
+				1A558DB529607F2200069425 /* SettingVC */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -307,25 +393,11 @@
 			isa = PBXGroup;
 			children = (
 				1AB6A02028D0DEB000A0D127 /* CustomTransition.swift */,
-				1ADA77B628DB099D006EC39B /* ChatTableViewCell.swift */,
-				1ADA77B728DB099D006EC39B /* ChatTableViewCell.xib */,
-				1ADA77BF28DB5722006EC39B /* RecChatTableViewCell.swift */,
-				1ADA77C028DB5722006EC39B /* RecChatTableViewCell.xib */,
 				1AAF931028DF5E7C007FDCBB /* PulseAnimation.swift */,
-				1A24429F28E5E61200E4A0DD /* TextChatTableViewCell.swift */,
-				1A2442A028E5E61200E4A0DD /* TextChatTableViewCell.xib */,
-				1A2442A328E6054900E4A0DD /* RecTextChatTableViewCell.swift */,
-				1A2442A428E6054900E4A0DD /* RecTextChatTableViewCell.xib */,
-				1A72070928ED7263008F8B82 /* ChatRoomTableViewCell.swift */,
-				1A72070A28ED7263008F8B82 /* ChatRoomTableViewCell.xib */,
-				1A7FBDB728F005DC001A37BF /* MyProfileTableViewCell.swift */,
-				1A7FBDB828F005DC001A37BF /* MyProfileTableViewCell.xib */,
-				1A7FBDBD28F1B652001A37BF /* FriendProfileTableViewCell.swift */,
-				1A7FBDBE28F1B652001A37BF /* FriendProfileTableViewCell.xib */,
-				1A46A015290BC7BD0096A923 /* FriendRequestRTableViewCell.swift */,
-				1A46A016290BC7BD0096A923 /* FriendRequestRTableViewCell.xib */,
-				1A46A019290BC7E10096A923 /* FriendRequestSTableViewCell.swift */,
-				1A46A01A290BC7E10096A923 /* FriendRequestSTableViewCell.xib */,
+				1A558DB929607F7D00069425 /* ChatCells */,
+				1A558DB829607F6700069425 /* ChatRoomCells */,
+				1A558DB729607F5000069425 /* ProfileCells */,
+				1A558DB629607F3800069425 /* FriendCells */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
