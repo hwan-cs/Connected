@@ -14,8 +14,9 @@ class UniqueMessageIdentifier: Object, Codable, Identifiable
     @Persisted dynamic var isMe: Bool = true
     @Persisted dynamic var fileName: String = ""
     
-    init(id: String = UUID().uuidString, isMe: Bool, fileName: String)
+    convenience init(id: String = UUID().uuidString, isMe: Bool, fileName: String)
     {
+        self.init()
         self.id = id
         self.isMe = isMe
         self.fileName = fileName

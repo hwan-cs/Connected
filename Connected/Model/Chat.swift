@@ -15,10 +15,16 @@ final class Chat: Object, Identifiable
     
     @Persisted var messages = RealmSwift.List<String>()
     
-    init(user: User? = nil, otherUser: User? = nil)
+    @Persisted var otherMessages = RealmSwift.List<String>()
+    
+    @Persisted(primaryKey: true) var _id: String
+    
+    convenience init(user: User? = nil, otherUser: User? = nil)
     {
+        self.init()
         self.user = user
         self.otherUser = otherUser
+        self._id = "\(user!._id)_\(otherUser!._id)"
     }
 }
 

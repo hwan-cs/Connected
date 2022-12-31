@@ -15,6 +15,7 @@ import FirebaseAuth
 import GoogleMaps
 import GooglePlaces
 import UserNotifications
+import RealmSwift
 import FirebaseMessaging
 
 @UIApplicationMain

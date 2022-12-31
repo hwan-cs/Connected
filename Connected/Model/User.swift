@@ -10,10 +10,11 @@ import RealmSwift
 
 final class User: Object, ObjectKeyIdentifiable
 {
-    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted(primaryKey: true) var _id: String
     
-    init(_id: ObjectId)
+    convenience init(_id: String)
     {
+        self.init()
         self._id = _id
     }
 }

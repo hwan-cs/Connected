@@ -13,8 +13,9 @@ class UniqueMessage: Object, Codable, Identifiable
     @Persisted dynamic var id = UUID().uuidString
     @Persisted dynamic var data: Data?
     
-    init(id: String = UUID().uuidString, data: Data? = nil)
+    convenience init(id: String = UUID().uuidString, data: Data? = nil)
     {
+        self.init()
         self.id = id
         self.data = data
     }
