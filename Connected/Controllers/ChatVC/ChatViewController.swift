@@ -125,11 +125,14 @@ class ChatViewController: UIViewController
     
     var msgUUID = UUID().uuidString
     
+    let realm = try! Realm()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         K.frameHeight = self.view.frame.origin.y
         self.chatVCHideKeyboard()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         tableView.delegate = self
@@ -706,7 +709,6 @@ class ChatViewController: UIViewController
                                 {
                                     temp[self.uuid!]![2] = unreadCount+1
                                 }
-                                print(temp)
                                 try await self.db.collection("userInfo").document(self.recepientUID).updateData(["chatRoom" : temp])
                                 K.didSendAnything = true
                             }

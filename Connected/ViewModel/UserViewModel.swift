@@ -37,10 +37,13 @@ class UserViewModel: ObservableObject
     
     let realm = try! Realm()
     
+    var chat: Chat?
+    
     init(_ uid: String, _ suid: String)
     {
         let realmChat = realm.object(ofType: Chat.self, forPrimaryKey: "\(uid)_\(suid)")
-        let chat = Chat(user: User(_id: uid), otherUser: User(_id: suid))
+        self.chat = Chat(user: User(_id: uid), otherUser: User(_id: suid))
+        
         if realmChat != nil
         {
             ///if is not nil, then load from realm storage
@@ -50,19 +53,26 @@ class UserViewModel: ObservableObject
                     let result = try self.cacheStorage!.entry(forKey: msg)
                     print("Loading my msg")
                     self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: msg)))
+                    try self.realm.write
+                    {
+                        self.chat!.messages.append(msg)
+                    }
                 })
                 
                 try realmChat?.otherMessages.forEach({ msg in
                     let result = try self.cacheStorage!.entry(forKey: msg)
                     print("Loading other msg")
                     self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: msg)))
+                    try self.realm.write
+                    {
+                        self.chat!.otherMessages.append(msg)
+                    }
                 })
             }
             catch
             {
                 print("Couldnt load from realm")
             }
-            return
         }
         let storageRef = self.storage.reference()
         let myAudioRef = storageRef.child("\(uid)/\(suid)/")
@@ -79,19 +89,24 @@ class UserViewModel: ObservableObject
                     do
                     {
                         let result = try self.cacheStorage!.entry(forKey: items.name)
+                        self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: items.name)))
+                        if self.chat!.messages.contains(where: { fname in
+                            fname == items.name
+                        })
+                        {
+                            break
+                        }
                         do
                         {
                             try self.realm.write
                             {
-                                chat.messages.append(items.name)
-                                print("append")
+                                self.chat!.messages.append(items.name)
                             }
                         }
                         catch let error as NSError
                         {
                             print(error.localizedDescription)
                         }
-                        self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: items.name)))
                     }
                     catch
                     {
@@ -104,19 +119,24 @@ class UserViewModel: ObservableObject
                             else
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data!), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: items.name)))
+                                if self.chat!.messages.contains(where: { fname in
+                                    fname == items.name
+                                })
+                                {
+                                    return
+                                }
                                 do
                                 {
                                     try self.realm.write
                                     {
-                                        chat.messages.append(items.name)
-                                        print("append")
+                                        self.chat!.messages.append(items.name)
                                     }
                                 }
                                 catch let error as NSError
                                 {
                                     print(error.localizedDescription)
                                 }
-                                self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data!), UniqueMessageIdentifier(id: UUID().uuidString, isMe: true, fileName: items.name)))
                             }
                         }
                     }
@@ -138,11 +158,18 @@ class UserViewModel: ObservableObject
                     do
                     {
                         let result = try self.cacheStorage!.entry(forKey: items.name)
+                        self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: items.name)))
+                        if self.chat!.otherMessages.contains(where: { fname in
+                            fname == items.name
+                        })
+                        {
+                            break
+                        }
                         do
                         {
                             try self.realm.write
                             {
-                                chat.otherMessages.append(items.name)
+                                self.chat!.otherMessages.append(items.name)
                                 print("append")
                             }
                         }
@@ -150,7 +177,6 @@ class UserViewModel: ObservableObject
                         {
                             print(error.localizedDescription)
                         }
-                        self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: result.object), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: items.name)))
                     }
                     catch
                     {
@@ -163,11 +189,18 @@ class UserViewModel: ObservableObject
                             else
                             {
                                 self.cacheStorage?.async.setObject(data!, forKey: items.name, completion: {_ in})
+                                self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data!), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: items.name)))
+                                if self.chat!.otherMessages.contains(where: { fname in
+                                    fname == items.name
+                                })
+                                {
+                                    return
+                                }
                                 do
                                 {
                                     try self.realm.write
                                     {
-                                        chat.otherMessages.append(items.name)
+                                        self.chat!.otherMessages.append(items.name)
                                         print("append")
                                     }
                                 }
@@ -175,7 +208,6 @@ class UserViewModel: ObservableObject
                                 {
                                     print(error.localizedDescription)
                                 }
-                                self.userDataArray.append((UniqueMessage(id: UUID().uuidString, data: data!), UniqueMessageIdentifier(id: UUID().uuidString, isMe: false, fileName: items.name)))
                             }
                         }
                     }
@@ -188,7 +220,7 @@ class UserViewModel: ObservableObject
             {
                 try realm.write
                 {
-                    realm.add(chat, update: .modified)
+                    realm.add(self.chat!, update: .modified)
                 }
             }
             catch let error as NSError

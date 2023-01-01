@@ -165,6 +165,27 @@ extension ChatViewController
         }
         snapshot.deleteAllItems()
         var keyArr = [String]()
+        
+        for df in zip(self.sortedByValueDictionaryKey, self.sortedByValueDictionaryValue)
+        {
+            if try! self.userViewModel?.cacheStorage?.existsObject(forKey: df.1.fileName) == false
+            {
+                self.userViewModel?.cacheStorage?.async.setObject(df.0.data!, forKey: df.1.fileName, completion: {_ in})
+                print("Caching \(df.1.fileName)")
+                do
+                {
+                    try realm.write
+                    {
+                        df.1.isMe ? self.userViewModel?.chat!.messages.append(df.1.fileName) : self.userViewModel?.chat!.otherMessages.append(df.1.fileName)
+                    }
+                }
+                catch let error as NSError
+                {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
         for i in self.sortedByValueDictionaryKey
         {
             keyArr.append(i.id)
@@ -175,6 +196,19 @@ extension ChatViewController
         {
             valArr.append(j.id)
         }
+        
+        do
+        {
+            try realm.write
+            {
+                self.realm.add(self.userViewModel!.chat!, update: .modified)
+            }
+        }
+        catch let error as NSError
+        {
+            print(error.localizedDescription)
+        }
+        
         snapshot.appendItems(valArr)
         self.userViewModel!.dataSource.apply(snapshot, animatingDifferences: false)
     }
