@@ -960,3 +960,22 @@ extension ChatViewController: GMSMapViewDelegate
     }
 }
 
+/// Things to fix:
+/// • Look into Notification
+/// • Image loading in chatroomVC
+/// • Chat loading to bottom lag
+/// • Save profile pics in Realm
+/// • Signup button not working for iPhone 8 >
+/// • ProfileSheetVC save button image is ugly
+/// • Online/Offline status is not accurate.. (consider removing said feature)
+///
+///
+/// Features to include:
+/// • Sending images/videos
+/// • Reaction on messages
+/// • Reply to specific message
+/// • Chat button on ProfilesheetVC
+///
+/// Todo:
+/// • Check for bugs with new accounts
+/// • Work on smooth UX
